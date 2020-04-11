@@ -1,6 +1,6 @@
 import UIKit
 
-class ViewController: UIViewController {
+class ListViewController: UIViewController {
     private lazy var temporaryLabel: UILabel = {
         let label = UILabel()
         label.text = "Zero Waste Reminder"

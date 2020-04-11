@@ -9,19 +9,25 @@
 /* Begin PBXBuildFile section */
 		A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A712ED5E2441172300B00791 /* AppDelegate.swift */; };
 		A712ED612441172300B00791 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A712ED602441172300B00791 /* SceneDelegate.swift */; };
-		A712ED632441172300B00791 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A712ED622441172300B00791 /* ViewController.swift */; };
+		A712ED632441172300B00791 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A712ED622441172300B00791 /* ListViewController.swift */; };
 		A712ED682441172400B00791 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A712ED672441172400B00791 /* Assets.xcassets */; };
 		A712ED6B2441172400B00791 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A712ED692441172400B00791 /* LaunchScreen.storyboard */; };
+		A72A46D2244265D600B0007B /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D1244265D600B0007B /* UIViewExtensions.swift */; };
+		A72A46D424426A4000B0007B /* ListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D324426A4000B0007B /* ListTableView.swift */; };
+		A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D624426C4C00B0007B /* ListAddButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A712ED5B2441172300B00791 /* ZeroWasteReminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZeroWasteReminder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A712ED5E2441172300B00791 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A712ED602441172300B00791 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		A712ED622441172300B00791 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A712ED622441172300B00791 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		A712ED672441172400B00791 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A712ED6A2441172400B00791 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A712ED6C2441172400B00791 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A72A46D1244265D600B0007B /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		A72A46D324426A4000B0007B /* ListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableView.swift; sourceTree = "<group>"; };
+		A72A46D624426C4C00B0007B /* ListAddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAddButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +60,65 @@
 		A712ED5D2441172300B00791 /* ZeroWasteReminder */ = {
 			isa = PBXGroup;
 			children = (
+				A712ED6C2441172400B00791 /* Info.plist */,
 				A712ED5E2441172300B00791 /* AppDelegate.swift */,
 				A712ED602441172300B00791 /* SceneDelegate.swift */,
-				A712ED622441172300B00791 /* ViewController.swift */,
-				A712ED672441172400B00791 /* Assets.xcassets */,
-				A712ED692441172400B00791 /* LaunchScreen.storyboard */,
-				A712ED6C2441172400B00791 /* Info.plist */,
+				A72A46CC2442649A00B0007B /* Resources */,
+				A72A46CD244264AA00B0007B /* View */,
+				A72A46CE244264B400B0007B /* ViewModel */,
 			);
 			path = ZeroWasteReminder;
+			sourceTree = "<group>";
+		};
+		A72A46CC2442649A00B0007B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A712ED672441172400B00791 /* Assets.xcassets */,
+				A712ED692441172400B00791 /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A72A46CD244264AA00B0007B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A72A46D524426C3700B0007B /* List */,
+				A72A46D0244265CD00B0007B /* Extensions */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A72A46CE244264B400B0007B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		A72A46D0244265CD00B0007B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A72A46D1244265D600B0007B /* UIViewExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A72A46D524426C3700B0007B /* List */ = {
+			isa = PBXGroup;
+			children = (
+				A712ED622441172300B00791 /* ListViewController.swift */,
+				A72A46D824426CE600B0007B /* Controls */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		A72A46D824426CE600B0007B /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				A72A46D624426C4C00B0007B /* ListAddButton.swift */,
+				A72A46D324426A4000B0007B /* ListTableView.swift */,
+			);
+			path = Controls;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,8 +191,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A712ED632441172300B00791 /* ViewController.swift in Sources */,
+				A712ED632441172300B00791 /* ListViewController.swift in Sources */,
 				A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */,
+				A72A46D2244265D600B0007B /* UIViewExtensions.swift in Sources */,
+				A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */,
+				A72A46D424426A4000B0007B /* ListTableView.swift in Sources */,
 				A712ED612441172300B00791 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
