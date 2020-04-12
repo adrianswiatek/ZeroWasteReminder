@@ -5,7 +5,7 @@ public final class ListTableView: UITableView {
         super.init(frame: .zero, style: .plain)
 
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .systemFill
+        backgroundColor = .white
         separatorStyle = .none
     }
 

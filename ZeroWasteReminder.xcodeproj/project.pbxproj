@@ -12,9 +12,14 @@
 		A712ED632441172300B00791 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A712ED622441172300B00791 /* ListViewController.swift */; };
 		A712ED682441172400B00791 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A712ED672441172400B00791 /* Assets.xcassets */; };
 		A712ED6B2441172400B00791 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A712ED692441172400B00791 /* LaunchScreen.storyboard */; };
+		A7175078244286F60058FCE4 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7175077244286F60058FCE4 /* ListTableViewCell.swift */; };
+		A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */; };
+		A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */; };
 		A72A46D2244265D600B0007B /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D1244265D600B0007B /* UIViewExtensions.swift */; };
 		A72A46D424426A4000B0007B /* ListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D324426A4000B0007B /* ListTableView.swift */; };
 		A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D624426C4C00B0007B /* ListAddButton.swift */; };
+		A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A34244285010035CF36 /* AddViewController.swift */; };
+		A7DB8A37244286440035CF36 /* ListNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A36244286440035CF36 /* ListNavigationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,9 +30,14 @@
 		A712ED672441172400B00791 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A712ED6A2441172400B00791 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A712ED6C2441172400B00791 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A7175077244286F60058FCE4 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
+		A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
+		A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNavigationController.swift; sourceTree = "<group>"; };
 		A72A46D1244265D600B0007B /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		A72A46D324426A4000B0007B /* ListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableView.swift; sourceTree = "<group>"; };
 		A72A46D624426C4C00B0007B /* ListAddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAddButton.swift; sourceTree = "<group>"; };
+		A7DB8A34244285010035CF36 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
+		A7DB8A36244286440035CF36 /* ListNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListNavigationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,8 +92,8 @@
 		A72A46CD244264AA00B0007B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A72A46D524426C3700B0007B /* List */,
-				A72A46D0244265CD00B0007B /* Extensions */,
+				A72A46D0244265CD00B0007B /* Extension */,
+				A7DB8A33244284120035CF36 /* Feature */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -95,18 +105,20 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		A72A46D0244265CD00B0007B /* Extensions */ = {
+		A72A46D0244265CD00B0007B /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */,
 				A72A46D1244265D600B0007B /* UIViewExtensions.swift */,
 			);
-			path = Extensions;
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		A72A46D524426C3700B0007B /* List */ = {
 			isa = PBXGroup;
 			children = (
 				A712ED622441172300B00791 /* ListViewController.swift */,
+				A7DB8A36244286440035CF36 /* ListNavigationController.swift */,
 				A72A46D824426CE600B0007B /* Controls */,
 			);
 			path = List;
@@ -117,8 +129,27 @@
 			children = (
 				A72A46D624426C4C00B0007B /* ListAddButton.swift */,
 				A72A46D324426A4000B0007B /* ListTableView.swift */,
+				A7175077244286F60058FCE4 /* ListTableViewCell.swift */,
 			);
 			path = Controls;
+			sourceTree = "<group>";
+		};
+		A7DB8A32244284020035CF36 /* Add */ = {
+			isa = PBXGroup;
+			children = (
+				A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */,
+				A7DB8A34244285010035CF36 /* AddViewController.swift */,
+			);
+			path = Add;
+			sourceTree = "<group>";
+		};
+		A7DB8A33244284120035CF36 /* Feature */ = {
+			isa = PBXGroup;
+			children = (
+				A7DB8A32244284020035CF36 /* Add */,
+				A72A46D524426C3700B0007B /* List */,
+			);
+			path = Feature;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,12 +222,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */,
 				A712ED632441172300B00791 /* ListViewController.swift in Sources */,
+				A7DB8A37244286440035CF36 /* ListNavigationController.swift in Sources */,
 				A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */,
+				A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */,
 				A72A46D2244265D600B0007B /* UIViewExtensions.swift in Sources */,
+				A7175078244286F60058FCE4 /* ListTableViewCell.swift in Sources */,
 				A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */,
 				A72A46D424426A4000B0007B /* ListTableView.swift in Sources */,
 				A712ED612441172300B00791 /* SceneDelegate.swift in Sources */,
+				A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

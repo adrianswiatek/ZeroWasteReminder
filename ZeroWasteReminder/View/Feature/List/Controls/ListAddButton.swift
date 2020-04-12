@@ -12,6 +12,7 @@ public final class ListAddButton: UIButton {
         self.tapSubject = .init()
         super.init(frame: .zero)
         self.setupUserInterface()
+        self.setupActions()
     }
 
     @available(*, unavailable)
@@ -22,14 +23,16 @@ public final class ListAddButton: UIButton {
     private func setupUserInterface() {
         translatesAutoresizingMaskIntoConstraints = false
 
-        setImage(UIImage(systemName: "plus"), for: .normal)
-        addTarget(self, action: #selector(handleTouchUpInside), for: .touchUpInside)
-        addTarget(self, action: #selector(handleTouchDown), for: .touchDown)
+        let image = UIImage(systemName: "plus")
+        setImage(image, for: .normal)
+        setImage(image, for: .highlighted)
 
-        tintColor = UIColor.black.withAlphaComponent(0.75)
-        backgroundColor = .systemPurple
+        tintColor = .white
+        backgroundColor = .accentColor
 
         layer.cornerRadius = 26
+        layer.shadowOpacity = 0.5
+        layer.shadowOffset = .init(width: 0, height: 2)
 
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: 52),
@@ -37,14 +40,21 @@ public final class ListAddButton: UIButton {
         ])
     }
 
+    private func setupActions() {
+        addTarget(self, action: #selector(handleTouchUpInside), for: .touchUpInside)
+        addTarget(self, action: #selector(handleTouchUpOutside), for: .touchUpOutside)
+        addTarget(self, action: #selector(handleTouchDown), for: .touchDown)
+    }
+
     @objc
     private func handleTouchUpInside() {
-        animateButton {
-            self.backgroundColor = self.backgroundColor?.withAlphaComponent(1)
-            self.imageView?.transform = .identity
-            self.transform = .identity
-        }
+        animateButton(action: animateTouchUp)
         tapSubject.send()
+    }
+
+    @objc
+    private func handleTouchUpOutside() {
+        animateButton(action: animateTouchUp)
     }
 
     @objc
@@ -53,12 +63,20 @@ public final class ListAddButton: UIButton {
             self.backgroundColor = self.backgroundColor?.withAlphaComponent(0.75)
             self.imageView?.transform = .init(scaleX: 0.9, y: 0.9)
             self.transform = .init(scaleX: 0.9, y: 0.9)
+            self.layer.shadowRadius = 1
         }
+    }
+
+    private func animateTouchUp()  {
+        self.backgroundColor = self.backgroundColor?.withAlphaComponent(1)
+        self.imageView?.transform = .identity
+        self.transform = .identity
+        self.layer.shadowRadius = 3
     }
 
     private func animateButton(action: @escaping () -> Void) {
         UIView.animate(
-            withDuration: 0.1,
+            withDuration: 0.125,
             delay: 0,
             usingSpringWithDamping: 10,
             initialSpringVelocity: 0,
