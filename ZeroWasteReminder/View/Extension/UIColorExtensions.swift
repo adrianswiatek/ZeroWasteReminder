@@ -1,5 +1,5 @@
 import UIKit
 
 public extension UIColor {
-    static let accentColor = UIColor.systemGreen
+    static let accent = UIColor.systemGreen
 }

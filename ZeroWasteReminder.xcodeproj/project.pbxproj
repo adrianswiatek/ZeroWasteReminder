@@ -15,6 +15,8 @@
 		A7175078244286F60058FCE4 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7175077244286F60058FCE4 /* ListTableViewCell.swift */; };
 		A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */; };
 		A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */; };
+		A71B691E2443CAD500AF7CB3 /* AddItemTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691D2443CAD500AF7CB3 /* AddItemTextField.swift */; };
+		A71B69212443D3EB00AF7CB3 /* ExpirationDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B69202443D3EB00AF7CB3 /* ExpirationDateView.swift */; };
 		A72A46D2244265D600B0007B /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D1244265D600B0007B /* UIViewExtensions.swift */; };
 		A72A46D424426A4000B0007B /* ListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D324426A4000B0007B /* ListTableView.swift */; };
 		A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D624426C4C00B0007B /* ListAddButton.swift */; };
@@ -33,6 +35,8 @@
 		A7175077244286F60058FCE4 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNavigationController.swift; sourceTree = "<group>"; };
+		A71B691D2443CAD500AF7CB3 /* AddItemTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemTextField.swift; sourceTree = "<group>"; };
+		A71B69202443D3EB00AF7CB3 /* ExpirationDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateView.swift; sourceTree = "<group>"; };
 		A72A46D1244265D600B0007B /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		A72A46D324426A4000B0007B /* ListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableView.swift; sourceTree = "<group>"; };
 		A72A46D624426C4C00B0007B /* ListAddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAddButton.swift; sourceTree = "<group>"; };
@@ -78,6 +82,15 @@
 				A72A46CE244264B400B0007B /* ViewModel */,
 			);
 			path = ZeroWasteReminder;
+			sourceTree = "<group>";
+		};
+		A71B691C2443CAC600AF7CB3 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				A71B691D2443CAD500AF7CB3 /* AddItemTextField.swift */,
+				A71B69202443D3EB00AF7CB3 /* ExpirationDateView.swift */,
+			);
+			path = Controls;
 			sourceTree = "<group>";
 		};
 		A72A46CC2442649A00B0007B /* Resources */ = {
@@ -139,6 +152,7 @@
 			children = (
 				A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */,
 				A7DB8A34244285010035CF36 /* AddViewController.swift */,
+				A71B691C2443CAC600AF7CB3 /* Controls */,
 			);
 			path = Add;
 			sourceTree = "<group>";
@@ -222,9 +236,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A71B69212443D3EB00AF7CB3 /* ExpirationDateView.swift in Sources */,
 				A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */,
 				A712ED632441172300B00791 /* ListViewController.swift in Sources */,
 				A7DB8A37244286440035CF36 /* ListNavigationController.swift in Sources */,
+				A71B691E2443CAD500AF7CB3 /* AddItemTextField.swift in Sources */,
 				A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */,
 				A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */,
 				A72A46D2244265D600B0007B /* UIViewExtensions.swift in Sources */,

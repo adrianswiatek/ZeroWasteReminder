@@ -21,11 +21,10 @@ public final class ListViewController: UIViewController {
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.fill(in: view)
     }
 
     private func setupUserInterface() {
-        tableView.fill(in: view)
-
         view.addSubview(addButton)
         NSLayoutConstraint.activate([
             addButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -32),

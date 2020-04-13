@@ -28,7 +28,7 @@ public final class ListAddButton: UIButton {
         setImage(image, for: .highlighted)
 
         tintColor = .white
-        backgroundColor = .accentColor
+        backgroundColor = .accent
 
         layer.cornerRadius = 26
         layer.shadowOpacity = 0.5

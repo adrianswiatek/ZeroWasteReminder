@@ -21,7 +21,7 @@ public final class ListTableViewCell: UITableViewCell {
 
     private func viewForSelectedCell() -> UIView {
         let view = UIView()
-        view.backgroundColor = UIColor.accentColor.withAlphaComponent(0.25)
+        view.backgroundColor = UIColor.accent.withAlphaComponent(0.5)
         return view
     }
 }
