@@ -8,6 +8,7 @@ public final class AddItemTextField: UITextField {
         self.borderStyle = .roundedRect
         self.backgroundColor = .init(white: 0.95, alpha: 1)
         self.font = .systemFont(ofSize: 16)
+        self.returnKeyType = .done
         self.translatesAutoresizingMaskIntoConstraints = false
     }
 

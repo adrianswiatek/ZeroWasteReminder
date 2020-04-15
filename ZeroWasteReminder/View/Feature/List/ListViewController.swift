@@ -35,8 +35,9 @@ public final class ListViewController: UIViewController {
     private func setupBindings() {
         addButton.tap
             .sink { [weak self] in
-                let viewController = AddNavigationController(rootViewController: AddViewController())
-                self?.present(viewController, animated: true)
+                let viewController = AddViewController(viewModel: AddViewModel())
+                let navigationController = AddNavigationController(rootViewController: viewController)
+                self?.present(navigationController, animated: true)
             }
             .store(in: &subscriptions)
     }
