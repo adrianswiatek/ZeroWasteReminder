@@ -10,8 +10,9 @@ public final class ExpirationSectionView: UIView {
         return label
     }()
 
-    private let expirationSegmentedControl: UISegmentedControl = {
-        let segmentedControl = UISegmentedControl()
+    private lazy var expirationSegmentedControl: UISegmentedControl = {
+        let segmentedControl = UISegmentedControl(items: ExpirationType.allCases.map { $0.nameTitleCased })
+        segmentedControl.selectedSegmentIndex = 0
         segmentedControl.selectedSegmentTintColor = .accent
         segmentedControl.setTitleTextAttributes([
             .foregroundColor: UIColor.white,
@@ -20,6 +21,7 @@ public final class ExpirationSectionView: UIView {
         segmentedControl.setTitleTextAttributes([
             .font: UIFont.systemFont(ofSize: 13, weight: .light)
         ], for: .normal)
+        segmentedControl.addTarget(self, action: #selector(handleSegmentedControlChange), for: .valueChanged)
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentedControl
     }()
@@ -46,17 +48,6 @@ public final class ExpirationSectionView: UIView {
 
     private func setupUserInterface() {
         translatesAutoresizingMaskIntoConstraints = false
-
-        expirationSegmentedControl.insertSegment(withTitle: "None", at: 0, animated: false)
-        expirationSegmentedControl.insertSegment(withTitle: "Date", at: 1, animated: false)
-        expirationSegmentedControl.insertSegment(withTitle: "Period", at: 2, animated: false)
-        expirationSegmentedControl.selectedSegmentIndex = 0
-
-        expirationSegmentedControl.addTarget(
-            self,
-            action: #selector(handleSegmentedControlChange),
-            for: .valueChanged
-        )
 
         setControlsVisibility()
 

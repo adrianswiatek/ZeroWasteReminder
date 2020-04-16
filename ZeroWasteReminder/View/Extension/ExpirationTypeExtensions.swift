@@ -15,4 +15,12 @@ public extension ExpirationType {
         case .period: return 2
         }
     }
+
+    var name: String {
+        "\(self)"
+    }
+
+    var nameTitleCased: String {
+        name[name.startIndex].uppercased() + name.dropFirst()
+    }
 }

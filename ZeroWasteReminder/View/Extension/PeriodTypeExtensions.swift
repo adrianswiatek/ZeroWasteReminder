@@ -8,19 +8,19 @@ public extension PeriodType {
         }
     }
 
-    var name: String {
-        "\(self)"
-    }
-
-    var namePlural: String {
-        "\(name)s"
-    }
-
     var index: Int {
         switch self {
         case .day: return 0
         case .month: return 1
         case .year: return 2
         }
+    }
+
+    var name: String {
+        "\(self)"
+    }
+
+    var namePlural: String {
+        "\(name)s"
     }
 }
