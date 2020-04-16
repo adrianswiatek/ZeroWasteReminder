@@ -31,7 +31,7 @@
 		A7EC2D622445127200993F53 /* PeriodTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC2D612445127200993F53 /* PeriodTypeExtensions.swift */; };
 		A7FFA9772448F3FF0061A3D6 /* Expiration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA9762448F3FF0061A3D6 /* Expiration.swift */; };
 		A7FFA9792448F5C00061A3D6 /* ExpirationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA9782448F5C00061A3D6 /* ExpirationType.swift */; };
-		A7FFA97B2448FB790061A3D6 /* Period.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA97A2448FB790061A3D6 /* Period.swift */; };
+		A7FFA97D244909B40061A3D6 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA97C244909B40061A3D6 /* DateExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,7 +61,7 @@
 		A7EC2D612445127200993F53 /* PeriodTypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodTypeExtensions.swift; sourceTree = "<group>"; };
 		A7FFA9762448F3FF0061A3D6 /* Expiration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expiration.swift; sourceTree = "<group>"; };
 		A7FFA9782448F5C00061A3D6 /* ExpirationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationType.swift; sourceTree = "<group>"; };
-		A7FFA97A2448FB790061A3D6 /* Period.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Period.swift; sourceTree = "<group>"; };
+		A7FFA97C244909B40061A3D6 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +81,6 @@
 				A7FFA9762448F3FF0061A3D6 /* Expiration.swift */,
 				A7FFA9782448F5C00061A3D6 /* ExpirationType.swift */,
 				A70BCCDA2447960200CC49D0 /* Item.swift */,
-				A7FFA97A2448FB790061A3D6 /* Period.swift */,
 				A70BCCDC244796FB00CC49D0 /* PeriodType.swift */,
 			);
 			path = Model;
@@ -109,8 +108,9 @@
 				A712ED6C2441172400B00791 /* Info.plist */,
 				A712ED5E2441172300B00791 /* AppDelegate.swift */,
 				A712ED602441172300B00791 /* SceneDelegate.swift */,
+				A72A46D0244265CD00B0007B /* Extension */,
 				A70BCCD72447959C00CC49D0 /* Model */,
-				A72A46CC2442649A00B0007B /* Resources */,
+				A72A46CC2442649A00B0007B /* Resource */,
 				A7EC2D602445126600993F53 /* Shared */,
 				A72A46CD244264AA00B0007B /* View */,
 				A72A46CE244264B400B0007B /* ViewModel */,
@@ -128,19 +128,18 @@
 			path = Controls;
 			sourceTree = "<group>";
 		};
-		A72A46CC2442649A00B0007B /* Resources */ = {
+		A72A46CC2442649A00B0007B /* Resource */ = {
 			isa = PBXGroup;
 			children = (
 				A712ED672441172400B00791 /* Assets.xcassets */,
 				A712ED692441172400B00791 /* LaunchScreen.storyboard */,
 			);
-			path = Resources;
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		A72A46CD244264AA00B0007B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A72A46D0244265CD00B0007B /* Extension */,
 				A7DB8A33244284120035CF36 /* Feature */,
 			);
 			path = View;
@@ -157,6 +156,7 @@
 		A72A46D0244265CD00B0007B /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				A7FFA97C244909B40061A3D6 /* DateExtensions.swift */,
 				A70BCCE42447C56A00CC49D0 /* ExpirationTypeExtensions.swift */,
 				A7EC2D612445127200993F53 /* PeriodTypeExtensions.swift */,
 				A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */,
@@ -294,7 +294,7 @@
 				A71B69212443D3EB00AF7CB3 /* ExpirationSectionView.swift in Sources */,
 				A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */,
 				A712ED632441172300B00791 /* ListViewController.swift in Sources */,
-				A7FFA97B2448FB790061A3D6 /* Period.swift in Sources */,
+				A7FFA97D244909B40061A3D6 /* DateExtensions.swift in Sources */,
 				A7DB8A37244286440035CF36 /* ListNavigationController.swift in Sources */,
 				A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */,
 				A7FFA9792448F5C00061A3D6 /* ExpirationType.swift in Sources */,

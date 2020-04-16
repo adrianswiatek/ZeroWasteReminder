@@ -21,6 +21,10 @@ public final class AddViewModel {
         periodTypeSubject.eraseToAnyPublisher()
     }
 
+    public var canSaveItem: AnyPublisher<Bool, Never> {
+        canSaveItemSubject.eraseToAnyPublisher()
+    }
+
     public var isExpirationDateVisible: Bool {
         expirationIndex == ExpirationType.date.index
     }
@@ -31,6 +35,7 @@ public final class AddViewModel {
 
     private let expirationTypeSubject: CurrentValueSubject<ExpirationType, Never>
     private let periodTypeSubject: CurrentValueSubject<PeriodType, Never>
+    private let canSaveItemSubject: CurrentValueSubject<Bool, Never>
 
     private var subscriptions: Set<AnyCancellable>
 
@@ -48,6 +53,7 @@ public final class AddViewModel {
 
         self.expirationTypeSubject = .init(ExpirationType.none)
         self.periodTypeSubject = .init(PeriodType.day)
+        self.canSaveItemSubject = .init(false)
 
         self.subscriptions = []
 
@@ -60,6 +66,11 @@ public final class AddViewModel {
     }
 
     private func bind() {
+        $itemName
+            .map { !$0.isEmpty }
+            .subscribe(canSaveItemSubject)
+            .store(in: &subscriptions)
+
         $expirationIndex
             .map { ExpirationType.fromIndex($0) }
             .subscribe(expirationTypeSubject)
@@ -100,6 +111,6 @@ public final class AddViewModel {
 
     private func tryCreateExpirationFromPeriod() -> Expiration? {
         guard let period = Int(period) else { return nil }
-        return .date(Period(value: period, type: .fromIndex(periodTypeIndex)).asDate)
+        return .date(.fromPeriod(period, ofType: .fromIndex(periodTypeIndex)))
     }
 }

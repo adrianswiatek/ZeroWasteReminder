@@ -3,13 +3,9 @@ import UIKit
 public final class AddItemTextField: UITextField {
     public init(placeholder: String) {
         super.init(frame: .zero)
-
         self.placeholder = placeholder
-        self.borderStyle = .roundedRect
-        self.backgroundColor = .init(white: 0.95, alpha: 1)
-        self.font = .systemFont(ofSize: 16)
-        self.returnKeyType = .done
-        self.translatesAutoresizingMaskIntoConstraints = false
+        self.setupUserInterface()
+        self.setupTargets()
     }
 
     @available(*, unavailable)
@@ -27,5 +23,30 @@ public final class AddItemTextField: UITextField {
 
     public override func textRect(forBounds bounds: CGRect) -> CGRect {
         bounds.inset(by: .init(top: 2, left: 10, bottom: 0, right: 20))
+    }
+
+    private func setupUserInterface() {
+        borderStyle = .none
+        backgroundColor = .init(white: 0.95, alpha: 2)
+        font = .systemFont(ofSize: 16)
+        returnKeyType = .done
+        translatesAutoresizingMaskIntoConstraints = false
+        layer.cornerRadius = 8
+        layer.borderColor = UIColor.accent.cgColor
+    }
+
+    private func setupTargets() {
+        addTarget(self, action: #selector(handleBeganEditing), for: .editingDidBegin)
+        addTarget(self, action: #selector(handleEndedEditing), for: .editingDidEnd)
+    }
+
+    @objc
+    private func handleBeganEditing(_ sender: UITextField) {
+        layer.borderWidth = 0.5
+    }
+
+    @objc
+    private func handleEndedEditing(_ sender: UITextField) {
+        layer.borderWidth = 0
     }
 }

@@ -37,7 +37,10 @@ public final class AddViewController: UIViewController {
     public init(viewModel: AddViewModel) {
         self.viewModel = viewModel
         self.subscriptions = []
+
         super.init(nibName: nil, bundle: nil)
+
+        self.bind()
     }
 
     @available(*, unavailable)
@@ -71,6 +74,12 @@ public final class AddViewController: UIViewController {
             expirationSectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             expirationSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
         ])
+    }
+
+    private func bind() {
+        viewModel.canSaveItem
+            .sink { [weak self] in self?.confirmButton.isEnabled = $0 }
+            .store(in: &subscriptions)
     }
 
     @objc
