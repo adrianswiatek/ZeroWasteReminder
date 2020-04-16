@@ -100,6 +100,6 @@ public final class AddViewModel {
 
     private func tryCreateExpirationFromPeriod() -> Expiration? {
         guard let period = Int(period) else { return nil }
-        return .fromPeriod(period, ofType: .fromIndex(periodTypeIndex))
+        return .date(Period(value: period, type: .fromIndex(periodTypeIndex)).asDate)
     }
 }
