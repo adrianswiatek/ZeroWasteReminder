@@ -16,6 +16,7 @@ public final class ExpirationPeriodView: UIView {
         let textField = AddItemTextField(placeholder: "Period")
         textField.keyboardType = .numberPad
         textField.addTarget(self, action: #selector(handlePeriodTextFieldChange), for: .editingChanged)
+        textField.delegate = self
         return textField
     }()
 
@@ -105,5 +106,38 @@ public final class ExpirationPeriodView: UIView {
         periodTextField.resignFirstResponder()
         viewModel.period = ""
         viewModel.periodTypeIndex = 0
+    }
+}
+
+extension ExpirationPeriodView: UITextFieldDelegate {
+    public func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        guard
+            var text = textField.text,
+            let range = Range<String.Index>(range, in: text)
+        else { return false }
+
+        text.replaceSubrange(range, with: string)
+
+        if text.isEmpty {
+            return true
+        }
+
+        if text.prefix(1) == "0" {
+            return false
+        }
+
+        if text.count == 4 {
+            return false
+        }
+
+        if let value = Int(text) {
+            return value >= 0
+        }
+
+        return false
     }
 }

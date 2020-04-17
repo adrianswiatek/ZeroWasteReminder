@@ -4,7 +4,7 @@ import Foundation
 public final class AddViewModel {
     @Published public var itemName: String
 
-    @Published public var expirationIndex: Int
+    @Published public var expirationTypeIndex: Int
 
     @Published public var year: String
     @Published public var month: String
@@ -26,11 +26,11 @@ public final class AddViewModel {
     }
 
     public var isExpirationDateVisible: Bool {
-        expirationIndex == ExpirationType.date.index
+        expirationTypeIndex == ExpirationType.date.index
     }
 
     public var isExpirationPeriodVisible: Bool {
-        expirationIndex == ExpirationType.period.index
+        expirationTypeIndex == ExpirationType.period.index
     }
 
     private let expirationTypeSubject: CurrentValueSubject<ExpirationType, Never>
@@ -42,7 +42,7 @@ public final class AddViewModel {
     public init() {
         self.itemName = ""
 
-        self.expirationIndex = ExpirationType.none.index
+        self.expirationTypeIndex = ExpirationType.none.index
 
         self.year = ""
         self.month = ""
@@ -71,7 +71,7 @@ public final class AddViewModel {
             .subscribe(canSaveItemSubject)
             .store(in: &subscriptions)
 
-        $expirationIndex
+        $expirationTypeIndex
             .map { ExpirationType.fromIndex($0) }
             .subscribe(expirationTypeSubject)
             .store(in: &subscriptions)

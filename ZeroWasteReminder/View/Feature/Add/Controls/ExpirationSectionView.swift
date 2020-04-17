@@ -83,7 +83,7 @@ public final class ExpirationSectionView: UIView {
 
     @objc
     private func handleSegmentedControlChange(_ sender: UISegmentedControl) {
-        viewModel.expirationIndex = sender.selectedSegmentIndex
+        viewModel.expirationTypeIndex = sender.selectedSegmentIndex
         setControlsVisibility()
     }
 
