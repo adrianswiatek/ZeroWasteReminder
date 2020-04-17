@@ -30,6 +30,7 @@ public final class AddItemTextField: UITextField {
         backgroundColor = .init(white: 0.95, alpha: 2)
         font = .systemFont(ofSize: 16)
         returnKeyType = .done
+        clearButtonMode = .whileEditing
         translatesAutoresizingMaskIntoConstraints = false
         layer.cornerRadius = 8
         layer.borderColor = UIColor.accent.cgColor

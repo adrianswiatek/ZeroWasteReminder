@@ -66,10 +66,25 @@ public final class AddViewModel {
     }
 
     private func bind() {
-        $itemName
-            .map { !$0.isEmpty }
-            .subscribe(canSaveItemSubject)
-            .store(in: &subscriptions)
+        let isItemNameValid = $itemName.map { !$0.isEmpty }
+        let isDateSectionValid = Publishers.CombineLatest3($year, $month, $day)
+            .map { [$0, $1, $2].allSatisfy { !$0.isEmpty} }
+        let isPeriodSectionValid = $period.map { !$0.isEmpty }
+
+        expirationType.combineLatest(isItemNameValid, isDateSectionValid, isPeriodSectionValid) {
+            switch $0 {
+            case .none where $1:
+                return true
+            case .date where $2 && $1:
+                return true
+            case .period where $3 && $1:
+                return true
+            default:
+                return false
+            }
+        }
+        .subscribe(canSaveItemSubject)
+        .store(in: &subscriptions)
 
         $expirationTypeIndex
             .map { ExpirationType.fromIndex($0) }

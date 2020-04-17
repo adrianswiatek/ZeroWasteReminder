@@ -22,7 +22,6 @@ public final class AddViewController: UIViewController {
     private lazy var itemNameTextField: UITextField = {
         let textField = AddItemTextField(placeholder: "Item name")
         textField.becomeFirstResponder()
-        textField.clearButtonMode = .always
         textField.delegate = self
         return textField
     }()
