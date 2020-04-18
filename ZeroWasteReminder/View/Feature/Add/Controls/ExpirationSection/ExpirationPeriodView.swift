@@ -38,10 +38,10 @@ public final class ExpirationPeriodView: UIView {
         return stepper
     }()
 
-    private let viewModel: AddViewModel
+    private let viewModel: ExpirationPeriodViewModel
     private var subscriptions: Set<AnyCancellable>
 
-    public init(viewModel: AddViewModel) {
+    public init(viewModel: ExpirationPeriodViewModel) {
         self.viewModel = viewModel
         self.subscriptions = []
         super.init(frame: .zero)
@@ -115,29 +115,11 @@ extension ExpirationPeriodView: UITextFieldDelegate {
         shouldChangeCharactersIn range: NSRange,
         replacementString string: String
     ) -> Bool {
-        guard
-            var text = textField.text,
-            let range = Range<String.Index>(range, in: text)
-        else { return false }
+        guard var text = textField.text, let range = Range(range, in: text) else {
+            return false
+        }
 
         text.replaceSubrange(range, with: string)
-
-        if text.isEmpty {
-            return true
-        }
-
-        if text.prefix(1) == "0" {
-            return false
-        }
-
-        if text.count == 4 {
-            return false
-        }
-
-        if let value = Int(text) {
-            return value >= 0
-        }
-
-        return false
+        return viewModel.canUpdate(period: text)
     }
 }

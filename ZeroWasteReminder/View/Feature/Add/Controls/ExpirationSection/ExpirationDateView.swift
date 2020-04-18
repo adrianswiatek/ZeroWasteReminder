@@ -2,45 +2,42 @@ import Combine
 import UIKit
 
 public final class ExpirationDateView: UIView {
-    private lazy var yearTextField: UITextField = {
-        let textField = AddItemTextField(placeholder: "Year")
-        textField.keyboardType = .numberPad
-        textField.addTarget(self, action: #selector(handleYearTextFieldChange), for: .editingChanged)
-        return textField
-    }()
-
-    private lazy var monthTextField: UITextField = {
-        let textField = AddItemTextField(placeholder: "Month")
-        textField.keyboardType = .numberPad
-        textField.addTarget(self, action: #selector(handleMonthTextFieldChange), for: .editingChanged)
-        return textField
-    }()
-
-    private lazy var dayTextField: UITextField = {
-        let textField = AddItemTextField(placeholder: "Day")
-        textField.keyboardType = .numberPad
-        textField.addTarget(self, action: #selector(handleDayTextFieldChange), for: .editingChanged)
-        return textField
-    }()
-
-    private var allTextFields: [UITextField] {
-        [yearTextField, monthTextField, dayTextField]
-    }
-
     public override var isHidden: Bool {
         get {
             super.isHidden
         }
         set {
-            self.resetUserInterface()
+            self.viewModel.hideDatePicker()
             super.isHidden = newValue
         }
     }
 
-    private let viewModel: AddViewModel
+    private lazy var dateButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.layer.cornerRadius = 8
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 4)
+        button.titleEdgeInsets = .init(top: 0, left: 4, bottom: 0, right: 0)
+        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .light)
+        button.backgroundColor = .init(white: 0.94, alpha: 1)
+        button.setTitleColor(.black, for: .normal)
+        button.setImage(UIImage(systemName: "calendar")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        button.addTarget(self, action: #selector(handleDateButtonTap), for: .touchUpInside)
+        return button
+    }()
+
+    private lazy var datePicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.datePickerMode = .date
+        datePicker.addTarget(self, action: #selector(handleDatePickerValueChange), for: .valueChanged)
+        return datePicker
+    }()
+
+    private let viewModel: ExpirationDateViewModel
     private var subscriptions: Set<AnyCancellable>
 
-    public init(viewModel: AddViewModel) {
+    public init(viewModel: ExpirationDateViewModel) {
         self.viewModel = viewModel
         self.subscriptions = []
 
@@ -58,61 +55,52 @@ public final class ExpirationDateView: UIView {
     private func setupUserInterface() {
         translatesAutoresizingMaskIntoConstraints = false
 
-        addSubview(yearTextField)
+        addSubview(dateButton)
         NSLayoutConstraint.activate([
-            yearTextField.topAnchor.constraint(equalTo: topAnchor),
-            yearTextField.leadingAnchor.constraint(equalTo: leadingAnchor)
+            dateButton.topAnchor.constraint(equalTo: topAnchor),
+            dateButton.leadingAnchor.constraint(equalTo: leadingAnchor),
+            dateButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+            dateButton.heightAnchor.constraint(equalToConstant: 32)
         ])
 
-        addSubview(monthTextField)
+        addSubview(datePicker)
         NSLayoutConstraint.activate([
-            monthTextField.topAnchor.constraint(equalTo: topAnchor),
-            monthTextField.leadingAnchor.constraint(equalTo: yearTextField.trailingAnchor, constant: 12),
-            monthTextField.widthAnchor.constraint(equalTo: yearTextField.widthAnchor, multiplier: 0.8)
-        ])
-
-        addSubview(dayTextField)
-        NSLayoutConstraint.activate([
-            dayTextField.topAnchor.constraint(equalTo: topAnchor),
-            dayTextField.leadingAnchor.constraint(equalTo: monthTextField.trailingAnchor, constant: 12),
-            dayTextField.trailingAnchor.constraint(equalTo: trailingAnchor),
-            dayTextField.widthAnchor.constraint(equalTo: yearTextField.widthAnchor, multiplier: 0.8)
+            datePicker.topAnchor.constraint(equalTo: dateButton.bottomAnchor),
+            datePicker.leadingAnchor.constraint(equalTo: leadingAnchor),
+            datePicker.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
 
     private func bind() {
-        viewModel.$year
-            .sink { [weak self] in self?.yearTextField.text = $0 }
+        viewModel.$date
+            .assign(to: \.date, on: datePicker)
             .store(in: &subscriptions)
 
-        viewModel.$month
-            .sink { [weak self] in self?.monthTextField.text = $0 }
+        viewModel.formattedDate
+            .sink { [weak self] in self?.dateButton.setTitle($0, for: .normal) }
             .store(in: &subscriptions)
 
-        viewModel.$day
-            .sink { [weak self] in self?.dayTextField.text = $0 }
+        viewModel.isDatePickerVisible
+            .sink { [weak self] in self?.showDatePicker($0) }
             .store(in: &subscriptions)
     }
 
-    private func resetUserInterface() {
-        allTextFields.forEach { $0.resignFirstResponder() }
-        viewModel.year = ""
-        viewModel.month = ""
-        viewModel.day = ""
+    private func showDatePicker(_ show: Bool) {
+        UIView.transition(
+            with: self,
+            duration: 0.3,
+            options: [.transitionCrossDissolve, .curveEaseInOut],
+            animations: { self.datePicker.isHidden = !show }
+        )
     }
 
     @objc
-    private func handleYearTextFieldChange(_ sender: UITextField) {
-        viewModel.year = sender.text ?? ""
+    private func handleDateButtonTap(_ sender: UIButton) {
+        viewModel.toggleDatePicker()
     }
 
     @objc
-    private func handleMonthTextFieldChange(_ sender: UITextField) {
-        viewModel.month = sender.text ?? ""
-    }
-
-    @objc
-    private func handleDayTextFieldChange(_ sender: UITextField) {
-        viewModel.day = sender.text ?? ""
+    private func handleDatePickerValueChange(_ sender: UIDatePicker) {
+        viewModel.date = sender.date
     }
 }

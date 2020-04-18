@@ -79,6 +79,10 @@ public final class AddViewController: UIViewController {
         viewModel.canSaveItem
             .sink { [weak self] in self?.confirmButton.isEnabled = $0 }
             .store(in: &subscriptions)
+
+        viewModel.$expirationTypeIndex
+            .sink { [weak self] _ in self?.itemNameTextField.resignFirstResponder() }
+            .store(in: &subscriptions)
     }
 
     @objc

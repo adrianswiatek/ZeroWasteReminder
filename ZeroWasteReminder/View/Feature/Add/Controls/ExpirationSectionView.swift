@@ -33,8 +33,8 @@ public final class ExpirationSectionView: UIView {
 
     public init(viewModel: AddViewModel) {
         self.viewModel = viewModel
-        self.expirationDateView = .init(viewModel: viewModel)
-        self.expirationPeriodView = .init(viewModel: viewModel)
+        self.expirationDateView = .init(viewModel: viewModel.expirationDateViewModel)
+        self.expirationPeriodView = .init(viewModel: viewModel.expirationPeriodViewModel)
 
         super.init(frame: .zero)
 
@@ -66,7 +66,7 @@ public final class ExpirationSectionView: UIView {
 
         addSubview(expirationDateView)
         NSLayoutConstraint.activate([
-            expirationDateView.topAnchor.constraint(equalTo: expirationSegmentedControl.bottomAnchor, constant: 8),
+            expirationDateView.topAnchor.constraint(equalTo: expirationSegmentedControl.bottomAnchor, constant: 16),
             expirationDateView.leadingAnchor.constraint(equalTo: leadingAnchor),
             expirationDateView.bottomAnchor.constraint(equalTo: bottomAnchor),
             expirationDateView.trailingAnchor.constraint(equalTo: trailingAnchor)
