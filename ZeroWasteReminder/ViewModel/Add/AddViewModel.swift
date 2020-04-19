@@ -45,8 +45,7 @@ public final class AddViewModel {
     }
 
     public func saveItem() -> Future<Void, Never> {
-        print(createItem() ?? "[n/a]")
-        return .init { $0(.success(())) }
+        .init { $0(.success(())) }
     }
 
     private func bind() {

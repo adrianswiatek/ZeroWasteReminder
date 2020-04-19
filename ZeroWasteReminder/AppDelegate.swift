@@ -1,9 +1,8 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-    // MARK: UISceneSession Lifecycle
-    func application(
+internal class AppDelegate: UIResponder, UIApplicationDelegate {
+    internal func application(
         _ application: UIApplication,
         configurationForConnecting connectingSceneSession: UISceneSession,
         options: UIScene.ConnectionOptions

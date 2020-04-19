@@ -8,6 +8,17 @@ public final class ListViewController: UIViewController {
     private let addButton = ListAddButton()
 
     private var subscriptions: [AnyCancellable] = []
+    private let viewControllerFactory: ViewControllerFactory
+
+    public init(factory: ViewControllerFactory) {
+        self.viewControllerFactory = factory
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    public required init?(coder: NSCoder) {
+        fatalError("Not supported.")
+    }
 
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,9 +46,8 @@ public final class ListViewController: UIViewController {
     private func setupBindings() {
         addButton.tap
             .sink { [weak self] in
-                let viewController = AddViewController(viewModel: AddViewModel())
-                let navigationController = AddNavigationController(rootViewController: viewController)
-                self?.present(navigationController, animated: true)
+                guard let self = self else { return }
+                self.present(self.viewControllerFactory.addViewController, animated: true)
             }
             .store(in: &subscriptions)
     }

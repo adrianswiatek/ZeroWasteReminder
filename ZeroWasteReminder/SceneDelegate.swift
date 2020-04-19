@@ -1,20 +1,20 @@
 import UIKit
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    var window: UIWindow?
+internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    internal var window: UIWindow?
+    private var viewControllerFactory: ViewControllerFactory?
 
-    func scene(
+    internal func scene(
         _ scene: UIScene,
         willConnectTo session: UISceneSession,
         options connectionOptions: UIScene.ConnectionOptions
     ) {
         guard let scene = scene as? UIWindowScene else { return }
-        window = UIWindow(windowScene: scene)
-        window?.makeKeyAndVisible()
-        window?.rootViewController = rootViewController
-    }
 
-    private var rootViewController: UIViewController {
-        ListNavigationController(rootViewController: ListViewController())
+        viewControllerFactory = ViewControllerFactory()
+
+        window = UIWindow(windowScene: scene)
+        window?.rootViewController = viewControllerFactory?.listViewController
+        window?.makeKeyAndVisible()
     }
 }
