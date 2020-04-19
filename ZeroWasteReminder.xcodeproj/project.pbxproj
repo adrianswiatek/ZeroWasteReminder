@@ -12,6 +12,8 @@
 		A70BCCDD244796FB00CC49D0 /* PeriodType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70BCCDC244796FB00CC49D0 /* PeriodType.swift */; };
 		A70BCCE52447C56A00CC49D0 /* ExpirationTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70BCCE42447C56A00CC49D0 /* ExpirationTypeExtensions.swift */; };
 		A70FA677244CDEEA0045B545 /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70FA676244CDEEA0045B545 /* ViewControllerFactory.swift */; };
+		A70FA67B244CEB140045B545 /* ItemsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70FA67A244CEB140045B545 /* ItemsService.swift */; };
+		A70FA67D244CEB340045B545 /* InMemoryItemsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70FA67C244CEB340045B545 /* InMemoryItemsService.swift */; };
 		A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A712ED5E2441172300B00791 /* AppDelegate.swift */; };
 		A712ED612441172300B00791 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A712ED602441172300B00791 /* SceneDelegate.swift */; };
 		A712ED632441172300B00791 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A712ED622441172300B00791 /* ListViewController.swift */; };
@@ -44,6 +46,8 @@
 		A70BCCDC244796FB00CC49D0 /* PeriodType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodType.swift; sourceTree = "<group>"; };
 		A70BCCE42447C56A00CC49D0 /* ExpirationTypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationTypeExtensions.swift; sourceTree = "<group>"; };
 		A70FA676244CDEEA0045B545 /* ViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
+		A70FA67A244CEB140045B545 /* ItemsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsService.swift; sourceTree = "<group>"; };
+		A70FA67C244CEB340045B545 /* InMemoryItemsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryItemsService.swift; sourceTree = "<group>"; };
 		A712ED5B2441172300B00791 /* ZeroWasteReminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZeroWasteReminder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A712ED5E2441172300B00791 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A712ED602441172300B00791 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,12 +90,30 @@
 		A70BCCD72447959C00CC49D0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A70FA678244CEAF50045B545 /* Entity */,
+				A70FA679244CEAFC0045B545 /* Service */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A70FA678244CEAF50045B545 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
 				A7FFA9762448F3FF0061A3D6 /* Expiration.swift */,
 				A7FFA9782448F5C00061A3D6 /* ExpirationType.swift */,
 				A70BCCDA2447960200CC49D0 /* Item.swift */,
 				A70BCCDC244796FB00CC49D0 /* PeriodType.swift */,
 			);
-			path = Model;
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		A70FA679244CEAFC0045B545 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				A70FA67A244CEB140045B545 /* ItemsService.swift */,
+				A70FA67C244CEB340045B545 /* InMemoryItemsService.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		A712ED522441172300B00791 = {
@@ -314,12 +336,14 @@
 				A71B69212443D3EB00AF7CB3 /* ExpirationSectionView.swift in Sources */,
 				A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */,
 				A712ED632441172300B00791 /* ListViewController.swift in Sources */,
+				A70FA67B244CEB140045B545 /* ItemsService.swift in Sources */,
 				A7FFA97D244909B40061A3D6 /* DateExtensions.swift in Sources */,
 				A7DB8A37244286440035CF36 /* ListNavigationController.swift in Sources */,
 				A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */,
 				A7FFA9792448F5C00061A3D6 /* ExpirationType.swift in Sources */,
 				A70FA677244CDEEA0045B545 /* ViewControllerFactory.swift in Sources */,
 				A7EC2D5C2444F66800993F53 /* ExpirationDateView.swift in Sources */,
+				A70FA67D244CEB340045B545 /* InMemoryItemsService.swift in Sources */,
 				A70BCCE52447C56A00CC49D0 /* ExpirationTypeExtensions.swift in Sources */,
 				A71B691E2443CAD500AF7CB3 /* AddItemTextField.swift in Sources */,
 				A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */,

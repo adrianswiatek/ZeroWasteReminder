@@ -25,27 +25,34 @@ public final class AddViewModel {
 
     private let expirationTypeSubject: CurrentValueSubject<ExpirationType, Never>
     private let canSaveItemSubject: CurrentValueSubject<Bool, Never>
+    private let itemsService: ItemsService
 
     private var subscriptions: Set<AnyCancellable>
 
-    public init() {
-        itemName = ""
+    public init(itemsService: ItemsService) {
+        self.itemsService = itemsService
 
-        expirationTypeIndex = ExpirationType.none.index
+        self.itemName = ""
 
-        expirationDateViewModel = .init(.init())
-        expirationPeriodViewModel = .init(.day)
+        self.expirationTypeIndex = ExpirationType.none.index
 
-        expirationTypeSubject = .init(ExpirationType.none)
-        canSaveItemSubject = .init(false)
+        self.expirationDateViewModel = .init(.init())
+        self.expirationPeriodViewModel = .init(.day)
 
-        subscriptions = []
+        self.expirationTypeSubject = .init(ExpirationType.none)
+        self.canSaveItemSubject = .init(false)
 
-        bind()
+        self.subscriptions = []
+
+        self.bind()
     }
 
-    public func saveItem() -> Future<Void, Never> {
-        .init { $0(.success(())) }
+    public func saveItem() -> AnyPublisher<Void, Never> {
+        guard let item = createItem() else {
+            preconditionFailure("Unable to create item.")
+        }
+
+        return itemsService.add(item).map { _ in }.eraseToAnyPublisher()
     }
 
     private func bind() {
@@ -71,6 +78,10 @@ public final class AddViewModel {
         $expirationTypeIndex
             .map { ExpirationType.fromIndex($0) }
             .subscribe(expirationTypeSubject)
+            .store(in: &subscriptions)
+
+        itemsService.itemsUpdated
+            .sink { print($0) }
             .store(in: &subscriptions)
     }
 

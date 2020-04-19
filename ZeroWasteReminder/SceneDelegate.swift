@@ -11,7 +11,7 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let scene = scene as? UIWindowScene else { return }
 
-        viewControllerFactory = ViewControllerFactory()
+        viewControllerFactory = ViewControllerFactory(itemsService: InMemoryItemsService())
 
         window = UIWindow(windowScene: scene)
         window?.rootViewController = viewControllerFactory?.listViewController
