@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 
 public final class ListViewModel {
     public var numberOfItems: Int {
@@ -22,7 +23,11 @@ public final class ListViewModel {
         self.bind()
     }
 
-    public func item(at index: Int) -> Item {
+    public func cell(forIndex index: Int) -> ListTableViewCellViewModel {
+        .init(item(at: index), dateFormatter: .fullDateFormatter)
+    }
+
+    private func item(at index: Int) -> Item {
         guard index < numberOfItems else {
             preconditionFailure("No item at given index.")
         }
@@ -30,7 +35,7 @@ public final class ListViewModel {
         return itemsSubject.value[index]
     }
 
-    public func bind() {
+    private func bind() {
         itemsService.itemsUpdated
             .subscribe(itemsSubject)
             .store(in: &subscriptions)

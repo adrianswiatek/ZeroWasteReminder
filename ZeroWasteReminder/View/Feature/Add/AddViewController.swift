@@ -81,6 +81,7 @@ public final class AddViewController: UIViewController {
             .store(in: &subscriptions)
 
         viewModel.$expirationTypeIndex
+            .dropFirst()
             .sink { [weak self] _ in self?.itemNameTextField.resignFirstResponder() }
             .store(in: &subscriptions)
     }

@@ -90,18 +90,7 @@ extension ListViewController: UITableViewDataSource {
             for: indexPath
         ) as? ListTableViewCell
 
-        let item = viewModel.item(at: indexPath.row)
-        cell?.textLabel?.text = item.name
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .full
-
-        if case .date(let date) = item.expiration {
-            cell?.detailTextLabel?.text = dateFormatter.string(from: date)
-        } else {
-            cell?.detailTextLabel?.text = "[not defined]"
-        }
-        
+        cell?.viewModel = viewModel.cell(forIndex: indexPath.row)
         return cell ?? UITableViewCell()
     }
 }
