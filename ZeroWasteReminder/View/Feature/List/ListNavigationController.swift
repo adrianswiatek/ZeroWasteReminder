@@ -1,10 +1,14 @@
 import UIKit
 
 public final class ListNavigationController: UINavigationController {
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
+
     public override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
 
-        navigationBar.barTintColor = .white
+        navigationBar.barTintColor = .accent
         navigationBar.isTranslucent = false
     }
 

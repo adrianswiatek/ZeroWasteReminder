@@ -2,17 +2,33 @@ import Combine
 import UIKit
 
 public final class ListViewController: UIViewController {
-    private let temporaryItems: [String] = ["Item 1", "Item 2", "Item 3", "Item 4"]
-
     private let tableView = ListTableView()
     private let addButton = ListAddButton()
 
-    private var subscriptions: [AnyCancellable] = []
+    private lazy var moreBarButtonItem: UIBarButtonItem = {
+        let barButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "ellipsis.circle"),
+            style: .plain,
+            target: self,
+            action: #selector(handleMoreButtonTap)
+        )
+        barButtonItem.tintColor = .white
+        return barButtonItem
+    }()
+
+    private var subscriptions: Set<AnyCancellable>
+
+    private let viewModel: ListViewModel
     private let viewControllerFactory: ViewControllerFactory
 
-    public init(factory: ViewControllerFactory) {
+    public init(viewModel: ListViewModel, factory: ViewControllerFactory) {
+        self.viewModel = viewModel
         self.viewControllerFactory = factory
+        self.subscriptions = []
+        
         super.init(nibName: nil, bundle: nil)
+
+        self.bind()
     }
 
     @available(*, unavailable)
@@ -23,9 +39,8 @@ public final class ListViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupTableView()
-        setupUserInterface()
-        setupBindings()
+        self.setupTableView()
+        self.setupUserInterface()
     }
 
     private func setupTableView() {
@@ -36,6 +51,8 @@ public final class ListViewController: UIViewController {
     }
 
     private func setupUserInterface() {
+        navigationItem.rightBarButtonItem = moreBarButtonItem
+
         view.addSubview(addButton)
         NSLayoutConstraint.activate([
             addButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -32),
@@ -43,19 +60,28 @@ public final class ListViewController: UIViewController {
         ])
     }
 
-    private func setupBindings() {
+    private func bind() {
         addButton.tap
             .sink { [weak self] in
                 guard let self = self else { return }
                 self.present(self.viewControllerFactory.addViewController, animated: true)
             }
             .store(in: &subscriptions)
+
+        viewModel.items
+            .sink { [weak self] _ in self?.tableView.reloadData() }
+            .store(in: &subscriptions)
+    }
+
+    @objc
+    private func handleMoreButtonTap(_ sender: UIBarButtonItem) {
+        print("More button tapped...")
     }
 }
 
 extension ListViewController: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        temporaryItems.count
+        viewModel.numberOfItems
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -64,7 +90,18 @@ extension ListViewController: UITableViewDataSource {
             for: indexPath
         ) as? ListTableViewCell
 
-        cell?.textLabel?.text = temporaryItems[indexPath.row]
+        let item = viewModel.item(at: indexPath.row)
+        cell?.textLabel?.text = item.name
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .full
+
+        if case .date(let date) = item.expiration {
+            cell?.detailTextLabel?.text = dateFormatter.string(from: date)
+        } else {
+            cell?.detailTextLabel?.text = "[not defined]"
+        }
+        
         return cell ?? UITableViewCell()
     }
 }

@@ -4,7 +4,7 @@ public final class ListTableViewCell: UITableViewCell {
     public static let identifier: String = "ListTableViewCell"
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .default, reuseIdentifier: nil)
+        super.init(style: .subtitle, reuseIdentifier: nil)
         self.setupUserInterface()
     }
 

@@ -14,6 +14,7 @@
 		A70FA677244CDEEA0045B545 /* ViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70FA676244CDEEA0045B545 /* ViewControllerFactory.swift */; };
 		A70FA67B244CEB140045B545 /* ItemsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70FA67A244CEB140045B545 /* ItemsService.swift */; };
 		A70FA67D244CEB340045B545 /* InMemoryItemsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70FA67C244CEB340045B545 /* InMemoryItemsService.swift */; };
+		A70FA681244CF7190045B545 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70FA680244CF7190045B545 /* ListViewModel.swift */; };
 		A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A712ED5E2441172300B00791 /* AppDelegate.swift */; };
 		A712ED612441172300B00791 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A712ED602441172300B00791 /* SceneDelegate.swift */; };
 		A712ED632441172300B00791 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A712ED622441172300B00791 /* ListViewController.swift */; };
@@ -48,6 +49,7 @@
 		A70FA676244CDEEA0045B545 /* ViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerFactory.swift; sourceTree = "<group>"; };
 		A70FA67A244CEB140045B545 /* ItemsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsService.swift; sourceTree = "<group>"; };
 		A70FA67C244CEB340045B545 /* InMemoryItemsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryItemsService.swift; sourceTree = "<group>"; };
+		A70FA680244CF7190045B545 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		A712ED5B2441172300B00791 /* ZeroWasteReminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZeroWasteReminder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A712ED5E2441172300B00791 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A712ED602441172300B00791 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -116,6 +118,23 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		A70FA67E244CF6FD0045B545 /* Feature */ = {
+			isa = PBXGroup;
+			children = (
+				A7F16D22244AFF0700ED2402 /* Add */,
+				A70FA67F244CF7090045B545 /* List */,
+			);
+			path = Feature;
+			sourceTree = "<group>";
+		};
+		A70FA67F244CF7090045B545 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				A70FA680244CF7190045B545 /* ListViewModel.swift */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
 		A712ED522441172300B00791 = {
 			isa = PBXGroup;
 			children = (
@@ -178,7 +197,7 @@
 		A72A46CE244264B400B0007B /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				A7F16D22244AFF0700ED2402 /* Add */,
+				A70FA67E244CF6FD0045B545 /* Feature */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -352,6 +371,7 @@
 				A72A46D2244265D600B0007B /* UIViewExtensions.swift in Sources */,
 				A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */,
 				A7175078244286F60058FCE4 /* ListTableViewCell.swift in Sources */,
+				A70FA681244CF7190045B545 /* ListViewModel.swift in Sources */,
 				A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */,
 				A72A46D424426A4000B0007B /* ListTableView.swift in Sources */,
 				A712ED612441172300B00791 /* SceneDelegate.swift in Sources */,

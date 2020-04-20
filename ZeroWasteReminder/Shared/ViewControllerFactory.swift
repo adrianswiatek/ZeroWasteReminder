@@ -8,7 +8,8 @@ public final class ViewControllerFactory {
     }
 
     public var listViewController: UIViewController {
-        let viewController = ListViewController(factory: self)
+        let viewModel = ListViewModel(itemsService: itemsService)
+        let viewController = ListViewController(viewModel: viewModel, factory: self)
         return ListNavigationController(rootViewController: viewController)
     }
 
