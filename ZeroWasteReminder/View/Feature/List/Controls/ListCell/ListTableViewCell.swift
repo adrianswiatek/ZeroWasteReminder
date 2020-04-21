@@ -6,14 +6,15 @@ public final class ListTableViewCell: UITableViewCell {
 
     public var viewModel: ListTableViewCellViewModel! {
         didSet {
-            nameLabel.text = viewModel?.itemName
-            expirationDateLabel.text = viewModel?.expirationDate
+            remainingView.viewModel = viewModel.remainingViewModel
+            reloadUserInterface()
         }
     }
 
     public let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
         label.font = .systemFont(ofSize: 16, weight: .medium)
         return label
     }()
@@ -26,31 +27,7 @@ public final class ListTableViewCell: UITableViewCell {
         return label
     }()
 
-    public let remainingView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .accent
-        view.layer.cornerRadius = 8
-        return view
-    }()
-
-    private let remainingLabel1: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "more than"
-        label.textColor = .white
-        label.font = .systemFont(ofSize: 14, weight: .thin)
-        return label
-    }()
-
-    private let remainingLabel2: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "1 year"
-        label.textColor = .white
-        label.font = .systemFont(ofSize: 15)
-        return label
-    }()
+    public let remainingView = RemainingView()
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: nil)
@@ -63,7 +40,7 @@ public final class ListTableViewCell: UITableViewCell {
     }
 
     private func setupUserInterface() {
-        backgroundColor = .clear
+        backgroundColor = .white
         accessoryType = .disclosureIndicator
         textLabel?.textColor = .darkText
         selectedBackgroundView = viewForSelectedCell()
@@ -74,30 +51,20 @@ public final class ListTableViewCell: UITableViewCell {
             remainingView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             remainingView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             remainingView.heightAnchor.constraint(equalToConstant: 44),
-            remainingView.widthAnchor.constraint(equalToConstant: 72)
-        ])
-
-        let remainingStackView = UIStackView(arrangedSubviews: [remainingLabel1, remainingLabel2])
-        remainingStackView.translatesAutoresizingMaskIntoConstraints = false
-        remainingStackView.axis = .vertical
-        remainingStackView.alignment = .center
-
-        remainingView.addSubview(remainingStackView)
-        NSLayoutConstraint.activate([
-            remainingStackView.centerXAnchor.constraint(equalTo: remainingView.centerXAnchor),
-            remainingStackView.centerYAnchor.constraint(equalTo: remainingView.centerYAnchor)
+            remainingView.widthAnchor.constraint(equalToConstant: 80)
         ])
 
         contentView.addSubview(nameLabel)
         NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: remainingView.topAnchor, constant: 4),
-            nameLabel.leadingAnchor.constraint(equalTo: remainingView.trailingAnchor, constant: 16)
+            nameLabel.leadingAnchor.constraint(equalTo: remainingView.trailingAnchor, constant: 8),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32)
         ])
 
         contentView.addSubview(expirationDateLabel)
         NSLayoutConstraint.activate([
             expirationDateLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4),
-            expirationDateLabel.leadingAnchor.constraint(equalTo: remainingView.trailingAnchor, constant: 16),
+            expirationDateLabel.leadingAnchor.constraint(equalTo: remainingView.trailingAnchor, constant: 8),
             expirationDateLabel.bottomAnchor.constraint(equalTo: remainingView.bottomAnchor, constant: -2)
         ])
     }
@@ -106,5 +73,10 @@ public final class ListTableViewCell: UITableViewCell {
         let view = UIView()
         view.backgroundColor = UIColor.lightGray.withAlphaComponent(0.15)
         return view
+    }
+
+    private func reloadUserInterface() {
+        nameLabel.text = viewModel.itemName
+        expirationDateLabel.text = viewModel.expirationDate
     }
 }

@@ -21,6 +21,8 @@
 		A712ED682441172400B00791 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A712ED672441172400B00791 /* Assets.xcassets */; };
 		A712ED6B2441172400B00791 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A712ED692441172400B00791 /* LaunchScreen.storyboard */; };
 		A716B8FD244E43BB00D2FC89 /* ListTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A716B8FC244E43BB00D2FC89 /* ListTableViewCellViewModel.swift */; };
+		A716C9C1244FA07A004262AF /* RemainingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A716C9C0244FA07A004262AF /* RemainingViewModel.swift */; };
+		A716C9C8244FB505004262AF /* RemainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A716C9C7244FB505004262AF /* RemainingView.swift */; };
 		A7175078244286F60058FCE4 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7175077244286F60058FCE4 /* ListTableViewCell.swift */; };
 		A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */; };
 		A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */; };
@@ -60,6 +62,8 @@
 		A712ED6A2441172400B00791 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A712ED6C2441172400B00791 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A716B8FC244E43BB00D2FC89 /* ListTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCellViewModel.swift; sourceTree = "<group>"; };
+		A716C9C0244FA07A004262AF /* RemainingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingViewModel.swift; sourceTree = "<group>"; };
+		A716C9C7244FB505004262AF /* RemainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingView.swift; sourceTree = "<group>"; };
 		A7175077244286F60058FCE4 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNavigationController.swift; sourceTree = "<group>"; };
@@ -134,7 +138,7 @@
 		A70FA67F244CF7090045B545 /* List */ = {
 			isa = PBXGroup;
 			children = (
-				A716B8FC244E43BB00D2FC89 /* ListTableViewCellViewModel.swift */,
+				A716C9BF244FA010004262AF /* ListCell */,
 				A70FA680244CF7190045B545 /* ListViewModel.swift */,
 			);
 			path = List;
@@ -170,6 +174,24 @@
 				A72A46CE244264B400B0007B /* ViewModel */,
 			);
 			path = ZeroWasteReminder;
+			sourceTree = "<group>";
+		};
+		A716C9BF244FA010004262AF /* ListCell */ = {
+			isa = PBXGroup;
+			children = (
+				A716B8FC244E43BB00D2FC89 /* ListTableViewCellViewModel.swift */,
+				A716C9C0244FA07A004262AF /* RemainingViewModel.swift */,
+			);
+			path = ListCell;
+			sourceTree = "<group>";
+		};
+		A716C9C6244FB4C3004262AF /* ListCell */ = {
+			isa = PBXGroup;
+			children = (
+				A7175077244286F60058FCE4 /* ListTableViewCell.swift */,
+				A716C9C7244FB505004262AF /* RemainingView.swift */,
+			);
+			path = ListCell;
 			sourceTree = "<group>";
 		};
 		A71B691C2443CAC600AF7CB3 /* Controls */ = {
@@ -233,9 +255,9 @@
 		A72A46D824426CE600B0007B /* Controls */ = {
 			isa = PBXGroup;
 			children = (
+				A716C9C6244FB4C3004262AF /* ListCell */,
 				A72A46D624426C4C00B0007B /* ListAddButton.swift */,
 				A72A46D324426A4000B0007B /* ListTableView.swift */,
-				A7175077244286F60058FCE4 /* ListTableViewCell.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -367,6 +389,7 @@
 				A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */,
 				A7FFA9792448F5C00061A3D6 /* ExpirationType.swift in Sources */,
 				A70FA677244CDEEA0045B545 /* ViewControllerFactory.swift in Sources */,
+				A716C9C1244FA07A004262AF /* RemainingViewModel.swift in Sources */,
 				A7EC2D5C2444F66800993F53 /* ExpirationDateView.swift in Sources */,
 				A70FA67D244CEB340045B545 /* InMemoryItemsService.swift in Sources */,
 				A70BCCE52447C56A00CC49D0 /* ExpirationTypeExtensions.swift in Sources */,
@@ -374,6 +397,7 @@
 				A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */,
 				A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */,
 				A70BCCDB2447960200CC49D0 /* Item.swift in Sources */,
+				A716C9C8244FB505004262AF /* RemainingView.swift in Sources */,
 				A72A46D2244265D600B0007B /* UIViewExtensions.swift in Sources */,
 				A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */,
 				A7175078244286F60058FCE4 /* ListTableViewCell.swift in Sources */,

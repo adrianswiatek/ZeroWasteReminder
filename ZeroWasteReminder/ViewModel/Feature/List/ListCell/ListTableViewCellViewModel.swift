@@ -12,11 +12,14 @@ public final class ListTableViewCellViewModel {
         return "[not defined]"
     }
 
+    public let remainingViewModel: RemainingViewModel
+
     private let item: Item
     private let dateFormatter: DateFormatter
 
     public init(_ item: Item, dateFormatter: DateFormatter) {
         self.item = item
+        self.remainingViewModel = RemainingViewModel(item)
         self.dateFormatter = dateFormatter
     }
 }
