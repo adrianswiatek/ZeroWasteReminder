@@ -47,12 +47,12 @@ public final class AddViewModel {
         self.bind()
     }
 
-    public func saveItem() -> AnyPublisher<Void, Never> {
+    public func saveItem() -> Future<Item, Never> {
         guard let item = createItem() else {
             preconditionFailure("Unable to create item.")
         }
 
-        return itemsService.add(item).map { _ in }.eraseToAnyPublisher()
+        return itemsService.add(item)
     }
 
     private func bind() {
@@ -80,7 +80,7 @@ public final class AddViewModel {
             .subscribe(expirationTypeSubject)
             .store(in: &subscriptions)
 
-        itemsService.itemsUpdated
+        itemsService.items
             .sink { print($0) }
             .store(in: &subscriptions)
     }

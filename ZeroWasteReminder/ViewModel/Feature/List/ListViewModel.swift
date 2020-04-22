@@ -37,12 +37,14 @@ public final class ListViewModel {
     public func deleteSelectedItems() {
         guard !selectedItemIndices.isEmpty else { return }
 
+        let selectedItems = selectedItemIndices.map { itemsSubject.value[$0] }
+        itemsService.delete(selectedItems)
+
         isInSelectionMode = false
-        print("Delete items at indices: \(selectedItemIndices)")
     }
 
     public func deleteAll() {
-        print("Delete all")
+        itemsService.deleteAll()
     }
 
     private func item(at index: Int) -> Item {
@@ -54,7 +56,7 @@ public final class ListViewModel {
     }
 
     private func bind() {
-        itemsService.itemsUpdated
+        itemsService.items
             .subscribe(itemsSubject)
             .store(in: &subscriptions)
     }

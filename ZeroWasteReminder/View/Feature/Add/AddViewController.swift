@@ -94,7 +94,7 @@ public final class AddViewController: UIViewController {
     @objc
     private func handleConfirm() {
         viewModel.saveItem()
-            .sink { [weak self] in self?.dismiss(animated: true) }
+            .sink { [weak self] _ in self?.dismiss(animated: true) }
             .store(in: &subscriptions)
     }
 }

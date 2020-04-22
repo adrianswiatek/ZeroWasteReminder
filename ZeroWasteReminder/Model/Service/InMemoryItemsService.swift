@@ -1,18 +1,28 @@
 import Combine
 
 public final class InMemoryItemsService: ItemsService {
-    public var itemsUpdated: AnyPublisher<[Item], Never> {
-        itemsUpdateSubject.eraseToAnyPublisher()
+    public var items: AnyPublisher<[Item], Never> {
+        itemsSubject.eraseToAnyPublisher()
     }
 
-    private let itemsUpdateSubject = CurrentValueSubject<[Item], Never>([])
+    private let itemsSubject = CurrentValueSubject<[Item], Never>([])
 
-    public func add(_ item: Item) -> AnyPublisher<Item, Never> {
-        itemsUpdateSubject.value.append(item)
-        return Just(item).eraseToAnyPublisher()
+    public func add(_ item: Item) -> Future<Item, Never> {
+        .init { [weak self] in
+            self?.itemsSubject.value.append(item)
+            $0(.success(item))
+        }
+    }
+
+    public func delete(_ items: [Item]) {
+        itemsSubject.value.removeAll { items.contains($0) }
+    }
+
+    public func deleteAll() {
+        itemsSubject.value.removeAll()
     }
 
     public func all() -> [Item] {
-        itemsUpdateSubject.value
+        itemsSubject.value
     }
 }

@@ -1,8 +1,11 @@
 import Combine
 
 public protocol ItemsService {
-    var itemsUpdated: AnyPublisher<[Item], Never> { get }
+    var items: AnyPublisher<[Item], Never> { get }
 
-    func add(_ item: Item) -> AnyPublisher<Item, Never>
+    func add(_ item: Item) -> Future<Item, Never>
+    func delete(_ items: [Item])
+    func deleteAll()
+
     func all() -> [Item]
 }
