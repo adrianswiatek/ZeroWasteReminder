@@ -2,6 +2,9 @@ import Combine
 import Foundation
 
 public final class ListViewModel {
+    @Published var isInSelectionMode: Bool
+    @Published var selectedItemIndices: [Int]
+
     public var numberOfItems: Int {
         itemsSubject.value.count
     }
@@ -17,6 +20,10 @@ public final class ListViewModel {
 
     public init(itemsService: ItemsService) {
         self.itemsService = itemsService
+
+        self.isInSelectionMode = false
+        self.selectedItemIndices = []
+
         self.itemsSubject = .init([])
         self.subscriptions = []
 
@@ -25,6 +32,17 @@ public final class ListViewModel {
 
     public func cell(forIndex index: Int) -> ListTableViewCellViewModel {
         .init(item(at: index), dateFormatter: .fullDateFormatter)
+    }
+
+    public func deleteSelectedItems() {
+        guard !selectedItemIndices.isEmpty else { return }
+
+        isInSelectionMode = false
+        print("Delete items at indices: \(selectedItemIndices)")
+    }
+
+    public func deleteAll() {
+        print("Delete all")
     }
 
     private func item(at index: Int) -> Item {

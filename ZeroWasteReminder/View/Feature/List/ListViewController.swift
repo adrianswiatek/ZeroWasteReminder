@@ -16,7 +16,30 @@ public final class ListViewController: UIViewController {
         return barButtonItem
     }()
 
+    private lazy var doneButtonItem: UIBarButtonItem = {
+        let barButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(handleDoneButtonTap)
+        )
+        barButtonItem.tintColor = .white
+        return barButtonItem
+    }()
+
+    private lazy var deleteButtonItem: UIBarButtonItem = {
+        let barButtonItem = UIBarButtonItem(
+            title: "Delete",
+            style: .plain,
+            target: self,
+            action: #selector(handleDeleteButtonTap)
+        )
+        barButtonItem.tintColor = .white
+        barButtonItem.isEnabled = false
+        return barButtonItem
+    }()
+
     private var subscriptions: Set<AnyCancellable>
+    private var actionsSubscription: AnyCancellable?
 
     private let viewModel: ListViewModel
     private let viewControllerFactory: ViewControllerFactory
@@ -68,14 +91,69 @@ public final class ListViewController: UIViewController {
             }
             .store(in: &subscriptions)
 
+        viewModel.$isInSelectionMode
+            .sink { [weak self] in self?.setMode(isSelection: $0) }
+            .store(in: &subscriptions)
+
+        viewModel.$selectedItemIndices
+            .map { !$0.isEmpty }
+            .sink { [weak self] in self?.deleteButtonItem.isEnabled = $0 }
+            .store(in: &subscriptions)
+
         viewModel.items
             .sink { [weak self] _ in self?.tableView.reloadData() }
+            .store(in: &subscriptions)
+
+        viewModel.items
+            .map { !$0.isEmpty }
+            .assign(to: \.isEnabled, on: moreBarButtonItem)
             .store(in: &subscriptions)
     }
 
     @objc
     private func handleMoreButtonTap(_ sender: UIBarButtonItem) {
-        print("More button tapped...")
+        actionsSubscription = UIAlertController.presentActionsSheet(in: self)
+            .compactMap(\.title)
+            .compactMap(UIAlertAction.Action.init)
+            .sink(
+                receiveCompletion: { [weak self] _ in self?.actionsSubscription = nil },
+                receiveValue: { [weak self] in self?.handleSelectedAction($0) }
+            )
+    }
+
+    @objc
+    private func handleDoneButtonTap(_ sender: UIBarButtonItem) {
+        viewModel.isInSelectionMode = false
+    }
+
+    @objc
+    private func handleDeleteButtonTap(_ sender: UIBarButtonItem) {
+        actionsSubscription = UIAlertController.presentConfirmationSheet(in: self)
+            .sink(
+                receiveCompletion: { [weak self] _ in self?.actionsSubscription = nil },
+                receiveValue: { [weak self] _ in self?.viewModel.deleteSelectedItems() }
+            )
+    }
+
+    private func setMode(isSelection: Bool) {
+        tableView.setEditing(isSelection, animated: true)
+        navigationItem.rightBarButtonItem = isSelection ? doneButtonItem : moreBarButtonItem
+        navigationItem.leftBarButtonItem = isSelection ? deleteButtonItem : nil
+    }
+
+    private func handleSelectedAction(_ action: UIAlertAction.Action) {
+        switch action {
+        case .deleteAll:
+            actionsSubscription = UIAlertController.presentConfirmationSheet(in: self)
+                .sink(
+                    receiveCompletion: { [weak self] _ in self?.actionsSubscription = nil },
+                    receiveValue: { _ in self.viewModel.deleteAll() }
+                )
+        case .selectItems:
+            viewModel.isInSelectionMode = true
+        default:
+            break
+        }
     }
 }
 
@@ -97,6 +175,14 @@ extension ListViewController: UITableViewDataSource {
 
 extension ListViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        viewModel.selectedItemIndices = self.tableView.selectedIndices()
+
+        if !tableView.isEditing {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+    }
+
+    public func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        viewModel.selectedItemIndices = self.tableView.selectedIndices()
     }
 }

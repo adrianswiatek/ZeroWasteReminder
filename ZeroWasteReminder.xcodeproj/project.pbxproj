@@ -32,6 +32,8 @@
 		A72A46D2244265D600B0007B /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D1244265D600B0007B /* UIViewExtensions.swift */; };
 		A72A46D424426A4000B0007B /* ListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D324426A4000B0007B /* ListTableView.swift */; };
 		A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D624426C4C00B0007B /* ListAddButton.swift */; };
+		A741613E2450D814001ED316 /* UIAlertActionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */; };
+		A74161412450D83B001ED316 /* UIAlertControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74161402450D83B001ED316 /* UIAlertControllerExtensions.swift */; };
 		A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */; };
 		A7ADB60E244E47CB00694BA0 /* DateFormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ADB60D244E47CB00694BA0 /* DateFormatterExtensions.swift */; };
 		A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A34244285010035CF36 /* AddViewController.swift */; };
@@ -73,6 +75,8 @@
 		A72A46D1244265D600B0007B /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		A72A46D324426A4000B0007B /* ListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableView.swift; sourceTree = "<group>"; };
 		A72A46D624426C4C00B0007B /* ListAddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAddButton.swift; sourceTree = "<group>"; };
+		A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertActionExtensions.swift; sourceTree = "<group>"; };
+		A74161402450D83B001ED316 /* UIAlertControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExtensions.swift; sourceTree = "<group>"; };
 		A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateViewModel.swift; sourceTree = "<group>"; };
 		A7ADB60D244E47CB00694BA0 /* DateFormatterExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtensions.swift; sourceTree = "<group>"; };
 		A7DB8A34244285010035CF36 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
@@ -216,6 +220,7 @@
 		A72A46CD244264AA00B0007B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A74161422450D989001ED316 /* Extensions */,
 				A7DB8A33244284120035CF36 /* Feature */,
 			);
 			path = View;
@@ -235,8 +240,6 @@
 				A7FFA97C244909B40061A3D6 /* DateExtensions.swift */,
 				A70BCCE42447C56A00CC49D0 /* ExpirationTypeExtensions.swift */,
 				A7EC2D612445127200993F53 /* PeriodTypeExtensions.swift */,
-				A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */,
-				A72A46D1244265D600B0007B /* UIViewExtensions.swift */,
 				A7ADB60D244E47CB00694BA0 /* DateFormatterExtensions.swift */,
 			);
 			path = Extension;
@@ -260,6 +263,17 @@
 				A72A46D324426A4000B0007B /* ListTableView.swift */,
 			);
 			path = Controls;
+			sourceTree = "<group>";
+		};
+		A74161422450D989001ED316 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */,
+				A74161402450D83B001ED316 /* UIAlertControllerExtensions.swift */,
+				A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */,
+				A72A46D1244265D600B0007B /* UIViewExtensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		A7DB8A32244284020035CF36 /* Add */ = {
@@ -401,6 +415,7 @@
 				A72A46D2244265D600B0007B /* UIViewExtensions.swift in Sources */,
 				A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */,
 				A7175078244286F60058FCE4 /* ListTableViewCell.swift in Sources */,
+				A74161412450D83B001ED316 /* UIAlertControllerExtensions.swift in Sources */,
 				A716B8FD244E43BB00D2FC89 /* ListTableViewCellViewModel.swift in Sources */,
 				A70FA681244CF7190045B545 /* ListViewModel.swift in Sources */,
 				A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */,
@@ -413,6 +428,7 @@
 				A70BCCD9244795D700CC49D0 /* AddViewModel.swift in Sources */,
 				A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */,
 				A70BCCDD244796FB00CC49D0 /* PeriodType.swift in Sources */,
+				A741613E2450D814001ED316 /* UIAlertActionExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

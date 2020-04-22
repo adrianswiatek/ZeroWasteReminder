@@ -41,6 +41,7 @@ public final class ListTableViewCell: UITableViewCell {
 
     private func setupUserInterface() {
         backgroundColor = .white
+        tintColor = .accent
         accessoryType = .disclosureIndicator
         textLabel?.textColor = .darkText
         selectedBackgroundView = viewForSelectedCell()
