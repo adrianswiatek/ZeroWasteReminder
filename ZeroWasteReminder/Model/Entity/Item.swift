@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Item: Identifiable {
+public struct Item: Identifiable, Hashable {
     public let id: UUID
     public let name: String
     public let expiration: Expiration
@@ -14,8 +14,8 @@ public struct Item: Identifiable {
     }
 }
 
-public extension Item {
-    init(name: String, expiration: Expiration) {
+extension Item {
+   public init(name: String, expiration: Expiration) {
         self.id = UUID()
         self.name = name
         self.expiration = expiration

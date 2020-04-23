@@ -79,10 +79,6 @@ public final class AddViewModel {
             .map { ExpirationType.fromIndex($0) }
             .subscribe(expirationTypeSubject)
             .store(in: &subscriptions)
-
-        itemsService.items
-            .sink { print($0) }
-            .store(in: &subscriptions)
     }
 
     private func createItem() -> Item? {

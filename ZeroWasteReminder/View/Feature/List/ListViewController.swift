@@ -38,6 +38,8 @@ public final class ListViewController: UIViewController {
         return barButtonItem
     }()
 
+    private let itemsDataSource: ListItemsDataSource
+
     private var subscriptions: Set<AnyCancellable>
     private var actionsSubscription: AnyCancellable?
 
@@ -47,8 +49,10 @@ public final class ListViewController: UIViewController {
     public init(viewModel: ListViewModel, factory: ViewControllerFactory) {
         self.viewModel = viewModel
         self.viewControllerFactory = factory
+
+        self.itemsDataSource = .init(tableView, viewModel)
         self.subscriptions = []
-        
+
         super.init(nibName: nil, bundle: nil)
 
         self.bind()
@@ -68,7 +72,6 @@ public final class ListViewController: UIViewController {
 
     private func setupTableView() {
         tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
-        tableView.dataSource = self
         tableView.delegate = self
         tableView.fill(in: view)
     }
@@ -101,7 +104,7 @@ public final class ListViewController: UIViewController {
             .store(in: &subscriptions)
 
         viewModel.items
-            .sink { [weak self] _ in self?.tableView.reloadData() }
+            .sink { [weak self] in self?.itemsDataSource.apply(items: $0) }
             .store(in: &subscriptions)
 
         viewModel.items
@@ -136,6 +139,7 @@ public final class ListViewController: UIViewController {
     }
 
     private func setMode(isSelection: Bool) {
+        viewModel.selectedItemIndices = []
         tableView.setEditing(isSelection, animated: true)
         navigationItem.rightBarButtonItem = isSelection ? doneButtonItem : moreBarButtonItem
         navigationItem.leftBarButtonItem = isSelection ? deleteButtonItem : nil
@@ -154,22 +158,6 @@ public final class ListViewController: UIViewController {
         default:
             break
         }
-    }
-}
-
-extension ListViewController: UITableViewDataSource {
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.numberOfItems
-    }
-
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: ListTableViewCell.identifier,
-            for: indexPath
-        ) as? ListTableViewCell
-
-        cell?.viewModel = viewModel.cell(forIndex: indexPath.row)
-        return cell ?? UITableViewCell()
     }
 }
 

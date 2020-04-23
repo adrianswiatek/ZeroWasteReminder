@@ -5,10 +5,6 @@ public final class ListViewModel {
     @Published var isInSelectionMode: Bool
     @Published var selectedItemIndices: [Int]
 
-    public var numberOfItems: Int {
-        itemsSubject.value.count
-    }
-
     public var items: AnyPublisher<[Item], Never> {
         itemsSubject.eraseToAnyPublisher()
     }
@@ -30,8 +26,8 @@ public final class ListViewModel {
         self.bind()
     }
 
-    public func cell(forIndex index: Int) -> ListTableViewCellViewModel {
-        .init(item(at: index), dateFormatter: .fullDateFormatter)
+    public func cellViewModel(forItem item: Item) -> ListTableViewCellViewModel {
+        .init(item, dateFormatter: .fullDateFormatter)
     }
 
     public func deleteSelectedItems() {
@@ -45,14 +41,6 @@ public final class ListViewModel {
 
     public func deleteAll() {
         itemsService.deleteAll()
-    }
-
-    private func item(at index: Int) -> Item {
-        guard index < numberOfItems else {
-            preconditionFailure("No item at given index.")
-        }
-
-        return itemsSubject.value[index]
     }
 
     private func bind() {
