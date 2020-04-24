@@ -20,6 +20,13 @@ public final class ListAddButton: UIButton {
         fatalError("Not supported.")
     }
 
+    public func setVisibility(_ isVisible: Bool) {
+        guard let superview = superview else { return }
+        UIView.transition(with: superview, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            self.isHidden = !isVisible
+        })
+    }
+
     private func setupUserInterface() {
         translatesAutoresizingMaskIntoConstraints = false
 

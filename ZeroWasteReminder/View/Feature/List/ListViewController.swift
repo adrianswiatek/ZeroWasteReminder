@@ -136,6 +136,7 @@ public final class ListViewController: UIViewController {
 
     private func setMode(isSelection: Bool) {
         viewModel.selectedItemIndices = []
+        addButton.setVisibility(!isSelection)
         tableView.setEditing(isSelection, animated: true)
         navigationItem.rightBarButtonItem = isSelection ? doneButtonItem : moreBarButtonItem
         navigationItem.leftBarButtonItem = isSelection ? deleteButtonItem : nil
