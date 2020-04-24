@@ -104,10 +104,6 @@ public final class ListViewController: UIViewController {
             .store(in: &subscriptions)
 
         viewModel.items
-            .sink { [weak self] in self?.itemsDataSource.apply(items: $0) }
-            .store(in: &subscriptions)
-
-        viewModel.items
             .map { !$0.isEmpty }
             .assign(to: \.isEnabled, on: moreBarButtonItem)
             .store(in: &subscriptions)

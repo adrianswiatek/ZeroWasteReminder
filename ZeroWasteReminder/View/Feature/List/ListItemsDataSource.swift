@@ -1,7 +1,14 @@
+import Combine
 import UIKit
 
 public final class ListItemsDataSource: UITableViewDiffableDataSource<ListItemsDataSource.Section, Item> {
+    private let viewModel: ListViewModel
+    private var subscriptions: [AnyCancellable]
+
     public init(_ tableView: UITableView, _ viewModel: ListViewModel) {
+        self.viewModel = viewModel
+        self.subscriptions = []
+
         super.init(tableView: tableView) { tableView, indexPath, item in
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: ListTableViewCell.identifier,
@@ -10,9 +17,17 @@ public final class ListItemsDataSource: UITableViewDiffableDataSource<ListItemsD
             cell?.viewModel = viewModel.cellViewModel(forItem: item)
             return cell
         }
+
+        self.bind()
     }
 
-    public func apply(items: [Item]) {
+    private func bind() {
+        viewModel.items
+            .sink { [weak self] in self?.apply(items: $0) }
+            .store(in: &subscriptions)
+    }
+
+    private func apply(items: [Item]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
         snapshot.appendItems(items)

@@ -6,6 +6,4 @@ public protocol ItemsService {
     func add(_ item: Item) -> Future<Item, Never>
     func delete(_ items: [Item])
     func deleteAll()
-
-    func all() -> [Item]
 }

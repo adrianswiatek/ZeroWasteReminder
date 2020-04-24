@@ -27,3 +27,9 @@ extension Item: Equatable {
         lhs.id == rhs.id
     }
 }
+
+extension Item: Comparable {
+    public static func < (lhs: Self, rhs: Self) -> Bool {
+        lhs.expiration < rhs.expiration
+    }
+}

@@ -8,9 +8,13 @@ public final class InMemoryItemsService: ItemsService {
     private let itemsSubject = CurrentValueSubject<[Item], Never>([])
 
     public func add(_ item: Item) -> Future<Item, Never> {
-        .init { [weak self] in
-            self?.itemsSubject.value.append(item)
-            $0(.success(item))
+        .init { [weak self] promise in
+            guard let self = self else { return }
+
+            let items = self.itemsSubject.value + [item]
+            self.itemsSubject.value = items.sorted { $0 < $1 }
+
+            promise(.success(item))
         }
     }
 
@@ -20,9 +24,5 @@ public final class InMemoryItemsService: ItemsService {
 
     public func deleteAll() {
         itemsSubject.value.removeAll()
-    }
-
-    public func all() -> [Item] {
-        itemsSubject.value
     }
 }
