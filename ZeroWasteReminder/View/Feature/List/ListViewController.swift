@@ -2,7 +2,8 @@ import Combine
 import UIKit
 
 public final class ListViewController: UIViewController {
-    private let tableView = ListTableView()
+    private let itemsFilterCollectionView: ItemsFilterCollectionView
+    private let itemsListTableView: ItemsListTableView
     private let addButton = ListAddButton()
 
     private lazy var moreBarButtonItem: UIBarButtonItem = {
@@ -38,23 +39,30 @@ public final class ListViewController: UIViewController {
         return barButtonItem
     }()
 
-    private let itemsDataSource: ListItemsDataSource
+    private let itemsFilterDataSource: ItemsFilterDataSource
+    private let itemsListDataSource: ItemsListDataSource
 
     private var subscriptions: Set<AnyCancellable>
     private var actionsSubscription: AnyCancellable?
 
-    private let viewModel: ListViewModel
+    private let viewModel: ItemsListViewModel
     private let viewControllerFactory: ViewControllerFactory
 
-    public init(viewModel: ListViewModel, factory: ViewControllerFactory) {
+    public init(viewModel: ItemsListViewModel, factory: ViewControllerFactory) {
         self.viewModel = viewModel
         self.viewControllerFactory = factory
 
-        self.itemsDataSource = .init(tableView, viewModel)
+        self.itemsFilterCollectionView = .init(viewModel.itemsFilterViewModel)
+        self.itemsFilterDataSource = .init(itemsFilterCollectionView, viewModel.itemsFilterViewModel)
+
+        self.itemsListTableView = .init()
+        self.itemsListDataSource = .init(itemsListTableView, viewModel)
+
         self.subscriptions = []
 
         super.init(nibName: nil, bundle: nil)
 
+        self.setupUserInterface()
         self.bind()
     }
 
@@ -63,21 +71,25 @@ public final class ListViewController: UIViewController {
         fatalError("Not supported.")
     }
 
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-
-        self.setupTableView()
-        self.setupUserInterface()
-    }
-
-    private func setupTableView() {
-        tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.identifier)
-        tableView.delegate = self
-        tableView.fill(in: view)
-    }
-
     private func setupUserInterface() {
         navigationItem.rightBarButtonItem = moreBarButtonItem
+        itemsListTableView.delegate = self
+
+        view.addSubview(itemsFilterCollectionView)
+        NSLayoutConstraint.activate([
+            itemsFilterCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            itemsFilterCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            itemsFilterCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            itemsFilterCollectionView.heightAnchor.constraint(equalToConstant: 0)
+        ])
+
+        view.addSubview(itemsListTableView)
+        NSLayoutConstraint.activate([
+            itemsListTableView.topAnchor.constraint(equalTo: itemsFilterCollectionView.bottomAnchor),
+            itemsListTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            itemsListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            itemsListTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
 
         view.addSubview(addButton)
         NSLayoutConstraint.activate([
@@ -94,8 +106,8 @@ public final class ListViewController: UIViewController {
             }
             .store(in: &subscriptions)
 
-        viewModel.$isInSelectionMode
-            .sink { [weak self] in self?.setMode(isSelection: $0) }
+        viewModel.$mode
+            .sink { [weak self] in self?.setMode($0) }
             .store(in: &subscriptions)
 
         viewModel.$selectedItemIndices
@@ -112,7 +124,7 @@ public final class ListViewController: UIViewController {
     @objc
     private func handleMoreButtonTap(_ sender: UIBarButtonItem) {
         actionsSubscription = UIAlertController.presentActionsSheet(in: self)
-            .compactMap(\.title)
+            .compactMap { $0.title }
             .compactMap(UIAlertAction.Action.init)
             .sink(
                 receiveCompletion: { [weak self] _ in self?.actionsSubscription = nil },
@@ -122,7 +134,7 @@ public final class ListViewController: UIViewController {
 
     @objc
     private func handleDoneButtonTap(_ sender: UIBarButtonItem) {
-        viewModel.isInSelectionMode = false
+        viewModel.mode = .read
     }
 
     @objc
@@ -134,12 +146,36 @@ public final class ListViewController: UIViewController {
             )
     }
 
-    private func setMode(isSelection: Bool) {
+    private func setMode(_ mode: ItemsListViewModel.Mode) {
         viewModel.selectedItemIndices = []
-        addButton.setVisibility(!isSelection)
-        tableView.setEditing(isSelection, animated: true)
-        navigationItem.rightBarButtonItem = isSelection ? doneButtonItem : moreBarButtonItem
-        navigationItem.leftBarButtonItem = isSelection ? deleteButtonItem : nil
+
+        addButton.setVisibility(mode == .read)
+        itemsListTableView.setEditing(mode == .selection, animated: true)
+        itemsFilterCollectionView.scrollToBeginning()
+        navigationItem.rightBarButtonItem = mode != .read ? doneButtonItem : moreBarButtonItem
+        navigationItem.leftBarButtonItem = mode == .selection ? deleteButtonItem : nil
+
+        setupItemsFilterVisibility(mode)
+    }
+
+    private func setupItemsFilterVisibility(_ mode: ItemsListViewModel.Mode) {
+        let heightConstraint = itemsFilterCollectionView.constraints.last { $0.firstAttribute == .height }
+        guard heightConstraint != nil else { return }
+
+        if mode == .read, heightConstraint?.constant == 0 {
+            return
+        }
+
+        heightConstraint?.constant = mode == .filtering ? 36 : 0
+
+        UIView.animate(
+            withDuration: 0.5,
+            delay: 0,
+            usingSpringWithDamping: 8,
+            initialSpringVelocity: 0,
+            options: .curveEaseOut,
+            animations: { self.view.layoutIfNeeded() }
+        )
     }
 
     private func handleSelectedAction(_ action: UIAlertAction.Action) {
@@ -150,8 +186,10 @@ public final class ListViewController: UIViewController {
                     receiveCompletion: { [weak self] _ in self?.actionsSubscription = nil },
                     receiveValue: { _ in self.viewModel.deleteAll() }
                 )
+        case .filterItems:
+            viewModel.mode = .filtering
         case .selectItems:
-            viewModel.isInSelectionMode = true
+            viewModel.mode = .selection
         default:
             break
         }
@@ -160,7 +198,7 @@ public final class ListViewController: UIViewController {
 
 extension ListViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.selectedItemIndices = self.tableView.selectedIndices()
+        viewModel.selectedItemIndices = self.itemsListTableView.selectedIndices()
 
         if !tableView.isEditing {
             tableView.deselectRow(at: indexPath, animated: true)
@@ -168,6 +206,6 @@ extension ListViewController: UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        viewModel.selectedItemIndices = self.tableView.selectedIndices()
+        viewModel.selectedItemIndices = self.itemsListTableView.selectedIndices()
     }
 }

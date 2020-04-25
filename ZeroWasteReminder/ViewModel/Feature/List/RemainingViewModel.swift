@@ -5,11 +5,11 @@ public final class RemainingViewModel {
         switch state {
         case .notDefined:
             return ""
-        case .stale:
+        case .expired:
             return "stale"
-        case .lastDay:
+        case .aboutToExpire:
             return "last day"
-        case let .good(value, component):
+        case let .beforeExpiration(value, component):
             return component.format(forValue: value)
         }
     }
@@ -43,9 +43,9 @@ public final class RemainingViewModel {
         guard let year = components.year else { return }
 
         if year > 0 {
-            state = .good(value: year, component: .year)
+            state = .beforeExpiration(value: year, component: .year)
         } else if year < 0 {
-            state = .stale
+            state = .expired
         }
     }
 
@@ -53,9 +53,9 @@ public final class RemainingViewModel {
         guard let month = components.month else { return }
 
         if month > 0 {
-            state = .good(value: month, component: .month)
+            state = .beforeExpiration(value: month, component: .month)
         } else if month < 0 {
-            state = .stale
+            state = .expired
         }
     }
 
@@ -63,11 +63,11 @@ public final class RemainingViewModel {
         guard let day = components.day else { return }
 
         if day > 0 {
-            state = .good(value: day, component: .day)
+            state = .beforeExpiration(value: day, component: .day)
         } else if day == 0 {
-            state = .lastDay
+            state = .aboutToExpire
         } else {
-            state = .stale
+            state = .expired
         }
     }
 }
@@ -75,9 +75,9 @@ public final class RemainingViewModel {
 extension RemainingViewModel {
     public enum RemainingState {
         case notDefined
-        case stale
-        case lastDay
-        case good(value: Int, component: RemainingComponent)
+        case expired
+        case aboutToExpire
+        case beforeExpiration(value: Int, component: RemainingComponent)
     }
 
     public enum RemainingComponent {

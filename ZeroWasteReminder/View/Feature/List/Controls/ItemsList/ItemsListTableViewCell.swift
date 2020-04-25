@@ -1,10 +1,10 @@
 import UIKit
 
-public final class ListTableViewCell: UITableViewCell {
-    public static let identifier: String = "ListTableViewCell"
+public final class ItemsListTableViewCell: UITableViewCell {
+    public static let identifier: String = "ItemsListTableViewCell"
     public static let height: CGFloat = 56
 
-    public var viewModel: ListTableViewCellViewModel! {
+    public var viewModel: ItemsListCellViewModel! {
         didSet {
             remainingView.viewModel = viewModel.remainingViewModel
             reloadUserInterface()

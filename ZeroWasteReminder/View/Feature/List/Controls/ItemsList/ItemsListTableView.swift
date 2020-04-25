@@ -1,6 +1,6 @@
 import UIKit
 
-public final class ListTableView: UITableView {
+public final class ItemsListTableView: UITableView {
     public init() {
         super.init(frame: .zero, style: .plain)
 
@@ -8,6 +8,11 @@ public final class ListTableView: UITableView {
         allowsMultipleSelectionDuringEditing = true
         backgroundColor = .white
         separatorStyle = .none
+
+        register(
+            ItemsListTableViewCell.self,
+            forCellReuseIdentifier: ItemsListTableViewCell.identifier
+        )
     }
 
     @available(*, unavailable)

@@ -2,7 +2,7 @@ import Combine
 import UIKit
 
 public extension UIAlertController {
-    static func presentActionsSheet(
+        static func presentActionsSheet(
         in viewController: UIViewController
     ) -> AnyPublisher<UIAlertAction, Never> {
         let actionsSubject = PassthroughSubject<UIAlertAction, Never>()
@@ -11,6 +11,11 @@ public extension UIAlertController {
             .init(title: "Actions", message: nil, preferredStyle: .actionSheet)
 
         actionsSheet.addAction(.selectItems(handler: {
+            actionsSubject.send($0)
+            actionsSubject.send(completion: .finished)
+        }))
+
+        actionsSheet.addAction(.filterItems(handler: {
             actionsSubject.send($0)
             actionsSubject.send(completion: .finished)
         }))

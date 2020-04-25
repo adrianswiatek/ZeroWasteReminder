@@ -62,9 +62,9 @@ public final class RemainingView: UIView {
 
     private func colorForRemainingView(basedOn state: RemainingViewModel.RemainingState) -> UIColor {
         switch state {
-        case .good(_, _): return .good
-        case .lastDay: return .lastDay
-        case .stale: return .stale
+        case .beforeExpiration(_, _): return .good
+        case .aboutToExpire: return .lastDay
+        case .expired: return .stale
         case .notDefined: return .systemGray3
         }
     }

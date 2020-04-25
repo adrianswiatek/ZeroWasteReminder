@@ -1,9 +1,11 @@
 import Combine
 import Foundation
 
-public final class ListViewModel {
-    @Published var isInSelectionMode: Bool
+public final class ItemsListViewModel {
+    @Published var mode: Mode
     @Published var selectedItemIndices: [Int]
+
+    public let itemsFilterViewModel: ItemsFilterViewModel
 
     public var items: AnyPublisher<[Item], Never> {
         itemsSubject.eraseToAnyPublisher()
@@ -17,7 +19,9 @@ public final class ListViewModel {
     public init(itemsService: ItemsService) {
         self.itemsService = itemsService
 
-        self.isInSelectionMode = false
+        self.itemsFilterViewModel = .init()
+
+        self.mode = .read
         self.selectedItemIndices = []
 
         self.itemsSubject = .init([])
@@ -26,7 +30,7 @@ public final class ListViewModel {
         self.bind()
     }
 
-    public func cellViewModel(forItem item: Item) -> ListTableViewCellViewModel {
+    public func cellViewModel(forItem item: Item) -> ItemsListCellViewModel {
         .init(item, dateFormatter: .fullDateFormatter)
     }
 
@@ -36,7 +40,7 @@ public final class ListViewModel {
         let selectedItems = selectedItemIndices.map { itemsSubject.value[$0] }
         itemsService.delete(selectedItems)
 
-        isInSelectionMode = false
+        mode = .read
     }
 
     public func deleteAll() {
@@ -47,5 +51,13 @@ public final class ListViewModel {
         itemsService.items
             .subscribe(itemsSubject)
             .store(in: &subscriptions)
+    }
+}
+
+extension ItemsListViewModel {
+    public enum Mode {
+        case read
+        case selection
+        case filtering
     }
 }
