@@ -48,7 +48,8 @@ public final class ItemsListViewModel {
     }
 
     private func bind() {
-        itemsService.items
+        itemsService.items.combineLatest(itemsFilterViewModel.cellViewModels)
+            .compactMap { items, cells in cells.flatMap { $0.filter(items) } }
             .subscribe(itemsSubject)
             .store(in: &subscriptions)
     }

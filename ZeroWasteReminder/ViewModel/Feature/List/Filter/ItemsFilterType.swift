@@ -2,7 +2,7 @@ public enum ItemsFilterType: String, CaseIterable {
     case all = "All"
     case notDefined = "Not defined"
     case expired = "Expired"
-    case aboutToExpire = "About to expire"
+    case almostExpired = "Almost expired"
     case beforeExpiration = "Before expiration"
 }
 

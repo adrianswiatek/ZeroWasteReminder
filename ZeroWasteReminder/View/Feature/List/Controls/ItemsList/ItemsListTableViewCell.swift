@@ -52,7 +52,7 @@ public final class ItemsListTableViewCell: UITableViewCell {
             remainingView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             remainingView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             remainingView.heightAnchor.constraint(equalToConstant: 44),
-            remainingView.widthAnchor.constraint(equalToConstant: 80)
+            remainingView.widthAnchor.constraint(equalToConstant: 72)
         ])
 
         contentView.addSubview(nameLabel)

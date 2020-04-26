@@ -6,9 +6,9 @@ public final class RemainingViewModel {
         case .notDefined:
             return ""
         case .expired:
-            return "stale"
-        case .aboutToExpire:
-            return "last day"
+            return "expired"
+        case .almostExpired:
+            return "almost expired"
         case let .beforeExpiration(value, component):
             return component.format(forValue: value)
         }
@@ -65,36 +65,47 @@ public final class RemainingViewModel {
         if day > 0 {
             state = .beforeExpiration(value: day, component: .day)
         } else if day == 0 {
-            state = .aboutToExpire
+            state = .almostExpired
         } else {
             state = .expired
         }
     }
 }
 
-extension RemainingViewModel {
-    public enum RemainingState {
-        case notDefined
-        case expired
-        case aboutToExpire
-        case beforeExpiration(value: Int, component: RemainingComponent)
+public enum RemainingState {
+    case notDefined
+    case expired
+    case almostExpired
+    case beforeExpiration(value: Int, component: RemainingComponent)
+}
+
+extension RemainingState: Equatable {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case (.notDefined, .notDefined), (.expired, .expired), (.almostExpired, .almostExpired):
+            return true
+        case let (.beforeExpiration(lhsValue, lhsComponent), .beforeExpiration(value: rhsValue, component: rhsComponent)):
+            return lhsValue == rhsValue && lhsComponent == rhsComponent
+        default:
+            return false
+        }
     }
+}
 
-    public enum RemainingComponent {
-        case unknown
-        case day
-        case month
-        case year
+public enum RemainingComponent {
+    case unknown
+    case day
+    case month
+    case year
 
-        public func format(forValue value: Int) -> String {
-            switch self {
-            case .unknown:
-                return ""
-            case .month, .year:
-                return "+\(value) \(self)\(value > 1 ? "s" : "")"
-            case .day:
-                return "\(value) \(self)\(value > 1 ? "s" : "")"
-            }
+    public func format(forValue value: Int) -> String {
+        switch self {
+        case .unknown:
+            return ""
+        case .month, .year:
+            return "+\(value) \(self)\(value > 1 ? "s" : "")"
+        case .day:
+            return "\(value) \(self)\(value > 1 ? "s" : "")"
         }
     }
 }

@@ -17,12 +17,28 @@ public struct ItemsFilterCellViewModel: Hashable {
         .init(filterType, isSelected: !isSelected)
     }
 
-    public func selected() -> Self {
-        .init(filterType, isSelected: true)
-    }
-
     public func deselected() -> Self {
         .init(filterType, isSelected: false)
+    }
+
+    public func filter(_ items: [Item]) -> [Item] {
+        guard isSelected else { return [] }
+
+        switch filterType {
+        case .all:
+            return items
+        case .notDefined:
+            return items.filter { RemainingViewModel($0).state == .notDefined }
+        case .expired:
+            return items.filter { RemainingViewModel($0).state == .expired }
+        case .almostExpired:
+            return items.filter { RemainingViewModel($0).state == .almostExpired }
+        case .beforeExpiration:
+            return items.filter {
+                let state = RemainingViewModel($0).state
+                return state != .notDefined && state != .expired && state != .almostExpired
+            }
+        }
     }
 }
 
