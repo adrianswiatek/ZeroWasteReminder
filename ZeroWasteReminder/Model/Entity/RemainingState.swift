@@ -15,12 +15,12 @@ public enum RemainingState: Hashable {
 
         let components = componentsBetweenCurrentDate(and: date)
 
-        if let year = components.year, year > 0 {
-            self = .valid(value: year, component: .year)
-        } else if let month = components.month, month > 0 {
-            self = .valid(value: month, component: .month)
+        if let year = components.year, year != 0 {
+            self = stateBasedOn(.year, value: year)
+        } else if let month = components.month, month != 0 {
+            self = stateBasedOn(.month, value: month)
         } else if let day = components.day {
-            self = stateBasedOn(day)
+            self = stateBasedOn(.day, value: day)
         }
     }
 
@@ -32,9 +32,9 @@ public enum RemainingState: Hashable {
         )
     }
 
-    private func stateBasedOn(_ day: Int) -> Self {
-        if day > 0 { return .valid(value: day, component: .day) }
-        if day < 0 { return .expired }
+    private func stateBasedOn(_ component: RemainingComponent, value: Int) -> Self {
+        if value > 0 { return .valid(value: value, component: component) }
+        if value < 0 { return .expired }
         return .almostExpired
     }
 }
