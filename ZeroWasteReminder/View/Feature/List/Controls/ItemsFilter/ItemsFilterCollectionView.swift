@@ -29,7 +29,10 @@ public final class ItemsFilterCollectionView: UICollectionView {
     }
 
     public func scrollToBeginning() {
-        scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: false)
+        DispatchQueue.main.async {
+            let indexToScroll = self.viewModel.indexToScroll
+            self.scrollToItem(at: IndexPath(item: indexToScroll, section: 0), at: .left, animated: true)
+        }
     }
 
     private func itemsFilterCell(at indexPath: IndexPath) -> ItemsFilterCollectionViewCell? {
@@ -49,7 +52,7 @@ extension ItemsFilterCollectionView: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        .init(width: 128, height: 24)
+        .init(width: 112, height: 24)
     }
 
     public func collectionView(

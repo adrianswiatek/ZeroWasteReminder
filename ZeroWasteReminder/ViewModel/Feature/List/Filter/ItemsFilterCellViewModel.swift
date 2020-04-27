@@ -2,48 +2,44 @@ import Combine
 
 public struct ItemsFilterCellViewModel: Hashable {
     public let isSelected: Bool
-    public let filterType: ItemsFilterType
+    public let remainingState: RemainingState
 
     public var title: String {
-        filterType.rawValue
+        switch remainingState {
+        case .notDefined: return "Not defined"
+        case .expired: return "Expired"
+        case .almostExpired: return "Almost expired"
+        case .valid(_, _): return "Valid"
+        }
     }
 
-    private init(_ filterType: ItemsFilterType, isSelected: Bool) {
-        self.filterType = filterType
+    public init(_ remainingState: RemainingState) {
+        self.init(remainingState, isSelected: false)
+    }
+
+    private init(_ remainingState: RemainingState, isSelected: Bool) {
+        self.remainingState = remainingState
         self.isSelected = isSelected
     }
 
     public func toggled() -> Self {
-        .init(filterType, isSelected: !isSelected)
+        .init(remainingState, isSelected: !isSelected)
     }
 
     public func deselected() -> Self {
-        .init(filterType, isSelected: false)
+        .init(remainingState, isSelected: false)
     }
 
     public func filter(_ items: [Item]) -> [Item] {
-        guard isSelected else { return [] }
-
-        switch filterType {
-        case .all:
-            return items
-        case .notDefined:
-            return items.filter { RemainingViewModel($0).state == .notDefined }
-        case .expired:
-            return items.filter { RemainingViewModel($0).state == .expired }
-        case .almostExpired:
-            return items.filter { RemainingViewModel($0).state == .almostExpired }
-        case .beforeExpiration:
-            return items.filter {
-                let state = RemainingViewModel($0).state
-                return state != .notDefined && state != .expired && state != .almostExpired
-            }
+        guard isSelected else {
+            return []
         }
-    }
-}
 
-public extension ItemsFilterCellViewModel {
-    static func fromFilterType(_ filterType: ItemsFilterType) -> Self {
-        .init(filterType, isSelected: filterType == .all)
+        if case .valid(_, _) = remainingState {
+            let invalidStates: [RemainingState] = [.notDefined, .expired, .almostExpired]
+            return items.filter { !invalidStates.contains(RemainingState(expiration: $0.expiration)) }
+        }
+
+        return items.filter { RemainingState(expiration: $0.expiration) == remainingState }
     }
 }

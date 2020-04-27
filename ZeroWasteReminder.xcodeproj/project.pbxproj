@@ -12,7 +12,6 @@
 		A700D6C72454C6FE00F16F2E /* ItemsFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A700D6C62454C6FE00F16F2E /* ItemsFilterCollectionViewCell.swift */; };
 		A700D6C92454D96800F16F2E /* ItemsFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A700D6C82454D96800F16F2E /* ItemsFilterViewModel.swift */; };
 		A700D6CB2454E82600F16F2E /* ItemsFilterCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A700D6CA2454E82600F16F2E /* ItemsFilterCellViewModel.swift */; };
-		A700D6CD2454ED8500F16F2E /* ItemsFilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A700D6CC2454ED8500F16F2E /* ItemsFilterType.swift */; };
 		A70BCCD9244795D700CC49D0 /* AddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70BCCD8244795D700CC49D0 /* AddViewModel.swift */; };
 		A70BCCDB2447960200CC49D0 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70BCCDA2447960200CC49D0 /* Item.swift */; };
 		A70BCCDD244796FB00CC49D0 /* PeriodType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70BCCDC244796FB00CC49D0 /* PeriodType.swift */; };
@@ -35,6 +34,7 @@
 		A71B691E2443CAD500AF7CB3 /* AddItemTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691D2443CAD500AF7CB3 /* AddItemTextField.swift */; };
 		A71B69212443D3EB00AF7CB3 /* ExpirationSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B69202443D3EB00AF7CB3 /* ExpirationSectionView.swift */; };
 		A72315AE244B0943008614B2 /* ValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72315AD244B0943008614B2 /* ValidationRules.swift */; };
+		A725068D2457992F006C3A2F /* RemainingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A725068C2457992F006C3A2F /* RemainingState.swift */; };
 		A72A46D424426A4000B0007B /* ItemsListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D324426A4000B0007B /* ItemsListTableView.swift */; };
 		A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D624426C4C00B0007B /* ListAddButton.swift */; };
 		A741613E2450D814001ED316 /* UIAlertActionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */; };
@@ -59,7 +59,6 @@
 		A700D6C62454C6FE00F16F2E /* ItemsFilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsFilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		A700D6C82454D96800F16F2E /* ItemsFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsFilterViewModel.swift; sourceTree = "<group>"; };
 		A700D6CA2454E82600F16F2E /* ItemsFilterCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsFilterCellViewModel.swift; sourceTree = "<group>"; };
-		A700D6CC2454ED8500F16F2E /* ItemsFilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsFilterType.swift; sourceTree = "<group>"; };
 		A70BCCD8244795D700CC49D0 /* AddViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewModel.swift; sourceTree = "<group>"; };
 		A70BCCDA2447960200CC49D0 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		A70BCCDC244796FB00CC49D0 /* PeriodType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodType.swift; sourceTree = "<group>"; };
@@ -84,6 +83,7 @@
 		A71B691D2443CAD500AF7CB3 /* AddItemTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemTextField.swift; sourceTree = "<group>"; };
 		A71B69202443D3EB00AF7CB3 /* ExpirationSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationSectionView.swift; sourceTree = "<group>"; };
 		A72315AD244B0943008614B2 /* ValidationRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationRules.swift; sourceTree = "<group>"; };
+		A725068C2457992F006C3A2F /* RemainingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingState.swift; sourceTree = "<group>"; };
 		A72A46D324426A4000B0007B /* ItemsListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListTableView.swift; sourceTree = "<group>"; };
 		A72A46D624426C4C00B0007B /* ListAddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAddButton.swift; sourceTree = "<group>"; };
 		A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertActionExtensions.swift; sourceTree = "<group>"; };
@@ -137,7 +137,6 @@
 		A700D6CE2454ED9700F16F2E /* Filter */ = {
 			isa = PBXGroup;
 			children = (
-				A700D6CC2454ED8500F16F2E /* ItemsFilterType.swift */,
 				A700D6CA2454E82600F16F2E /* ItemsFilterCellViewModel.swift */,
 				A700D6C82454D96800F16F2E /* ItemsFilterViewModel.swift */,
 			);
@@ -160,6 +159,7 @@
 				A7FFA9782448F5C00061A3D6 /* ExpirationType.swift */,
 				A70BCCDA2447960200CC49D0 /* Item.swift */,
 				A70BCCDC244796FB00CC49D0 /* PeriodType.swift */,
+				A725068C2457992F006C3A2F /* RemainingState.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -427,6 +427,7 @@
 				A7FFA97D244909B40061A3D6 /* DateExtensions.swift in Sources */,
 				A7DB8A37244286440035CF36 /* ListNavigationController.swift in Sources */,
 				A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */,
+				A725068D2457992F006C3A2F /* RemainingState.swift in Sources */,
 				A7FFA9792448F5C00061A3D6 /* ExpirationType.swift in Sources */,
 				A70FA677244CDEEA0045B545 /* ViewControllerFactory.swift in Sources */,
 				A716C9C1244FA07A004262AF /* RemainingViewModel.swift in Sources */,
@@ -454,7 +455,6 @@
 				A700D6C72454C6FE00F16F2E /* ItemsFilterCollectionViewCell.swift in Sources */,
 				A7F16D24244AFF2000ED2402 /* ExpirationPeriodViewModel.swift in Sources */,
 				A700D6C92454D96800F16F2E /* ItemsFilterViewModel.swift in Sources */,
-				A700D6CD2454ED8500F16F2E /* ItemsFilterType.swift in Sources */,
 				A72315AE244B0943008614B2 /* ValidationRules.swift in Sources */,
 				A700D6C42454BEF400F16F2E /* ItemsFilterDataSource.swift in Sources */,
 				A70BCCD9244795D700CC49D0 /* AddViewModel.swift in Sources */,

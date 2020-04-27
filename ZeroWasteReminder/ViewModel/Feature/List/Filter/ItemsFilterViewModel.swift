@@ -5,37 +5,26 @@ public final class ItemsFilterViewModel {
         cellViewModelsSubject.eraseToAnyPublisher()
     }
 
+    public var indexToScroll: Int {
+        cellViewModelsSubject.value.firstIndex { $0.isSelected } ?? 0
+    }
+
     private let cellViewModelsSubject: CurrentValueSubject<[ItemsFilterCellViewModel], Never>
 
     public init() {
-        let cellViewModels = ItemsFilterType.allCases.map {
-            ItemsFilterCellViewModel.fromFilterType($0)
-        }
+        let remainingStates: [RemainingState] = [
+            .notDefined,
+            .expired,
+            .almostExpired,
+            .valid(value: 0, component: .day)
+        ]
 
-        cellViewModelsSubject = .init(cellViewModels)
+        cellViewModelsSubject = .init(remainingStates.map(ItemsFilterCellViewModel.init))
     }
 
     public func toggleItem(atIndex index: Int) {
         var cells = cellViewModelsSubject.value
-        let updatedCell = cells[index].toggled()
-
-        cells[index] = updatedCell
-
-        if updatedCell.filterType != .all && cells[0].isSelected {
-            cells[0] = cells[0].toggled()
-            cellViewModelsSubject.value = cells
-            return
-        }
-
-        if updatedCell.filterType == .all && updatedCell.isSelected {
-            cellViewModelsSubject.value = [updatedCell] + cells.filter { $0.filterType != .all }.map { $0.deselected() }
-            return
-        }
-
-        if cells.allSatisfy({ !$0.isSelected }) {
-            cells[0] = cells[0].toggled()
-        }
-
+        cells[index] = cells[index].toggled()
         cellViewModelsSubject.value = cells
     }
 }

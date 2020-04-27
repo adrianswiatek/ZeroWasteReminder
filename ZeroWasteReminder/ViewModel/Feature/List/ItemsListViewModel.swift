@@ -49,7 +49,12 @@ public final class ItemsListViewModel {
 
     private func bind() {
         itemsService.items.combineLatest(itemsFilterViewModel.cellViewModels)
-            .compactMap { items, cells in cells.flatMap { $0.filter(items) } }
+            .compactMap { items, cells in
+                if cells.allSatisfy({ $0.isSelected == false }) {
+                    return items
+                }
+                return cells.flatMap { $0.filter(items) }
+            }
             .subscribe(itemsSubject)
             .store(in: &subscriptions)
     }
