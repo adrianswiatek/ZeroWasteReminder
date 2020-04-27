@@ -15,11 +15,6 @@ public extension UIAlertController {
             actionsSubject.send(completion: .finished)
         }))
 
-        actionsSheet.addAction(.filterItems(handler: {
-            actionsSubject.send($0)
-            actionsSubject.send(completion: .finished)
-        }))
-
         actionsSheet.addAction(.deleteAll(handler: {
             actionsSubject.send($0)
             actionsSubject.send(completion: .finished)

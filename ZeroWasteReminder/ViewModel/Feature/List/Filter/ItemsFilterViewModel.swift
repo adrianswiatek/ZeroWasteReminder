@@ -9,6 +9,10 @@ public final class ItemsFilterViewModel {
         cellViewModelsSubject.value.firstIndex { $0.isSelected } ?? 0
     }
 
+    public var isFilterActive: Bool {
+        cellViewModelsSubject.value.first { $0.isSelected } != nil
+    }
+
     private let cellViewModelsSubject: CurrentValueSubject<[ItemsFilterCellViewModel], Never>
 
     public init() {

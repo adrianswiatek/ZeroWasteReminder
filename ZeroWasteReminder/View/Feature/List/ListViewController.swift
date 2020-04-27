@@ -39,6 +39,17 @@ public final class ListViewController: UIViewController {
         return barButtonItem
     }()
 
+    private lazy var filterButtonItem: UIBarButtonItem = {
+        let barButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "line.horizontal.3.decrease.circle"),
+            style: .plain,
+            target: self,
+            action: #selector(handleFilterButtonTap)
+        )
+        barButtonItem.tintColor = .white
+        return barButtonItem
+    }()
+
     private let itemsFilterDataSource: ItemsFilterDataSource
     private let itemsListDataSource: ItemsListDataSource
 
@@ -146,16 +157,41 @@ public final class ListViewController: UIViewController {
             )
     }
 
+    @objc
+    private func handleFilterButtonTap(_ sender: UIBarButtonItem) {
+        viewModel.mode = .filtering
+    }
+
     private func setMode(_ mode: ItemsListViewModel.Mode) {
         viewModel.selectedItemIndices = []
 
         addButton.setVisibility(mode == .read)
         itemsListTableView.setEditing(mode == .selection, animated: true)
-        itemsFilterCollectionView.scrollToBeginning()
-        navigationItem.rightBarButtonItem = mode != .read ? doneButtonItem : moreBarButtonItem
-        navigationItem.leftBarButtonItem = mode == .selection ? deleteButtonItem : nil
 
+        navigationItem.rightBarButtonItem = rightBarButtonItem(forMode: mode)
+        navigationItem.leftBarButtonItem = leftBarButtonItem(forMode: mode)
+
+        filterButtonItem.isEnabled = mode != .filtering
+        itemsFilterCollectionView.scrollToBeginning()
         setupItemsFilterVisibility(mode)
+    }
+
+    private func rightBarButtonItem(forMode mode: ItemsListViewModel.Mode) -> UIBarButtonItem? {
+        switch mode {
+        case .read:
+            return moreBarButtonItem
+        case .selection, .filtering:
+            return doneButtonItem
+        }
+    }
+
+    private func leftBarButtonItem(forMode mode: ItemsListViewModel.Mode) -> UIBarButtonItem? {
+        switch mode {
+        case .read, .filtering:
+            return filterButtonItem
+        case .selection:
+            return deleteButtonItem
+        }
     }
 
     private func setupItemsFilterVisibility(_ mode: ItemsListViewModel.Mode) {
@@ -186,8 +222,6 @@ public final class ListViewController: UIViewController {
                     receiveCompletion: { [weak self] _ in self?.actionsSubscription = nil },
                     receiveValue: { _ in self.viewModel.deleteAll() }
                 )
-        case .filterItems:
-            viewModel.mode = .filtering
         case .selectItems:
             viewModel.mode = .selection
         default:

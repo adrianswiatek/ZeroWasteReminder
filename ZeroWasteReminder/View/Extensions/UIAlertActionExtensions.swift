@@ -6,7 +6,6 @@ public extension UIAlertAction {
         case cancel = "Cancel"
         case deleteAll = "Remove all"
         case selectItems = "Select items"
-        case filterItems = "Filter items"
     }
 
     static func yes(withStyle style: Style, handler: @escaping (UIAlertAction) -> Void) -> Self {
@@ -19,10 +18,6 @@ public extension UIAlertAction {
 
     static func selectItems(handler: @escaping (UIAlertAction) -> Void) -> Self {
         .init(title: Action.selectItems.rawValue, style: .default, handler: handler)
-    }
-
-    static func filterItems(handler: @escaping (UIAlertAction) -> Void) -> Self {
-        .init(title: Action.filterItems.rawValue, style: .default, handler: handler)
     }
 
     static func deleteAll(handler: @escaping (UIAlertAction) -> Void) -> Self {
