@@ -2,7 +2,7 @@ import Combine
 import Foundation
 
 public final class ItemsListViewModel {
-    @Published var mode: Mode
+    @Published var modeState: ModeState
     @Published var selectedItemIndices: [Int]
 
     public let itemsFilterViewModel: ItemsFilterViewModel
@@ -21,7 +21,7 @@ public final class ItemsListViewModel {
 
         self.itemsFilterViewModel = .init()
 
-        self.mode = .read
+        self.modeState = ReadModeState()
         self.selectedItemIndices = []
 
         self.itemsSubject = .init([])
@@ -40,11 +40,23 @@ public final class ItemsListViewModel {
         let selectedItems = selectedItemIndices.map { itemsSubject.value[$0] }
         itemsService.delete(selectedItems)
 
-        mode = .read
+        modeState.done(on: self)
     }
 
     public func deleteAll() {
         itemsService.deleteAll()
+    }
+
+    public func filter() {
+        modeState.filter(on: self)
+    }
+
+    public func done() {
+        modeState.done(on: self)
+    }
+
+    public func clear() {
+        itemsFilterViewModel.deselectAll()
     }
 
     private func bind() {
@@ -57,13 +69,9 @@ public final class ItemsListViewModel {
             }
             .subscribe(itemsSubject)
             .store(in: &subscriptions)
-    }
-}
 
-extension ItemsListViewModel {
-    public enum Mode {
-        case read
-        case selection
-        case filtering
+        $modeState
+            .sink { [weak self] _ in self?.selectedItemIndices = [] }
+            .store(in: &subscriptions)
     }
 }

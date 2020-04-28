@@ -27,7 +27,7 @@ public struct ItemsFilterCellViewModel: Hashable {
     }
 
     public func deselected() -> Self {
-        .init(remainingState, isSelected: false)
+        isSelected ? .init(remainingState, isSelected: false) : self
     }
 
     public func filter(_ items: [Item]) -> [Item] {

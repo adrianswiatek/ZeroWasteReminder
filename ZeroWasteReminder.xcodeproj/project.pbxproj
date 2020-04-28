@@ -22,7 +22,7 @@
 		A70FA681244CF7190045B545 /* ItemsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A70FA680244CF7190045B545 /* ItemsListViewModel.swift */; };
 		A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A712ED5E2441172300B00791 /* AppDelegate.swift */; };
 		A712ED612441172300B00791 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A712ED602441172300B00791 /* SceneDelegate.swift */; };
-		A712ED632441172300B00791 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A712ED622441172300B00791 /* ListViewController.swift */; };
+		A712ED632441172300B00791 /* ItemsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A712ED622441172300B00791 /* ItemsListViewController.swift */; };
 		A712ED682441172400B00791 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A712ED672441172400B00791 /* Assets.xcassets */; };
 		A712ED6B2441172400B00791 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A712ED692441172400B00791 /* LaunchScreen.storyboard */; };
 		A716B8FD244E43BB00D2FC89 /* ItemsListCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A716B8FC244E43BB00D2FC89 /* ItemsListCellViewModel.swift */; };
@@ -48,6 +48,11 @@
 		A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC2D5D2445004D00993F53 /* ExpirationPeriodView.swift */; };
 		A7EC2D622445127200993F53 /* PeriodTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC2D612445127200993F53 /* PeriodTypeExtensions.swift */; };
 		A7F16D24244AFF2000ED2402 /* ExpirationPeriodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F16D23244AFF2000ED2402 /* ExpirationPeriodViewModel.swift */; };
+		A7F82BA42458CB6700970CFC /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F82BA32458CB6700970CFC /* Mode.swift */; };
+		A7F82BA62458CB7200970CFC /* ModeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F82BA52458CB7200970CFC /* ModeState.swift */; };
+		A7F82BA82458CB8700970CFC /* ReadModeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F82BA72458CB8700970CFC /* ReadModeState.swift */; };
+		A7F82BAA2458CB9C00970CFC /* SelectionModeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F82BA92458CB9C00970CFC /* SelectionModeState.swift */; };
+		A7F82BAC2458CBA800970CFC /* FilteringModeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F82BAB2458CBA800970CFC /* FilteringModeState.swift */; };
 		A7FFA9772448F3FF0061A3D6 /* Expiration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA9762448F3FF0061A3D6 /* Expiration.swift */; };
 		A7FFA9792448F5C00061A3D6 /* ExpirationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA9782448F5C00061A3D6 /* ExpirationType.swift */; };
 		A7FFA97D244909B40061A3D6 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA97C244909B40061A3D6 /* DateExtensions.swift */; };
@@ -70,7 +75,7 @@
 		A712ED5B2441172300B00791 /* ZeroWasteReminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZeroWasteReminder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A712ED5E2441172300B00791 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A712ED602441172300B00791 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		A712ED622441172300B00791 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		A712ED622441172300B00791 /* ItemsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListViewController.swift; sourceTree = "<group>"; };
 		A712ED672441172400B00791 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A712ED6A2441172400B00791 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A712ED6C2441172400B00791 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -97,6 +102,11 @@
 		A7EC2D5D2445004D00993F53 /* ExpirationPeriodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationPeriodView.swift; sourceTree = "<group>"; };
 		A7EC2D612445127200993F53 /* PeriodTypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodTypeExtensions.swift; sourceTree = "<group>"; };
 		A7F16D23244AFF2000ED2402 /* ExpirationPeriodViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationPeriodViewModel.swift; sourceTree = "<group>"; };
+		A7F82BA32458CB6700970CFC /* Mode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
+		A7F82BA52458CB7200970CFC /* ModeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeState.swift; sourceTree = "<group>"; };
+		A7F82BA72458CB8700970CFC /* ReadModeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadModeState.swift; sourceTree = "<group>"; };
+		A7F82BA92458CB9C00970CFC /* SelectionModeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionModeState.swift; sourceTree = "<group>"; };
+		A7F82BAB2458CBA800970CFC /* FilteringModeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteringModeState.swift; sourceTree = "<group>"; };
 		A7FFA9762448F3FF0061A3D6 /* Expiration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expiration.swift; sourceTree = "<group>"; };
 		A7FFA9782448F5C00061A3D6 /* ExpirationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationType.swift; sourceTree = "<group>"; };
 		A7FFA97C244909B40061A3D6 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
@@ -185,6 +195,7 @@
 		A70FA67F244CF7090045B545 /* List */ = {
 			isa = PBXGroup;
 			children = (
+				A7F82BA22458CB5A00970CFC /* ModeState */,
 				A700D6CE2454ED9700F16F2E /* Filter */,
 				A716B8FC244E43BB00D2FC89 /* ItemsListCellViewModel.swift */,
 				A70FA680244CF7190045B545 /* ItemsListViewModel.swift */,
@@ -276,7 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				A7DB8A36244286440035CF36 /* ListNavigationController.swift */,
-				A712ED622441172300B00791 /* ListViewController.swift */,
+				A712ED622441172300B00791 /* ItemsListViewController.swift */,
 				A72A46D824426CE600B0007B /* Controls */,
 			);
 			path = List;
@@ -349,6 +360,26 @@
 			path = Add;
 			sourceTree = "<group>";
 		};
+		A7F82BA22458CB5A00970CFC /* ModeState */ = {
+			isa = PBXGroup;
+			children = (
+				A7F82BA32458CB6700970CFC /* Mode.swift */,
+				A7F82BA52458CB7200970CFC /* ModeState.swift */,
+				A7F82BAD2458CBB300970CFC /* State */,
+			);
+			path = ModeState;
+			sourceTree = "<group>";
+		};
+		A7F82BAD2458CBB300970CFC /* State */ = {
+			isa = PBXGroup;
+			children = (
+				A7F82BAB2458CBA800970CFC /* FilteringModeState.swift */,
+				A7F82BA72458CB8700970CFC /* ReadModeState.swift */,
+				A7F82BA92458CB9C00970CFC /* SelectionModeState.swift */,
+			);
+			path = State;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -419,10 +450,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7F82BA82458CB8700970CFC /* ReadModeState.swift in Sources */,
+				A7F82BAA2458CB9C00970CFC /* SelectionModeState.swift in Sources */,
 				A7EC2D622445127200993F53 /* PeriodTypeExtensions.swift in Sources */,
 				A71B69212443D3EB00AF7CB3 /* ExpirationSectionView.swift in Sources */,
 				A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */,
-				A712ED632441172300B00791 /* ListViewController.swift in Sources */,
+				A712ED632441172300B00791 /* ItemsListViewController.swift in Sources */,
 				A70FA67B244CEB140045B545 /* ItemsService.swift in Sources */,
 				A7FFA97D244909B40061A3D6 /* DateExtensions.swift in Sources */,
 				A7DB8A37244286440035CF36 /* ListNavigationController.swift in Sources */,
@@ -433,6 +466,7 @@
 				A716C9C1244FA07A004262AF /* RemainingViewModel.swift in Sources */,
 				A7EC2D5C2444F66800993F53 /* ExpirationDateView.swift in Sources */,
 				A70FA67D244CEB340045B545 /* InMemoryItemsService.swift in Sources */,
+				A7F82BAC2458CBA800970CFC /* FilteringModeState.swift in Sources */,
 				A70BCCE52447C56A00CC49D0 /* ExpirationTypeExtensions.swift in Sources */,
 				A71B691E2443CAD500AF7CB3 /* AddItemTextField.swift in Sources */,
 				A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */,
@@ -446,6 +480,8 @@
 				A70FA681244CF7190045B545 /* ItemsListViewModel.swift in Sources */,
 				A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */,
 				A700D6C22454BD6A00F16F2E /* ItemsFilterCollectionView.swift in Sources */,
+				A7F82BA42458CB6700970CFC /* Mode.swift in Sources */,
+				A7F82BA62458CB7200970CFC /* ModeState.swift in Sources */,
 				A72A46D424426A4000B0007B /* ItemsListTableView.swift in Sources */,
 				A712ED612441172300B00791 /* SceneDelegate.swift in Sources */,
 				A7FFA9772448F3FF0061A3D6 /* Expiration.swift in Sources */,

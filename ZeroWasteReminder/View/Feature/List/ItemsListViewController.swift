@@ -1,12 +1,12 @@
 import Combine
 import UIKit
 
-public final class ListViewController: UIViewController {
+public final class ItemsListViewController: UIViewController {
     private let itemsFilterCollectionView: ItemsFilterCollectionView
     private let itemsListTableView: ItemsListTableView
     private let addButton = ListAddButton()
 
-    private lazy var moreBarButtonItem: UIBarButtonItem = {
+    private lazy var moreButtonItem: UIBarButtonItem = {
         let barButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "ellipsis.circle"),
             style: .plain,
@@ -50,6 +50,17 @@ public final class ListViewController: UIViewController {
         return barButtonItem
     }()
 
+    private lazy var clearButtonItem: UIBarButtonItem = {
+        let barButtonItem = UIBarButtonItem(
+            title: "Clear",
+            style: .plain,
+            target: self,
+            action: #selector(handleClearButtonTap)
+        )
+        barButtonItem.tintColor = .white
+        return barButtonItem
+    }()
+
     private let itemsFilterDataSource: ItemsFilterDataSource
     private let itemsListDataSource: ItemsListDataSource
 
@@ -83,7 +94,7 @@ public final class ListViewController: UIViewController {
     }
 
     private func setupUserInterface() {
-        navigationItem.rightBarButtonItem = moreBarButtonItem
+        navigationItem.rightBarButtonItem = moreButtonItem
         itemsListTableView.delegate = self
 
         view.addSubview(itemsFilterCollectionView)
@@ -117,8 +128,8 @@ public final class ListViewController: UIViewController {
             }
             .store(in: &subscriptions)
 
-        viewModel.$mode
-            .sink { [weak self] in self?.setMode($0) }
+        viewModel.$modeState
+            .sink { [weak self] in self?.setModeState($0) }
             .store(in: &subscriptions)
 
         viewModel.$selectedItemIndices
@@ -128,7 +139,18 @@ public final class ListViewController: UIViewController {
 
         viewModel.items
             .map { !$0.isEmpty }
-            .assign(to: \.isEnabled, on: moreBarButtonItem)
+            .assign(to: \.isEnabled, on: moreButtonItem)
+            .store(in: &subscriptions)
+
+        viewModel.itemsFilterViewModel.numberOfSelectedCells
+            .map { $0 > 0 }
+            .sink { [weak self] isFilterActive in
+                self?.clearButtonItem.isEnabled = isFilterActive
+                self?.filterButtonItem.image = UIImage(systemName: isFilterActive
+                    ? "line.horizontal.3.decrease.circle.fill"
+                    : "line.horizontal.3.decrease.circle"
+                )
+            }
             .store(in: &subscriptions)
     }
 
@@ -145,7 +167,7 @@ public final class ListViewController: UIViewController {
 
     @objc
     private func handleDoneButtonTap(_ sender: UIBarButtonItem) {
-        viewModel.mode = .read
+        viewModel.done()
     }
 
     @objc
@@ -159,53 +181,60 @@ public final class ListViewController: UIViewController {
 
     @objc
     private func handleFilterButtonTap(_ sender: UIBarButtonItem) {
-        viewModel.mode = .filtering
+        viewModel.filter()
     }
 
-    private func setMode(_ mode: ItemsListViewModel.Mode) {
-        viewModel.selectedItemIndices = []
+    @objc
+    private func handleClearButtonTap(_ sender: UIBarButtonItem) {
+        viewModel.clear()
+    }
 
-        addButton.setVisibility(mode == .read)
-        itemsListTableView.setEditing(mode == .selection, animated: true)
+    private func setModeState(_ modeState: ModeState) {
+        addButton.setVisibility(modeState.isAddButtonVisible)
+        itemsListTableView.setEditing(modeState.isItemsListEditing, animated: true)
+        navigationItem.rightBarButtonItem = rightBarButtonItem(forModeState: modeState)
+        navigationItem.leftBarButtonItem = leftBarButtonItem(forModeState: modeState)
 
-        navigationItem.rightBarButtonItem = rightBarButtonItem(forMode: mode)
-        navigationItem.leftBarButtonItem = leftBarButtonItem(forMode: mode)
-
-        filterButtonItem.isEnabled = mode != .filtering
         itemsFilterCollectionView.scrollToBeginning()
-        setupItemsFilterVisibility(mode)
+        setupItemsFilterVisibility(modeState)
     }
 
-    private func rightBarButtonItem(forMode mode: ItemsListViewModel.Mode) -> UIBarButtonItem? {
-        switch mode {
-        case .read:
-            return moreBarButtonItem
-        case .selection, .filtering:
+    private func rightBarButtonItem(forModeState modeState: ModeState) -> UIBarButtonItem? {
+        switch modeState {
+        case _ where modeState.isMoreButtonVisible:
+            return moreButtonItem
+        case _ where modeState.isDoneButtonVisible:
             return doneButtonItem
+        default:
+            return nil
         }
     }
 
-    private func leftBarButtonItem(forMode mode: ItemsListViewModel.Mode) -> UIBarButtonItem? {
-        switch mode {
-        case .read, .filtering:
+    private func leftBarButtonItem(forModeState modeState: ModeState) -> UIBarButtonItem? {
+        switch modeState {
+        case _ where modeState.isFilterButtonVisible:
             return filterButtonItem
-        case .selection:
+        case _ where modeState.isDeleteButtonVisible:
             return deleteButtonItem
+        case _ where modeState.isClearButtonVisible:
+            return clearButtonItem
+        default:
+            return nil
         }
     }
 
-    private func setupItemsFilterVisibility(_ mode: ItemsListViewModel.Mode) {
+    private func setupItemsFilterVisibility(_ modeState: ModeState) {
         let heightConstraint = itemsFilterCollectionView.constraints.last { $0.firstAttribute == .height }
         guard heightConstraint != nil else { return }
 
-        if mode == .read, heightConstraint?.constant == 0 {
-            return
+        if modeState.mode == .read, heightConstraint?.constant == 0 {
+            return // Prevents animating layout when opened for the very first time
         }
 
-        heightConstraint?.constant = mode == .filtering ? 36 : 0
+        heightConstraint?.constant = modeState.mode == .filtering ? 36 : 0
 
         UIView.animate(
-            withDuration: 0.5,
+            withDuration: 0.25,
             delay: 0,
             usingSpringWithDamping: 8,
             initialSpringVelocity: 0,
@@ -223,14 +252,14 @@ public final class ListViewController: UIViewController {
                     receiveValue: { _ in self.viewModel.deleteAll() }
                 )
         case .selectItems:
-            viewModel.mode = .selection
+            viewModel.modeState.select(on: viewModel)
         default:
             break
         }
     }
 }
 
-extension ListViewController: UITableViewDelegate {
+extension ItemsListViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.selectedItemIndices = self.itemsListTableView.selectedIndices()
 

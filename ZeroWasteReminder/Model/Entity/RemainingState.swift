@@ -52,20 +52,22 @@ extension RemainingState: Equatable {
     }
 }
 
-public enum RemainingComponent {
-    case unknown
-    case day
-    case month
-    case year
+extension RemainingState {
+    public enum RemainingComponent {
+        case unknown
+        case day
+        case month
+        case year
 
-    public func format(forValue value: Int) -> String {
-        switch self {
-        case .unknown:
-            return ""
-        case .month, .year:
-            return "+\(value) \(self)\(value > 1 ? "s" : "")"
-        case .day:
-            return "\(value) \(self)\(value > 1 ? "s" : "")"
+        public func format(forValue value: Int) -> String {
+            switch self {
+            case .unknown:
+                return ""
+            case .month, .year:
+                return "+\(value) \(self)\(value > 1 ? "s" : "")"
+            case .day:
+                return "\(value) \(self)\(value > 1 ? "s" : "")"
+            }
         }
     }
 }
