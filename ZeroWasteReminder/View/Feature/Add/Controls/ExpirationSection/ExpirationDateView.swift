@@ -21,7 +21,7 @@ public final class ExpirationDateView: UIView {
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .light)
         button.backgroundColor = .init(white: 0.94, alpha: 1)
         button.setTitleColor(.black, for: .normal)
-        button.setImage(UIImage(systemName: "calendar")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        button.setImage(UIImage.calendar.withRenderingMode(.alwaysOriginal), for: .normal)
         button.addTarget(self, action: #selector(handleDateButtonTap), for: .touchUpInside)
         return button
     }()

@@ -2,67 +2,29 @@ import Combine
 import UIKit
 
 public final class ItemsListViewController: UIViewController {
-    private let itemsFilterCollectionView: ItemsFilterCollectionView
-    private let itemsListTableView: ItemsListTableView
     private let addButton = ListAddButton()
 
-    private lazy var moreButtonItem: UIBarButtonItem = {
-        let barButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "ellipsis.circle"),
-            style: .plain,
-            target: self,
-            action: #selector(handleMoreButtonTap)
-        )
-        barButtonItem.tintColor = .white
-        return barButtonItem
-    }()
-
-    private lazy var doneButtonItem: UIBarButtonItem = {
-        let barButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .done,
-            target: self,
-            action: #selector(handleDoneButtonTap)
-        )
-        barButtonItem.tintColor = .white
-        return barButtonItem
-    }()
-
-    private lazy var deleteButtonItem: UIBarButtonItem = {
-        let barButtonItem = UIBarButtonItem(
-            title: "Delete",
-            style: .plain,
-            target: self,
-            action: #selector(handleDeleteButtonTap)
-        )
-        barButtonItem.tintColor = .white
-        barButtonItem.isEnabled = false
-        return barButtonItem
-    }()
-
-    private lazy var filterButtonItem: UIBarButtonItem = {
-        let barButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "line.horizontal.3.decrease.circle"),
-            style: .plain,
-            target: self,
-            action: #selector(handleFilterButtonTap)
-        )
-        barButtonItem.tintColor = .white
-        return barButtonItem
-    }()
-
-    private lazy var clearButtonItem: UIBarButtonItem = {
-        let barButtonItem = UIBarButtonItem(
-            title: "Clear",
-            style: .plain,
-            target: self,
-            action: #selector(handleClearButtonTap)
-        )
-        barButtonItem.tintColor = .white
-        return barButtonItem
-    }()
-
+    private let itemsFilterCollectionView: ItemsFilterCollectionView
     private let itemsFilterDataSource: ItemsFilterDataSource
+
+    private let itemsListTableView: ItemsListTableView
     private let itemsListDataSource: ItemsListDataSource
+    private let itemsListDelegate: ItemsListDelegates
+
+    private lazy var moreButton: UIBarButtonItem =
+        .moreButton(target: self, action: #selector(handleMoreButtonTap))
+
+    private lazy var doneButton: UIBarButtonItem =
+        .doneButton(target: self, action: #selector(handleDoneButtonTap))
+
+    private lazy var deleteButton: UIBarButtonItem =
+        .deleteButton(target: self, action: #selector(handleDeleteButtonTap))
+
+    private lazy var filterButton: UIBarButtonItem =
+        .filterButton(target: self, action: #selector(handleFilterButtonTap))
+
+    private lazy var clearButton: UIBarButtonItem =
+        .clearButton(target: self, action: #selector(handleClearButtonTap))
 
     private var subscriptions: Set<AnyCancellable>
     private var actionsSubscription: AnyCancellable?
@@ -79,6 +41,7 @@ public final class ItemsListViewController: UIViewController {
 
         self.itemsListTableView = .init()
         self.itemsListDataSource = .init(itemsListTableView, viewModel)
+        self.itemsListDelegate = .init(viewModel)
 
         self.subscriptions = []
 
@@ -94,8 +57,8 @@ public final class ItemsListViewController: UIViewController {
     }
 
     private func setupUserInterface() {
-        navigationItem.rightBarButtonItem = moreButtonItem
-        itemsListTableView.delegate = self
+        navigationItem.rightBarButtonItem = moreButton
+        itemsListTableView.delegate = itemsListDelegate
 
         view.addSubview(itemsFilterCollectionView)
         NSLayoutConstraint.activate([
@@ -129,27 +92,24 @@ public final class ItemsListViewController: UIViewController {
             .store(in: &subscriptions)
 
         viewModel.$modeState
-            .sink { [weak self] in self?.setModeState($0) }
+            .sink { [weak self] in self?.updateModeState($0) }
             .store(in: &subscriptions)
 
         viewModel.$selectedItemIndices
             .map { !$0.isEmpty }
-            .sink { [weak self] in self?.deleteButtonItem.isEnabled = $0 }
+            .sink { [weak self] in self?.deleteButton.isEnabled = $0 }
             .store(in: &subscriptions)
 
         viewModel.items
             .map { !$0.isEmpty }
-            .assign(to: \.isEnabled, on: moreButtonItem)
+            .assign(to: \.isEnabled, on: moreButton)
             .store(in: &subscriptions)
 
         viewModel.itemsFilterViewModel.numberOfSelectedCells
             .map { $0 > 0 }
             .sink { [weak self] isFilterActive in
-                self?.clearButtonItem.isEnabled = isFilterActive
-                self?.filterButtonItem.image = UIImage(systemName: isFilterActive
-                    ? "line.horizontal.3.decrease.circle.fill"
-                    : "line.horizontal.3.decrease.circle"
-                )
+                self?.clearButton.isEnabled = isFilterActive
+                self?.filterButton.image = isFilterActive ? .filterActive : .filter
             }
             .store(in: &subscriptions)
     }
@@ -189,7 +149,7 @@ public final class ItemsListViewController: UIViewController {
         viewModel.clear()
     }
 
-    private func setModeState(_ modeState: ModeState) {
+    private func updateModeState(_ modeState: ModeState) {
         addButton.setVisibility(modeState.isAddButtonVisible)
         itemsListTableView.setEditing(modeState.isItemsListEditing, animated: true)
         navigationItem.rightBarButtonItem = rightBarButtonItem(forModeState: modeState)
@@ -202,9 +162,9 @@ public final class ItemsListViewController: UIViewController {
     private func rightBarButtonItem(forModeState modeState: ModeState) -> UIBarButtonItem? {
         switch modeState {
         case _ where modeState.isMoreButtonVisible:
-            return moreButtonItem
+            return moreButton
         case _ where modeState.isDoneButtonVisible:
-            return doneButtonItem
+            return doneButton
         default:
             return nil
         }
@@ -213,11 +173,11 @@ public final class ItemsListViewController: UIViewController {
     private func leftBarButtonItem(forModeState modeState: ModeState) -> UIBarButtonItem? {
         switch modeState {
         case _ where modeState.isFilterButtonVisible:
-            return filterButtonItem
+            return filterButton
         case _ where modeState.isDeleteButtonVisible:
-            return deleteButtonItem
+            return deleteButton
         case _ where modeState.isClearButtonVisible:
-            return clearButtonItem
+            return clearButton
         default:
             return nil
         }
@@ -256,19 +216,5 @@ public final class ItemsListViewController: UIViewController {
         default:
             break
         }
-    }
-}
-
-extension ItemsListViewController: UITableViewDelegate {
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.selectedItemIndices = self.itemsListTableView.selectedIndices()
-
-        if !tableView.isEditing {
-            tableView.deselectRow(at: indexPath, animated: true)
-        }
-    }
-
-    public func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        viewModel.selectedItemIndices = self.itemsListTableView.selectedIndices()
     }
 }
