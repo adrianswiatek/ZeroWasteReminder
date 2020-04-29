@@ -3,6 +3,7 @@ import UIKit
 
 public final class ItemsListViewController: UIViewController {
     private let addButton = ListAddButton()
+    private let filterBadgeLabel = FilterBadgeLabel()
 
     private let itemsFilterCollectionView: ItemsFilterCollectionView
     private let itemsFilterDataSource: ItemsFilterDataSource
@@ -20,11 +21,11 @@ public final class ItemsListViewController: UIViewController {
     private lazy var deleteButton: UIBarButtonItem =
         .deleteButton(target: self, action: #selector(handleDeleteButtonTap))
 
-    private lazy var filterButton: UIBarButtonItem =
-        .filterButton(target: self, action: #selector(handleFilterButtonTap))
-
     private lazy var clearButton: UIBarButtonItem =
         .clearButton(target: self, action: #selector(handleClearButtonTap))
+
+    private lazy var filterButton: UIBarButtonItem =
+        .filterButton(target: self, action: #selector(handleFilterButtonTap))
 
     private var subscriptions: Set<AnyCancellable>
     private var actionsSubscription: AnyCancellable?
@@ -47,7 +48,6 @@ public final class ItemsListViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        self.setupUserInterface()
         self.bind()
     }
 
@@ -56,9 +56,24 @@ public final class ItemsListViewController: UIViewController {
         fatalError("Not supported.")
     }
 
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        self.setupUserInterface()
+    }
+
     private func setupUserInterface() {
         navigationItem.rightBarButtonItem = moreButton
         itemsListTableView.delegate = itemsListDelegate
+
+        if let navigationBar = navigationController?.navigationBar {
+            navigationBar.addSubview(filterBadgeLabel)
+            NSLayoutConstraint.activate([
+                filterBadgeLabel.leadingAnchor.constraint(equalTo: navigationBar.layoutMarginsGuide.leadingAnchor, constant: 36),
+                filterBadgeLabel.centerYAnchor.constraint(equalTo: navigationBar.centerYAnchor),
+                filterBadgeLabel.heightAnchor.constraint(equalToConstant: 15),
+                filterBadgeLabel.widthAnchor.constraint(equalToConstant: 15)
+            ])
+        }
 
         view.addSubview(itemsFilterCollectionView)
         NSLayoutConstraint.activate([
@@ -112,6 +127,11 @@ public final class ItemsListViewController: UIViewController {
                 self?.filterButton.image = isFilterActive ? .filterActive : .filter
             }
             .store(in: &subscriptions)
+
+        viewModel.itemsFilterViewModel.numberOfSelectedCells
+            .map { $0 > 0 ? String(describing: $0) : "" }
+            .assign(to: \.text, on: filterBadgeLabel)
+            .store(in: &subscriptions)
     }
 
     @objc
@@ -151,7 +171,9 @@ public final class ItemsListViewController: UIViewController {
 
     private func updateModeState(_ modeState: ModeState) {
         addButton.setVisibility(modeState.isAddButtonVisible)
+        filterBadgeLabel.setVisibility(modeState.isFilterBadgeVisible)
         itemsListTableView.setEditing(modeState.isItemsListEditing, animated: true)
+
         navigationItem.rightBarButtonItem = rightBarButtonItem(forModeState: modeState)
         navigationItem.leftBarButtonItem = leftBarButtonItem(forModeState: modeState)
 
