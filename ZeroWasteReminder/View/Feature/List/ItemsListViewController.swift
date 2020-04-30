@@ -5,8 +5,7 @@ public final class ItemsListViewController: UIViewController {
     private let addButton = ListAddButton()
     private let filterBadgeLabel = FilterBadgeLabel()
 
-    private let itemsFilterCollectionView: ItemsFilterCollectionView
-    private let itemsFilterDataSource: ItemsFilterDataSource
+    private let itemsFilterSectionView: ItemsFilterSectionView
 
     private let itemsListTableView: ItemsListTableView
     private let itemsListDataSource: ItemsListDataSource
@@ -37,8 +36,7 @@ public final class ItemsListViewController: UIViewController {
         self.viewModel = viewModel
         self.viewControllerFactory = factory
 
-        self.itemsFilterCollectionView = .init(viewModel.itemsFilterViewModel)
-        self.itemsFilterDataSource = .init(itemsFilterCollectionView, viewModel.itemsFilterViewModel)
+        self.itemsFilterSectionView = .init(viewModel.itemsFilterViewModel)
 
         self.itemsListTableView = .init()
         self.itemsListDataSource = .init(itemsListTableView, viewModel)
@@ -73,19 +71,21 @@ public final class ItemsListViewController: UIViewController {
                 filterBadgeLabel.heightAnchor.constraint(equalToConstant: 15),
                 filterBadgeLabel.widthAnchor.constraint(equalToConstant: 15)
             ])
+
+            print(filterButton.customView?.bounds ?? "")
         }
 
-        view.addSubview(itemsFilterCollectionView)
+        view.addSubview(itemsFilterSectionView)
         NSLayoutConstraint.activate([
-            itemsFilterCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            itemsFilterCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            itemsFilterCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            itemsFilterCollectionView.heightAnchor.constraint(equalToConstant: 0)
+            itemsFilterSectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            itemsFilterSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            itemsFilterSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            itemsFilterSectionView.heightAnchor.constraint(equalToConstant: 0)
         ])
 
         view.addSubview(itemsListTableView)
         NSLayoutConstraint.activate([
-            itemsListTableView.topAnchor.constraint(equalTo: itemsFilterCollectionView.bottomAnchor),
+            itemsListTableView.topAnchor.constraint(equalTo: itemsFilterSectionView.bottomAnchor),
             itemsListTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             itemsListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             itemsListTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -177,7 +177,7 @@ public final class ItemsListViewController: UIViewController {
         navigationItem.rightBarButtonItem = rightBarButtonItem(forModeState: modeState)
         navigationItem.leftBarButtonItem = leftBarButtonItem(forModeState: modeState)
 
-        itemsFilterCollectionView.scrollToBeginning()
+        itemsFilterSectionView.reset()
         setupItemsFilterVisibility(modeState)
     }
 
@@ -206,19 +206,19 @@ public final class ItemsListViewController: UIViewController {
     }
 
     private func setupItemsFilterVisibility(_ modeState: ModeState) {
-        let heightConstraint = itemsFilterCollectionView.constraints.last { $0.firstAttribute == .height }
+        let heightConstraint = itemsFilterSectionView.constraints.last { $0.firstAttribute == .height }
         guard heightConstraint != nil else { return }
 
         if modeState.mode == .read, heightConstraint?.constant == 0 {
             return // Prevents animating layout when opened for the very first time
         }
 
-        heightConstraint?.constant = modeState.mode == .filtering ? 36 : 0
+        heightConstraint?.constant = modeState.mode == .filtering ? 100 : 0
 
         UIView.animate(
-            withDuration: 0.25,
+            withDuration: 0.75,
             delay: 0,
-            usingSpringWithDamping: 8,
+            usingSpringWithDamping: 1,
             initialSpringVelocity: 0,
             options: .curveEaseOut,
             animations: { self.view.layoutIfNeeded() }
