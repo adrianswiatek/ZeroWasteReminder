@@ -42,7 +42,7 @@ public final class AddViewController: UIViewController {
 
     private func setupUserInterface() {
         title = "Add item"
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
 
         navigationItem.leftBarButtonItem = dismissButton
         navigationItem.rightBarButtonItem = doneButton
