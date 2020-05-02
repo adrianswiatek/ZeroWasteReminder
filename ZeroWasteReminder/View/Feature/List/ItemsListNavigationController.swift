@@ -1,6 +1,6 @@
 import UIKit
 
-public final class ListNavigationController: UINavigationController {
+public final class ItemsListNavigationController: UINavigationController {
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }

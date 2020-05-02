@@ -14,7 +14,7 @@ public final class ItemsListTableViewCell: UITableViewCell {
     public let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .black
+        label.textColor = .label
         label.font = .systemFont(ofSize: 16, weight: .medium)
         return label
     }()
@@ -23,7 +23,7 @@ public final class ItemsListTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 14, weight: .light)
-        label.textColor = .gray
+        label.textColor = .systemGray
         return label
     }()
 
@@ -40,7 +40,7 @@ public final class ItemsListTableViewCell: UITableViewCell {
     }
 
     private func setupUserInterface() {
-        backgroundColor = .white
+        backgroundColor = .systemBackground
         tintColor = .accent
         accessoryType = .disclosureIndicator
         textLabel?.textColor = .darkText

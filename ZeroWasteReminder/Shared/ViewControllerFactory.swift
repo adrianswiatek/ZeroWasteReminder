@@ -10,7 +10,7 @@ public final class ViewControllerFactory {
     public var listViewController: UIViewController {
         let viewModel = ItemsListViewModel(itemsService: itemsService)
         let viewController = ItemsListViewController(viewModel: viewModel, factory: self)
-        return ListNavigationController(rootViewController: viewController)
+        return ItemsListNavigationController(rootViewController: viewController)
     }
 
     public var addViewController: UIViewController {

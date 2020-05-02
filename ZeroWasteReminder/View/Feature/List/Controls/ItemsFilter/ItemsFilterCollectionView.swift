@@ -1,6 +1,11 @@
 import UIKit
 
 public final class ItemsFilterCollectionView: UICollectionView {
+    public override var isHidden: Bool {
+        get { super.isHidden }
+        set { makeTransition(to: newValue) }
+    }
+
     private let viewModel: ItemsFilterViewModel
 
     public init(_ viewModel: ItemsFilterViewModel) {
@@ -11,16 +16,7 @@ public final class ItemsFilterCollectionView: UICollectionView {
 
         super.init(frame: .zero, collectionViewLayout: layout)
 
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = .accent
-        self.allowsSelection = true
-        self.showsHorizontalScrollIndicator = false
-        self.delegate = self
-
-        self.register(
-            ItemsFilterCollectionViewCell.self,
-            forCellWithReuseIdentifier: ItemsFilterCollectionViewCell.identifier
-        )
+        self.setupUserInterface()
     }
 
     @available(*, unavailable)
@@ -35,8 +31,32 @@ public final class ItemsFilterCollectionView: UICollectionView {
         }
     }
 
+    private func setupUserInterface() {
+        translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = .accent
+        allowsSelection = true
+        showsHorizontalScrollIndicator = false
+
+        delegate = self
+
+        let cellIdentifier = ItemsFilterCollectionViewCell.identifier
+        register(ItemsFilterCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
+    }
+
     private func itemsFilterCell(at indexPath: IndexPath) -> ItemsFilterCollectionViewCell? {
         cellForItem(at: indexPath) as? ItemsFilterCollectionViewCell
+    }
+
+    private func makeTransition(to isHidden: Bool) {
+        guard let superview = superview else {
+            super.isHidden = isHidden
+            return
+        }
+
+        let duration = isHidden ? 0.25 : 0.75
+        UIView.transition(with: superview, duration: duration, options: .transitionCrossDissolve, animations: {
+            super.isHidden = isHidden
+        })
     }
 }
 
@@ -52,7 +72,7 @@ extension ItemsFilterCollectionView: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        .init(width: 112, height: 24)
+        .init(width: 128, height: 26)
     }
 
     public func collectionView(

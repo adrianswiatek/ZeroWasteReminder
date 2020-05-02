@@ -6,7 +6,7 @@ public final class ItemsListTableView: UITableView {
 
         translatesAutoresizingMaskIntoConstraints = false
         allowsMultipleSelectionDuringEditing = true
-        backgroundColor = .white
+        backgroundColor = .systemBackground
         separatorStyle = .none
 
         register(

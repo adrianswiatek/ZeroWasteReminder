@@ -38,16 +38,19 @@ public final class ItemsFilterCollectionViewCell: UICollectionViewCell {
 
     private func select() {
         label.font = .systemFont(ofSize: 13, weight: .bold)
-        backgroundColor = .init(white: 1, alpha: 0.15)
+        backgroundColor = .init(white: 1, alpha: 0.25)
+        layer.borderWidth = 0
     }
 
     private func deselect() {
         label.font = .systemFont(ofSize: 13, weight: .light)
         backgroundColor = .clear
+        layer.borderWidth = 1
     }
 
     private func setupUserInterface() {
         layer.cornerRadius = 8
+        layer.borderColor = UIColor.init(white: 1, alpha: 0.25).cgColor
 
         contentView.addSubview(label)
         NSLayoutConstraint.activate([
