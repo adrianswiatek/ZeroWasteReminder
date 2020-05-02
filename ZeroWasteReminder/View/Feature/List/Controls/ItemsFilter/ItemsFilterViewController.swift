@@ -64,7 +64,7 @@ public final class ItemsFilterViewController: UIViewController {
 
 private extension ItemsFilterViewController {
     struct Height {
-        static let hidden: CGFloat = 24
+        static let hidden: CGFloat = 20
         static let shown: CGFloat = 48
     }
 }

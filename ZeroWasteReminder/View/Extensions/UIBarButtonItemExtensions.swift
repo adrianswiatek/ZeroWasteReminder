@@ -25,6 +25,12 @@ public extension UIBarButtonItem {
         return barButtonItem
     }
 
+    static func sortButton(target: UIViewController, action: Selector) -> UIBarButtonItem {
+        let barButtonItem = UIBarButtonItem(image: .sortAscending, style: .plain, target: target, action: action)
+        barButtonItem.tintColor = .white
+        return barButtonItem
+    }
+
     static func moreButton(target: UIViewController, action: Selector) -> UIBarButtonItem {
         let barButtonItem = UIBarButtonItem(image: .more, style: .plain, target: target, action: action)
         barButtonItem.tintColor = .white

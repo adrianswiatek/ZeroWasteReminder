@@ -24,6 +24,9 @@ public final class ItemsListViewController: UIViewController {
     private lazy var filterButton: UIBarButtonItem =
         .filterButton(target: self, action: #selector(handleFilterButtonTap))
 
+    private lazy var sortButton: UIBarButtonItem =
+        .sortButton(target: self, action: #selector(handleSortButtonTap))
+
     private let itemsFilterViewController: ItemsFilterViewController
 
     private var subscriptions: Set<AnyCancellable>
@@ -112,14 +115,22 @@ public final class ItemsListViewController: UIViewController {
             .sink { [weak self] in self?.updateModeState($0) }
             .store(in: &subscriptions)
 
+        viewModel.$sortType
+            .map { $0 == .ascending ? .sortAscending : .sortDescending }
+            .assign(to: \.image, on: sortButton)
+            .store(in: &subscriptions)
+
         viewModel.$selectedItemIndices
             .map { !$0.isEmpty }
-            .sink { [weak self] in self?.deleteButton.isEnabled = $0 }
+            .assign(to: \.isEnabled, on: deleteButton)
             .store(in: &subscriptions)
 
         viewModel.items
             .map { !$0.isEmpty }
-            .assign(to: \.isEnabled, on: moreButton)
+            .sink { [weak self] itemsExist in
+                self?.moreButton.isEnabled = itemsExist
+                self?.sortButton.isEnabled = itemsExist
+            }
             .store(in: &subscriptions)
 
         viewModel.itemsFilterViewModel.numberOfSelectedCells
@@ -167,6 +178,11 @@ public final class ItemsListViewController: UIViewController {
     }
 
     @objc
+    private func handleSortButtonTap(_ sender: UIBarButtonItem) {
+        viewModel.sort()
+    }
+
+    @objc
     private func handleClearButtonTap(_ sender: UIBarButtonItem) {
         viewModel.clear()
     }
@@ -177,7 +193,7 @@ public final class ItemsListViewController: UIViewController {
         itemsListTableView.setEditing(modeState.isItemsListEditing, animated: true)
 
         navigationItem.rightBarButtonItem = rightBarButtonItem(forModeState: modeState)
-        navigationItem.leftBarButtonItem = leftBarButtonItem(forModeState: modeState)
+        navigationItem.leftBarButtonItems = leftBarButtonItems(forModeState: modeState)
 
         itemsFilterViewController.reset()
         setupItemsFilterVisibility(modeState)
@@ -194,14 +210,14 @@ public final class ItemsListViewController: UIViewController {
         }
     }
 
-    private func leftBarButtonItem(forModeState modeState: ModeState) -> UIBarButtonItem? {
+    private func leftBarButtonItems(forModeState modeState: ModeState) -> [UIBarButtonItem]? {
         switch modeState {
         case _ where modeState.isFilterButtonVisible:
-            return filterButton
+            return [filterButton, sortButton]
         case _ where modeState.isDeleteButtonVisible:
-            return deleteButton
+            return [deleteButton]
         case _ where modeState.isClearButtonVisible:
-            return clearButton
+            return [clearButton]
         default:
             return nil
         }
@@ -239,7 +255,3 @@ public final class ItemsListViewController: UIViewController {
         }
     }
 }
-
-//extension UIViewController {
-//    public func addChild
-//}

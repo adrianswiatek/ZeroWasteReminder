@@ -3,6 +3,7 @@ import Foundation
 
 public final class ItemsListViewModel {
     @Published var modeState: ModeState
+    @Published var sortType: SortType
     @Published var selectedItemIndices: [Int]
 
     public let itemsFilterViewModel: ItemsFilterViewModel
@@ -22,6 +23,7 @@ public final class ItemsListViewModel {
         self.itemsFilterViewModel = .init()
 
         self.modeState = ReadModeState()
+        self.sortType = .ascending
         self.selectedItemIndices = []
 
         self.itemsSubject = .init([])
@@ -51,6 +53,10 @@ public final class ItemsListViewModel {
         modeState.filter(on: self)
     }
 
+    public func sort() {
+        sortType.toggle()
+    }
+
     public func done() {
         modeState.done(on: self)
     }
@@ -60,8 +66,9 @@ public final class ItemsListViewModel {
     }
 
     private func bind() {
-        itemsService.items.combineLatest(itemsFilterViewModel.cellViewModels)
-            .compactMap { items, cells in
+        itemsService.items.combineLatest(itemsFilterViewModel.cellViewModels, $sortType)
+            .compactMap { items, cells, sortType in
+                let items = items.sorted(by: sortType.action())
                 if cells.allSatisfy({ $0.isSelected == false }) {
                     return items
                 }
@@ -73,5 +80,21 @@ public final class ItemsListViewModel {
         $modeState
             .sink { [weak self] _ in self?.selectedItemIndices = [] }
             .store(in: &subscriptions)
+    }
+}
+
+public enum SortType {
+    case ascending
+    case descending
+
+    public mutating func toggle() {
+        self = self == .ascending ? .descending : .ascending
+    }
+
+    public func action() -> (Item, Item) -> Bool {
+        switch self {
+        case .ascending: return { $0 < $1 }
+        case .descending: return { $0 > $1 }
+        }
     }
 }
