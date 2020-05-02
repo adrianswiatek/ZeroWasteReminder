@@ -8,7 +8,11 @@ public final class ItemsListNavigationController: UINavigationController {
     public override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
 
-        navigationBar.barTintColor = .accent
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.backgroundColor = .accent
+        navigationBarAppearance.shadowColor = .clear
+
+        navigationBar.standardAppearance = navigationBarAppearance
         navigationBar.isTranslucent = false
     }
 

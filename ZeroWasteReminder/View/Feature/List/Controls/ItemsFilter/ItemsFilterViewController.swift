@@ -3,7 +3,7 @@ import UIKit
 
 public final class ItemsFilterViewController: UIViewController {
     public var isShown: Bool {
-        heightConstraints?.constant != 0
+        heightConstraints?.constant != Height.hidden
     }
 
     private let itemsFilterCollectionView: ItemsFilterCollectionView
@@ -30,7 +30,7 @@ public final class ItemsFilterViewController: UIViewController {
     }
 
     public func setVisibility(_ isVisible: Bool) {
-        heightConstraints?.constant = isVisible ? 48 : 0
+        heightConstraints?.constant = isVisible ? Height.shown : Height.hidden
         itemsFilterCollectionView.isHidden = !isVisible
     }
 
@@ -43,7 +43,7 @@ public final class ItemsFilterViewController: UIViewController {
         itemsFilterCollectionView.isHidden = true
         view.backgroundColor = .accent
 
-        view.layer.cornerRadius = 16
+        view.layer.cornerRadius = 12
         view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         view.layer.shadowOpacity = 0.5
         view.layer.shadowOffset = .init(width: 0, height: 2)
@@ -57,7 +57,14 @@ public final class ItemsFilterViewController: UIViewController {
             itemsFilterCollectionView.heightAnchor.constraint(equalToConstant: 40)
         ])
 
-        heightConstraints = view.heightAnchor.constraint(equalToConstant: .zero)
+        heightConstraints = view.heightAnchor.constraint(equalToConstant: Height.hidden)
         heightConstraints?.isActive = true
+    }
+}
+
+private extension ItemsFilterViewController {
+    struct Height {
+        static let hidden: CGFloat = 24
+        static let shown: CGFloat = 48
     }
 }

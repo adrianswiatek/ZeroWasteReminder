@@ -53,10 +53,11 @@ public final class ItemsFilterCollectionView: UICollectionView {
             return
         }
 
-        let duration = isHidden ? 0.25 : 0.75
-        UIView.transition(with: superview, duration: duration, options: .transitionCrossDissolve, animations: {
-            super.isHidden = isHidden
-        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(isHidden ? 0 : 250)) {
+            UIView.transition(with: superview, duration: 0.25, options: .transitionCrossDissolve, animations: {
+                super.isHidden = isHidden
+            })
+        }
     }
 }
 

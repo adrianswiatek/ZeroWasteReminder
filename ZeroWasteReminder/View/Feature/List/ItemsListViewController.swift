@@ -5,8 +5,6 @@ public final class ItemsListViewController: UIViewController {
     private let addButton = ListAddButton()
     private let filterBadgeLabel = FilterBadgeLabel()
 
-    private let itemsFilterViewController: ItemsFilterViewController
-
     private let itemsListTableView: ItemsListTableView
     private let itemsListDataSource: ItemsListDataSource
     private let itemsListDelegate: ItemsListDelegates
@@ -25,6 +23,8 @@ public final class ItemsListViewController: UIViewController {
 
     private lazy var filterButton: UIBarButtonItem =
         .filterButton(target: self, action: #selector(handleFilterButtonTap))
+
+    private let itemsFilterViewController: ItemsFilterViewController
 
     private var subscriptions: Set<AnyCancellable>
     private var actionsSubscription: AnyCancellable?
@@ -56,18 +56,14 @@ public final class ItemsListViewController: UIViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupChildViewControllers()
         self.setupUserInterface()
-    }
-
-    private func setupChildViewControllers() {
-
     }
 
     private func setupUserInterface() {
         view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem = moreButton
         itemsListTableView.delegate = itemsListDelegate
+        itemsFilterViewController.view.layer.zPosition = 1
 
         if let navigationBar = navigationController?.navigationBar {
             navigationBar.addSubview(filterBadgeLabel)
@@ -79,22 +75,19 @@ public final class ItemsListViewController: UIViewController {
             ])
         }
 
-        itemsFilterViewController.willMove(toParent: self)
         addChild(itemsFilterViewController)
+        view.addSubview(itemsFilterViewController.view)
+        itemsFilterViewController.didMove(toParent: self)
 
-        let itemsSectionView: UIView! = itemsFilterViewController.view
-        itemsSectionView.layer.zPosition = 1
-
-        view.addSubview(itemsSectionView)
         NSLayoutConstraint.activate([
-            itemsSectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            itemsSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            itemsSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            itemsFilterViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            itemsFilterViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            itemsFilterViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
         view.addSubview(itemsListTableView)
         NSLayoutConstraint.activate([
-            itemsListTableView.topAnchor.constraint(equalTo: itemsSectionView.bottomAnchor),
+            itemsListTableView.topAnchor.constraint(equalTo: itemsFilterViewController.view.bottomAnchor),
             itemsListTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             itemsListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             itemsListTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -246,3 +239,7 @@ public final class ItemsListViewController: UIViewController {
         }
     }
 }
+
+//extension UIViewController {
+//    public func addChild
+//}
