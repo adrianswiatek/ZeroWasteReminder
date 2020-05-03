@@ -23,7 +23,7 @@ public final class ItemsListTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 14, weight: .light)
-        label.textColor = .systemGray
+        label.textColor = .secondaryLabel
         return label
     }()
 

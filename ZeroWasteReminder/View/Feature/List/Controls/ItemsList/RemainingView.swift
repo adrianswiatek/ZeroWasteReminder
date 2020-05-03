@@ -10,7 +10,7 @@ public final class RemainingView: UIView {
     private let remainingLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .systemGray
+        label.textColor = .secondaryLabel
         label.numberOfLines = 2
         label.textAlignment = .right
         label.font = .systemFont(ofSize: 13, weight: .light)

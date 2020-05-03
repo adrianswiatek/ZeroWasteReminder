@@ -22,7 +22,7 @@ public final class ExpirationPeriodView: UIView {
 
     private lazy var periodTypeLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .gray
+        label.textColor = .secondaryLabel
         label.font = .systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

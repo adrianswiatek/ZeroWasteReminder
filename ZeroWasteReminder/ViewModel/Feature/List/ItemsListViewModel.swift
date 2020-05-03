@@ -68,11 +68,10 @@ public final class ItemsListViewModel {
     private func bind() {
         itemsService.items.combineLatest(itemsFilterViewModel.cellViewModels, $sortType)
             .compactMap { items, cells, sortType in
-                let items = items.sorted(by: sortType.action())
                 if cells.allSatisfy({ $0.isSelected == false }) {
-                    return items
+                    return items.sorted(by: sortType.action())
                 }
-                return cells.flatMap { $0.filter(items) }
+                return cells.flatMap { $0.filter(items) }.sorted(by: sortType.action())
             }
             .subscribe(itemsSubject)
             .store(in: &subscriptions)

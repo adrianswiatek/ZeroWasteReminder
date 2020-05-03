@@ -66,12 +66,15 @@ public final class ItemsListViewController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem = moreButton
         itemsListTableView.delegate = itemsListDelegate
-        itemsFilterViewController.view.layer.zPosition = 1
+//        itemsFilterViewController.view.layer.zPosition = 1
 
         if let navigationBar = navigationController?.navigationBar {
             navigationBar.addSubview(filterBadgeLabel)
             NSLayoutConstraint.activate([
-                filterBadgeLabel.leadingAnchor.constraint(equalTo: navigationBar.layoutMarginsGuide.leadingAnchor, constant: 36),
+                filterBadgeLabel.leadingAnchor.constraint(
+                    equalTo: navigationBar.layoutMarginsGuide.leadingAnchor,
+                    constant: 36
+                ),
                 filterBadgeLabel.centerYAnchor.constraint(equalTo: navigationBar.centerYAnchor),
                 filterBadgeLabel.heightAnchor.constraint(equalToConstant: 15),
                 filterBadgeLabel.widthAnchor.constraint(equalToConstant: 15)
@@ -101,6 +104,8 @@ public final class ItemsListViewController: UIViewController {
             addButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -32),
             addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32)
         ])
+
+        view.bringSubviewToFront(itemsFilterViewController.view)
     }
 
     private func bind() {
