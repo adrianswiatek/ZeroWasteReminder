@@ -31,7 +31,7 @@
 		A7175078244286F60058FCE4 /* ItemsListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7175077244286F60058FCE4 /* ItemsListTableViewCell.swift */; };
 		A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */; };
 		A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */; };
-		A71B691E2443CAD500AF7CB3 /* AddItemTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691D2443CAD500AF7CB3 /* AddItemTextField.swift */; };
+		A71B691E2443CAD500AF7CB3 /* DefaultTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691D2443CAD500AF7CB3 /* DefaultTextField.swift */; };
 		A71B69212443D3EB00AF7CB3 /* ExpirationSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B69202443D3EB00AF7CB3 /* ExpirationSectionView.swift */; };
 		A72315AE244B0943008614B2 /* ValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72315AD244B0943008614B2 /* ValidationRules.swift */; };
 		A725068D2457992F006C3A2F /* RemainingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A725068C2457992F006C3A2F /* RemainingState.swift */; };
@@ -95,7 +95,7 @@
 		A7175077244286F60058FCE4 /* ItemsListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListTableViewCell.swift; sourceTree = "<group>"; };
 		A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNavigationController.swift; sourceTree = "<group>"; };
-		A71B691D2443CAD500AF7CB3 /* AddItemTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemTextField.swift; sourceTree = "<group>"; };
+		A71B691D2443CAD500AF7CB3 /* DefaultTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTextField.swift; sourceTree = "<group>"; };
 		A71B69202443D3EB00AF7CB3 /* ExpirationSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationSectionView.swift; sourceTree = "<group>"; };
 		A72315AD244B0943008614B2 /* ValidationRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationRules.swift; sourceTree = "<group>"; };
 		A725068C2457992F006C3A2F /* RemainingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingState.swift; sourceTree = "<group>"; };
@@ -351,7 +351,7 @@
 		A7DB8A32244284020035CF36 /* Add */ = {
 			isa = PBXGroup;
 			children = (
-				A71B691D2443CAD500AF7CB3 /* AddItemTextField.swift */,
+				A71B691D2443CAD500AF7CB3 /* DefaultTextField.swift */,
 				A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */,
 				A7DB8A34244285010035CF36 /* AddViewController.swift */,
 				A7EC2D5F2445030200993F53 /* ExpirationSection */,
@@ -508,7 +508,7 @@
 				A7F82BAC2458CBA800970CFC /* FilteringModeState.swift in Sources */,
 				A70BCCE52447C56A00CC49D0 /* ExpirationTypeExtensions.swift in Sources */,
 				A72F4CBF2460B5FA008B0D5B /* ExpirationDateButton.swift in Sources */,
-				A71B691E2443CAD500AF7CB3 /* AddItemTextField.swift in Sources */,
+				A71B691E2443CAD500AF7CB3 /* DefaultTextField.swift in Sources */,
 				A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */,
 				A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */,
 				A70BCCDB2447960200CC49D0 /* Item.swift in Sources */,

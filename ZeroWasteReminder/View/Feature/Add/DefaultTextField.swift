@@ -1,6 +1,6 @@
 import UIKit
 
-public final class AddItemTextField: UITextField {
+public final class DefaultTextField: UITextField {
     public init(placeholder: String) {
         super.init(frame: .zero)
         self.placeholder = placeholder

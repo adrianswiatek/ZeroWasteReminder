@@ -6,10 +6,10 @@ public final class EditViewController: UIViewController {
     private let expirationDateLabel: UILabel = .defaultWithText("Expiration date")
     private let datePicker = ExpirationDatePicker()
 
-    private lazy var nameTextField: AddItemTextField = {
-        let textField = AddItemTextField(placeholder: "")
-        textField.textColor = .label
+    private lazy var nameTextField: DefaultTextField = {
+        let textField = DefaultTextField(placeholder: "")
         textField.text = originalItem.name
+        textField.textAlignment = .center
         return textField
     }()
 
