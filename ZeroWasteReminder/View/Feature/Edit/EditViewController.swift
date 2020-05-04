@@ -2,14 +2,9 @@ import Combine
 import UIKit
 
 public final class EditViewController: UIViewController {
-    private lazy var nameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .secondaryLabel
-        label.text = "Item name"
-        label.font = .systemFont(ofSize: 14, weight: .light)
-        return label
-    }()
+    private let nameLabel: UILabel = .defaultWithText("Item name")
+    private let expirationDateLabel: UILabel = .defaultWithText("Expiration date")
+    private let datePicker = ExpirationDatePicker()
 
     private lazy var nameTextField: AddItemTextField = {
         let textField = AddItemTextField(placeholder: "")
@@ -18,23 +13,14 @@ public final class EditViewController: UIViewController {
         return textField
     }()
 
-    private lazy var expirationDateLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .secondaryLabel
-        label.text = "Expiration date"
-        label.font = .systemFont(ofSize: 14, weight: .light)
-        return label
-    }()
-
-    private lazy var expirationDateButton: ExpirationDateButton = {
+    private lazy var dateButton: ExpirationDateButton = {
         let button = ExpirationDateButton(type: .system)
-
         if case .date(let date) = originalItem.expiration {
             let dateFormatter: DateFormatter = .fullDateFormatter
             button.setTitle(dateFormatter.string(from: date), for: .normal)
+        } else {
+            button.setTitle("[Not defined]", for: .normal)
         }
-
         return button
     }()
 
@@ -79,12 +65,19 @@ public final class EditViewController: UIViewController {
             expirationDateLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor)
         ])
 
-        view.addSubview(expirationDateButton)
+        view.addSubview(dateButton)
         NSLayoutConstraint.activate([
-            expirationDateButton.topAnchor.constraint(equalTo: expirationDateLabel.bottomAnchor, constant: 8),
-            expirationDateButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            expirationDateButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            expirationDateButton.heightAnchor.constraint(equalToConstant: 44)
+            dateButton.topAnchor.constraint(equalTo: expirationDateLabel.bottomAnchor, constant: 8),
+            dateButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            dateButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            dateButton.heightAnchor.constraint(equalToConstant: 44)
+        ])
+
+        view.addSubview(datePicker)
+        NSLayoutConstraint.activate([
+            datePicker.topAnchor.constraint(equalTo: dateButton.bottomAnchor),
+            datePicker.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            datePicker.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
         ])
     }
 
@@ -94,7 +87,7 @@ public final class EditViewController: UIViewController {
     }
 
     private func bind() {
-        expirationDateButton.tap
+        dateButton.tap
             .sink { print("Button has been tapped") }
             .store(in: &subscriptions)
     }

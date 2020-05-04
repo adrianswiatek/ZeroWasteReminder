@@ -8,15 +8,8 @@ public final class ExpirationDateView: UIView {
         }
     }
 
-    private lazy var dateButton = ExpirationDateButton(type: .system)
-
-    private lazy var datePicker: UIDatePicker = {
-        let datePicker = UIDatePicker()
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
-        datePicker.datePickerMode = .date
-        datePicker.addTarget(self, action: #selector(handleDatePickerValueChange), for: .valueChanged)
-        return datePicker
-    }()
+    private let dateButton = ExpirationDateButton(type: .system)
+    private let datePicker = ExpirationDatePicker()
 
     private let viewModel: ExpirationDateViewModel
     private var subscriptions: Set<AnyCancellable>
@@ -60,6 +53,10 @@ public final class ExpirationDateView: UIView {
             .sink { [weak self] in self?.viewModel.toggleDatePicker() }
             .store(in: &subscriptions)
 
+        datePicker.value
+            .assign(to: \.date, on: viewModel)
+            .store(in: &subscriptions)
+
         viewModel.$date
             .assign(to: \.date, on: datePicker)
             .store(in: &subscriptions)
@@ -80,10 +77,5 @@ public final class ExpirationDateView: UIView {
             options: [.transitionCrossDissolve, .curveEaseInOut],
             animations: { self.datePicker.isHidden = !show }
         )
-    }
-
-    @objc
-    private func handleDatePickerValueChange(_ sender: UIDatePicker) {
-        viewModel.date = sender.date
     }
 }
