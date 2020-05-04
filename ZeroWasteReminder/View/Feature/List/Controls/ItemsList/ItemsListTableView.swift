@@ -1,13 +1,18 @@
 import UIKit
 
-public final class ListTableView: UITableView {
+public final class ItemsListTableView: UITableView {
     public init() {
         super.init(frame: .zero, style: .plain)
 
         translatesAutoresizingMaskIntoConstraints = false
         allowsMultipleSelectionDuringEditing = true
-        backgroundColor = .white
+        backgroundColor = .systemBackground
         separatorStyle = .none
+
+        register(
+            ItemsListTableViewCell.self,
+            forCellReuseIdentifier: ItemsListTableViewCell.identifier
+        )
     }
 
     @available(*, unavailable)

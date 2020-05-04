@@ -2,7 +2,7 @@ import Combine
 import UIKit
 
 public extension UIAlertController {
-    static func presentActionsSheet(
+        static func presentActionsSheet(
         in viewController: UIViewController
     ) -> AnyPublisher<UIAlertAction, Never> {
         let actionsSubject = PassthroughSubject<UIAlertAction, Never>()

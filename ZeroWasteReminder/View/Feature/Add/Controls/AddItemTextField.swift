@@ -27,11 +27,14 @@ public final class AddItemTextField: UITextField {
 
     private func setupUserInterface() {
         borderStyle = .none
-        backgroundColor = .init(white: 0.95, alpha: 2)
+        backgroundColor = .tertiarySystemFill
+        tintColor = .accent
         font = .systemFont(ofSize: 16)
         returnKeyType = .done
         clearButtonMode = .whileEditing
+
         translatesAutoresizingMaskIntoConstraints = false
+
         layer.cornerRadius = 8
         layer.borderColor = UIColor.accent.cgColor
     }

@@ -2,22 +2,11 @@ import Combine
 import UIKit
 
 public final class AddViewController: UIViewController {
-    private lazy var dismissButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(
-            image: UIImage(systemName: "xmark"),
-            style: .plain,
-            target: self,
-            action: #selector(handleDismiss)
-        )
-        button.tintColor = .white
-        return button
-    }()
+    private lazy var dismissButton: UIBarButtonItem =
+        .dismissButton(target: self, action: #selector(handleDismiss))
 
-    private lazy var confirmButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleConfirm))
-        button.tintColor = .white
-        return button
-    }()
+    private lazy var doneButton: UIBarButtonItem =
+        .doneButton(target: self, action: #selector(handleConfirm))
 
     private lazy var itemNameTextField: UITextField = {
         let textField = AddItemTextField(placeholder: "Item name")
@@ -26,9 +15,8 @@ public final class AddViewController: UIViewController {
         return textField
     }()
 
-    private lazy var expirationSectionView: ExpirationSectionView = {
+    private lazy var expirationSectionView: ExpirationSectionView =
         .init(viewModel: viewModel)
-    }()
 
     private let viewModel: AddViewModel
     private var subscriptions: Set<AnyCancellable>
@@ -54,10 +42,10 @@ public final class AddViewController: UIViewController {
 
     private func setupUserInterface() {
         title = "Add item"
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
 
         navigationItem.leftBarButtonItem = dismissButton
-        navigationItem.rightBarButtonItem = confirmButton
+        navigationItem.rightBarButtonItem = doneButton
 
         view.addSubview(itemNameTextField)
         NSLayoutConstraint.activate([
@@ -77,7 +65,7 @@ public final class AddViewController: UIViewController {
 
     private func bind() {
         viewModel.canSaveItem
-            .sink { [weak self] in self?.confirmButton.isEnabled = $0 }
+            .sink { [weak self] in self?.doneButton.isEnabled = $0 }
             .store(in: &subscriptions)
 
         viewModel.$expirationTypeIndex

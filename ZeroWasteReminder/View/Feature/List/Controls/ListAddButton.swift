@@ -30,9 +30,8 @@ public final class ListAddButton: UIButton {
     private func setupUserInterface() {
         translatesAutoresizingMaskIntoConstraints = false
 
-        let image = UIImage(systemName: "plus")
-        setImage(image, for: .normal)
-        setImage(image, for: .highlighted)
+        setImage(.plus, for: .normal)
+        setImage(.plus, for: .highlighted)
 
         tintColor = .white
         backgroundColor = .accent

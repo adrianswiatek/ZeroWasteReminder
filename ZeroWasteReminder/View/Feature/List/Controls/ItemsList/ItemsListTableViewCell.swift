@@ -1,10 +1,10 @@
 import UIKit
 
-public final class ListTableViewCell: UITableViewCell {
-    public static let identifier: String = "ListTableViewCell"
+public final class ItemsListTableViewCell: UITableViewCell {
+    public static let identifier: String = "ItemsListTableViewCell"
     public static let height: CGFloat = 56
 
-    public var viewModel: ListTableViewCellViewModel! {
+    public var viewModel: ItemsListCellViewModel! {
         didSet {
             remainingView.viewModel = viewModel.remainingViewModel
             reloadUserInterface()
@@ -14,7 +14,7 @@ public final class ListTableViewCell: UITableViewCell {
     public let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .black
+        label.textColor = .label
         label.font = .systemFont(ofSize: 16, weight: .medium)
         return label
     }()
@@ -23,7 +23,7 @@ public final class ListTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 14, weight: .light)
-        label.textColor = .gray
+        label.textColor = .secondaryLabel
         return label
     }()
 
@@ -40,7 +40,7 @@ public final class ListTableViewCell: UITableViewCell {
     }
 
     private func setupUserInterface() {
-        backgroundColor = .white
+        backgroundColor = .systemBackground
         tintColor = .accent
         accessoryType = .disclosureIndicator
         textLabel?.textColor = .darkText
@@ -52,7 +52,7 @@ public final class ListTableViewCell: UITableViewCell {
             remainingView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             remainingView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             remainingView.heightAnchor.constraint(equalToConstant: 44),
-            remainingView.widthAnchor.constraint(equalToConstant: 80)
+            remainingView.widthAnchor.constraint(equalToConstant: 72)
         ])
 
         contentView.addSubview(nameLabel)

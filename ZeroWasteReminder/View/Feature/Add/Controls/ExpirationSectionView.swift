@@ -5,7 +5,7 @@ public final class ExpirationSectionView: UIView {
         let label = UILabel()
         label.text = "Expiration"
         label.font = .systemFont(ofSize: 14)
-        label.textColor = .gray
+        label.textColor = .secondaryLabel
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

@@ -1,19 +1,19 @@
 import Combine
 import UIKit
 
-public final class ListItemsDataSource: UITableViewDiffableDataSource<ListItemsDataSource.Section, Item> {
-    private let viewModel: ListViewModel
+public final class ItemsListDataSource: UITableViewDiffableDataSource<ItemsListDataSource.Section, Item> {
+    private let viewModel: ItemsListViewModel
     private var subscriptions: [AnyCancellable]
 
-    public init(_ tableView: UITableView, _ viewModel: ListViewModel) {
+    public init(_ tableView: UITableView, _ viewModel: ItemsListViewModel) {
         self.viewModel = viewModel
         self.subscriptions = []
 
         super.init(tableView: tableView) { tableView, indexPath, item in
             let cell = tableView.dequeueReusableCell(
-                withIdentifier: ListTableViewCell.identifier,
+                withIdentifier: ItemsListTableViewCell.identifier,
                 for: indexPath
-            ) as? ListTableViewCell
+            ) as? ItemsListTableViewCell
             cell?.viewModel = viewModel.cellViewModel(forItem: item)
             return cell
         }
@@ -39,7 +39,7 @@ public final class ListItemsDataSource: UITableViewDiffableDataSource<ListItemsD
     }
 }
 
-extension ListItemsDataSource {
+extension ItemsListDataSource {
     public enum Section {
         case main
     }

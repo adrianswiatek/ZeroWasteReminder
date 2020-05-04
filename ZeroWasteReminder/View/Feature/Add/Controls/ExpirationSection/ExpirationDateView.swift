@@ -3,12 +3,8 @@ import UIKit
 
 public final class ExpirationDateView: UIView {
     public override var isHidden: Bool {
-        get {
-            super.isHidden
-        }
-        set {
-            self.viewModel.hideDatePicker()
-            super.isHidden = newValue
+        didSet {
+            viewModel.hideDatePicker()
         }
     }
 
@@ -19,9 +15,9 @@ public final class ExpirationDateView: UIView {
         button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 4)
         button.titleEdgeInsets = .init(top: 0, left: 4, bottom: 0, right: 0)
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .light)
-        button.backgroundColor = .init(white: 0.94, alpha: 1)
-        button.setTitleColor(.black, for: .normal)
-        button.setImage(UIImage(systemName: "calendar")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        button.backgroundColor = .tertiarySystemFill
+        button.setTitleColor(.label, for: .normal)
+        button.setImage(UIImage.calendar.withRenderingMode(.alwaysOriginal).withTintColor(.label), for: .normal)
         button.addTarget(self, action: #selector(handleDateButtonTap), for: .touchUpInside)
         return button
     }()

@@ -10,7 +10,9 @@ public final class RemainingView: UIView {
     private let remainingLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .gray
+        label.textColor = .secondaryLabel
+        label.numberOfLines = 2
+        label.textAlignment = .right
         label.font = .systemFont(ofSize: 13, weight: .light)
         return label
     }()
@@ -47,6 +49,7 @@ public final class RemainingView: UIView {
 
         addSubview(remainingLabel)
         NSLayoutConstraint.activate([
+            remainingLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
             remainingLabel.trailingAnchor.constraint(equalTo: lineView.leadingAnchor, constant: -8),
             remainingLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
@@ -60,11 +63,11 @@ public final class RemainingView: UIView {
         lineView.layer.shadowColor = color.cgColor
     }
 
-    private func colorForRemainingView(basedOn state: RemainingViewModel.RemainingState) -> UIColor {
+    private func colorForRemainingView(basedOn state: RemainingState) -> UIColor {
         switch state {
-        case .good(_, _): return .good
-        case .lastDay: return .lastDay
-        case .stale: return .stale
+        case .valid(_, _): return .good
+        case .almostExpired: return .lastDay
+        case .expired: return .stale
         case .notDefined: return .systemGray3
         }
     }
