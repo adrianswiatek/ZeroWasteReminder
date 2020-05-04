@@ -27,13 +27,29 @@ public final class EditViewController: UIViewController {
         return label
     }()
 
+    private lazy var expirationDateButton: ExpirationDateButton = {
+        let button = ExpirationDateButton(type: .system)
+
+        if case .date(let date) = originalItem.expiration {
+            let dateFormatter: DateFormatter = .fullDateFormatter
+            button.setTitle(dateFormatter.string(from: date), for: .normal)
+        }
+
+        return button
+    }()
+
     private let originalItem: Item
+    private var subscriptions: Set<AnyCancellable>
 
     public init(_ item: Item) {
         self.originalItem = item
+        self.subscriptions = []
+
         super.init(nibName: nil, bundle: nil)
+
         self.setupUserInterface()
         self.setupGestureRecognizer()
+        self.bind()
     }
 
     @available(*, unavailable)
@@ -62,11 +78,25 @@ public final class EditViewController: UIViewController {
             expirationDateLabel.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 16),
             expirationDateLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor)
         ])
+
+        view.addSubview(expirationDateButton)
+        NSLayoutConstraint.activate([
+            expirationDateButton.topAnchor.constraint(equalTo: expirationDateLabel.bottomAnchor, constant: 8),
+            expirationDateButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            expirationDateButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            expirationDateButton.heightAnchor.constraint(equalToConstant: 44)
+        ])
     }
 
     private func setupGestureRecognizer() {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         view.addGestureRecognizer(tapGestureRecognizer)
+    }
+
+    private func bind() {
+        expirationDateButton.tap
+            .sink { print("Button has been tapped") }
+            .store(in: &subscriptions)
     }
 
     @objc

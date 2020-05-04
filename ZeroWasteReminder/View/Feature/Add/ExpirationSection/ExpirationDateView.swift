@@ -8,19 +8,7 @@ public final class ExpirationDateView: UIView {
         }
     }
 
-    private lazy var dateButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.layer.cornerRadius = 8
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 4)
-        button.titleEdgeInsets = .init(top: 0, left: 4, bottom: 0, right: 0)
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .light)
-        button.backgroundColor = .tertiarySystemFill
-        button.setTitleColor(.label, for: .normal)
-        button.setImage(UIImage.calendar.withRenderingMode(.alwaysOriginal).withTintColor(.label), for: .normal)
-        button.addTarget(self, action: #selector(handleDateButtonTap), for: .touchUpInside)
-        return button
-    }()
+    private lazy var dateButton = ExpirationDateButton(type: .system)
 
     private lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
@@ -68,6 +56,10 @@ public final class ExpirationDateView: UIView {
     }
 
     private func bind() {
+        dateButton.tap
+            .sink { [weak self] in self?.viewModel.toggleDatePicker() }
+            .store(in: &subscriptions)
+
         viewModel.$date
             .assign(to: \.date, on: datePicker)
             .store(in: &subscriptions)
@@ -88,11 +80,6 @@ public final class ExpirationDateView: UIView {
             options: [.transitionCrossDissolve, .curveEaseInOut],
             animations: { self.datePicker.isHidden = !show }
         )
-    }
-
-    @objc
-    private func handleDateButtonTap(_ sender: UIButton) {
-        viewModel.toggleDatePicker()
     }
 
     @objc
