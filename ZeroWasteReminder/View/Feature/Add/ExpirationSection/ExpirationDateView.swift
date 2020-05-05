@@ -66,16 +66,7 @@ public final class ExpirationDateView: UIView {
             .store(in: &subscriptions)
 
         viewModel.isDatePickerVisible
-            .sink { [weak self] in self?.showDatePicker($0) }
+            .sink { [weak self] in self?.datePicker.setVisibility($0) }
             .store(in: &subscriptions)
-    }
-
-    private func showDatePicker(_ show: Bool) {
-        UIView.transition(
-            with: self,
-            duration: 0.3,
-            options: [.transitionCrossDissolve, .curveEaseInOut],
-            animations: { self.datePicker.isHidden = !show }
-        )
     }
 }

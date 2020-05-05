@@ -4,31 +4,20 @@ import UIKit
 public final class EditViewController: UIViewController {
     private let nameLabel: UILabel = .defaultWithText("Item name")
     private let expirationDateLabel: UILabel = .defaultWithText("Expiration date")
+    private let dateButton = ExpirationDateButton(type: .system)
     private let datePicker = ExpirationDatePicker()
 
     private lazy var nameTextField: DefaultTextField = {
         let textField = DefaultTextField(placeholder: "")
-        textField.text = originalItem.name
         textField.textAlignment = .center
         return textField
     }()
 
-    private lazy var dateButton: ExpirationDateButton = {
-        let button = ExpirationDateButton(type: .system)
-        if case .date(let date) = originalItem.expiration {
-            let dateFormatter: DateFormatter = .fullDateFormatter
-            button.setTitle(dateFormatter.string(from: date), for: .normal)
-        } else {
-            button.setTitle("[Not defined]", for: .normal)
-        }
-        return button
-    }()
-
-    private let originalItem: Item
+    private let viewModel: EditViewModel
     private var subscriptions: Set<AnyCancellable>
 
-    public init(_ item: Item) {
-        self.originalItem = item
+    public init(viewModel: EditViewModel) {
+        self.viewModel = viewModel
         self.subscriptions = []
 
         super.init(nibName: nil, bundle: nil)
@@ -88,7 +77,22 @@ public final class EditViewController: UIViewController {
 
     private func bind() {
         dateButton.tap
-            .sink { print("Button has been tapped") }
+            .sink { [weak self] in
+                self?.viewModel.toggleExpirationDatePicker()
+                self?.view.endEditing(true)
+            }
+            .store(in: &subscriptions)
+
+        viewModel.$name
+            .sink { [weak self] in self?.nameTextField.text = $0 }
+            .store(in: &subscriptions)
+
+        viewModel.expirationDate
+            .sink { [weak self] in self?.dateButton.setTitle($0, for: .normal) }
+            .store(in: &subscriptions)
+
+        viewModel.isExpirationDateVisible
+            .sink { [weak self] in self?.datePicker.setVisibility($0) }
             .store(in: &subscriptions)
     }
 

@@ -22,6 +22,20 @@ public final class ExpirationDatePicker: UIDatePicker {
         fatalError("Not supported")
     }
 
+    public func setVisibility(_ show: Bool) {
+        guard let superview = superview else {
+            isHidden = !show
+            return
+        }
+
+        UIView.transition(
+            with: superview,
+            duration: 0.3,
+            options: [.transitionCrossDissolve, .curveEaseInOut],
+            animations: { self.isHidden = !show }
+        )
+    }
+
     private func setupUserInterface() {
         translatesAutoresizingMaskIntoConstraints = false
         datePickerMode = .date
