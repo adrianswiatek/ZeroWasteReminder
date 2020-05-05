@@ -4,13 +4,19 @@ import UIKit
 public final class EditViewController: UIViewController {
     private let nameLabel: UILabel = .defaultWithText("Item name")
     private let expirationDateLabel: UILabel = .defaultWithText("Expiration date")
+    private let stateLabel: UILabel = .defaultWithText("State")
     private let dateButton = ExpirationDateButton(type: .system)
-    private let datePicker = ExpirationDatePicker()
 
     private lazy var nameTextField: DefaultTextField = {
         let textField = DefaultTextField(placeholder: "")
         textField.textAlignment = .center
         return textField
+    }()
+
+    private lazy var datePicker: ExpirationDatePicker = {
+        let datePicker = ExpirationDatePicker()
+        datePicker.isHidden = true
+        return datePicker
     }()
 
     private let viewModel: EditViewModel
@@ -67,6 +73,12 @@ public final class EditViewController: UIViewController {
             datePicker.topAnchor.constraint(equalTo: dateButton.bottomAnchor),
             datePicker.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             datePicker.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
+        ])
+
+        view.addSubview(stateLabel)
+        NSLayoutConstraint.activate([
+            stateLabel.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 16),
+            stateLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor)
         ])
     }
 

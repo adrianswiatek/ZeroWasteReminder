@@ -6,12 +6,24 @@ public final class ExpirationDatePicker: UIDatePicker {
         valueSubject.eraseToAnyPublisher()
     }
 
+    public override var isHidden: Bool {
+        didSet {
+            heightConstraint.constant = isHidden ? 0 : height
+        }
+    }
+
     private let valueSubject: PassthroughSubject<Date, Never>
+
+    private var heightConstraint: NSLayoutConstraint!
+    private var height: CGFloat!
 
     public override init(frame: CGRect) {
         self.valueSubject = .init()
 
         super.init(frame: frame)
+
+        self.height = bounds.height
+        self.heightConstraint = heightAnchor.constraint(equalToConstant: height)
 
         self.setupUserInterface()
         self.setupTarget()
@@ -23,21 +35,23 @@ public final class ExpirationDatePicker: UIDatePicker {
     }
 
     public func setVisibility(_ show: Bool) {
-        guard let superview = superview else {
-            isHidden = !show
-            return
-        }
+        guard isHidden == show else { return }
 
-        UIView.transition(
-            with: superview,
-            duration: 0.3,
-            options: [.transitionCrossDissolve, .curveEaseInOut],
-            animations: { self.isHidden = !show }
-        )
+        if let superview = superview {
+            UIView.transition(with: superview, duration: 0.3, options: [.transitionCrossDissolve], animations: {
+                self.isHidden = !show
+            })
+            UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+                superview.layoutIfNeeded()
+            })
+        } else {
+            isHidden = !show
+        }
     }
 
     private func setupUserInterface() {
         translatesAutoresizingMaskIntoConstraints = false
+        heightConstraint.isActive = true
         datePickerMode = .date
     }
 
