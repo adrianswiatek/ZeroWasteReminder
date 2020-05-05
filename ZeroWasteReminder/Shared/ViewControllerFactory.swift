@@ -18,4 +18,9 @@ public final class ViewControllerFactory {
         let viewController = AddViewController(viewModel: viewModel)
         return AddNavigationController(rootViewController: viewController)
     }
+
+    public func editViewController(item: Item) -> UIViewController {
+        let viewModel = EditViewModel(item: item)
+        return EditViewController(viewModel: viewModel)
+    }
 }

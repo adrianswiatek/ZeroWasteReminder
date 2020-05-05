@@ -22,7 +22,7 @@ public final class EditViewModel {
 
     private var subscriptions: Set<AnyCancellable>
 
-    public init(_ item: Item) {
+    public init(item: Item) {
         originalItem = item
         dateFormatter = .fullDateFormatter
 
