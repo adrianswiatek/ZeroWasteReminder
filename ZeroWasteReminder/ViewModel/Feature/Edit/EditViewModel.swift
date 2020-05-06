@@ -14,6 +14,13 @@ public final class EditViewModel {
         isExpirationDateVisibleSubject.eraseToAnyPublisher()
     }
 
+    public var state: AnyPublisher<RemainingState, Never> {
+        expirationDateSubject
+            .map { $0 != nil ? Expiration.date($0!) : .none }
+            .map { RemainingState(expiration: $0) }
+            .eraseToAnyPublisher()
+    }
+
     private let expirationDateSubject: CurrentValueSubject<Date?, Never>
     private let isExpirationDateVisibleSubject: CurrentValueSubject<Bool, Never>
 

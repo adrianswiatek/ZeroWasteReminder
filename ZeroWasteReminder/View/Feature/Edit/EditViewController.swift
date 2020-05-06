@@ -5,6 +5,8 @@ public final class EditViewController: UIViewController {
     private let nameLabel: UILabel = .defaultWithText("Item name")
     private let expirationDateLabel: UILabel = .defaultWithText("Expiration date")
     private let stateLabel: UILabel = .defaultWithText("State")
+
+    private let stateIndicatorLabel = StateIndicatorLabel()
     private let dateButton = ExpirationDateButton(type: .system)
 
     private lazy var nameTextField: DefaultTextField = {
@@ -20,10 +22,12 @@ public final class EditViewController: UIViewController {
     }()
 
     private let viewModel: EditViewModel
+    private let controlsHeight: CGFloat
     private var subscriptions: Set<AnyCancellable>
 
     public init(viewModel: EditViewModel) {
         self.viewModel = viewModel
+        self.controlsHeight = 44
         self.subscriptions = []
 
         super.init(nibName: nil, bundle: nil)
@@ -65,7 +69,7 @@ public final class EditViewController: UIViewController {
             dateButton.topAnchor.constraint(equalTo: expirationDateLabel.bottomAnchor, constant: 8),
             dateButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             dateButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            dateButton.heightAnchor.constraint(equalToConstant: 44)
+            dateButton.heightAnchor.constraint(equalToConstant: controlsHeight)
         ])
 
         view.addSubview(datePicker)
@@ -79,6 +83,14 @@ public final class EditViewController: UIViewController {
         NSLayoutConstraint.activate([
             stateLabel.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 16),
             stateLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor)
+        ])
+
+        view.addSubview(stateIndicatorLabel)
+        NSLayoutConstraint.activate([
+            stateIndicatorLabel.topAnchor.constraint(equalTo: stateLabel.bottomAnchor, constant: 8),
+            stateIndicatorLabel.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            stateIndicatorLabel.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            stateIndicatorLabel.heightAnchor.constraint(equalToConstant: controlsHeight)
         ])
     }
 
@@ -109,6 +121,10 @@ public final class EditViewController: UIViewController {
 
         viewModel.isExpirationDateVisible
             .sink { [weak self] in self?.datePicker.setVisibility($0) }
+            .store(in: &subscriptions)
+
+        viewModel.state
+            .sink { [weak self] in self?.stateIndicatorLabel.setState($0) }
             .store(in: &subscriptions)
     }
 
