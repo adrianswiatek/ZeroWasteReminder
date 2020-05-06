@@ -95,6 +95,10 @@ public final class EditViewController: UIViewController {
             }
             .store(in: &subscriptions)
 
+        datePicker.value
+            .sink { [weak self] in self?.viewModel.setExpirationDate($0) }
+            .store(in: &subscriptions)
+
         viewModel.$name
             .sink { [weak self] in self?.nameTextField.text = $0 }
             .store(in: &subscriptions)
