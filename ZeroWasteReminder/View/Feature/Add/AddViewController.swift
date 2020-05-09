@@ -8,15 +8,8 @@ public final class AddViewController: UIViewController {
     private lazy var doneButton: UIBarButtonItem =
         .doneButton(target: self, action: #selector(handleConfirm))
 
-    private lazy var itemNameTextField: UITextField = {
-        let textField = DefaultTextField(placeholder: "Item name")
-        textField.becomeFirstResponder()
-        textField.delegate = self
-        return textField
-    }()
-
-    private lazy var expirationSectionView: ExpirationSectionView =
-        .init(viewModel: viewModel)
+    private let scrollView: UIScrollView
+    private let contentViewController: UIViewController
 
     private let viewModel: AddViewModel
     private var subscriptions: Set<AnyCancellable>
@@ -25,8 +18,13 @@ public final class AddViewController: UIViewController {
         self.viewModel = viewModel
         self.subscriptions = []
 
+        self.contentViewController = AddContentViewController(viewModel: viewModel)
+        self.scrollView = AdaptiveScrollView()
+
         super.init(nibName: nil, bundle: nil)
 
+        self.setupNavigationBar()
+        self.setupView()
         self.bind()
     }
 
@@ -35,42 +33,38 @@ public final class AddViewController: UIViewController {
         fatalError("Not supported.")
     }
 
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        self.setupUserInterface()
-    }
-
-    private func setupUserInterface() {
+    private func setupNavigationBar() {
         title = "Add item"
-        view.backgroundColor = .systemBackground
 
         navigationItem.leftBarButtonItem = dismissButton
         navigationItem.rightBarButtonItem = doneButton
+    }
 
-        view.addSubview(itemNameTextField)
+    private func setupView() {
+        view.backgroundColor = .systemBackground
+
+        let contentView: UIView = contentViewController.view
+        scrollView.addSubview(contentView)
         NSLayoutConstraint.activate([
-            itemNameTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: 24),
-            itemNameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
-            itemNameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32)
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 24),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 32),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -12),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -32),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -64)
         ])
 
-        view.addSubview(expirationSectionView)
+        view.addSubview(scrollView)
         NSLayoutConstraint.activate([
-            expirationSectionView.topAnchor.constraint(equalTo: itemNameTextField.bottomAnchor, constant: 24),
-            expirationSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
-            expirationSectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            expirationSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 
     private func bind() {
         viewModel.canSaveItem
             .sink { [weak self] in self?.doneButton.isEnabled = $0 }
-            .store(in: &subscriptions)
-
-        viewModel.$expirationTypeIndex
-            .dropFirst()
-            .sink { [weak self] _ in self?.itemNameTextField.resignFirstResponder() }
             .store(in: &subscriptions)
     }
 
@@ -84,20 +78,5 @@ public final class AddViewController: UIViewController {
         viewModel.saveItem()
             .sink { [weak self] _ in self?.dismiss(animated: true) }
             .store(in: &subscriptions)
-    }
-}
-
-extension AddViewController: UITextFieldDelegate {
-    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-
-    public func textFieldDidChangeSelection(_ textField: UITextField) {
-        guard let itemName = textField.text else {
-            preconditionFailure("itemName mustn't be nil")
-        }
-
-        viewModel.itemName = itemName
     }
 }

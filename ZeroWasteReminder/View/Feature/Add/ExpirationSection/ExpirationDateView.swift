@@ -43,8 +43,8 @@ public final class ExpirationDateView: UIView {
         addSubview(datePicker)
         NSLayoutConstraint.activate([
             datePicker.topAnchor.constraint(equalTo: dateButton.bottomAnchor),
-            datePicker.leadingAnchor.constraint(equalTo: leadingAnchor),
-            datePicker.trailingAnchor.constraint(equalTo: trailingAnchor)
+            datePicker.bottomAnchor.constraint(equalTo: bottomAnchor),
+            datePicker.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
 

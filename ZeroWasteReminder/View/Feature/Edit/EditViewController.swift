@@ -3,11 +3,11 @@ import UIKit
 
 public final class EditViewController: UIViewController {
     private let scrollView: UIScrollView
-    private let contentViewController: EditContentViewController
+    private let contentViewController: UIViewController
 
     public init(viewModel: EditViewModel) {
         self.scrollView = AdaptiveScrollView()
-        self.contentViewController = .init(viewModel: viewModel)
+        self.contentViewController = EditContentViewController(viewModel: viewModel)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -24,14 +24,13 @@ public final class EditViewController: UIViewController {
         view.backgroundColor = .systemBackground
 
         let contentView: UIView = contentViewController.view
-
         scrollView.addSubview(contentView)
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -32)
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 32),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -32),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -64)
         ])
 
         view.addSubview(scrollView)

@@ -4,10 +4,13 @@ public final class AddNavigationController: UINavigationController {
     public override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
 
-        view.backgroundColor = .accent
-        navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        navigationBar.isTranslucent = false
-        navigationBar.prefersLargeTitles = true
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.backgroundColor = .accent
+        navigationBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        
+
+        navigationBar.standardAppearance = navigationBarAppearance
+        navigationBar.backgroundColor = .accent
     }
 
     @available(*, unavailable)

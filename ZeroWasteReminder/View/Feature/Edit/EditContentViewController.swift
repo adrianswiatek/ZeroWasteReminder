@@ -6,6 +6,7 @@ public final class EditContentViewController: UIViewController {
     private lazy var nameTextField: DefaultTextField = {
         let textField = DefaultTextField()
         textField.textAlignment = .center
+        textField.delegate = self
         return textField
     }()
 
@@ -119,5 +120,12 @@ public final class EditContentViewController: UIViewController {
 extension EditContentViewController {
     private enum Metrics {
         fileprivate static let controlsHeight: CGFloat = 44
+    }
+}
+
+extension EditContentViewController: UITextFieldDelegate {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
