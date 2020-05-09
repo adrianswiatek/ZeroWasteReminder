@@ -12,10 +12,15 @@ public final class ItemsListViewModel {
         itemsSubject.eraseToAnyPublisher()
     }
 
-    private var subscriptions: Set<AnyCancellable>
+    public var selectedItem: AnyPublisher<Item, Never> {
+        selectedItemSubject.eraseToAnyPublisher()
+    }
 
     private let itemsSubject: CurrentValueSubject<[Item], Never>
+    private let selectedItemSubject: PassthroughSubject<Item, Never>
+
     private let itemsService: ItemsService
+    private var subscriptions: Set<AnyCancellable>
 
     public init(itemsService: ItemsService) {
         self.itemsService = itemsService
@@ -27,6 +32,8 @@ public final class ItemsListViewModel {
         self.selectedItemIndices = []
 
         self.itemsSubject = .init([])
+        self.selectedItemSubject = .init()
+
         self.subscriptions = []
 
         self.bind()
@@ -65,6 +72,10 @@ public final class ItemsListViewModel {
         itemsFilterViewModel.deselectAll()
     }
 
+    public func selectItem(at index: Int) {
+        selectedItemSubject.send(itemsSubject.value[index])
+    }
+
     private func bind() {
         itemsService.items.combineLatest(itemsFilterViewModel.cellViewModels, $sortType)
             .compactMap { items, cells, sortType in
@@ -79,21 +90,5 @@ public final class ItemsListViewModel {
         $modeState
             .sink { [weak self] _ in self?.selectedItemIndices = [] }
             .store(in: &subscriptions)
-    }
-}
-
-public enum SortType {
-    case ascending
-    case descending
-
-    public mutating func toggle() {
-        self = self == .ascending ? .descending : .ascending
-    }
-
-    public func action() -> (Item, Item) -> Bool {
-        switch self {
-        case .ascending: return { $0 < $1 }
-        case .descending: return { $0 > $1 }
-        }
     }
 }

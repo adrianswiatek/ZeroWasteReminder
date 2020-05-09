@@ -8,27 +8,8 @@ public final class ExpirationDateView: UIView {
         }
     }
 
-    private lazy var dateButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.layer.cornerRadius = 8
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 4)
-        button.titleEdgeInsets = .init(top: 0, left: 4, bottom: 0, right: 0)
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .light)
-        button.backgroundColor = .tertiarySystemFill
-        button.setTitleColor(.label, for: .normal)
-        button.setImage(UIImage.calendar.withRenderingMode(.alwaysOriginal).withTintColor(.label), for: .normal)
-        button.addTarget(self, action: #selector(handleDateButtonTap), for: .touchUpInside)
-        return button
-    }()
-
-    private lazy var datePicker: UIDatePicker = {
-        let datePicker = UIDatePicker()
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
-        datePicker.datePickerMode = .date
-        datePicker.addTarget(self, action: #selector(handleDatePickerValueChange), for: .valueChanged)
-        return datePicker
-    }()
+    private let dateButton = ExpirationDateButton(type: .system)
+    private let datePicker = ExpirationDatePicker()
 
     private let viewModel: ExpirationDateViewModel
     private var subscriptions: Set<AnyCancellable>
@@ -68,6 +49,14 @@ public final class ExpirationDateView: UIView {
     }
 
     private func bind() {
+        dateButton.tap
+            .sink { [weak self] in self?.viewModel.toggleDatePicker() }
+            .store(in: &subscriptions)
+
+        datePicker.value
+            .assign(to: \.date, on: viewModel)
+            .store(in: &subscriptions)
+
         viewModel.$date
             .assign(to: \.date, on: datePicker)
             .store(in: &subscriptions)
@@ -77,26 +66,7 @@ public final class ExpirationDateView: UIView {
             .store(in: &subscriptions)
 
         viewModel.isDatePickerVisible
-            .sink { [weak self] in self?.showDatePicker($0) }
+            .sink { [weak self] in self?.datePicker.setVisibility($0) }
             .store(in: &subscriptions)
-    }
-
-    private func showDatePicker(_ show: Bool) {
-        UIView.transition(
-            with: self,
-            duration: 0.3,
-            options: [.transitionCrossDissolve, .curveEaseInOut],
-            animations: { self.datePicker.isHidden = !show }
-        )
-    }
-
-    @objc
-    private func handleDateButtonTap(_ sender: UIButton) {
-        viewModel.toggleDatePicker()
-    }
-
-    @objc
-    private func handleDatePickerValueChange(_ sender: UIDatePicker) {
-        viewModel.date = sender.date
     }
 }

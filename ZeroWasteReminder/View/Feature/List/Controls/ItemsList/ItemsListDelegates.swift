@@ -14,6 +14,7 @@ public final class ItemsListDelegates: NSObject, UITableViewDelegate {
 
         if !tableView.isEditing {
             tableView.deselectRow(at: indexPath, animated: true)
+            viewModel.selectItem(at: indexPath.row)
         }
     }
 

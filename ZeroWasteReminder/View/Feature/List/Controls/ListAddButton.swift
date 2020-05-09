@@ -10,7 +10,9 @@ public final class ListAddButton: UIButton {
 
     public init() {
         self.tapSubject = .init()
+
         super.init(frame: .zero)
+        
         self.setupUserInterface()
         self.setupActions()
     }

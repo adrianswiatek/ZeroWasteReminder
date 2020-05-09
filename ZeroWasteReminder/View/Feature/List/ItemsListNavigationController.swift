@@ -14,6 +14,7 @@ public final class ItemsListNavigationController: UINavigationController {
 
         navigationBar.standardAppearance = navigationBarAppearance
         navigationBar.isTranslucent = false
+        navigationBar.tintColor = .white
     }
 
     @available(*, unavailable)

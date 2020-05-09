@@ -9,7 +9,7 @@ public final class AddViewController: UIViewController {
         .doneButton(target: self, action: #selector(handleConfirm))
 
     private lazy var itemNameTextField: UITextField = {
-        let textField = AddItemTextField(placeholder: "Item name")
+        let textField = DefaultTextField(placeholder: "Item name")
         textField.becomeFirstResponder()
         textField.delegate = self
         return textField

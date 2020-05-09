@@ -1,14 +1,7 @@
 import UIKit
 
 public final class ExpirationSectionView: UIView {
-    private let expirationLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Expiration"
-        label.font = .systemFont(ofSize: 14)
-        label.textColor = .secondaryLabel
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let expirationLabel: UILabel = .defaultWithText("Expiration")
 
     private lazy var expirationSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ExpirationType.allCases.map { $0.nameTitleCased })

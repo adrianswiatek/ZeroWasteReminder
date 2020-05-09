@@ -116,6 +116,14 @@ public final class ItemsListViewController: UIViewController {
             }
             .store(in: &subscriptions)
 
+        viewModel.selectedItem
+            .sink { [weak self] in
+                guard let self = self else { return }
+                let editViewController = self.viewControllerFactory.editViewController(item: $0)
+                self.navigationController?.pushViewController(editViewController, animated: true)
+            }
+            .store(in: &subscriptions)
+
         viewModel.$modeState
             .sink { [weak self] in self?.updateModeState($0) }
             .store(in: &subscriptions)

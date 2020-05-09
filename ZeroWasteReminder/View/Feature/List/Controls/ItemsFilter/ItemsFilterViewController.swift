@@ -47,7 +47,6 @@ public final class ItemsFilterViewController: UIViewController {
         view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         view.layer.shadowOpacity = 0.5
         view.layer.shadowOffset = .init(width: 0, height: 2)
-        view.layer.shadowRadius = 5
 
         view.addSubview(itemsFilterCollectionView)
         NSLayoutConstraint.activate([
