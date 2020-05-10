@@ -8,6 +8,8 @@ public extension UIImage {
     static var sortDescending: UIImage { .bySystemName("arrow.down.circle") }
     static var xmark: UIImage { .bySystemName("xmark") }
     static var calendar: UIImage { .bySystemName("calendar") }
+    static var calendarPlus: UIImage { .bySystemName("calendar.badge.plus") }
+    static var calendarMinus: UIImage { .bySystemName("calendar.badge.minus") }
     static var plus: UIImage { .bySystemName("plus") }
 
     private static func bySystemName(_ systemName: String) -> UIImage {

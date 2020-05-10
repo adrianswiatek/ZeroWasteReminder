@@ -11,7 +11,18 @@ public final class EditContentViewController: UIViewController {
     }()
 
     private let expirationDateLabel: UILabel = .defaultWithText("Expiration date")
-    private let dateButton = ExpirationDateButton(type: .system)
+    private lazy var dateButton: ExpirationDateButton = {
+        let button = ExpirationDateButton(type: .system)
+        let image = UIImage.calendar.withRenderingMode(.alwaysOriginal).withTintColor(.label)
+        button.setImage(image, for: .normal)
+        return button
+    }()
+    private lazy var removeDateButton: ExpirationDateButton = {
+        let button = ExpirationDateButton(type: .system)
+        let image = UIImage.calendarMinus.withRenderingMode(.alwaysOriginal).withTintColor(.label)
+        button.setImage(image, for: .normal)
+        return button
+    }()
     private let datePicker = ExpirationDatePicker()
 
     private let stateIndicatorLabel = StateIndicatorLabel()
@@ -44,29 +55,45 @@ public final class EditContentViewController: UIViewController {
 
         view.addSubview(nameLabel)
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
+            nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Metrics.betweenSectionsPadding),
             nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
 
         view.addSubview(nameTextField)
         NSLayoutConstraint.activate([
-            nameTextField.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
+            nameTextField.topAnchor.constraint(
+                equalTo: nameLabel.bottomAnchor, constant: Metrics.insideSectionsPadding
+            ),
             nameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
         view.addSubview(expirationDateLabel)
         NSLayoutConstraint.activate([
-            expirationDateLabel.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 16),
+            expirationDateLabel.topAnchor.constraint(
+                equalTo: nameTextField.bottomAnchor, constant: Metrics.betweenSectionsPadding
+            ),
             expirationDateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
 
         view.addSubview(dateButton)
         NSLayoutConstraint.activate([
-            dateButton.topAnchor.constraint(equalTo: expirationDateLabel.bottomAnchor, constant: 8),
+            dateButton.topAnchor.constraint(
+                equalTo: expirationDateLabel.bottomAnchor, constant: Metrics.insideSectionsPadding
+            ),
             dateButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            dateButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             dateButton.heightAnchor.constraint(equalToConstant: Metrics.controlsHeight)
+        ])
+
+        view.addSubview(removeDateButton)
+        NSLayoutConstraint.activate([
+            removeDateButton.leadingAnchor.constraint(
+                equalTo: dateButton.trailingAnchor, constant: Metrics.insideSectionsPadding
+            ),
+            removeDateButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            removeDateButton.centerYAnchor.constraint(equalTo: dateButton.centerYAnchor),
+            removeDateButton.heightAnchor.constraint(equalTo: dateButton.heightAnchor),
+            removeDateButton.widthAnchor.constraint(equalTo: removeDateButton.heightAnchor)
         ])
 
         view.addSubview(datePicker)
@@ -77,13 +104,17 @@ public final class EditContentViewController: UIViewController {
 
         view.addSubview(stateLabel)
         NSLayoutConstraint.activate([
-            stateLabel.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 16),
+            stateLabel.topAnchor.constraint(
+                equalTo: datePicker.bottomAnchor, constant: Metrics.betweenSectionsPadding
+            ),
             stateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
 
         view.addSubview(stateIndicatorLabel)
         NSLayoutConstraint.activate([
-            stateIndicatorLabel.topAnchor.constraint(equalTo: stateLabel.bottomAnchor, constant: 8),
+            stateIndicatorLabel.topAnchor.constraint(
+                equalTo: stateLabel.bottomAnchor, constant: Metrics.insideSectionsPadding
+            ),
             stateIndicatorLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             stateIndicatorLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             stateIndicatorLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -99,8 +130,19 @@ public final class EditContentViewController: UIViewController {
             }
             .store(in: &subscriptions)
 
+        removeDateButton.tap
+            .sink { [weak self] in
+                self?.viewModel.setExpirationDate(nil)
+                self?.view.endEditing(true)
+            }
+            .store(in: &subscriptions)
+
         datePicker.value
             .sink { [weak self] in self?.viewModel.setExpirationDate($0) }
+            .store(in: &subscriptions)
+
+        viewModel.isRemoveDateButtonEnabled
+            .assign(to: \.isEnabled, on: removeDateButton)
             .store(in: &subscriptions)
 
         viewModel.$name
@@ -126,7 +168,9 @@ public final class EditContentViewController: UIViewController {
 
 extension EditContentViewController {
     private enum Metrics {
-        fileprivate static let controlsHeight: CGFloat = 44
+        static let controlsHeight: CGFloat = 44
+        static let betweenSectionsPadding: CGFloat = 16
+        static let insideSectionsPadding: CGFloat = 8
     }
 }
 

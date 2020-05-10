@@ -14,6 +14,10 @@ public final class EditViewModel {
         isExpirationDateVisibleSubject.eraseToAnyPublisher()
     }
 
+    public var isRemoveDateButtonEnabled: AnyPublisher<Bool, Never> {
+        expirationDateSubject.map { $0 != nil }.eraseToAnyPublisher()
+    }
+
     public var state: AnyPublisher<RemainingState, Never> {
         expirationDateSubject
             .map { $0 != nil ? Expiration.date($0!) : .none }

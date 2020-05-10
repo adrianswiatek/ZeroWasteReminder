@@ -2,6 +2,10 @@ import Combine
 import UIKit
 
 public final class ExpirationDateButton: UIButton {
+    public override var isEnabled: Bool {
+        didSet { alpha = isEnabled ? 1 : 0.35 }
+    }
+
     public var tap: AnyPublisher<Void, Never> {
         tapSubject.eraseToAnyPublisher()
     }
@@ -25,9 +29,6 @@ public final class ExpirationDateButton: UIButton {
 
         backgroundColor = .tertiarySystemFill
         setTitleColor(.label, for: .normal)
-
-        let image = UIImage.calendar.withRenderingMode(.alwaysOriginal).withTintColor(.label)
-        setImage(image, for: .normal)
     }
 
     private func setupTargets() {
