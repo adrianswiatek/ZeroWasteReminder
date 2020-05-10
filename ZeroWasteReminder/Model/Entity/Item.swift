@@ -12,6 +12,13 @@ public struct Item: Identifiable, Hashable {
     public func withExpiration(_ expiration: Expiration) -> Item {
         .init(id: id, name: name, expiration: expiration)
     }
+
+    public func withExpirationDate(_ date: Date?) -> Item {
+        if let date = date {
+            return .init(id: id, name: name, expiration: .date(date))
+        }
+        return .init(id: id, name: name, expiration: .none)
+    }
 }
 
 extension Item {
@@ -24,7 +31,7 @@ extension Item {
 
 extension Item: Equatable {
     public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.id == rhs.id
+        lhs.id == rhs.id && lhs.name == rhs.name && lhs.expiration == rhs.expiration
     }
 }
 

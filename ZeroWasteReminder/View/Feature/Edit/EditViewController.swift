@@ -2,13 +2,26 @@ import Combine
 import UIKit
 
 public final class EditViewController: UIViewController {
+    private lazy var saveButton: UIBarButtonItem =
+        .saveButton(target: self, action: #selector(handleSaveButtonTap))
+
     private let scrollView: UIScrollView
     private let contentViewController: UIViewController
 
+    private let viewModel: EditViewModel
+    private var subscriptions: Set<AnyCancellable>
+
     public init(viewModel: EditViewModel) {
+        self.viewModel = viewModel
+
         self.scrollView = AdaptiveScrollView()
         self.contentViewController = EditContentViewController(viewModel: viewModel)
+
+        self.subscriptions = []
+
         super.init(nibName: nil, bundle: nil)
+
+        self.bind()
     }
 
     @available(*, unavailable)
@@ -18,6 +31,7 @@ public final class EditViewController: UIViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+        self.setupNavigationItem()
         self.setupView()
         self.setupTapGestureRecognizer()
     }
@@ -37,10 +51,10 @@ public final class EditViewController: UIViewController {
 
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
 
@@ -49,8 +63,25 @@ public final class EditViewController: UIViewController {
         view.addGestureRecognizer(tapGestureRecognizer)
     }
 
+    private func setupNavigationItem() {
+        navigationItem.rightBarButtonItem = saveButton
+    }
+
+    private func bind() {
+        viewModel.canSave
+            .assign(to: \.isEnabled, on: saveButton)
+            .store(in: &subscriptions)
+    }
+
     @objc
     private func handleTap() {
         view.endEditing(true)
+    }
+
+    @objc
+    private func handleSaveButtonTap() {
+        viewModel.save()
+            .sink { print($0) }
+            .store(in: &subscriptions)
     }
 }

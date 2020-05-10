@@ -33,12 +33,12 @@ public final class AddViewController: UIViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupNavigationBar()
+        self.setupNavigationItem()
         self.setupView()
     }
 
-    private func setupNavigationBar() {
-        title = "Add item"
+    private func setupNavigationItem() {
+        navigationItem.title = "Add item"
 
         navigationItem.leftBarButtonItem = dismissButton
         navigationItem.rightBarButtonItem = doneButton
@@ -59,10 +59,10 @@ public final class AddViewController: UIViewController {
 
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
 

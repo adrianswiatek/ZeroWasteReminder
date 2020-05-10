@@ -132,4 +132,19 @@ extension EditContentViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+
+    public func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        guard var text = textField.text, let range = Range<String.Index>(range, in: text) else {
+            preconditionFailure("Unable to create range.")
+        }
+
+        text.replaceSubrange(range, with: string)
+        viewModel.name = text
+
+        return false
+    }
 }
