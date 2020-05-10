@@ -3,7 +3,7 @@ import UIKit
 
 public final class EditViewController: UIViewController {
     private lazy var saveButton: UIBarButtonItem =
-        .saveButton(target: self, action: #selector(handleSaveButtonTap))
+        .doneButton(target: self, action: #selector(handleDoneButtonTap))
 
     private let scrollView: UIScrollView
     private let contentViewController: UIViewController
@@ -79,9 +79,9 @@ public final class EditViewController: UIViewController {
     }
 
     @objc
-    private func handleSaveButtonTap() {
+    private func handleDoneButtonTap() {
         viewModel.save()
-            .sink { print($0) }
+            .sink { [weak self] _ in self?.navigationController?.popViewController(animated: true) }
             .store(in: &subscriptions)
     }
 }

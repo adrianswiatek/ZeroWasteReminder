@@ -20,7 +20,7 @@ public final class ViewControllerFactory {
     }
 
     public func editViewController(item: Item) -> UIViewController {
-        let viewModel = EditViewModel(item: item)
+        let viewModel = EditViewModel(item: item, itemsService: itemsService)
         return EditViewController(viewModel: viewModel)
     }
 }

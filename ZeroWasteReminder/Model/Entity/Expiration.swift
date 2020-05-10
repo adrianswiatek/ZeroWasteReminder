@@ -15,7 +15,7 @@ extension Expiration: Comparable {
         case (.date(_), .none):
             return false
         case let (.date(lhsDate), .date(rhsDate)):
-            return lhsDate < rhsDate
+            return Calendar.current.compare(lhsDate, to: rhsDate, toGranularity: .day) == .orderedAscending
         }
     }
 }

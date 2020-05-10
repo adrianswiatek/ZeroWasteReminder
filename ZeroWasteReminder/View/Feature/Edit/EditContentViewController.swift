@@ -108,7 +108,10 @@ public final class EditContentViewController: UIViewController {
             .store(in: &subscriptions)
 
         viewModel.expirationDate
-            .sink { [weak self] in self?.dateButton.setTitle($0, for: .normal) }
+            .sink { [weak self] in
+                self?.datePicker.setDate($0.date, animated: false)
+                self?.dateButton.setTitle($0.formatted, for: .normal)
+            }
             .store(in: &subscriptions)
 
         viewModel.isExpirationDateVisible

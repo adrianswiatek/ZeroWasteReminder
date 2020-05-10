@@ -42,11 +42,4 @@ public extension UIBarButtonItem {
         button.tintColor = .white
         return button
     }
-
-    static func saveButton(target: UIViewController, action: Selector) -> UIBarButtonItem {
-        let button = UIBarButtonItem(barButtonSystemItem: .save, target: target, action: action)
-        button.tintColor = .white
-        button.style = .done
-        return button
-    }
 }

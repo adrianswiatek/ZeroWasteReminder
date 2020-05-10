@@ -4,9 +4,9 @@ import Foundation
 public final class EditViewModel {
     @Published var name: String
 
-    public var expirationDate: AnyPublisher<String, Never> {
+    public var expirationDate: AnyPublisher<(date: Date, formatted: String), Never> {
         expirationDateSubject
-            .map { [weak self] in self?.formattedDate($0) ?? "[Not defined]" }
+            .map { [weak self] in ($0 ?? Date(), self?.formattedDate($0) ?? "[Not defined]") }
             .eraseToAnyPublisher()
     }
 
@@ -28,29 +28,32 @@ public final class EditViewModel {
     private let expirationDateSubject: CurrentValueSubject<Date?, Never>
     private let isExpirationDateVisibleSubject: CurrentValueSubject<Bool, Never>
     private let canSaveSubject: CurrentValueSubject<Bool, Never>
-    private let originalItemSubject: CurrentValueSubject<Item, Never>
 
+    private let originalItem: Item
+    private let itemsService: ItemsService
     private let dateFormatter: DateFormatter
+
     private var subscriptions: Set<AnyCancellable>
 
-    public init(item: Item) {
-        originalItemSubject = .init(item)
-        dateFormatter = .fullDateFormatter
+    public init(item: Item, itemsService: ItemsService) {
+        self.originalItem = item
+        self.itemsService = itemsService
+        self.dateFormatter = .fullDateFormatter
 
-        name = item.name
+        self.name = item.name
 
         if case .date(let date) = item.expiration {
-            expirationDateSubject = .init(date)
+            self.expirationDateSubject = .init(date)
         } else {
-            expirationDateSubject = .init(nil)
+            self.expirationDateSubject = .init(nil)
         }
 
-        isExpirationDateVisibleSubject = .init(false)
-        canSaveSubject = .init(false)
+        self.isExpirationDateVisibleSubject = .init(false)
+        self.canSaveSubject = .init(false)
 
-        subscriptions = []
+        self.subscriptions = []
 
-        bind()
+        self.bind()
     }
 
     public func toggleExpirationDatePicker() {
@@ -62,20 +65,17 @@ public final class EditViewModel {
     }
 
     public func save() -> Future<Item, Never> {
-        Future<Item, Never> { [weak self] promise in
-            guard
-                let self = self,
-                let item = self.tryCreateItem(self.name, self.expirationDateSubject.value)
-            else { preconditionFailure("Unable to create item.") }
-
-            self.originalItemSubject.value = item
-            promise(.success(item))
+        guard let item = tryCreateItem(name, expirationDateSubject.value) else {
+            preconditionFailure("Unable to create an item.")
         }
+
+        return itemsService.update(item)
     }
 
     private func bind() {
-        Publishers.CombineLatest3(originalItemSubject, $name, expirationDateSubject)
-            .map { !$1.isEmpty && $0 != $0.withName($1).withExpirationDate($2) }
+        Publishers.CombineLatest($name, expirationDateSubject)
+            .map { [weak self] in (self?.originalItem, $0, $1) }
+            .map { !$1.isEmpty && $0 != $0?.withName($1).withExpirationDate($2) }
             .subscribe(canSaveSubject)
             .store(in: &subscriptions)
     }
@@ -88,12 +88,10 @@ public final class EditViewModel {
     private func tryCreateItem(_ name: String, _ expirationDate: Date?) -> Item? {
         guard !name.isEmpty else { return nil }
 
-        let id = originalItemSubject.value.id
-
         if let expirationDate = expirationDate {
-            return Item(id: id, name: name, expiration: .date(expirationDate))
+            return Item(id: originalItem.id, name: name, expiration: .date(expirationDate))
         }
 
-        return Item(id: id, name: name, expiration: .none)
+        return Item(id: originalItem.id, name: name, expiration: .none)
     }
 }
