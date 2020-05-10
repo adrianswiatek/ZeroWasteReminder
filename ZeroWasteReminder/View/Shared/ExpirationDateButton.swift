@@ -9,11 +9,11 @@ public final class ExpirationDateButton: UIButton {
     private let tapSubject: PassthroughSubject<Void, Never> = .init()
 
     public override func willMove(toSuperview newSuperview: UIView?) {
-        setupUserInterface()
+        setupView()
         setupTargets()
     }
 
-    private func setupUserInterface() {
+    private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
 
         layer.cornerRadius = 8

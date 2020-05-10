@@ -4,7 +4,7 @@ public final class DefaultTextField: UITextField {
     public init(placeholder: String = "") {
         super.init(frame: .zero)
         self.placeholder = placeholder
-        self.setupUserInterface()
+        self.setupView()
         self.setupTargets()
     }
 
@@ -25,7 +25,7 @@ public final class DefaultTextField: UITextField {
         bounds.inset(by: .init(top: 2, left: 10, bottom: 0, right: 20))
     }
 
-    private func setupUserInterface() {
+    private func setupView() {
         borderStyle = .none
         backgroundColor = .tertiarySystemFill
         tintColor = .accent

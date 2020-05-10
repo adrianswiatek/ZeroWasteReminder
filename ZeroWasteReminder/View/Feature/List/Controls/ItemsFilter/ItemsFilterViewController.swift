@@ -3,7 +3,7 @@ import UIKit
 
 public final class ItemsFilterViewController: UIViewController {
     public var isShown: Bool {
-        heightConstraints?.constant != Height.hidden
+        heightConstraints?.constant != Metrics.hiddenHeight
     }
 
     private let itemsFilterCollectionView: ItemsFilterCollectionView
@@ -20,8 +20,6 @@ public final class ItemsFilterViewController: UIViewController {
         self.itemsFilterDataSource = .init(itemsFilterCollectionView, viewModel)
 
         super.init(nibName: nil, bundle: nil)
-
-        self.setupUserInterface()
     }
 
     @available(*, unavailable)
@@ -29,8 +27,13 @@ public final class ItemsFilterViewController: UIViewController {
         fatalError("Not supported.")
     }
 
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        self.setupView()
+    }
+
     public func setVisibility(_ isVisible: Bool) {
-        heightConstraints?.constant = isVisible ? Height.shown : Height.hidden
+        heightConstraints?.constant = isVisible ? Metrics.shownHeight : Metrics.hiddenHeight
         itemsFilterCollectionView.isHidden = !isVisible
     }
 
@@ -38,7 +41,7 @@ public final class ItemsFilterViewController: UIViewController {
         itemsFilterCollectionView.scrollToBeginning()
     }
 
-    private func setupUserInterface() {
+    private func setupView() {
         view.translatesAutoresizingMaskIntoConstraints = false
         itemsFilterCollectionView.isHidden = true
         view.backgroundColor = .accent
@@ -56,14 +59,14 @@ public final class ItemsFilterViewController: UIViewController {
             itemsFilterCollectionView.heightAnchor.constraint(equalToConstant: 40)
         ])
 
-        heightConstraints = view.heightAnchor.constraint(equalToConstant: Height.hidden)
+        heightConstraints = view.heightAnchor.constraint(equalToConstant: Metrics.hiddenHeight)
         heightConstraints?.isActive = true
     }
 }
 
 private extension ItemsFilterViewController {
-    struct Height {
-        static let hidden: CGFloat = 20
-        static let shown: CGFloat = 48
+    enum Metrics {
+        static let hiddenHeight: CGFloat = 20
+        static let shownHeight: CGFloat = 48
     }
 }

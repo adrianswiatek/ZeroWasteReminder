@@ -20,7 +20,7 @@ public final class ExpirationDateView: UIView {
 
         super.init(frame: .zero)
 
-        self.setupUserInterface()
+        self.setupView()
         self.bind()
     }
 
@@ -29,7 +29,7 @@ public final class ExpirationDateView: UIView {
         fatalError("Not supported")
     }
 
-    private func setupUserInterface() {
+    private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(dateButton)

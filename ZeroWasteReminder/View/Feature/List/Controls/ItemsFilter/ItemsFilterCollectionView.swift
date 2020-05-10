@@ -16,7 +16,7 @@ public final class ItemsFilterCollectionView: UICollectionView {
 
         super.init(frame: .zero, collectionViewLayout: layout)
 
-        self.setupUserInterface()
+        self.setupView()
     }
 
     @available(*, unavailable)
@@ -31,7 +31,7 @@ public final class ItemsFilterCollectionView: UICollectionView {
         }
     }
 
-    private func setupUserInterface() {
+    private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .accent
         allowsSelection = true

@@ -45,7 +45,7 @@ public final class ExpirationPeriodView: UIView {
         self.viewModel = viewModel
         self.subscriptions = []
         super.init(frame: .zero)
-        self.setupUserInterface()
+        self.setupView()
         self.bind()
     }
 
@@ -54,7 +54,7 @@ public final class ExpirationPeriodView: UIView {
         fatalError("Not supported.")
     }
 
-    private func setupUserInterface() {
+    private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(periodTextField)

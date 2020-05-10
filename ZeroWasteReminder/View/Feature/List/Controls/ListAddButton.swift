@@ -13,7 +13,7 @@ public final class ListAddButton: UIButton {
 
         super.init(frame: .zero)
         
-        self.setupUserInterface()
+        self.setupView()
         self.setupActions()
     }
 
@@ -29,7 +29,7 @@ public final class ListAddButton: UIButton {
         })
     }
 
-    private func setupUserInterface() {
+    private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
 
         setImage(.plus, for: .normal)

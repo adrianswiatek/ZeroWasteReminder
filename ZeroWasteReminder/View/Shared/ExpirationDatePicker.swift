@@ -19,7 +19,7 @@ public final class ExpirationDatePicker: UIDatePicker {
         self.height = bounds.height
         self.heightConstraint = heightAnchor.constraint(equalToConstant: 0)
 
-        self.setupUserInterface()
+        self.setupView()
         self.setupTarget()
     }
 
@@ -32,7 +32,7 @@ public final class ExpirationDatePicker: UIDatePicker {
         heightConstraint.constant = show ? height : .zero
     }
 
-    private func setupUserInterface() {
+    private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         heightConstraint.isActive = true
         datePickerMode = .date

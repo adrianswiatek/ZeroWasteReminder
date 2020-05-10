@@ -23,14 +23,18 @@ public final class AddViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        self.setupNavigationBar()
-        self.setupView()
         self.bind()
     }
 
     @available(*, unavailable)
     public required init?(coder: NSCoder) {
         fatalError("Not supported.")
+    }
+
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        self.setupNavigationBar()
+        self.setupView()
     }
 
     private func setupNavigationBar() {

@@ -26,13 +26,17 @@ public final class EditContentViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        self.setupView()
         self.bind()
     }
 
     @available(*, unavailable)
     public required init?(coder: NSCoder) {
         fatalError("Not supported.")
+    }
+
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        self.setupView()
     }
 
     private func setupView() {

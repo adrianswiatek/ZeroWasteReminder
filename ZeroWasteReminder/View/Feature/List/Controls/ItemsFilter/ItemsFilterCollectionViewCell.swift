@@ -24,7 +24,7 @@ public final class ItemsFilterCollectionViewCell: UICollectionViewCell {
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        self.setupUserInterface()
+        self.setupView()
     }
 
     @available(*, unavailable)
@@ -48,7 +48,7 @@ public final class ItemsFilterCollectionViewCell: UICollectionViewCell {
         layer.borderWidth = 1
     }
 
-    private func setupUserInterface() {
+    private func setupView() {
         layer.cornerRadius = 8
         layer.borderColor = UIColor.init(white: 1, alpha: 0.25).cgColor
 

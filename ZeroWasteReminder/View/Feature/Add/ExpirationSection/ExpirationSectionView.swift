@@ -31,7 +31,7 @@ public final class ExpirationSectionView: UIView {
 
         super.init(frame: .zero)
 
-        self.setupUserInterface()
+        self.setupView()
     }
 
     @available(*, unavailable)
@@ -39,7 +39,7 @@ public final class ExpirationSectionView: UIView {
         fatalError("Not supported.")
     }
 
-    private func setupUserInterface() {
+    private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
 
         setControlsVisibility()

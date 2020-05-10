@@ -8,16 +8,18 @@ public final class EditViewController: UIViewController {
     public init(viewModel: EditViewModel) {
         self.scrollView = AdaptiveScrollView()
         self.contentViewController = EditContentViewController(viewModel: viewModel)
-
         super.init(nibName: nil, bundle: nil)
-
-        self.setupView()
-        self.setupGestureRecognizer()
     }
 
     @available(*, unavailable)
     public required init?(coder: NSCoder) {
         fatalError("Not supported")
+    }
+
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        self.setupView()
+        self.setupTapGestureRecognizer()
     }
 
     private func setupView() {
@@ -27,10 +29,10 @@ public final class EditViewController: UIViewController {
         scrollView.addSubview(contentView)
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 32),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 24),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -32),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -64)
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -24),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -48)
         ])
 
         view.addSubview(scrollView)
@@ -42,7 +44,7 @@ public final class EditViewController: UIViewController {
         ])
     }
 
-    private func setupGestureRecognizer() {
+    private func setupTapGestureRecognizer() {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         view.addGestureRecognizer(tapGestureRecognizer)
     }

@@ -44,6 +44,7 @@ public final class ItemsListViewController: UIViewController {
         self.itemsListTableView = .init()
         self.itemsListDataSource = .init(itemsListTableView, viewModel)
         self.itemsListDelegate = .init(viewModel)
+        self.itemsListTableView.delegate = self.itemsListDelegate
 
         self.subscriptions = []
 
@@ -59,14 +60,12 @@ public final class ItemsListViewController: UIViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupUserInterface()
+        self.setupView()
     }
 
-    private func setupUserInterface() {
+    private func setupView() {
         view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem = moreButton
-        itemsListTableView.delegate = itemsListDelegate
-//        itemsFilterViewController.view.layer.zPosition = 1
 
         if let navigationBar = navigationController?.navigationBar {
             navigationBar.addSubview(filterBadgeLabel)

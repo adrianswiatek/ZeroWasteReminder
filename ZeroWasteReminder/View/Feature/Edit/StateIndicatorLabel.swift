@@ -3,7 +3,7 @@ import UIKit
 public final class StateIndicatorLabel: UILabel {
     public override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
-        self.setupUserInterface()
+        self.setupView()
     }
 
     public func setState(_ state: RemainingState) {
@@ -15,7 +15,7 @@ public final class StateIndicatorLabel: UILabel {
         layer.borderWidth = 0.75
     }
 
-    private func setupUserInterface() {
+    private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         font = .systemFont(ofSize: 14, weight: .medium)
         textAlignment = .center

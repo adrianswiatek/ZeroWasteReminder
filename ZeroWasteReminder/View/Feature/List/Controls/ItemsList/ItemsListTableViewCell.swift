@@ -31,7 +31,7 @@ public final class ItemsListTableViewCell: UITableViewCell {
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: nil)
-        self.setupUserInterface()
+        self.setupView()
     }
 
     @available(*, unavailable)
@@ -39,7 +39,7 @@ public final class ItemsListTableViewCell: UITableViewCell {
         fatalError("Not supported.")
     }
 
-    private func setupUserInterface() {
+    private func setupView() {
         backgroundColor = .systemBackground
         tintColor = .accent
         accessoryType = .disclosureIndicator

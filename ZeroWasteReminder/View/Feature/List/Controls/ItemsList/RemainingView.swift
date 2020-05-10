@@ -28,7 +28,7 @@ public final class RemainingView: UIView {
 
     public init() {
         super.init(frame: .zero)
-        self.setupUserInterface()
+        self.setupView()
     }
 
     @available(*, unavailable)
@@ -36,7 +36,7 @@ public final class RemainingView: UIView {
         fatalError("Not supported.")
     }
 
-    private func setupUserInterface() {
+    private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(lineView)
