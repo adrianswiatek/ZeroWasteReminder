@@ -6,7 +6,7 @@ public final class EditViewModel {
 
     public var expirationDate: AnyPublisher<(date: Date, formatted: String), Never> {
         expirationDateSubject
-            .map { [weak self] in ($0 ?? Date(), self?.formattedDate($0) ?? "[Not defined]") }
+            .map { [weak self] in ($0 ?? Date(), self?.formattedDate($0) ?? "Toggle date picker") }
             .eraseToAnyPublisher()
     }
 
