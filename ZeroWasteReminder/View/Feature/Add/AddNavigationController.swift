@@ -6,11 +6,11 @@ public final class AddNavigationController: UINavigationController {
 
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.backgroundColor = .accent
-        navigationBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        
+        navigationBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
 
         navigationBar.standardAppearance = navigationBarAppearance
         navigationBar.backgroundColor = .accent
+        navigationBar.prefersLargeTitles = true
     }
 
     @available(*, unavailable)

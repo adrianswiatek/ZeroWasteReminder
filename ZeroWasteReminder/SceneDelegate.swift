@@ -1,3 +1,4 @@
+import CloudKit
 import UIKit
 
 internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -11,10 +12,17 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let scene = scene as? UIWindowScene else { return }
 
-        viewControllerFactory = ViewControllerFactory(itemsService: InMemoryItemsService())
+        viewControllerFactory = ViewControllerFactory(itemsService: cloudKitItemsService())
 
         window = UIWindow(windowScene: scene)
         window?.rootViewController = viewControllerFactory?.listViewController
         window?.makeKeyAndVisible()
+    }
+
+    private func cloudKitItemsService() -> ItemsService {
+        CloudKitItemsService(
+            CKContainer(identifier: "iCloud.pl.aswiatek.PushNotifications"),
+            CloudKitMapper()
+        )
     }
 }

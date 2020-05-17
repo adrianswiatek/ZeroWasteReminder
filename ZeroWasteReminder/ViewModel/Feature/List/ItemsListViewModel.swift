@@ -52,6 +52,10 @@ public final class ItemsListViewModel {
         modeState.done(on: self)
     }
 
+    public func refreshList() {
+        itemsService.refresh()
+    }
+
     public func deleteAll() {
         itemsService.deleteAll()
     }

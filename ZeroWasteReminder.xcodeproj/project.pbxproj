@@ -40,6 +40,10 @@
 		A72F4CBF2460B5FA008B0D5B /* ExpirationDateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72F4CBE2460B5FA008B0D5B /* ExpirationDateButton.swift */; };
 		A741613E2450D814001ED316 /* UIAlertActionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */; };
 		A74161412450D83B001ED316 /* UIAlertControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74161402450D83B001ED316 /* UIAlertControllerExtensions.swift */; };
+		A749366A2473153B003DB46E /* CloudKitMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74936692473153B003DB46E /* CloudKitMapper.swift */; };
+		A750434124707386009A1451 /* CloudKitItemsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434024707386009A1451 /* CloudKitItemsService.swift */; };
+		A750434524707517009A1451 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A750434424707517009A1451 /* CloudKit.framework */; };
+		A75043482470AA58009A1451 /* CloudKitItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75043472470AA58009A1451 /* CloudKitItem.swift */; };
 		A76C34AA2460C4EA00362B68 /* ExpirationDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76C34A92460C4EA00362B68 /* ExpirationDatePicker.swift */; };
 		A76C34AF2460C99400362B68 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76C34AE2460C99400362B68 /* UILabelExtension.swift */; };
 		A77A99CD245A118200F3578C /* UIBarButtonItemExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77A99CC245A118200F3578C /* UIBarButtonItemExtensions.swift */; };
@@ -110,6 +114,11 @@
 		A72F4CBE2460B5FA008B0D5B /* ExpirationDateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateButton.swift; sourceTree = "<group>"; };
 		A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertActionExtensions.swift; sourceTree = "<group>"; };
 		A74161402450D83B001ED316 /* UIAlertControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExtensions.swift; sourceTree = "<group>"; };
+		A74936692473153B003DB46E /* CloudKitMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitMapper.swift; sourceTree = "<group>"; };
+		A750434024707386009A1451 /* CloudKitItemsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitItemsService.swift; sourceTree = "<group>"; };
+		A750434224707513009A1451 /* ZeroWasteReminder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZeroWasteReminder.entitlements; sourceTree = "<group>"; };
+		A750434424707517009A1451 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		A75043472470AA58009A1451 /* CloudKitItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitItem.swift; sourceTree = "<group>"; };
 		A76C34A92460C4EA00362B68 /* ExpirationDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDatePicker.swift; sourceTree = "<group>"; };
 		A76C34AE2460C99400362B68 /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
 		A77A99CC245A118200F3578C /* UIBarButtonItemExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonItemExtensions.swift; sourceTree = "<group>"; };
@@ -149,6 +158,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A750434524707517009A1451 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,6 +222,7 @@
 		A70FA679244CEAFC0045B545 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				A75043462470AA48009A1451 /* CloudKit */,
 				A70FA67A244CEB140045B545 /* ItemsService.swift */,
 				A70FA67C244CEB340045B545 /* InMemoryItemsService.swift */,
 			);
@@ -245,6 +256,7 @@
 			children = (
 				A712ED5D2441172300B00791 /* ZeroWasteReminder */,
 				A712ED5C2441172300B00791 /* Products */,
+				A750434324707517009A1451 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -259,6 +271,7 @@
 		A712ED5D2441172300B00791 /* ZeroWasteReminder */ = {
 			isa = PBXGroup;
 			children = (
+				A750434224707513009A1451 /* ZeroWasteReminder.entitlements */,
 				A712ED6C2441172400B00791 /* Info.plist */,
 				A712ED5E2441172300B00791 /* AppDelegate.swift */,
 				A712ED602441172300B00791 /* SceneDelegate.swift */,
@@ -353,6 +366,24 @@
 				A76C34AE2460C99400362B68 /* UILabelExtension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		A750434324707517009A1451 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A750434424707517009A1451 /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A75043462470AA48009A1451 /* CloudKit */ = {
+			isa = PBXGroup;
+			children = (
+				A75043472470AA58009A1451 /* CloudKitItem.swift */,
+				A750434024707386009A1451 /* CloudKitItemsService.swift */,
+				A74936692473153B003DB46E /* CloudKitMapper.swift */,
+			);
+			path = CloudKit;
 			sourceTree = "<group>";
 		};
 		A780EFCF245F7570002A8AD4 /* Edit */ = {
@@ -553,6 +584,7 @@
 				A70FA681244CF7190045B545 /* ItemsListViewModel.swift in Sources */,
 				A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */,
 				A700D6C22454BD6A00F16F2E /* ItemsFilterCollectionView.swift in Sources */,
+				A750434124707386009A1451 /* CloudKitItemsService.swift in Sources */,
 				A7F82BA42458CB6700970CFC /* Mode.swift in Sources */,
 				A7F82BA62458CB7200970CFC /* ModeState.swift in Sources */,
 				A72A46D424426A4000B0007B /* ItemsListTableView.swift in Sources */,
@@ -566,6 +598,8 @@
 				A700D6CB2454E82600F16F2E /* ItemsFilterCellViewModel.swift in Sources */,
 				A798DF4824524B0900A84F79 /* ItemsListDataSource.swift in Sources */,
 				A76C34AA2460C4EA00362B68 /* ExpirationDatePicker.swift in Sources */,
+				A749366A2473153B003DB46E /* CloudKitMapper.swift in Sources */,
+				A75043482470AA58009A1451 /* CloudKitItem.swift in Sources */,
 				A700D6C72454C6FE00F16F2E /* ItemsFilterCollectionViewCell.swift in Sources */,
 				A7F16D24244AFF2000ED2402 /* ExpirationPeriodViewModel.swift in Sources */,
 				A77A99CD245A118200F3578C /* UIBarButtonItemExtensions.swift in Sources */,
@@ -712,6 +746,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ZeroWasteReminder/ZeroWasteReminder.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q924VJ4PLT;
 				INFOPLIST_FILE = ZeroWasteReminder/Info.plist;
@@ -731,6 +766,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ZeroWasteReminder/ZeroWasteReminder.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q924VJ4PLT;
 				INFOPLIST_FILE = ZeroWasteReminder/Info.plist;

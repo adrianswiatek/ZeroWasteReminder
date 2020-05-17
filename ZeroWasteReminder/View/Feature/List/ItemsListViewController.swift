@@ -50,6 +50,7 @@ public final class ItemsListViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
+        self.viewModel.refreshList()
         self.setupView()
         self.bind()
     }

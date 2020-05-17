@@ -37,6 +37,10 @@ extension Item: Equatable {
 
 extension Item: Comparable {
     public static func < (lhs: Self, rhs: Self) -> Bool {
-        lhs.expiration < rhs.expiration
+        if lhs.expiration == rhs.expiration {
+            return lhs.name < rhs.name
+        }
+
+        return lhs.expiration < rhs.expiration
     }
 }

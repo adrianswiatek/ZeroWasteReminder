@@ -47,7 +47,7 @@ public final class AddViewModel {
         self.bind()
     }
 
-    public func saveItem() -> Future<Item, Never> {
+    public func saveItem() -> Future<Void, Never> {
         guard let item = createItem() else {
             preconditionFailure("Unable to create item.")
         }

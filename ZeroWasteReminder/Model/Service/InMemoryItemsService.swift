@@ -7,15 +7,23 @@ public final class InMemoryItemsService: ItemsService {
 
     private let itemsSubject = CurrentValueSubject<[Item], Never>([])
 
-    public func add(_ item: Item) -> Future<Item, Never> {
+    public func add(_ item: Item) -> Future<Void, Never> {
         Future { [weak self] promise in
             guard let self = self else { return }
             self.itemsSubject.value = self.itemsSubject.value + [item]
-            promise(.success(item))
+            promise(.success(()))
         }
     }
 
-    public func update(_ item: Item) -> Future<Item, Never> {
+    public func refresh() -> Future<Void, Never> {
+        Future { [weak self] promise in
+            guard let self = self else { return }
+            self.itemsSubject.value = self.itemsSubject.value
+            promise(.success(()))
+        }
+    }
+
+    public func update(_ item: Item) -> Future<Void, Never> {
         Future { [weak self] promise in
             guard
                 let self = self,
@@ -23,15 +31,21 @@ public final class InMemoryItemsService: ItemsService {
             else { preconditionFailure("Unable to find index of given item") }
 
             self.itemsSubject.value[itemsIndex] = item
-            promise(.success(item))
+            promise(.success(()))
         }
     }
 
-    public func delete(_ items: [Item]) {
-        itemsSubject.value.removeAll { items.contains($0) }
+    public func delete(_ items: [Item]) -> Future<Void, Never> {
+        Future { [weak self] promise in
+            self?.itemsSubject.value.removeAll { items.contains($0) }
+            promise(.success(()))
+        }
     }
 
-    public func deleteAll() {
-        itemsSubject.value.removeAll()
+    public func deleteAll() -> Future<Void, Never> {
+        Future { [weak self] promise in
+            self?.itemsSubject.value.removeAll()
+            promise(.success(()))
+        }
     }
 }

@@ -68,7 +68,7 @@ public final class EditViewModel {
         expirationDateSubject.value = date
     }
 
-    public func save() -> Future<Item, Never> {
+    public func save() -> Future<Void, Never> {
         guard let item = tryCreateItem(name, expirationDateSubject.value) else {
             preconditionFailure("Unable to create an item.")
         }
