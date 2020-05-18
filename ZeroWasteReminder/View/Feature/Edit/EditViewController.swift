@@ -7,6 +7,7 @@ public final class EditViewController: UIViewController {
 
     private let scrollView: UIScrollView
     private let contentViewController: UIViewController
+    private let loadingView: LoadingView
 
     private let viewModel: EditViewModel
     private var subscriptions: Set<AnyCancellable>
@@ -16,6 +17,7 @@ public final class EditViewController: UIViewController {
 
         self.scrollView = AdaptiveScrollView()
         self.contentViewController = EditContentViewController(viewModel: viewModel)
+        self.loadingView = LoadingView()
 
         self.subscriptions = []
 
@@ -56,6 +58,17 @@ public final class EditViewController: UIViewController {
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+
+        let navigationView: UIView! = navigationController?.view
+        assert(navigationView != nil)
+
+        navigationView.addSubview(loadingView)
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: navigationView.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: navigationView.leadingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: navigationView.bottomAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: navigationView.trailingAnchor)
+        ])
     }
 
     private func setupTapGestureRecognizer() {
@@ -80,8 +93,13 @@ public final class EditViewController: UIViewController {
 
     @objc
     private func handleDoneButtonTap() {
+        loadingView.show()
+
         viewModel.save()
-            .sink { [weak self] _ in self?.navigationController?.popViewController(animated: true) }
+            .sink { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
+                self?.loadingView.hide()
+            }
             .store(in: &subscriptions)
     }
 }

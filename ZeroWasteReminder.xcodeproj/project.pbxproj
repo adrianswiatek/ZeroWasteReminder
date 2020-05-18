@@ -41,9 +41,9 @@
 		A741613E2450D814001ED316 /* UIAlertActionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */; };
 		A74161412450D83B001ED316 /* UIAlertControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74161402450D83B001ED316 /* UIAlertControllerExtensions.swift */; };
 		A749366A2473153B003DB46E /* CloudKitMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74936692473153B003DB46E /* CloudKitMapper.swift */; };
+		A749366C247346A4003DB46E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749366B247346A4003DB46E /* LoadingView.swift */; };
 		A750434124707386009A1451 /* CloudKitItemsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434024707386009A1451 /* CloudKitItemsService.swift */; };
 		A750434524707517009A1451 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A750434424707517009A1451 /* CloudKit.framework */; };
-		A75043482470AA58009A1451 /* CloudKitItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75043472470AA58009A1451 /* CloudKitItem.swift */; };
 		A76C34AA2460C4EA00362B68 /* ExpirationDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76C34A92460C4EA00362B68 /* ExpirationDatePicker.swift */; };
 		A76C34AF2460C99400362B68 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76C34AE2460C99400362B68 /* UILabelExtension.swift */; };
 		A77A99CD245A118200F3578C /* UIBarButtonItemExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77A99CC245A118200F3578C /* UIBarButtonItemExtensions.swift */; };
@@ -115,10 +115,10 @@
 		A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertActionExtensions.swift; sourceTree = "<group>"; };
 		A74161402450D83B001ED316 /* UIAlertControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExtensions.swift; sourceTree = "<group>"; };
 		A74936692473153B003DB46E /* CloudKitMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitMapper.swift; sourceTree = "<group>"; };
+		A749366B247346A4003DB46E /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		A750434024707386009A1451 /* CloudKitItemsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitItemsService.swift; sourceTree = "<group>"; };
 		A750434224707513009A1451 /* ZeroWasteReminder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZeroWasteReminder.entitlements; sourceTree = "<group>"; };
 		A750434424707517009A1451 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		A75043472470AA58009A1451 /* CloudKitItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitItem.swift; sourceTree = "<group>"; };
 		A76C34A92460C4EA00362B68 /* ExpirationDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDatePicker.swift; sourceTree = "<group>"; };
 		A76C34AE2460C99400362B68 /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
 		A77A99CC245A118200F3578C /* UIBarButtonItemExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonItemExtensions.swift; sourceTree = "<group>"; };
@@ -350,6 +350,7 @@
 				A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */,
 				A72F4CBE2460B5FA008B0D5B /* ExpirationDateButton.swift */,
 				A76C34A92460C4EA00362B68 /* ExpirationDatePicker.swift */,
+				A749366B247346A4003DB46E /* LoadingView.swift */,
 				A7B2A4822469E58D00D9C0B1 /* RemoveExpirationDateButton.swift */,
 			);
 			path = Shared;
@@ -379,7 +380,6 @@
 		A75043462470AA48009A1451 /* CloudKit */ = {
 			isa = PBXGroup;
 			children = (
-				A75043472470AA58009A1451 /* CloudKitItem.swift */,
 				A750434024707386009A1451 /* CloudKitItemsService.swift */,
 				A74936692473153B003DB46E /* CloudKitMapper.swift */,
 			);
@@ -592,6 +592,7 @@
 				A79DDDA32461F9B1008A3DFE /* EditViewModel.swift in Sources */,
 				A7FFA9772448F3FF0061A3D6 /* Expiration.swift in Sources */,
 				A76C34AF2460C99400362B68 /* UILabelExtension.swift in Sources */,
+				A749366C247346A4003DB46E /* LoadingView.swift in Sources */,
 				A780EFD1245F7590002A8AD4 /* EditViewController.swift in Sources */,
 				A7ADB60E244E47CB00694BA0 /* DateFormatterExtensions.swift in Sources */,
 				A7CA5344245E0624006D84FD /* ItemsFilterViewController.swift in Sources */,
@@ -599,7 +600,6 @@
 				A798DF4824524B0900A84F79 /* ItemsListDataSource.swift in Sources */,
 				A76C34AA2460C4EA00362B68 /* ExpirationDatePicker.swift in Sources */,
 				A749366A2473153B003DB46E /* CloudKitMapper.swift in Sources */,
-				A75043482470AA58009A1451 /* CloudKitItem.swift in Sources */,
 				A700D6C72454C6FE00F16F2E /* ItemsFilterCollectionViewCell.swift in Sources */,
 				A7F16D24244AFF2000ED2402 /* ExpirationPeriodViewModel.swift in Sources */,
 				A77A99CD245A118200F3578C /* UIBarButtonItemExtensions.swift in Sources */,

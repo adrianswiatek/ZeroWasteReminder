@@ -10,6 +10,7 @@ public final class AddViewController: UIViewController {
 
     private let scrollView: UIScrollView
     private let contentViewController: UIViewController
+    private let loadingView: LoadingView
 
     private let viewModel: AddViewModel
     private var subscriptions: Set<AnyCancellable>
@@ -20,6 +21,7 @@ public final class AddViewController: UIViewController {
 
         self.contentViewController = AddContentViewController(viewModel: viewModel)
         self.scrollView = AdaptiveScrollView()
+        self.loadingView = LoadingView()
 
         super.init(nibName: nil, bundle: nil)
 
@@ -64,6 +66,17 @@ public final class AddViewController: UIViewController {
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+
+        let navigationView: UIView! = navigationController?.view
+        assert(navigationView != nil)
+
+        navigationView.addSubview(loadingView)
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: navigationView.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: navigationView.leadingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: navigationView.bottomAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: navigationView.trailingAnchor)
+        ])
     }
 
     private func bind() {
@@ -79,8 +92,13 @@ public final class AddViewController: UIViewController {
 
     @objc
     private func handleConfirm() {
+        loadingView.show()
+
         viewModel.saveItem()
-            .sink { [weak self] _ in self?.dismiss(animated: true) }
+            .sink { [weak self] _ in
+                self?.dismiss(animated: true)
+                self?.loadingView.hide()
+            }
             .store(in: &subscriptions)
     }
 }
