@@ -20,9 +20,12 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func cloudKitItemsService() -> ItemsService {
-        CloudKitItemsService(
-            CKContainer(identifier: "iCloud.pl.aswiatek.PushNotifications"),
-            CloudKitMapper()
+        let container = CKContainer(identifier: "iCloud.pl.aswiatek.PushNotifications")
+        return CloudKitItemsService(
+            container: container,
+            subscriptionService: CloudKitSubscriptionService(container),
+            mapper: CloudKitMapper(),
+            notificationCenter: .default
         )
     }
 }

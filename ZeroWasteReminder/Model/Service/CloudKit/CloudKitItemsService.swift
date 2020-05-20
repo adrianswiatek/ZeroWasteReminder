@@ -7,13 +7,29 @@ public final class CloudKitItemsService: ItemsService {
     }
 
     private let itemsSubject: CurrentValueSubject<[Item], Never>
-    private let mapper: CloudKitMapper
     private let database: CKDatabase
+    private let subscriptionService: CloudKitSubscriptionService
+    private let mapper: CloudKitMapper
+    private let notificationCenter: NotificationCenter
 
-    public init(_ container: CKContainer, _ mapper: CloudKitMapper) {
-        self.itemsSubject = .init([])
-        self.mapper = mapper
+    private var subscriptions: Set<AnyCancellable>
+
+    public init(
+        container: CKContainer,
+        subscriptionService: CloudKitSubscriptionService,
+        mapper: CloudKitMapper,
+        notificationCenter: NotificationCenter
+    ) {
         self.database = container.privateCloudDatabase
+        self.subscriptionService = subscriptionService
+        self.mapper = mapper
+        self.notificationCenter = notificationCenter
+
+        self.itemsSubject = .init([])
+        self.subscriptions = []
+
+        self.registerSubscriptionIfNeeded()
+        self.registerNotification()
     }
 
     public func add(_ item: Item) -> Future<Void, Never> {
@@ -98,5 +114,15 @@ public final class CloudKitItemsService: ItemsService {
 
     private func indexForItem(_ item: Item) -> Int? {
         itemsSubject.value.firstIndex { $0.id == item.id }
+    }
+
+    private func registerSubscriptionIfNeeded() {
+        subscriptionService.registerIfNeeded(.itemSubscription)
+    }
+
+    private func registerNotification() {
+        notificationCenter.publisher(for: .itemUpdateReceived)
+            .sink { [weak self] _ in _ = self?.refresh() }
+            .store(in: &subscriptions)
     }
 }
