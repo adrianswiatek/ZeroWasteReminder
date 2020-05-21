@@ -52,7 +52,7 @@ public final class ItemsListViewModel {
         modeState.done(on: self)
     }
 
-    public func refreshList() {
+    public func refreshList() -> Future<Void, ServiceError> {
         itemsService.refresh()
     }
 

@@ -95,10 +95,17 @@ public final class AddViewController: UIViewController {
         loadingView.show()
 
         viewModel.saveItem()
-            .sink { [weak self] _ in
-                self?.dismiss(animated: true)
-                self?.loadingView.hide()
-            }
+            .sink(
+                receiveCompletion: { [weak self] in
+                    guard case .failure(let error) = $0, let self = self else { return }
+                    self.loadingView.hide()
+                    UIAlertController.presentError(in: self, withMessage: error.localizedDescription)
+                },
+                receiveValue: { [weak self] _ in
+                    self?.dismiss(animated: true)
+                    self?.loadingView.hide()
+                }
+            )
             .store(in: &subscriptions)
     }
 }

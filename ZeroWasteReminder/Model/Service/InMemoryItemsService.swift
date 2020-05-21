@@ -7,7 +7,7 @@ public final class InMemoryItemsService: ItemsService {
 
     private let itemsSubject = CurrentValueSubject<[Item], Never>([])
 
-    public func add(_ item: Item) -> Future<Void, Never> {
+    public func add(_ item: Item) -> Future<Void, ServiceError> {
         Future { [weak self] promise in
             guard let self = self else { return }
             self.itemsSubject.value = self.itemsSubject.value + [item]
@@ -15,7 +15,7 @@ public final class InMemoryItemsService: ItemsService {
         }
     }
 
-    public func refresh() -> Future<Void, Never> {
+    public func refresh() -> Future<Void, ServiceError> {
         Future { [weak self] promise in
             guard let self = self else { return }
             self.itemsSubject.value = self.itemsSubject.value

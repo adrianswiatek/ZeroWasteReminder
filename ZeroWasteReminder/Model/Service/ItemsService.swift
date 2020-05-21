@@ -4,10 +4,10 @@ public protocol ItemsService {
     var items: AnyPublisher<[Item], Never> { get }
 
     @discardableResult
-    func add(_ item: Item) -> Future<Void, Never>
+    func add(_ item: Item) -> Future<Void, ServiceError>
 
     @discardableResult
-    func refresh() -> Future<Void, Never>
+    func refresh() -> Future<Void, ServiceError>
 
     @discardableResult
     func update(_ item: Item) -> Future<Void, Never>

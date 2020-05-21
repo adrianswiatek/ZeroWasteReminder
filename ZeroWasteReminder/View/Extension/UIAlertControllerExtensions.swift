@@ -48,4 +48,10 @@ public extension UIAlertController {
         viewController.present(actionsSheet, animated: true)
         return actionsSubject.eraseToAnyPublisher()
     }
+
+    static func presentError(in viewController: UIViewController, withMessage message: String) {
+        let alertController = UIAlertController(title: "Oups", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        viewController.present(alertController, animated: true)
+    }
 }

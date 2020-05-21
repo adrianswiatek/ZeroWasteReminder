@@ -50,9 +50,9 @@ public final class ItemsListViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        self.viewModel.refreshList()
         self.setupView()
         self.bind()
+        self.refreshList()
     }
 
     @available(*, unavailable)
@@ -153,6 +153,18 @@ public final class ItemsListViewController: UIViewController {
         viewModel.itemsFilterViewModel.numberOfSelectedCells
             .map { $0 > 0 ? String(describing: $0) : "" }
             .assign(to: \.text, on: filterBadgeLabel)
+            .store(in: &subscriptions)
+    }
+
+    private func refreshList() {
+        viewModel.refreshList()
+            .sink(
+                receiveCompletion: { [weak self] in
+                    guard case .failure(let error) = $0, let self = self else { return }
+                    UIAlertController.presentError(in: self, withMessage: error.localizedDescription)
+                },
+                receiveValue: {}
+            )
             .store(in: &subscriptions)
     }
 

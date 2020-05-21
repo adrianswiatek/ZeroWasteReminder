@@ -32,35 +32,37 @@ public final class CloudKitItemsService: ItemsService {
         self.registerNotification()
     }
 
-    public func add(_ item: Item) -> Future<Void, Never> {
+    public func add(_ item: Item) -> Future<Void, ServiceError> {
         Future { [weak self] promise in
             guard let self = self, let record = self.mapper.map(item).toRecord() else { return }
 
             let operation = CKModifyRecordsOperation(recordsToSave: [record])
             operation.modifyRecordsCompletionBlock = { records, _, error in
-                assert(error == nil, error!.localizedDescription)
-                guard let record = records?.first, let item = self.mapper.map(record).toItem() else { return }
-
-                self.itemsSubject.value = self.itemsSubject.value + [item]
-            }
-            operation.completionBlock = {
-                DispatchQueue.main.async { promise(.success(())) }
+                if let error = error {
+                    DispatchQueue.main.async { promise(.failure(.init(error))) }
+                } else if let record = records?.first, let item = self.mapper.map(record).toItem() {
+                    self.itemsSubject.value = self.itemsSubject.value + [item]
+                    DispatchQueue.main.async { promise(.success(())) }
+                }
             }
 
             self.database.add(operation)
         }
     }
 
-    public func refresh() -> Future<Void, Never> {
+    public func refresh() -> Future<Void, ServiceError> {
         Future { [weak self] promise in
             var result = [CKRecord]()
 
             let operation = CKQueryOperation(query: .init(recordType: "Item", predicate: .init(value: true)))
             operation.recordFetchedBlock = { result.append($0) }
-            operation.queryCompletionBlock = { assert($1 == nil, $1!.localizedDescription) }
-            operation.completionBlock = { [weak self] in
-                self?.itemsSubject.value = result.compactMap { self?.mapper.map($0).toItem() }
-                promise(.success(()))
+            operation.queryCompletionBlock = {
+                if let error = $1 {
+                    DispatchQueue.main.async { promise(.failure(ServiceError(error))) }
+                } else {
+                    self?.itemsSubject.value = result.compactMap { self?.mapper.map($0).toItem() }
+                    DispatchQueue.main.async { promise(.success(())) }
+                }
             }
 
             self?.database.add(operation)
