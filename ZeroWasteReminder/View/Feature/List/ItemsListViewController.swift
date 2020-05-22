@@ -4,6 +4,7 @@ import UIKit
 public final class ItemsListViewController: UIViewController {
     private let addButton = ListAddButton()
     private let filterBadgeLabel = FilterBadgeLabel()
+    private let loadingView = LoadingView()
 
     private let itemsListTableView: ItemsListTableView
     private let itemsListDataSource: ItemsListDataSource
@@ -44,15 +45,16 @@ public final class ItemsListViewController: UIViewController {
         self.itemsListTableView = .init()
         self.itemsListDataSource = .init(itemsListTableView, viewModel)
         self.itemsListDelegate = .init(viewModel)
-        self.itemsListTableView.delegate = self.itemsListDelegate
 
         self.subscriptions = []
 
         super.init(nibName: nil, bundle: nil)
 
         self.setupView()
+        self.setupTableView()
         self.bind()
-        self.refreshList()
+
+        self.refreshList(withLoadingIndicator: true)
     }
 
     @available(*, unavailable)
@@ -60,22 +62,40 @@ public final class ItemsListViewController: UIViewController {
         fatalError("Not supported.")
     }
 
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.setupNavigationControllerIfNeeded()
+    }
+
+    private func setupNavigationControllerIfNeeded() {
+        let navigationController: UINavigationController! = self.navigationController
+        assert(navigationController != nil)
+
+        let navigationBar = navigationController.navigationBar
+        navigationBar.addSubview(filterBadgeLabel)
+        NSLayoutConstraint.activate([
+            filterBadgeLabel.leadingAnchor.constraint(
+                equalTo: navigationBar.layoutMarginsGuide.leadingAnchor,
+                constant: 36
+            ),
+            filterBadgeLabel.centerYAnchor.constraint(equalTo: navigationBar.centerYAnchor),
+            filterBadgeLabel.heightAnchor.constraint(equalToConstant: 15),
+            filterBadgeLabel.widthAnchor.constraint(equalToConstant: 15)
+        ])
+
+        let navigationView: UIView! = navigationController.view
+        navigationView.addSubview(loadingView)
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: navigationView.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: navigationView.leadingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: navigationView.bottomAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: navigationView.trailingAnchor)
+        ])
+    }
+
     private func setupView() {
         view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem = moreButton
-
-        if let navigationBar = navigationController?.navigationBar {
-            navigationBar.addSubview(filterBadgeLabel)
-            NSLayoutConstraint.activate([
-                filterBadgeLabel.leadingAnchor.constraint(
-                    equalTo: navigationBar.layoutMarginsGuide.leadingAnchor,
-                    constant: 36
-                ),
-                filterBadgeLabel.centerYAnchor.constraint(equalTo: navigationBar.centerYAnchor),
-                filterBadgeLabel.heightAnchor.constraint(equalToConstant: 15),
-                filterBadgeLabel.widthAnchor.constraint(equalToConstant: 15)
-            ])
-        }
 
         addChild(itemsFilterViewController)
         view.addSubview(itemsFilterViewController.view)
@@ -102,6 +122,13 @@ public final class ItemsListViewController: UIViewController {
         ])
 
         view.bringSubviewToFront(itemsFilterViewController.view)
+    }
+
+    private func setupTableView() {
+        itemsListTableView.delegate = self.itemsListDelegate
+
+        itemsListTableView.refreshControl = UIRefreshControl()
+        itemsListTableView.refreshControl?.addTarget(self, action: #selector(refreshList), for: .valueChanged)
     }
 
     private func bind() {
@@ -156,16 +183,25 @@ public final class ItemsListViewController: UIViewController {
             .store(in: &subscriptions)
     }
 
-    private func refreshList() {
+    @objc
+    private func refreshList(withLoadingIndicator: Bool = false) {
+        loadingView.show(withLoadingIndicator: withLoadingIndicator)
+
         viewModel.refreshList()
             .sink(
-                receiveCompletion: { [weak self] in
-                    guard case .failure(let error) = $0, let self = self else { return }
-                    UIAlertController.presentError(in: self, withMessage: error.localizedDescription)
-                },
+                receiveCompletion: { [weak self] in self?.refreshCompletionReceived($0) },
                 receiveValue: {}
             )
             .store(in: &subscriptions)
+    }
+
+    private func refreshCompletionReceived(_ completion: Subscribers.Completion<ServiceError>) {
+        itemsListTableView.refreshControl?.endRefreshing()
+        loadingView.hide()
+
+        if case .failure(let error) = completion {
+            UIAlertController.presentError(in: self, withMessage: error.localizedDescription)
+        }
     }
 
     @objc

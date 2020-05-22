@@ -17,8 +17,10 @@ public final class LoadingView: UIView {
         fatalError("Not supported.")
     }
 
-    public func show() {
-        activityIndicatorView.startAnimating()
+    public func show(withLoadingIndicator: Bool = true) {
+        if withLoadingIndicator {
+            activityIndicatorView.startAnimating()
+        }
         animate(alpha: 1)
     }
 
