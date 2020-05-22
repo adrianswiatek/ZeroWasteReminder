@@ -31,7 +31,7 @@ public final class LoadingView: UIView {
 
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = UIColor.black.withAlphaComponent(0.25)
+        backgroundColor = UIColor.black.withAlphaComponent(0.35)
         alpha = 0
 
         addSubview(activityIndicatorView)

@@ -2,10 +2,15 @@ import UIKit
 
 public extension UIAlertAction {
     enum Action: String {
+        case ok = "OK"
         case yes = "Yes"
         case cancel = "Cancel"
         case deleteAll = "Remove all"
         case selectItems = "Select items"
+    }
+
+    static var ok: Self {
+        .init(title: Action.ok.rawValue, style: .default)
     }
 
     static func yes(withStyle style: Style, handler: @escaping (UIAlertAction) -> Void) -> Self {

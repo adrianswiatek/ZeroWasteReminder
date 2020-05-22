@@ -87,26 +87,27 @@ public final class CloudKitItemsService: ItemsService {
         }
     }
 
-    public func delete(_ items: [Item]) -> Future<Void, Never> {
+    public func delete(_ items: [Item]) -> Future<Void, ServiceError> {
         deleteItems(items)
     }
 
-    public func deleteAll() -> Future<Void, Never> {
+    public func deleteAll() -> Future<Void, ServiceError> {
         deleteItems(itemsSubject.value)
     }
 
-    private func deleteItems(_ items: [Item]) -> Future<Void, Never> {
+    private func deleteItems(_ items: [Item]) -> Future<Void, ServiceError> {
         Future { [weak self] promise in
             guard let self = self else { return }
 
             let recordIds = items.compactMap { self.mapper.map($0).toRecord()?.recordID }
             let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: recordIds)
-            operation.modifyRecordsCompletionBlock = { _, deletedRecordIds, _ in
-                guard let deletedRecordIds = deletedRecordIds else { return }
-                let deletedItemIds = deletedRecordIds.compactMap { UUID(uuidString: $0.recordName) }
-                self.itemsSubject.value = self.itemsSubject.value.filter { !deletedItemIds.contains($0.id) }
-            }
-            operation.completionBlock = {
+            operation.modifyRecordsCompletionBlock = { _, deletedRecordIds, error in
+                if let error = error {
+                    DispatchQueue.main.async { promise(.failure(ServiceError(error))) }
+                } else if let deletedRecordIds = deletedRecordIds {
+                    let deletedItemIds = deletedRecordIds.compactMap { UUID(uuidString: $0.recordName) }
+                    self.itemsSubject.value = self.itemsSubject.value.filter { !deletedItemIds.contains($0.id) }
+                }
                 DispatchQueue.main.async { promise(.success(())) }
             }
 

@@ -13,8 +13,8 @@ public protocol ItemsService {
     func update(_ item: Item) -> Future<Void, Never>
 
     @discardableResult
-    func delete(_ items: [Item]) -> Future<Void, Never>
+    func delete(_ items: [Item]) -> Future<Void, ServiceError>
 
     @discardableResult
-    func deleteAll() -> Future<Void, Never>
+    func deleteAll() -> Future<Void, ServiceError>
 }

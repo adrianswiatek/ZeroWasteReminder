@@ -76,6 +76,10 @@ public final class EditViewModel {
         return itemsService.update(item)
     }
 
+    public func delete() -> Future<Void, ServiceError> {
+        return itemsService.delete([originalItem])
+    }
+
     private func bind() {
         Publishers.CombineLatest($name, expirationDateSubject)
             .map { [weak self] in (self?.originalItem, $0, $1) }

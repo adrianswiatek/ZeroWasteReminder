@@ -62,6 +62,7 @@
 		A783EE28246755E9008BCC17 /* AddContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE27246755E9008BCC17 /* AddContentViewController.swift */; };
 		A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */; };
 		A798DF4824524B0900A84F79 /* ItemsListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A798DF4724524B0900A84F79 /* ItemsListDataSource.swift */; };
+		A7994494247871D400D3AF62 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7994493247871D400D3AF62 /* DeleteButton.swift */; };
 		A79DDDA32461F9B1008A3DFE /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79DDDA22461F9B1008A3DFE /* EditViewModel.swift */; };
 		A7AD76E62463661100220A94 /* StateIndicatorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AD76E52463661100220A94 /* StateIndicatorLabel.swift */; };
 		A7ADB60E244E47CB00694BA0 /* DateFormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ADB60D244E47CB00694BA0 /* DateFormatterExtensions.swift */; };
@@ -142,6 +143,7 @@
 		A783EE27246755E9008BCC17 /* AddContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentViewController.swift; sourceTree = "<group>"; };
 		A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateViewModel.swift; sourceTree = "<group>"; };
 		A798DF4724524B0900A84F79 /* ItemsListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListDataSource.swift; sourceTree = "<group>"; };
+		A7994493247871D400D3AF62 /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
 		A79DDDA22461F9B1008A3DFE /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
 		A7AD76E52463661100220A94 /* StateIndicatorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateIndicatorLabel.swift; sourceTree = "<group>"; };
 		A7ADB60D244E47CB00694BA0 /* DateFormatterExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtensions.swift; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 			isa = PBXGroup;
 			children = (
 				A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */,
+				A7994493247871D400D3AF62 /* DeleteButton.swift */,
 				A72F4CBE2460B5FA008B0D5B /* ExpirationDateButton.swift */,
 				A76C34A92460C4EA00362B68 /* ExpirationDatePicker.swift */,
 				A749366B247346A4003DB46E /* LoadingView.swift */,
@@ -628,6 +631,7 @@
 				A70BCCD9244795D700CC49D0 /* AddViewModel.swift in Sources */,
 				A782FAD42475E71A00C69737 /* CKQuerySubscriptionExtension.swift in Sources */,
 				A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */,
+				A7994494247871D400D3AF62 /* DeleteButton.swift in Sources */,
 				A701536624773CC000CE9085 /* ServiceError.swift in Sources */,
 				A70BCCDD244796FB00CC49D0 /* PeriodType.swift in Sources */,
 				A741613E2450D814001ED316 /* UIAlertActionExtensions.swift in Sources */,

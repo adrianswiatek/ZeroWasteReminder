@@ -6,11 +6,13 @@ public final class EditViewController: UIViewController {
         .doneButton(target: self, action: #selector(handleDoneButtonTap))
 
     private let scrollView: UIScrollView
-    private let contentViewController: UIViewController
+    private let contentViewController: EditContentViewController
     private let loadingView: LoadingView
 
     private let viewModel: EditViewModel
+
     private var subscriptions: Set<AnyCancellable>
+    private var deleteSubscription: AnyCancellable?
 
     public init(viewModel: EditViewModel) {
         self.viewModel = viewModel
@@ -84,6 +86,10 @@ public final class EditViewController: UIViewController {
         viewModel.canSave
             .assign(to: \.isEnabled, on: saveButton)
             .store(in: &subscriptions)
+
+        contentViewController.delete
+            .sink { [weak self] in self?.handleDeleteButtonTap() }
+            .store(in: &subscriptions)
     }
 
     @objc
@@ -101,5 +107,26 @@ public final class EditViewController: UIViewController {
                 self?.loadingView.hide()
             }
             .store(in: &subscriptions)
+    }
+
+    private func handleDeleteButtonTap() {
+        deleteSubscription = UIAlertController
+            .presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
+            .mapError { _ in ServiceError.general("") }
+            .flatMap { [weak self] _ -> AnyPublisher<Void, ServiceError> in
+                guard let self = self else {
+                    return Empty<Void, ServiceError>().eraseToAnyPublisher()
+                }
+                self.loadingView.show()
+                return self.viewModel.delete().eraseToAnyPublisher()
+            }
+            .sink(
+                receiveCompletion: { [weak self] in
+                    self?.loadingView.hide()
+                    guard let self = self, case .failure(let error) = $0 else { return }
+                    UIAlertController.presentError(in: self, withMessage: error.localizedDescription)
+                },
+                receiveValue: { [weak self] in self?.navigationController?.popViewController(animated: true) }
+            )
     }
 }

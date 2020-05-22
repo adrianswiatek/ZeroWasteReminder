@@ -222,7 +222,8 @@ public final class ItemsListViewController: UIViewController {
 
     @objc
     private func handleDeleteButtonTap(_ sender: UIBarButtonItem) {
-        actionsSubscription = UIAlertController.presentConfirmationSheet(in: self)
+        actionsSubscription = UIAlertController
+            .presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
             .sink(
                 receiveCompletion: { [weak self] _ in self?.actionsSubscription = nil },
                 receiveValue: { [weak self] _ in self?.viewModel.deleteSelectedItems() }
@@ -300,7 +301,8 @@ public final class ItemsListViewController: UIViewController {
     private func handleSelectedAction(_ action: UIAlertAction.Action) {
         switch action {
         case .deleteAll:
-            actionsSubscription = UIAlertController.presentConfirmationSheet(in: self)
+            actionsSubscription = UIAlertController
+                .presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
                 .sink(
                     receiveCompletion: { [weak self] _ in self?.actionsSubscription = nil },
                     receiveValue: { _ in self.viewModel.deleteAll() }

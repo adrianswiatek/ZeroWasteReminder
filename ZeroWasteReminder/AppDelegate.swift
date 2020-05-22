@@ -34,4 +34,11 @@ internal class AppDelegate: UIResponder, UIApplicationDelegate {
         remoteNotificationHandler.received(with: userInfo)
         completionHandler(.noData)
     }
+
+    func application(
+        _ application: UIApplication,
+        userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata
+    ) {
+        print(cloudKitShareMetadata)
+    }
 }

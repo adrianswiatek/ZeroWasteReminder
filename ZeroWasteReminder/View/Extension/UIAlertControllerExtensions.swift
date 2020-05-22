@@ -29,14 +29,15 @@ public extension UIAlertController {
     }
 
     static func presentConfirmationSheet(
-        in viewController: UIViewController
+        in viewController: UIViewController,
+        withConfirmationStyle confirmationButtonStyle: UIAlertAction.Style = .default
     ) -> AnyPublisher<UIAlertAction, Never> {
         let actionsSubject = PassthroughSubject<UIAlertAction, Never>()
 
         let actionsSheet: UIAlertController =
             .init(title: "This operation cannot be undone", message: "Are you sure?", preferredStyle: .actionSheet)
 
-        actionsSheet.addAction(.yes(withStyle: .destructive, handler: {
+        actionsSheet.addAction(.yes(withStyle: confirmationButtonStyle, handler: {
             actionsSubject.send($0)
             actionsSubject.send(completion: .finished)
         }))
@@ -51,7 +52,7 @@ public extension UIAlertController {
 
     static func presentError(in viewController: UIViewController, withMessage message: String) {
         let alertController = UIAlertController(title: "Oups", message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        alertController.addAction(.ok)
         viewController.present(alertController, animated: true)
     }
 }

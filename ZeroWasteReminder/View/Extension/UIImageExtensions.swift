@@ -11,6 +11,7 @@ public extension UIImage {
     static var calendarPlus: UIImage { .bySystemName("calendar.badge.plus") }
     static var calendarMinus: UIImage { .bySystemName("calendar.badge.minus") }
     static var plus: UIImage { .bySystemName("plus") }
+    static var trash: UIImage { .bySystemName("trash") }
 
     private static func bySystemName(_ systemName: String) -> UIImage {
         guard let image = UIImage(systemName: systemName) else {

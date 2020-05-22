@@ -35,14 +35,14 @@ public final class InMemoryItemsService: ItemsService {
         }
     }
 
-    public func delete(_ items: [Item]) -> Future<Void, Never> {
+    public func delete(_ items: [Item]) -> Future<Void, ServiceError> {
         Future { [weak self] promise in
             self?.itemsSubject.value.removeAll { items.contains($0) }
             promise(.success(()))
         }
     }
 
-    public func deleteAll() -> Future<Void, Never> {
+    public func deleteAll() -> Future<Void, ServiceError> {
         Future { [weak self] promise in
             self?.itemsSubject.value.removeAll()
             promise(.success(()))
