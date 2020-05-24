@@ -309,6 +309,8 @@ public final class ItemsListViewController: UIViewController {
                 )
         case .selectItems:
             viewModel.modeState.select(on: viewModel)
+        case .shareList:
+            present(viewControllerFactory.sharingController, animated: true)
         default:
             break
         }

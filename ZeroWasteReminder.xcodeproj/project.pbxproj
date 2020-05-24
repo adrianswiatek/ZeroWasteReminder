@@ -67,6 +67,8 @@
 		A7ACC4BE247AFFFC0098EDE0 /* RemotePersistenceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC4BD247AFFFC0098EDE0 /* RemotePersistenceFactory.swift */; };
 		A7ACC4C0247B000E0098EDE0 /* CloudKitPersistenceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC4BF247B000E0098EDE0 /* CloudKitPersistenceFactory.swift */; };
 		A7ACC4C2247B00BF0098EDE0 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC4C1247B00BF0098EDE0 /* CloudKitConfiguration.swift */; };
+		A7ACC4C5247B12AB0098EDE0 /* SharingControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC4C4247B12AB0098EDE0 /* SharingControllerFactory.swift */; };
+		A7ACC4C7247B12E20098EDE0 /* CloudKitSharingControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC4C6247B12E20098EDE0 /* CloudKitSharingControllerFactory.swift */; };
 		A7AD76E62463661100220A94 /* StateIndicatorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AD76E52463661100220A94 /* StateIndicatorLabel.swift */; };
 		A7ADB60E244E47CB00694BA0 /* DateFormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ADB60D244E47CB00694BA0 /* DateFormatterExtensions.swift */; };
 		A7B2A4832469E58D00D9C0B1 /* RemoveExpirationDateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2A4822469E58D00D9C0B1 /* RemoveExpirationDateButton.swift */; };
@@ -151,6 +153,8 @@
 		A7ACC4BD247AFFFC0098EDE0 /* RemotePersistenceFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePersistenceFactory.swift; sourceTree = "<group>"; };
 		A7ACC4BF247B000E0098EDE0 /* CloudKitPersistenceFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitPersistenceFactory.swift; sourceTree = "<group>"; };
 		A7ACC4C1247B00BF0098EDE0 /* CloudKitConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitConfiguration.swift; sourceTree = "<group>"; };
+		A7ACC4C4247B12AB0098EDE0 /* SharingControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingControllerFactory.swift; sourceTree = "<group>"; };
+		A7ACC4C6247B12E20098EDE0 /* CloudKitSharingControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitSharingControllerFactory.swift; sourceTree = "<group>"; };
 		A7AD76E52463661100220A94 /* StateIndicatorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateIndicatorLabel.swift; sourceTree = "<group>"; };
 		A7ADB60D244E47CB00694BA0 /* DateFormatterExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtensions.swift; sourceTree = "<group>"; };
 		A7B2A4822469E58D00D9C0B1 /* RemoveExpirationDateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveExpirationDateButton.swift; sourceTree = "<group>"; };
@@ -448,10 +452,20 @@
 		A7ACC4BC247AFFE90098EDE0 /* RemotePersistenceFactory */ = {
 			isa = PBXGroup;
 			children = (
-				A7ACC4BD247AFFFC0098EDE0 /* RemotePersistenceFactory.swift */,
 				A7ACC4BF247B000E0098EDE0 /* CloudKitPersistenceFactory.swift */,
+				A7ACC4BD247AFFFC0098EDE0 /* RemotePersistenceFactory.swift */,
+				A7ACC4C3247B129E0098EDE0 /* SharingControllerFactory */,
 			);
 			path = RemotePersistenceFactory;
+			sourceTree = "<group>";
+		};
+		A7ACC4C3247B129E0098EDE0 /* SharingControllerFactory */ = {
+			isa = PBXGroup;
+			children = (
+				A7ACC4C6247B12E20098EDE0 /* CloudKitSharingControllerFactory.swift */,
+				A7ACC4C4247B12AB0098EDE0 /* SharingControllerFactory.swift */,
+			);
+			path = SharingControllerFactory;
 			sourceTree = "<group>";
 		};
 		A7DB8A32244284020035CF36 /* Add */ = {
@@ -599,12 +613,14 @@
 				A783EE2424673B8F008BCC17 /* EditContentViewController.swift in Sources */,
 				A7F82BA82458CB8700970CFC /* ReadModeState.swift in Sources */,
 				A7ACC4C0247B000E0098EDE0 /* CloudKitPersistenceFactory.swift in Sources */,
+				A7ACC4C7247B12E20098EDE0 /* CloudKitSharingControllerFactory.swift in Sources */,
 				A7F82BAA2458CB9C00970CFC /* SelectionModeState.swift in Sources */,
 				A7EC2D622445127200993F53 /* PeriodTypeExtensions.swift in Sources */,
 				A71B69212443D3EB00AF7CB3 /* ExpirationSectionView.swift in Sources */,
 				A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */,
 				A74774CC2475CD7800E41992 /* NotificationNameExtensions.swift in Sources */,
 				A712ED632441172300B00791 /* ItemsListViewController.swift in Sources */,
+				A7ACC4C5247B12AB0098EDE0 /* SharingControllerFactory.swift in Sources */,
 				A70FA67B244CEB140045B545 /* ItemsService.swift in Sources */,
 				A7FFA97D244909B40061A3D6 /* DateExtensions.swift in Sources */,
 				A7DB8A37244286440035CF36 /* ItemsListNavigationController.swift in Sources */,

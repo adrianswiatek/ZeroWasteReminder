@@ -15,9 +15,12 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let remotePersistenceFactory: RemotePersistenceFactory =
             CloudKitPersistenceFactory(containerIdentifier: "iCloud.pl.aswiatek.PushNotifications")
 
-        viewControllerFactory = .init(itemsService: remotePersistenceFactory.createItemsService())
-
         configureRemotePersistence(remotePersistenceFactory)
+
+        viewControllerFactory = ViewControllerFactory(
+            itemsService: remotePersistenceFactory.itemsService(),
+            sharingControllerFactory: remotePersistenceFactory.sharingControllerFactory()
+        )
 
         window = UIWindow(windowScene: scene)
         window?.rootViewController = viewControllerFactory?.listViewController
@@ -25,6 +28,6 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func configureRemotePersistence(_ factory: RemotePersistenceFactory) {
-        factory.createSubscriptionService().registerItemsSubscriptionIfNeeded()
+        factory.subscriptionService().registerItemsSubscriptionIfNeeded()
     }
 }

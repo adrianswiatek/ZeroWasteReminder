@@ -7,11 +7,15 @@ public final class CloudKitPersistenceFactory: RemotePersistenceFactory {
         configuration = CloudKitConfiguration(containerIdentifier: containerIdentifier)
     }
 
-    public func createItemsService() -> ItemsService {
+    public func itemsService() -> ItemsService {
         CloudKitItemsService(configuration: configuration, mapper: .init(), notificationCenter: .default)
     }
 
-    public func createSubscriptionService() -> SubscriptionService {
+    public func subscriptionService() -> SubscriptionService {
         CloudKitSubscriptionService(configuration: configuration)
+    }
+
+    public func sharingControllerFactory() -> SharingControllerFactory {
+        CloudKitSharingControllerFactory(configuration: configuration)
     }
 }

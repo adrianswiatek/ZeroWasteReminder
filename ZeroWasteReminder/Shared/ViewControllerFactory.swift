@@ -2,9 +2,11 @@ import UIKit
 
 public final class ViewControllerFactory {
     private let itemsService: ItemsService
+    private let sharingControllerFactory: SharingControllerFactory
 
-    public init(itemsService: ItemsService) {
+    public init(itemsService: ItemsService, sharingControllerFactory: SharingControllerFactory) {
         self.itemsService = itemsService
+        self.sharingControllerFactory = sharingControllerFactory
     }
 
     public var listViewController: UIViewController {
@@ -22,5 +24,9 @@ public final class ViewControllerFactory {
     public func editViewController(item: Item) -> UIViewController {
         let viewModel = EditViewModel(item: item, itemsService: itemsService)
         return EditViewController(viewModel: viewModel)
+    }
+
+    public var sharingController: UIViewController {
+        sharingControllerFactory.build()
     }
 }

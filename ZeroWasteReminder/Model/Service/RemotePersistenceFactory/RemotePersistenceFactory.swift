@@ -1,4 +1,5 @@
 public protocol RemotePersistenceFactory {
-    func createItemsService() -> ItemsService
-    func createSubscriptionService() -> SubscriptionService
+    func itemsService() -> ItemsService
+    func subscriptionService() -> SubscriptionService
+    func sharingControllerFactory() -> SharingControllerFactory
 }
