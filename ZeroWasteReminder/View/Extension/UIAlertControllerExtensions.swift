@@ -15,6 +15,11 @@ public extension UIAlertController {
             actionsSubject.send(completion: .finished)
         }))
 
+        actionsSheet.addAction(.shareList(handler: {
+            actionsSubject.send($0)
+            actionsSubject.send(completion: .finished)
+        }))
+
         actionsSheet.addAction(.deleteAll(handler: {
             actionsSubject.send($0)
             actionsSubject.send(completion: .finished)
