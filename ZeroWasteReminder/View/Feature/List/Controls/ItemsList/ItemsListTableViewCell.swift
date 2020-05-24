@@ -49,10 +49,10 @@ public final class ItemsListTableViewCell: UITableViewCell {
         contentView.addSubview(remainingView)
         NSLayoutConstraint.activate([
             remainingView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            remainingView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            remainingView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             remainingView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             remainingView.heightAnchor.constraint(greaterThanOrEqualToConstant: 44),
-            remainingView.widthAnchor.constraint(equalToConstant: 72)
+            remainingView.widthAnchor.constraint(equalToConstant: 68)
         ])
 
         contentView.addSubview(nameLabel)

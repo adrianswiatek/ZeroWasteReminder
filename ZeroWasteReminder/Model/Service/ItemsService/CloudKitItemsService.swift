@@ -38,7 +38,7 @@ public final class CloudKitItemsService: ItemsService {
 
     public func add(_ item: Item) -> Future<Void, ServiceError> {
         Future { [weak self] promise in
-            guard let self = self, let record = self.mapper.map(item).toRecord() else { return }
+            guard let self = self, let record = self.mapper.map(item).toRecordInZone(self.zone) else { return }
 
             let operation = CKModifyRecordsOperation(recordsToSave: [record])
             operation.modifyRecordsCompletionBlock = { records, _, error in
@@ -75,7 +75,7 @@ public final class CloudKitItemsService: ItemsService {
 
     public func update(_ item: Item) -> Future<Void, Never> {
         Future { [weak self] promise in
-            guard let self = self, let record = self.mapper.map(item).toRecord() else { return }
+            guard let self = self, let record = self.mapper.map(item).toRecordInZone(self.zone) else { return }
 
             self.database.fetch(withRecordID: record.recordID) { record, error in
                 assert(error == nil, error!.localizedDescription)
