@@ -8,7 +8,7 @@ public final class ItemsListViewController: UIViewController {
 
     private let itemsListTableView: ItemsListTableView
     private let itemsListDataSource: ItemsListDataSource
-    private let itemsListDelegate: ItemsListDelegates
+    private let itemsListDelegate: ItemsListDelegate
 
     private lazy var moreButton: UIBarButtonItem =
         .moreButton(target: self, action: #selector(handleMoreButtonTap))

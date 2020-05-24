@@ -2,7 +2,6 @@ import UIKit
 
 public final class ItemsListTableViewCell: UITableViewCell {
     public static let identifier: String = "ItemsListTableViewCell"
-    public static let height: CGFloat = 56
 
     public var viewModel: ItemsListCellViewModel! {
         didSet {
@@ -16,6 +15,7 @@ public final class ItemsListTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .label
         label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.numberOfLines = 0
         return label
     }()
 
@@ -51,13 +51,13 @@ public final class ItemsListTableViewCell: UITableViewCell {
             remainingView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             remainingView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             remainingView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            remainingView.heightAnchor.constraint(equalToConstant: 44),
+            remainingView.heightAnchor.constraint(greaterThanOrEqualToConstant: 44),
             remainingView.widthAnchor.constraint(equalToConstant: 72)
         ])
 
         contentView.addSubview(nameLabel)
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: remainingView.topAnchor, constant: 4),
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             nameLabel.leadingAnchor.constraint(equalTo: remainingView.trailingAnchor, constant: 8),
             nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32)
         ])
@@ -66,7 +66,8 @@ public final class ItemsListTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             expirationDateLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4),
             expirationDateLabel.leadingAnchor.constraint(equalTo: remainingView.trailingAnchor, constant: 8),
-            expirationDateLabel.bottomAnchor.constraint(equalTo: remainingView.bottomAnchor, constant: -2)
+            expirationDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            expirationDateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32)
         ])
     }
 

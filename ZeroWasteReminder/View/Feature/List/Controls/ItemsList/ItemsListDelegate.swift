@@ -1,6 +1,6 @@
 import UIKit
 
-public final class ItemsListDelegates: NSObject, UITableViewDelegate {
+public final class ItemsListDelegate: NSObject, UITableViewDelegate {
     private let viewModel: ItemsListViewModel
 
     init(_ viewModel: ItemsListViewModel) {
