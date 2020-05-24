@@ -18,7 +18,12 @@ public final class CloudKitItemMapper {
     }
 
     func toRecord() -> CKRecord? {
-        let record = CKRecord(recordType: "Item", recordID: .init(recordName: item.id.uuidString))
+        toRecordInZone(.default())
+    }
+
+    func toRecordInZone(_ zone: CKRecordZone) -> CKRecord? {
+        let recordId = CKRecord.ID(recordName: item.id.uuidString, zoneID: zone.zoneID)
+        let record = CKRecord(recordType: "Item", recordID: recordId)
         record[Item.Key.name] = item.name
         record[Item.Key.expiration] = nil
 

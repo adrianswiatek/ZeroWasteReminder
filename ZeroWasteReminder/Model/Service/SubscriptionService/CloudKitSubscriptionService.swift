@@ -2,12 +2,16 @@ import Combine
 import CloudKit
 
 public final class CloudKitSubscriptionService: SubscriptionService {
-    private let database: CKDatabase
+    private var database: CKDatabase {
+        configuration.container.database(with: .private)
+    }
+
+    private let configuration: CloudKitConfiguration
     private var subscriptions: Set<AnyCancellable>
 
-    public init(_ container: CKContainer) {
-        database = container.privateCloudDatabase
-        subscriptions = []
+    public init(configuration: CloudKitConfiguration) {
+        self.configuration = configuration
+        self.subscriptions = []
     }
 
     public func registerItemsSubscriptionIfNeeded() {

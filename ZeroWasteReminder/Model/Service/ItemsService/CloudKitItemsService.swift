@@ -6,29 +6,33 @@ public final class CloudKitItemsService: ItemsService {
         itemsSubject.receive(on: DispatchQueue.main).eraseToAnyPublisher()
     }
 
+    private var database: CKDatabase {
+        configuration.container.database(with: .private)
+    }
+
+    private var zone: CKRecordZone {
+        configuration.itemsZone
+    }
+
     private let itemsSubject: CurrentValueSubject<[Item], Never>
-    private let database: CKDatabase
-    private let subscriptionService: CloudKitSubscriptionService
     private let mapper: CloudKitMapper
     private let notificationCenter: NotificationCenter
+    private let configuration: CloudKitConfiguration
 
     private var subscriptions: Set<AnyCancellable>
 
     public init(
-        container: CKContainer,
-        subscriptionService: CloudKitSubscriptionService,
+        configuration: CloudKitConfiguration,
         mapper: CloudKitMapper,
         notificationCenter: NotificationCenter
     ) {
-        self.database = container.privateCloudDatabase
-        self.subscriptionService = subscriptionService
+        self.configuration = configuration
         self.mapper = mapper
         self.notificationCenter = notificationCenter
 
         self.itemsSubject = .init([])
         self.subscriptions = []
 
-        self.registerSubscriptionIfNeeded()
         self.registerNotification()
     }
 
@@ -117,10 +121,6 @@ public final class CloudKitItemsService: ItemsService {
 
     private func indexForItem(_ item: Item) -> Int? {
         itemsSubject.value.firstIndex { $0.id == item.id }
-    }
-
-    private func registerSubscriptionIfNeeded() {
-        subscriptionService.registerItemsSubscriptionIfNeeded()
     }
 
     private func registerNotification() {
