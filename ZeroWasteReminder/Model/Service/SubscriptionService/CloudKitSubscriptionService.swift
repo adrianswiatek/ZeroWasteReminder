@@ -1,7 +1,7 @@
 import Combine
 import CloudKit
 
-public final class CloudKitSubscriptionService {
+public final class CloudKitSubscriptionService: SubscriptionService {
     private let database: CKDatabase
     private var subscriptions: Set<AnyCancellable>
 
@@ -10,7 +10,7 @@ public final class CloudKitSubscriptionService {
         subscriptions = []
     }
 
-    public func registerIfNeeded(_ subscription: CKQuerySubscription) {
+    public func registerItemsSubscriptionIfNeeded() {
         existingItemSubscription()
             .sink(
                 receiveCompletion: {
@@ -21,7 +21,7 @@ public final class CloudKitSubscriptionService {
                 receiveValue: { [weak self] itemSubscription in
                     guard let self = self, itemSubscription == nil else { return }
 
-                    self.database.save(subscription) { _, error in
+                    self.database.save(CKQuerySubscription.itemSubscription) { _, error in
                         if let error = error {
                             print(error.localizedDescription)
                         }
@@ -43,5 +43,22 @@ public final class CloudKitSubscriptionService {
                 promise(.success(itemSubscription))
             })
         }
+    }
+}
+
+private extension CKQuerySubscription {
+    static var itemSubscription: CKQuerySubscription {
+        let subscription = CKQuerySubscription(
+            recordType: "Item",
+            predicate: .init(value: true),
+            options: [.firesOnRecordCreation, .firesOnRecordUpdate, .firesOnRecordDeletion]
+        )
+
+        let notificationInfo = CKQuerySubscription.NotificationInfo()
+        notificationInfo.shouldSendContentAvailable = true
+        notificationInfo.category = "Item"
+
+        subscription.notificationInfo = notificationInfo
+        return subscription
     }
 }

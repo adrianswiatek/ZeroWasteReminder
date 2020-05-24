@@ -55,7 +55,6 @@
 		A780EFD1245F7590002A8AD4 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780EFD0245F7590002A8AD4 /* EditViewController.swift */; };
 		A780EFD3245F786F002A8AD4 /* SortType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780EFD2245F786F002A8AD4 /* SortType.swift */; };
 		A782FAD22475E0A000C69737 /* RemoteNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A782FAD12475E0A000C69737 /* RemoteNotificationHandler.swift */; };
-		A782FAD42475E71A00C69737 /* CKQuerySubscriptionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A782FAD32475E71A00C69737 /* CKQuerySubscriptionExtension.swift */; };
 		A782FAD62475E83300C69737 /* CloudKitSubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A782FAD52475E83300C69737 /* CloudKitSubscriptionService.swift */; };
 		A783EE2424673B8F008BCC17 /* EditContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE2324673B8F008BCC17 /* EditContentViewController.swift */; };
 		A783EE2624674ECD008BCC17 /* AdaptiveScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */; };
@@ -63,6 +62,7 @@
 		A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */; };
 		A798DF4824524B0900A84F79 /* ItemsListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A798DF4724524B0900A84F79 /* ItemsListDataSource.swift */; };
 		A7994494247871D400D3AF62 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7994493247871D400D3AF62 /* DeleteButton.swift */; };
+		A79B4A202479F6FA00ECE1B1 /* SubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */; };
 		A79DDDA32461F9B1008A3DFE /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79DDDA22461F9B1008A3DFE /* EditViewModel.swift */; };
 		A7AD76E62463661100220A94 /* StateIndicatorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AD76E52463661100220A94 /* StateIndicatorLabel.swift */; };
 		A7ADB60E244E47CB00694BA0 /* DateFormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ADB60D244E47CB00694BA0 /* DateFormatterExtensions.swift */; };
@@ -136,7 +136,6 @@
 		A780EFD0245F7590002A8AD4 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		A780EFD2245F786F002A8AD4 /* SortType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortType.swift; sourceTree = "<group>"; };
 		A782FAD12475E0A000C69737 /* RemoteNotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotificationHandler.swift; sourceTree = "<group>"; };
-		A782FAD32475E71A00C69737 /* CKQuerySubscriptionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CKQuerySubscriptionExtension.swift; sourceTree = "<group>"; };
 		A782FAD52475E83300C69737 /* CloudKitSubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitSubscriptionService.swift; sourceTree = "<group>"; };
 		A783EE2324673B8F008BCC17 /* EditContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditContentViewController.swift; sourceTree = "<group>"; };
 		A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveScrollView.swift; sourceTree = "<group>"; };
@@ -144,6 +143,7 @@
 		A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateViewModel.swift; sourceTree = "<group>"; };
 		A798DF4724524B0900A84F79 /* ItemsListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListDataSource.swift; sourceTree = "<group>"; };
 		A7994493247871D400D3AF62 /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
+		A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionService.swift; sourceTree = "<group>"; };
 		A79DDDA22461F9B1008A3DFE /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
 		A7AD76E52463661100220A94 /* StateIndicatorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateIndicatorLabel.swift; sourceTree = "<group>"; };
 		A7ADB60D244E47CB00694BA0 /* DateFormatterExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtensions.swift; sourceTree = "<group>"; };
@@ -213,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				A70FA678244CEAF50045B545 /* Entity */,
+				A79B4A1E2479F6CD00ECE1B1 /* Mapper */,
 				A70FA679244CEAFC0045B545 /* Service */,
 			);
 			path = Model;
@@ -234,11 +235,9 @@
 		A70FA679244CEAFC0045B545 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				A70FA67C244CEB340045B545 /* InMemoryItemsService.swift */,
-				A70FA67A244CEB140045B545 /* ItemsService.swift */,
 				A782FAD12475E0A000C69737 /* RemoteNotificationHandler.swift */,
-				A75043462470AA48009A1451 /* CloudKit */,
-				A701536524773CC000CE9085 /* ServiceError.swift */,
+				A79B4A1C2479F6A200ECE1B1 /* ItemsService */,
+				A79B4A1D2479F6B800ECE1B1 /* SubscriptionService */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -393,17 +392,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		A75043462470AA48009A1451 /* CloudKit */ = {
-			isa = PBXGroup;
-			children = (
-				A782FAD32475E71A00C69737 /* CKQuerySubscriptionExtension.swift */,
-				A750434024707386009A1451 /* CloudKitItemsService.swift */,
-				A74936692473153B003DB46E /* CloudKitMapper.swift */,
-				A782FAD52475E83300C69737 /* CloudKitSubscriptionService.swift */,
-			);
-			path = CloudKit;
-			sourceTree = "<group>";
-		};
 		A780EFCF245F7570002A8AD4 /* Edit */ = {
 			isa = PBXGroup;
 			children = (
@@ -412,6 +400,33 @@
 				A7AD76E52463661100220A94 /* StateIndicatorLabel.swift */,
 			);
 			path = Edit;
+			sourceTree = "<group>";
+		};
+		A79B4A1C2479F6A200ECE1B1 /* ItemsService */ = {
+			isa = PBXGroup;
+			children = (
+				A750434024707386009A1451 /* CloudKitItemsService.swift */,
+				A70FA67C244CEB340045B545 /* InMemoryItemsService.swift */,
+				A70FA67A244CEB140045B545 /* ItemsService.swift */,
+			);
+			path = ItemsService;
+			sourceTree = "<group>";
+		};
+		A79B4A1D2479F6B800ECE1B1 /* SubscriptionService */ = {
+			isa = PBXGroup;
+			children = (
+				A782FAD52475E83300C69737 /* CloudKitSubscriptionService.swift */,
+				A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */,
+			);
+			path = SubscriptionService;
+			sourceTree = "<group>";
+		};
+		A79B4A1E2479F6CD00ECE1B1 /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				A74936692473153B003DB46E /* CloudKitMapper.swift */,
+			);
+			path = Mapper;
 			sourceTree = "<group>";
 		};
 		A79DDDA12461F99D008A3DFE /* Edit */ = {
@@ -457,6 +472,7 @@
 		A7EC2D602445126600993F53 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				A701536524773CC000CE9085 /* ServiceError.swift */,
 				A70FA676244CDEEA0045B545 /* ViewControllerFactory.swift */,
 			);
 			path = Shared;
@@ -589,6 +605,7 @@
 				A782FAD62475E83300C69737 /* CloudKitSubscriptionService.swift in Sources */,
 				A71B691E2443CAD500AF7CB3 /* DefaultTextField.swift in Sources */,
 				A7B2A4832469E58D00D9C0B1 /* RemoveExpirationDateButton.swift in Sources */,
+				A79B4A202479F6FA00ECE1B1 /* SubscriptionService.swift in Sources */,
 				A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */,
 				A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */,
 				A70BCCDB2447960200CC49D0 /* Item.swift in Sources */,
@@ -629,7 +646,6 @@
 				A700D6C42454BEF400F16F2E /* ItemsFilterDataSource.swift in Sources */,
 				A780EFD3245F786F002A8AD4 /* SortType.swift in Sources */,
 				A70BCCD9244795D700CC49D0 /* AddViewModel.swift in Sources */,
-				A782FAD42475E71A00C69737 /* CKQuerySubscriptionExtension.swift in Sources */,
 				A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */,
 				A7994494247871D400D3AF62 /* DeleteButton.swift in Sources */,
 				A701536624773CC000CE9085 /* ServiceError.swift in Sources */,

@@ -120,7 +120,7 @@ public final class CloudKitItemsService: ItemsService {
     }
 
     private func registerSubscriptionIfNeeded() {
-        subscriptionService.registerIfNeeded(.itemSubscription)
+        subscriptionService.registerItemsSubscriptionIfNeeded()
     }
 
     private func registerNotification() {
