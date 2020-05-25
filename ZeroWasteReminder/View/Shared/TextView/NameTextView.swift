@@ -9,9 +9,9 @@ public final class NameTextView: UITextView {
     private let valueSubject: PassthroughSubject<String, Never>
     private let sharedDelegate: SharedTextViewDelegate
 
-    public init(maximumNumberOfCharacters: Int = 0) {
+    public init() {
         self.valueSubject = .init()
-        self.sharedDelegate = TextViewDelegate(maximumNumberOfCharacters)
+        self.sharedDelegate = NameTextViewDelegate()
 
         super.init(frame: .zero, textContainer: .none)
 
@@ -42,12 +42,8 @@ public final class NameTextView: UITextView {
 }
 
 private extension NameTextView {
-    class TextViewDelegate: SharedTextViewDelegate {
-        private let maximumNumberOfCharacters: Int
-
-        init(_ maximumNumberOfCharacters: Int) {
-            self.maximumNumberOfCharacters = max(0, maximumNumberOfCharacters)
-        }
+    class NameTextViewDelegate: SharedTextViewDelegate {
+        private let maximumNumberOfCharacters: Int = 100
 
         func textView(
             _ textView: UITextView,

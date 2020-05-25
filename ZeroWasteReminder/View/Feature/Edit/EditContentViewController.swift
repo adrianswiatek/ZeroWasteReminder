@@ -7,7 +7,7 @@ public final class EditContentViewController: UIViewController {
     }
 
     private let nameLabel: UILabel = .defaultWithText("Item name")
-    private let nameTextView = DefaultTextView(maximumNumberOfCharacters: 100)
+    private let nameTextView = NameTextView()
 
     private let expirationDateLabel: UILabel = .defaultWithText("Expiration date")
     private let stateIndicatorLabel = StateIndicatorLabel()
@@ -16,7 +16,7 @@ public final class EditContentViewController: UIViewController {
     private let datePicker = ExpirationDatePicker()
 
     private let notesLabel: UILabel = .defaultWithText("Notes")
-    private let notesTextView = DefaultTextView(resignFirstResponderOnReturn: false)
+    private let notesTextView = NotesTextView()
 
     private let actionsLabel: UILabel = .defaultWithText("Actions")
     private let deleteButton: DeleteButton = .init(type: .system)

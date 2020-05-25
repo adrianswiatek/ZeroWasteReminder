@@ -64,7 +64,9 @@
 		A7994494247871D400D3AF62 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7994493247871D400D3AF62 /* DeleteButton.swift */; };
 		A79B4A202479F6FA00ECE1B1 /* SubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */; };
 		A79DDDA32461F9B1008A3DFE /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79DDDA22461F9B1008A3DFE /* EditViewModel.swift */; };
-		A7A8EF73247C52E900FF1AC2 /* DefaultTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF72247C52E900FF1AC2 /* DefaultTextView.swift */; };
+		A7A8EF73247C52E900FF1AC2 /* NameTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */; };
+		A7A8EF75247C771900FF1AC2 /* NotesTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF74247C771900FF1AC2 /* NotesTextView.swift */; };
+		A7A8EF77247C7DF900FF1AC2 /* SharedTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF76247C7DF900FF1AC2 /* SharedTextViewDelegate.swift */; };
 		A7ACC4BE247AFFFC0098EDE0 /* RemotePersistenceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC4BD247AFFFC0098EDE0 /* RemotePersistenceFactory.swift */; };
 		A7ACC4C0247B000E0098EDE0 /* CloudKitPersistenceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC4BF247B000E0098EDE0 /* CloudKitPersistenceFactory.swift */; };
 		A7ACC4C2247B00BF0098EDE0 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC4C1247B00BF0098EDE0 /* CloudKitConfiguration.swift */; };
@@ -151,7 +153,9 @@
 		A7994493247871D400D3AF62 /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
 		A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionService.swift; sourceTree = "<group>"; };
 		A79DDDA22461F9B1008A3DFE /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
-		A7A8EF72247C52E900FF1AC2 /* DefaultTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTextView.swift; sourceTree = "<group>"; };
+		A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTextView.swift; sourceTree = "<group>"; };
+		A7A8EF74247C771900FF1AC2 /* NotesTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextView.swift; sourceTree = "<group>"; };
+		A7A8EF76247C7DF900FF1AC2 /* SharedTextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTextViewDelegate.swift; sourceTree = "<group>"; };
 		A7ACC4BD247AFFFC0098EDE0 /* RemotePersistenceFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePersistenceFactory.swift; sourceTree = "<group>"; };
 		A7ACC4BF247B000E0098EDE0 /* CloudKitPersistenceFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitPersistenceFactory.swift; sourceTree = "<group>"; };
 		A7ACC4C1247B00BF0098EDE0 /* CloudKitConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitConfiguration.swift; sourceTree = "<group>"; };
@@ -376,11 +380,9 @@
 			isa = PBXGroup;
 			children = (
 				A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */,
-				A7994493247871D400D3AF62 /* DeleteButton.swift */,
-				A72F4CBE2460B5FA008B0D5B /* ExpirationDateButton.swift */,
-				A76C34A92460C4EA00362B68 /* ExpirationDatePicker.swift */,
 				A749366B247346A4003DB46E /* LoadingView.swift */,
-				A7B2A4822469E58D00D9C0B1 /* RemoveExpirationDateButton.swift */,
+				A7A8EF79247C80F700FF1AC2 /* Button */,
+				A7A8EF78247C80DE00FF1AC2 /* TextView */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -451,6 +453,27 @@
 			path = Edit;
 			sourceTree = "<group>";
 		};
+		A7A8EF78247C80DE00FF1AC2 /* TextView */ = {
+			isa = PBXGroup;
+			children = (
+				A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */,
+				A7A8EF74247C771900FF1AC2 /* NotesTextView.swift */,
+				A7A8EF76247C7DF900FF1AC2 /* SharedTextViewDelegate.swift */,
+			);
+			path = TextView;
+			sourceTree = "<group>";
+		};
+		A7A8EF79247C80F700FF1AC2 /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				A7994493247871D400D3AF62 /* DeleteButton.swift */,
+				A72F4CBE2460B5FA008B0D5B /* ExpirationDateButton.swift */,
+				A76C34A92460C4EA00362B68 /* ExpirationDatePicker.swift */,
+				A7B2A4822469E58D00D9C0B1 /* RemoveExpirationDateButton.swift */,
+			);
+			path = Button;
+			sourceTree = "<group>";
+		};
 		A7ACC4BC247AFFE90098EDE0 /* RemotePersistenceFactory */ = {
 			isa = PBXGroup;
 			children = (
@@ -477,7 +500,6 @@
 				A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */,
 				A7DB8A34244285010035CF36 /* AddViewController.swift */,
 				A71B691D2443CAD500AF7CB3 /* DefaultTextField.swift */,
-				A7A8EF72247C52E900FF1AC2 /* DefaultTextView.swift */,
 				A7EC2D5F2445030200993F53 /* ExpirationSection */,
 			);
 			path = Add;
@@ -628,15 +650,17 @@
 				A7FFA97D244909B40061A3D6 /* DateExtensions.swift in Sources */,
 				A7DB8A37244286440035CF36 /* ItemsListNavigationController.swift in Sources */,
 				A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */,
-				A7A8EF73247C52E900FF1AC2 /* DefaultTextView.swift in Sources */,
+				A7A8EF73247C52E900FF1AC2 /* NameTextView.swift in Sources */,
 				A783EE2624674ECD008BCC17 /* AdaptiveScrollView.swift in Sources */,
 				A725068D2457992F006C3A2F /* RemainingState.swift in Sources */,
 				A7FFA9792448F5C00061A3D6 /* ExpirationType.swift in Sources */,
 				A70FA677244CDEEA0045B545 /* ViewControllerFactory.swift in Sources */,
 				A716C9C1244FA07A004262AF /* RemainingViewModel.swift in Sources */,
+				A7A8EF75247C771900FF1AC2 /* NotesTextView.swift in Sources */,
 				A7EC2D5C2444F66800993F53 /* ExpirationDateView.swift in Sources */,
 				A70FA67D244CEB340045B545 /* InMemoryItemsService.swift in Sources */,
 				A77A99D3245A26B700F3578C /* FilterBadgeLabel.swift in Sources */,
+				A7A8EF77247C7DF900FF1AC2 /* SharedTextViewDelegate.swift in Sources */,
 				A7F82BAC2458CBA800970CFC /* FilteringModeState.swift in Sources */,
 				A70BCCE52447C56A00CC49D0 /* ExpirationTypeExtensions.swift in Sources */,
 				A72F4CBF2460B5FA008B0D5B /* ExpirationDateButton.swift in Sources */,
