@@ -6,15 +6,8 @@ public final class EditContentViewController: UIViewController {
         deleteSubject.eraseToAnyPublisher()
     }
 
-    private let deleteSubject: PassthroughSubject<Void, Never>
-
     private let nameLabel: UILabel = .defaultWithText("Item name")
-    private lazy var nameTextField: DefaultTextField = {
-        let textField = DefaultTextField()
-        textField.textAlignment = .center
-        textField.delegate = self
-        return textField
-    }()
+    private let nameTextView = DefaultTextView(maximumNumberOfCharacters: 100)
 
     private let expirationDateLabel: UILabel = .defaultWithText("Expiration date")
     private let stateIndicatorLabel = StateIndicatorLabel()
@@ -25,6 +18,8 @@ public final class EditContentViewController: UIViewController {
     private let deleteButton: DeleteButton = .init(type: .system)
 
     private let viewModel: EditViewModel
+
+    private let deleteSubject: PassthroughSubject<Void, Never>
     private var subscriptions: Set<AnyCancellable>
 
     public init(viewModel: EditViewModel) {
@@ -57,19 +52,19 @@ public final class EditContentViewController: UIViewController {
             nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
 
-        view.addSubview(nameTextField)
+        view.addSubview(nameTextView)
         NSLayoutConstraint.activate([
-            nameTextField.topAnchor.constraint(
+            nameTextView.topAnchor.constraint(
                 equalTo: nameLabel.bottomAnchor, constant: Metrics.insideSectionsPadding
             ),
-            nameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            nameTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            nameTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
         view.addSubview(expirationDateLabel)
         NSLayoutConstraint.activate([
             expirationDateLabel.topAnchor.constraint(
-                equalTo: nameTextField.bottomAnchor, constant: Metrics.betweenSectionsPadding
+                equalTo: nameTextView.bottomAnchor, constant: Metrics.betweenSectionsPadding
             ),
             expirationDateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
@@ -109,8 +104,7 @@ public final class EditContentViewController: UIViewController {
         view.addSubview(actionsLabel)
         NSLayoutConstraint.activate([
             actionsLabel.topAnchor.constraint(
-                equalTo: datePicker.bottomAnchor,
-                constant: Metrics.betweenSectionsPadding
+                equalTo: datePicker.bottomAnchor, constant: Metrics.betweenSectionsPadding
             ),
             actionsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
@@ -118,8 +112,7 @@ public final class EditContentViewController: UIViewController {
         view.addSubview(deleteButton)
         NSLayoutConstraint.activate([
             deleteButton.topAnchor.constraint(
-                equalTo: actionsLabel.bottomAnchor,
-                constant: Metrics.insideSectionsPadding
+                equalTo: actionsLabel.bottomAnchor, constant: Metrics.insideSectionsPadding
             ),
             deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             deleteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -152,12 +145,16 @@ public final class EditContentViewController: UIViewController {
             .sink { [weak self] in self?.viewModel.setExpirationDate($0) }
             .store(in: &subscriptions)
 
+        nameTextView.value
+            .assign(to: \.name, on: viewModel)
+            .store(in: &subscriptions)
+
         viewModel.isRemoveDateButtonEnabled
             .assign(to: \.isEnabled, on: removeDateButton)
             .store(in: &subscriptions)
 
         viewModel.$name
-            .sink { [weak self] in self?.nameTextField.text = $0 }
+            .sink { [weak self] in self?.nameTextView.text = $0 }
             .store(in: &subscriptions)
 
         viewModel.expirationDate
@@ -182,27 +179,5 @@ extension EditContentViewController {
         static let controlsHeight: CGFloat = 44
         static let betweenSectionsPadding: CGFloat = 16
         static let insideSectionsPadding: CGFloat = 8
-    }
-}
-
-extension EditContentViewController: UITextFieldDelegate {
-    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-
-    public func textField(
-        _ textField: UITextField,
-        shouldChangeCharactersIn range: NSRange,
-        replacementString string: String
-    ) -> Bool {
-        guard var text = textField.text, let range = Range<String.Index>(range, in: text) else {
-            preconditionFailure("Unable to create range.")
-        }
-
-        text.replaceSubrange(range, with: string)
-        viewModel.name = text
-
-        return false
     }
 }
