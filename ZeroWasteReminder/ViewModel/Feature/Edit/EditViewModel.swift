@@ -3,6 +3,7 @@ import Foundation
 
 public final class EditViewModel {
     @Published var name: String
+    @Published var notes: String
 
     public var expirationDate: AnyPublisher<(date: Date, formatted: String), Never> {
         expirationDateSubject
@@ -45,6 +46,7 @@ public final class EditViewModel {
         self.dateFormatter = .fullDateFormatter
 
         self.name = item.name
+        self.notes = item.notes
 
         if case .date(let date) = item.expiration {
             self.expirationDateSubject = .init(date)
@@ -69,7 +71,7 @@ public final class EditViewModel {
     }
 
     public func save() -> Future<Void, Never> {
-        guard let item = tryCreateItem(name, expirationDateSubject.value) else {
+        guard let item = tryCreateItem(name, notes, expirationDateSubject.value) else {
             preconditionFailure("Unable to create an item.")
         }
 
@@ -81,9 +83,9 @@ public final class EditViewModel {
     }
 
     private func bind() {
-        Publishers.CombineLatest($name, expirationDateSubject)
-            .map { [weak self] in (self?.originalItem, $0, $1) }
-            .map { !$1.isEmpty && $0 != $0?.withName($1).withExpirationDate($2) }
+        Publishers.CombineLatest3($name, $notes, expirationDateSubject)
+            .map { [weak self] in (self?.originalItem, $0, $1, $2) }
+            .map { !$1.isEmpty && $0 != $0?.withName($1).withNotes($2).withExpirationDate($3) }
             .subscribe(canSaveSubject)
             .store(in: &subscriptions)
     }
@@ -93,13 +95,13 @@ public final class EditViewModel {
         return dateFormatter.string(from: date)
     }
 
-    private func tryCreateItem(_ name: String, _ expirationDate: Date?) -> Item? {
+    private func tryCreateItem(_ name: String, _ notes: String, _ expirationDate: Date?) -> Item? {
         guard !name.isEmpty else { return nil }
 
         if let expirationDate = expirationDate {
-            return Item(id: originalItem.id, name: name, expiration: .date(expirationDate))
+            return Item(id: originalItem.id, name: name, notes: notes, expiration: .date(expirationDate))
         }
 
-        return Item(id: originalItem.id, name: name, expiration: .none)
+        return Item(id: originalItem.id, name: name, notes: notes, expiration: .none)
     }
 }

@@ -103,7 +103,7 @@ public final class CloudKitItemsService: ItemsService {
         Future { [weak self] promise in
             guard let self = self else { return }
 
-            let recordIds = items.compactMap { self.mapper.map($0).toRecord()?.recordID }
+            let recordIds = items.compactMap { self.mapper.map($0).toRecordInZone(self.zone)?.recordID }
             let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: recordIds)
             operation.modifyRecordsCompletionBlock = { _, deletedRecordIds, error in
                 if let error = error {

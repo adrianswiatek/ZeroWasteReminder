@@ -25,6 +25,7 @@ public final class CloudKitItemMapper {
         let recordId = CKRecord.ID(recordName: item.id.uuidString, zoneID: zone.zoneID)
         let record = CKRecord(recordType: "Item", recordID: recordId)
         record[Item.Key.name] = item.name
+        record[Item.Key.notes] = item.notes
         record[Item.Key.expiration] = nil
 
         if case .date(let date) = item.expiration {
@@ -46,20 +47,22 @@ public final class CloudKitRecordMapper {
         guard
             let record = record,
             let id = UUID(uuidString: record.recordID.recordName),
-            let name = record[Item.Key.name] as? String
+            let name = record[Item.Key.name] as? String,
+            let notes = record[Item.Key.notes] as? String
         else { return nil }
 
         if let date = record[Item.Key.expiration] as? Date {
-            return Item(id: id, name: name, expiration: .date(date))
+            return Item(id: id, name: name, notes: notes, expiration: .date(date))
         }
 
-        return Item(id: id, name: name, expiration: .none)
+        return Item(id: id, name: name, notes: notes, expiration: .none)
     }
 
     func updateBy(_ item: Item?) -> CloudKitRecordMapper {
         guard let record = record, let item = item else { return self }
 
         record[Item.Key.name] = item.name
+        record[Item.Key.notes] = item.notes
         record[Item.Key.expiration] = nil
 
         if case .date(let date) = item.expiration {
@@ -78,6 +81,7 @@ private extension Item {
     enum Key {
         static let id = "id"
         static let name = "name"
+        static let notes = "notes"
         static let expiration = "expiration"
     }
 }

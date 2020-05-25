@@ -7,14 +7,17 @@ public final class DefaultTextView: UITextView {
     }
 
     private let maximumNumberOfCharacters: Int
+    private let resignFirstResponderOnReturn: Bool
     private let textValueSubject: PassthroughSubject<String, Never>
 
-    public init(maximumNumberOfCharacters: Int = 0) {
+    public init(maximumNumberOfCharacters: Int = 0, resignFirstResponderOnReturn: Bool = true) {
         self.maximumNumberOfCharacters = max(0, maximumNumberOfCharacters)
+        self.resignFirstResponderOnReturn = resignFirstResponderOnReturn
         self.textValueSubject = .init()
 
         super.init(frame: .zero, textContainer: .none)
 
+        self.delegate = self
         self.setupView()
     }
 
@@ -24,15 +27,16 @@ public final class DefaultTextView: UITextView {
     }
 
     private func setupView() {
+        translatesAutoresizingMaskIntoConstraints = false
+
         backgroundColor = .tertiarySystemFill
         tintColor = .accent
         font = .systemFont(ofSize: 16)
-        returnKeyType = .done
-        isScrollEnabled = false
         textContainerInset = .init(top: 14, left: 8, bottom: 14, right: 8)
-        delegate = self
 
-        translatesAutoresizingMaskIntoConstraints = false
+        isScrollEnabled = false
+        enablesReturnKeyAutomatically = true
+        returnKeyType = resignFirstResponderOnReturn ? .done : .default
 
         layer.cornerRadius = 8
         layer.borderColor = UIColor.accent.cgColor
@@ -57,7 +61,7 @@ extension DefaultTextView: UITextViewDelegate {
         shouldChangeTextIn range: NSRange,
         replacementText text: String
     ) -> Bool {
-        if text == "\n" {
+        if text == "\n", resignFirstResponderOnReturn {
             textView.endEditing(true)
         }
 

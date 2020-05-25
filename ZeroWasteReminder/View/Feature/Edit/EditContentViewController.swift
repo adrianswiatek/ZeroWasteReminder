@@ -14,6 +14,10 @@ public final class EditContentViewController: UIViewController {
     private let dateButton: ExpirationDateButton = .init(type: .system)
     private let removeDateButton: RemoveExpirationDateButton = .init(type: .system)
     private let datePicker = ExpirationDatePicker()
+
+    private let notesLabel: UILabel = .defaultWithText("Notes")
+    private let notesTextView = DefaultTextView(resignFirstResponderOnReturn: false)
+
     private let actionsLabel: UILabel = .defaultWithText("Actions")
     private let deleteButton: DeleteButton = .init(type: .system)
 
@@ -101,10 +105,27 @@ public final class EditContentViewController: UIViewController {
             datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
 
+        view.addSubview(notesLabel)
+        NSLayoutConstraint.activate([
+            notesLabel.topAnchor.constraint(
+                equalTo: datePicker.bottomAnchor, constant: Metrics.betweenSectionsPadding
+            ),
+            notesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        ])
+
+        view.addSubview(notesTextView)
+        NSLayoutConstraint.activate([
+            notesTextView.topAnchor.constraint(
+                equalTo: notesLabel.bottomAnchor, constant: Metrics.insideSectionsPadding
+            ),
+            notesTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            notesTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+
         view.addSubview(actionsLabel)
         NSLayoutConstraint.activate([
             actionsLabel.topAnchor.constraint(
-                equalTo: datePicker.bottomAnchor, constant: Metrics.betweenSectionsPadding
+                equalTo: notesTextView.bottomAnchor, constant: Metrics.betweenSectionsPadding
             ),
             actionsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
@@ -149,12 +170,20 @@ public final class EditContentViewController: UIViewController {
             .assign(to: \.name, on: viewModel)
             .store(in: &subscriptions)
 
+        notesTextView.value
+            .assign(to: \.notes, on: viewModel)
+            .store(in: &subscriptions)
+
         viewModel.isRemoveDateButtonEnabled
             .assign(to: \.isEnabled, on: removeDateButton)
             .store(in: &subscriptions)
 
         viewModel.$name
             .sink { [weak self] in self?.nameTextView.text = $0 }
+            .store(in: &subscriptions)
+
+        viewModel.$notes
+            .sink { [weak self] in self?.notesTextView.text = $0 }
             .store(in: &subscriptions)
 
         viewModel.expirationDate

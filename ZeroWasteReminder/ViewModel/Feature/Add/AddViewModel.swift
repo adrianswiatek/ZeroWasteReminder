@@ -86,7 +86,7 @@ public final class AddViewModel {
             return nil
         }
 
-        return Item(name: itemName, expiration: expiration)
+        return Item(name: itemName, notes: "", expiration: expiration)
     }
 
     private func expirationForType(_ expirationType: ExpirationType) -> Expiration? {
