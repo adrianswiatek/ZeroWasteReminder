@@ -1,7 +1,7 @@
 import Combine
 
 public final class AddViewModel {
-    @Published public var itemName: String
+    @Published public var name: String
     @Published public var expirationTypeIndex: Int
 
     public let expirationDateViewModel: ExpirationDateViewModel
@@ -32,7 +32,7 @@ public final class AddViewModel {
     public init(itemsService: ItemsService) {
         self.itemsService = itemsService
 
-        self.itemName = ""
+        self.name = ""
 
         self.expirationTypeIndex = ExpirationType.none.index
 
@@ -57,7 +57,7 @@ public final class AddViewModel {
 
     private func bind() {
         expirationType.combineLatest(
-            $itemName.map { !$0.isEmpty },
+            $name.map { !$0.isEmpty },
             expirationDateViewModel.isValid,
             expirationPeriodViewModel.isValid
         ) {
@@ -82,11 +82,11 @@ public final class AddViewModel {
     }
 
     private func createItem() -> Item? {
-        guard !itemName.isEmpty, let expiration = expirationForType(expirationTypeSubject.value) else {
+        guard !name.isEmpty, let expiration = expirationForType(expirationTypeSubject.value) else {
             return nil
         }
 
-        return Item(name: itemName, notes: "", expiration: expiration)
+        return Item(name: name, notes: "", expiration: expiration)
     }
 
     private func expirationForType(_ expirationType: ExpirationType) -> Expiration? {

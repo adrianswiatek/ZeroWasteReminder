@@ -35,6 +35,7 @@ public final class AddViewController: UIViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+        self.setupGestureRecognizer()
         self.setupNavigationItem()
         self.setupView()
     }
@@ -83,6 +84,16 @@ public final class AddViewController: UIViewController {
         viewModel.canSaveItem
             .sink { [weak self] in self?.doneButton.isEnabled = $0 }
             .store(in: &subscriptions)
+    }
+
+    private func setupGestureRecognizer() {
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleViewTap))
+        view.addGestureRecognizer(gestureRecognizer)
+    }
+
+    @objc
+    private func handleViewTap() {
+        view.endEditing(true)
     }
 
     @objc

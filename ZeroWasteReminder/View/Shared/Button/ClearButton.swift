@@ -28,6 +28,7 @@ public final class ClearButton: UIButton {
 
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
+        isHidden = true
         setImage(image(), for: .normal)
     }
 
