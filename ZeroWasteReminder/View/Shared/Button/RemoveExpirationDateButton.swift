@@ -28,7 +28,7 @@ public final class RemoveExpirationDateButton: UIButton {
         backgroundColor = .tertiarySystemFill
         setTitleColor(.label, for: .normal)
 
-        let image = UIImage.calendarMinus.withRenderingMode(.alwaysOriginal).withTintColor(.label)
+        let image = UIImage.fromSymbol(.calendarBadgeMinus).withRenderingMode(.alwaysOriginal).withTintColor(.label)
         setImage(image, for: .normal)
     }
 

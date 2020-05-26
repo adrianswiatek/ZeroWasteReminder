@@ -152,7 +152,7 @@ public final class ItemsListViewController: UIViewController {
             .store(in: &subscriptions)
 
         viewModel.$sortType
-            .map { $0 == .ascending ? .sortAscending : .sortDescending }
+            .map { $0 == .ascending ? .fromSymbol(.arrowUpCircle) : .fromSymbol(.arrowDownCircle) }
             .assign(to: \.image, on: sortButton)
             .store(in: &subscriptions)
 
@@ -173,7 +173,9 @@ public final class ItemsListViewController: UIViewController {
             .map { $0 > 0 }
             .sink { [weak self] isFilterActive in
                 self?.clearButton.isEnabled = isFilterActive
-                self?.filterButton.image = isFilterActive ? .filterActive : .filter
+                self?.filterButton.image = isFilterActive
+                    ? .fromSymbol(.lineHorizontal3DecreaseCircleFill)
+                    : .fromSymbol(.lineHorizontal3DecreaseCircle)
             }
             .store(in: &subscriptions)
 

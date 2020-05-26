@@ -6,17 +6,7 @@ public final class NotesTextView: UITextView {
         valueSubject.eraseToAnyPublisher()
     }
 
-    private lazy var clearButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-
-        let image = UIImage.multiply.withRenderingMode(.alwaysOriginal).withTintColor(.tertiaryLabel)
-        button.setImage(image, for: .normal)
-        button.imageView?.transform.scaledBy(x: 0.25, y: 0.25)
-
-        button.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    private let clearButton = ClearButton(type: .system)
 
     private let valueSubject: PassthroughSubject<String, Never>
     private let sharedDelegate: SharedTextViewDelegate
@@ -34,6 +24,7 @@ public final class NotesTextView: UITextView {
         self.delegate = sharedDelegate
 
         self.setupView()
+        self.layoutClearButton()
         self.bind()
     }
 
@@ -47,27 +38,34 @@ public final class NotesTextView: UITextView {
 
         backgroundColor = .tertiarySystemFill
         tintColor = .accent
-        textColor = .label
-        font = .systemFont(ofSize: 14, weight: .light)
 
-        textContainerInset = .init(top: 15, left: 8, bottom: 15, right: 28)
+        typingAttributes = [
+            .paragraphStyle: paragraphStyle(),
+            .font: UIFont.systemFont(ofSize: 14, weight: .light),
+            .foregroundColor: UIColor.label
+        ]
 
-        clipsToBounds = false
+        textContainerInset = .init(top: 15, left: 8, bottom: 15, right: 22)
+
         isScrollEnabled = false
         enablesReturnKeyAutomatically = true
 
         layer.cornerRadius = 8
         layer.borderColor = UIColor.accent.cgColor
+    }
 
+    private func layoutClearButton() {
         addSubview(clearButton)
         NSLayoutConstraint.activate([
-            clearButton.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
-            clearButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            clearButton.heightAnchor.constraint(equalToConstant: 22),
-            clearButton.widthAnchor.constraint(equalToConstant: 22)
+            clearButton.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor, constant: 8),
+            clearButton.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
+    }
 
-        superview?.bringSubviewToFront(clearButton)
+    private func paragraphStyle() -> NSParagraphStyle {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 8
+        return paragraphStyle
     }
 
     private func bind() {
@@ -75,13 +73,12 @@ public final class NotesTextView: UITextView {
             .subscribe(valueSubject)
             .store(in: &subscriptions)
 
+        clearButton.tap
+            .sink { [weak self] in self?.text = "" }
+            .store(in: &subscriptions)
+
         Publishers.CombineLatest(sharedDelegate.value, sharedDelegate.isActive)
             .sink { [weak self] in self?.clearButton.isHidden = !($0.0.count > 0 && $0.1) }
             .store(in: &subscriptions)
-    }
-
-    @objc
-    private func clearButtonTapped(_ sender: UIButton) {
-        text = ""
     }
 }

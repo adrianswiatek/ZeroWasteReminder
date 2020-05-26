@@ -25,7 +25,9 @@ public final class ExpirationDateButton: UIButton {
 
         backgroundColor = .tertiarySystemFill
         setTitleColor(.label, for: .normal)
-        setImage(UIImage.calendar.withRenderingMode(.alwaysOriginal).withTintColor(.label), for: .normal)
+
+        let image = UIImage.fromSymbol(.calendar).withRenderingMode(.alwaysOriginal).withTintColor(.label)
+        setImage(image, for: .normal)
     }
 
     private func setupTargets() {

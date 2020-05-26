@@ -6,17 +6,25 @@ public final class NameTextView: UITextView {
         valueSubject.eraseToAnyPublisher()
     }
 
+    private let clearButton = ClearButton(type: .system)
+
     private let valueSubject: PassthroughSubject<String, Never>
     private let sharedDelegate: SharedTextViewDelegate
+
+    private var subscriptions: Set<AnyCancellable>
 
     public init() {
         self.valueSubject = .init()
         self.sharedDelegate = NameTextViewDelegate()
+        self.subscriptions = []
 
         super.init(frame: .zero, textContainer: .none)
 
         self.delegate = self.sharedDelegate
+
         self.setupView()
+        self.layoutClearButton()
+        self.bind()
     }
 
     @available(*, unavailable)
@@ -29,8 +37,9 @@ public final class NameTextView: UITextView {
 
         backgroundColor = .tertiarySystemFill
         tintColor = .accent
+
         font = .systemFont(ofSize: 16)
-        textContainerInset = .init(top: 14, left: 8, bottom: 14, right: 8)
+        textContainerInset = .init(top: 14, left: 8, bottom: 14, right: 22)
 
         isScrollEnabled = false
         enablesReturnKeyAutomatically = true
@@ -38,6 +47,28 @@ public final class NameTextView: UITextView {
 
         layer.cornerRadius = 8
         layer.borderColor = UIColor.accent.cgColor
+    }
+
+    private func layoutClearButton() {
+        addSubview(clearButton)
+        NSLayoutConstraint.activate([
+            clearButton.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor, constant: 8),
+            clearButton.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
+    }
+
+    private func bind() {
+        sharedDelegate.value
+            .subscribe(valueSubject)
+            .store(in: &subscriptions)
+
+        clearButton.tap
+            .sink { [weak self] in self?.text = "" }
+            .store(in: &subscriptions)
+
+        Publishers.CombineLatest(sharedDelegate.value, sharedDelegate.isActive)
+            .sink { [weak self] in self?.clearButton.isHidden = !($0.0.count > 0 && $0.1) }
+            .store(in: &subscriptions)
     }
 }
 

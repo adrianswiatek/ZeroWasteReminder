@@ -9,7 +9,7 @@ public final class DeleteButton: UIButton {
     private let tapSubject: PassthroughSubject<Void, Never> = .init()
 
     private var trashImage: UIImage {
-        UIImage.trash
+        UIImage.fromSymbol(.trash)
             .withRenderingMode(.alwaysOriginal)
             .withTintColor(.expired)
     }
@@ -26,6 +26,7 @@ public final class DeleteButton: UIButton {
 
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = .tertiarySystemFill
 
         setImage(trashImage, for: .normal)
         imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 4)
@@ -36,7 +37,6 @@ public final class DeleteButton: UIButton {
         titleEdgeInsets = .init(top: 0, left: 4, bottom: 0, right: 0)
 
         layer.cornerRadius = 8
-        backgroundColor = .tertiarySystemFill
     }
 
     private func setupTargets() {
