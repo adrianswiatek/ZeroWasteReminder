@@ -2,6 +2,7 @@ import Combine
 
 public final class AddViewModel {
     @Published public var name: String
+    @Published public var notes: String
     @Published public var expirationTypeIndex: Int
 
     public let expirationDateViewModel: ExpirationDateViewModel
@@ -33,6 +34,7 @@ public final class AddViewModel {
         self.itemsService = itemsService
 
         self.name = ""
+        self.notes = ""
 
         self.expirationTypeIndex = ExpirationType.none.index
 
@@ -86,7 +88,7 @@ public final class AddViewModel {
             return nil
         }
 
-        return Item(name: name, notes: "", expiration: expiration)
+        return Item(name: name, notes: notes, expiration: expiration)
     }
 
     private func expirationForType(_ expirationType: ExpirationType) -> Expiration? {
