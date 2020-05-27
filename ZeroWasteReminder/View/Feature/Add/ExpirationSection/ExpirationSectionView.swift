@@ -110,7 +110,7 @@ public final class ExpirationSectionView: UIView {
             return
         }
 
-        UIView.transition(with: superview, duration: 0.5, options: [.transitionCrossDissolve], animations: {
+        UIView.transition(with: superview, duration: 0.3, options: [.transitionCrossDissolve], animations: {
             setVisibility()
         })
     }
