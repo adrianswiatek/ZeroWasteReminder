@@ -22,12 +22,15 @@ public final class ExpirationSectionView: UIView {
     private let expirationDateView: ExpirationDateView
     private let expirationPeriodView: ExpirationPeriodView
 
+    private var bottomConstraints: [Int: NSLayoutConstraint]
+
     private let viewModel: AddViewModel
 
     public init(viewModel: AddViewModel) {
         self.viewModel = viewModel
         self.expirationDateView = .init(viewModel: viewModel.expirationDateViewModel)
         self.expirationPeriodView = .init(viewModel: viewModel.expirationPeriodViewModel)
+        self.bottomConstraints = [:]
 
         super.init(frame: .zero)
 
@@ -47,7 +50,7 @@ public final class ExpirationSectionView: UIView {
         addSubview(expirationLabel)
         NSLayoutConstraint.activate([
             expirationLabel.topAnchor.constraint(equalTo: topAnchor),
-            expirationLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4)
+            expirationLabel.leadingAnchor.constraint(equalTo: leadingAnchor)
         ])
 
         addSubview(expirationSegmentedControl)
@@ -61,7 +64,6 @@ public final class ExpirationSectionView: UIView {
         NSLayoutConstraint.activate([
             expirationDateView.topAnchor.constraint(equalTo: expirationSegmentedControl.bottomAnchor, constant: 16),
             expirationDateView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            expirationDateView.bottomAnchor.constraint(equalTo: bottomAnchor),
             expirationDateView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
 
@@ -69,27 +71,47 @@ public final class ExpirationSectionView: UIView {
         NSLayoutConstraint.activate([
             expirationPeriodView.topAnchor.constraint(equalTo: expirationSegmentedControl.bottomAnchor, constant: 8),
             expirationPeriodView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            expirationPeriodView.bottomAnchor.constraint(equalTo: bottomAnchor),
             expirationPeriodView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
+
+        bottomConstraints = [
+            0: expirationSegmentedControl.bottomAnchor.constraint(equalTo: bottomAnchor),
+            1: expirationDateView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            2: expirationPeriodView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ]
+
+        bottomConstraints[0]?.isActive = true
     }
 
     @objc
     private func handleSegmentedControlChange(_ sender: UISegmentedControl) {
-        viewModel.expirationTypeIndex = sender.selectedSegmentIndex
+        setExpirationTypeIndex(sender.selectedSegmentIndex)
+        setBottomConstraint(sender.selectedSegmentIndex)
         setControlsVisibility()
     }
 
+    private func setExpirationTypeIndex(_ selectedIndex: Int) {
+        viewModel.expirationTypeIndex = selectedIndex
+    }
+
+    private func setBottomConstraint(_ selectedIndex: Int) {
+        bottomConstraints.forEach { $0.value.isActive = false }
+        bottomConstraints[selectedIndex]?.isActive = true
+    }
+
     private func setControlsVisibility() {
-        UIView.transition(
-            with: self,
-            duration: 0.3,
-            options: [.transitionCrossDissolve],
-            animations: { [weak self] in
-                guard let self = self else { return }
-                self.expirationDateView.isHidden = !self.viewModel.isExpirationDateVisible
-                self.expirationPeriodView.isHidden = !self.viewModel.isExpirationPeriodVisible
-            }
-        )
+        func setVisibility() {
+            expirationDateView.isHidden = !viewModel.isExpirationDateVisible
+            expirationPeriodView.isHidden = !viewModel.isExpirationPeriodVisible
+        }
+
+        guard let superview = superview else {
+            setVisibility()
+            return
+        }
+
+        UIView.transition(with: superview, duration: 0.5, options: [.transitionCrossDissolve], animations: {
+            setVisibility()
+        })
     }
 }

@@ -17,24 +17,25 @@ public final class ExpirationPeriodView: UIView {
         textField.keyboardType = .numberPad
         textField.addTarget(self, action: #selector(handlePeriodTextFieldChange), for: .editingChanged)
         textField.delegate = self
+        textField.setContentHuggingPriority(.defaultLow - 1, for: .horizontal)
         return textField
     }()
 
     private lazy var periodTypeLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .secondaryLabel
         label.font = .systemFont(ofSize: 16)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private lazy var periodStepper: UIStepper = {
         let stepper = UIStepper()
+        stepper.translatesAutoresizingMaskIntoConstraints = false
         stepper.minimumValue = 0
         stepper.maximumValue = Double(PeriodType.allCases.count - 1)
         stepper.value = Double(viewModel.periodTypeIndex)
         stepper.addTarget(self, action: #selector(handlePeriodStepperChange), for: .valueChanged)
-        stepper.translatesAutoresizingMaskIntoConstraints = false
         return stepper
     }()
 
@@ -60,7 +61,8 @@ public final class ExpirationPeriodView: UIView {
         addSubview(periodTextField)
         NSLayoutConstraint.activate([
             periodTextField.topAnchor.constraint(equalTo: topAnchor),
-            periodTextField.leadingAnchor.constraint(equalTo: leadingAnchor)
+            periodTextField.leadingAnchor.constraint(equalTo: leadingAnchor),
+            periodTextField.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
 
         addSubview(periodTypeLabel)

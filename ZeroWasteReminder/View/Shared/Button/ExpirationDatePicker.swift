@@ -7,16 +7,13 @@ public final class ExpirationDatePicker: UIDatePicker {
     }
 
     private let valueSubject: PassthroughSubject<Date, Never>
-
     private var heightConstraint: NSLayoutConstraint!
-    private var height: CGFloat!
 
     public override init(frame: CGRect) {
         self.valueSubject = .init()
 
         super.init(frame: frame)
 
-        self.height = bounds.height
         self.heightConstraint = heightAnchor.constraint(equalToConstant: 0)
 
         self.setupView()
@@ -29,7 +26,7 @@ public final class ExpirationDatePicker: UIDatePicker {
     }
 
     public func setVisibility(_ show: Bool) {
-        heightConstraint.constant = show ? height : .zero
+        heightConstraint.constant = show ? intrinsicContentSize.height : .zero
     }
 
     private func setupView() {
