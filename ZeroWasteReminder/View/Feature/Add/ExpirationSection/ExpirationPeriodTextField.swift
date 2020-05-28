@@ -1,6 +1,6 @@
 import UIKit
 
-public final class DefaultTextField: UITextField {
+public final class ExpirationPeriodTextField: UITextField {
     public init(placeholder: String = "") {
         super.init(frame: .zero)
         self.placeholder = placeholder

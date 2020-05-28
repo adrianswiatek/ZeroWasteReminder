@@ -32,7 +32,7 @@
 		A7175078244286F60058FCE4 /* ItemsListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7175077244286F60058FCE4 /* ItemsListTableViewCell.swift */; };
 		A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */; };
 		A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */; };
-		A71B691E2443CAD500AF7CB3 /* DefaultTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691D2443CAD500AF7CB3 /* DefaultTextField.swift */; };
+		A71B691E2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691D2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift */; };
 		A71B69212443D3EB00AF7CB3 /* ExpirationSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B69202443D3EB00AF7CB3 /* ExpirationSectionView.swift */; };
 		A72315AE244B0943008614B2 /* ValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72315AD244B0943008614B2 /* ValidationRules.swift */; };
 		A725068D2457992F006C3A2F /* RemainingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A725068C2457992F006C3A2F /* RemainingState.swift */; };
@@ -46,6 +46,10 @@
 		A749366C247346A4003DB46E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749366B247346A4003DB46E /* LoadingView.swift */; };
 		A750434124707386009A1451 /* CloudKitItemsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434024707386009A1451 /* CloudKitItemsService.swift */; };
 		A750434524707517009A1451 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A750434424707517009A1451 /* CloudKit.framework */; };
+		A760CAD6248802CB00999C12 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A760CAD5248802CB00999C12 /* PhotosDataSource.swift */; };
+		A763AFF82482E13000E93546 /* LocalizedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A763AFF72482E13000E93546 /* LocalizedText.swift */; };
+		A763AFFA2482E2C500E93546 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A763AFF92482E2C500E93546 /* StringExtensions.swift */; };
+		A763AFFD2482E86000E93546 /* PhotosCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A763AFFC2482E86000E93546 /* PhotosCollectionView.swift */; };
 		A76C34AA2460C4EA00362B68 /* ExpirationDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76C34A92460C4EA00362B68 /* ExpirationDatePicker.swift */; };
 		A76C34AF2460C99400362B68 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76C34AE2460C99400362B68 /* UILabelExtension.swift */; };
 		A77A99CD245A118200F3578C /* UIBarButtonItemExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77A99CC245A118200F3578C /* UIBarButtonItemExtensions.swift */; };
@@ -79,6 +83,9 @@
 		A7CA5344245E0624006D84FD /* ItemsFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CA5343245E0624006D84FD /* ItemsFilterViewController.swift */; };
 		A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A34244285010035CF36 /* AddViewController.swift */; };
 		A7DB8A37244286440035CF36 /* ItemsListNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A36244286440035CF36 /* ItemsListNavigationController.swift */; };
+		A7DD996A2484578D00B40141 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DD99692484578D00B40141 /* PhotoCell.swift */; };
+		A7DD996C248462C500B40141 /* PhotoCaptureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DD996B248462C500B40141 /* PhotoCaptureCell.swift */; };
+		A7DD996E248463B500B40141 /* ReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DD996D248463B500B40141 /* ReuseIdentifiable.swift */; };
 		A7EC2D5C2444F66800993F53 /* ExpirationDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC2D5B2444F66800993F53 /* ExpirationDateView.swift */; };
 		A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC2D5D2445004D00993F53 /* ExpirationPeriodView.swift */; };
 		A7EC2D622445127200993F53 /* PeriodTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC2D612445127200993F53 /* PeriodTypeExtensions.swift */; };
@@ -121,7 +128,7 @@
 		A7175077244286F60058FCE4 /* ItemsListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListTableViewCell.swift; sourceTree = "<group>"; };
 		A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNavigationController.swift; sourceTree = "<group>"; };
-		A71B691D2443CAD500AF7CB3 /* DefaultTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultTextField.swift; sourceTree = "<group>"; };
+		A71B691D2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationPeriodTextField.swift; sourceTree = "<group>"; };
 		A71B69202443D3EB00AF7CB3 /* ExpirationSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationSectionView.swift; sourceTree = "<group>"; };
 		A72315AD244B0943008614B2 /* ValidationRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationRules.swift; sourceTree = "<group>"; };
 		A725068C2457992F006C3A2F /* RemainingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingState.swift; sourceTree = "<group>"; };
@@ -136,6 +143,10 @@
 		A750434024707386009A1451 /* CloudKitItemsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitItemsService.swift; sourceTree = "<group>"; };
 		A750434224707513009A1451 /* ZeroWasteReminder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZeroWasteReminder.entitlements; sourceTree = "<group>"; };
 		A750434424707517009A1451 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		A760CAD5248802CB00999C12 /* PhotosDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
+		A763AFF72482E13000E93546 /* LocalizedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedText.swift; sourceTree = "<group>"; };
+		A763AFF92482E2C500E93546 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		A763AFFC2482E86000E93546 /* PhotosCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCollectionView.swift; sourceTree = "<group>"; };
 		A76C34A92460C4EA00362B68 /* ExpirationDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDatePicker.swift; sourceTree = "<group>"; };
 		A76C34AE2460C99400362B68 /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
 		A77A99CC245A118200F3578C /* UIBarButtonItemExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonItemExtensions.swift; sourceTree = "<group>"; };
@@ -169,6 +180,9 @@
 		A7CA5343245E0624006D84FD /* ItemsFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsFilterViewController.swift; sourceTree = "<group>"; };
 		A7DB8A34244285010035CF36 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		A7DB8A36244286440035CF36 /* ItemsListNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListNavigationController.swift; sourceTree = "<group>"; };
+		A7DD99692484578D00B40141 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		A7DD996B248462C500B40141 /* PhotoCaptureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureCell.swift; sourceTree = "<group>"; };
+		A7DD996D248463B500B40141 /* ReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifiable.swift; sourceTree = "<group>"; };
 		A7EC2D5B2444F66800993F53 /* ExpirationDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateView.swift; sourceTree = "<group>"; };
 		A7EC2D5D2445004D00993F53 /* ExpirationPeriodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationPeriodView.swift; sourceTree = "<group>"; };
 		A7EC2D612445127200993F53 /* PeriodTypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodTypeExtensions.swift; sourceTree = "<group>"; };
@@ -323,6 +337,7 @@
 			children = (
 				A712ED672441172400B00791 /* Assets.xcassets */,
 				A712ED692441172400B00791 /* LaunchScreen.storyboard */,
+				A763AFF72482E13000E93546 /* LocalizedText.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -353,6 +368,7 @@
 				A70BCCE42447C56A00CC49D0 /* ExpirationTypeExtensions.swift */,
 				A74774CB2475CD7800E41992 /* NotificationNameExtensions.swift */,
 				A7EC2D612445127200993F53 /* PeriodTypeExtensions.swift */,
+				A763AFF92482E2C500E93546 /* StringExtensions.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -383,6 +399,7 @@
 			children = (
 				A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */,
 				A749366B247346A4003DB46E /* LoadingView.swift */,
+				A7DD996D248463B500B40141 /* ReuseIdentifiable.swift */,
 				A7A8EF79247C80F700FF1AC2 /* Button */,
 				A7A8EF78247C80DE00FF1AC2 /* TextView */,
 			);
@@ -408,6 +425,17 @@
 				A750434424707517009A1451 /* CloudKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A763AFFE2482F20C00E93546 /* PhotoSection */ = {
+			isa = PBXGroup;
+			children = (
+				A7DD996B248462C500B40141 /* PhotoCaptureCell.swift */,
+				A7DD99692484578D00B40141 /* PhotoCell.swift */,
+				A763AFFC2482E86000E93546 /* PhotosCollectionView.swift */,
+				A760CAD5248802CB00999C12 /* PhotosDataSource.swift */,
+			);
+			path = PhotoSection;
 			sourceTree = "<group>";
 		};
 		A780EFCF245F7570002A8AD4 /* Edit */ = {
@@ -502,8 +530,8 @@
 				A783EE27246755E9008BCC17 /* AddContentViewController.swift */,
 				A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */,
 				A7DB8A34244285010035CF36 /* AddViewController.swift */,
-				A71B691D2443CAD500AF7CB3 /* DefaultTextField.swift */,
 				A7EC2D5F2445030200993F53 /* ExpirationSection */,
+				A763AFFE2482F20C00E93546 /* PhotoSection */,
 			);
 			path = Add;
 			sourceTree = "<group>";
@@ -522,6 +550,7 @@
 			isa = PBXGroup;
 			children = (
 				A7EC2D5B2444F66800993F53 /* ExpirationDateView.swift */,
+				A71B691D2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift */,
 				A7EC2D5D2445004D00993F53 /* ExpirationPeriodView.swift */,
 				A71B69202443D3EB00AF7CB3 /* ExpirationSectionView.swift */,
 			);
@@ -660,6 +689,7 @@
 				A70FA677244CDEEA0045B545 /* ViewControllerFactory.swift in Sources */,
 				A716C9C1244FA07A004262AF /* RemainingViewModel.swift in Sources */,
 				A7A8EF75247C771900FF1AC2 /* NotesTextView.swift in Sources */,
+				A7DD996E248463B500B40141 /* ReuseIdentifiable.swift in Sources */,
 				A7EC2D5C2444F66800993F53 /* ExpirationDateView.swift in Sources */,
 				A70FA67D244CEB340045B545 /* InMemoryItemsService.swift in Sources */,
 				A77A99D3245A26B700F3578C /* FilterBadgeLabel.swift in Sources */,
@@ -668,7 +698,7 @@
 				A70BCCE52447C56A00CC49D0 /* ExpirationTypeExtensions.swift in Sources */,
 				A72F4CBF2460B5FA008B0D5B /* ExpirationDateButton.swift in Sources */,
 				A782FAD62475E83300C69737 /* CloudKitSubscriptionService.swift in Sources */,
-				A71B691E2443CAD500AF7CB3 /* DefaultTextField.swift in Sources */,
+				A71B691E2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift in Sources */,
 				A7B2A4832469E58D00D9C0B1 /* RemoveExpirationDateButton.swift in Sources */,
 				A79B4A202479F6FA00ECE1B1 /* SubscriptionService.swift in Sources */,
 				A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */,
@@ -678,10 +708,12 @@
 				A716C9C8244FB505004262AF /* RemainingView.swift in Sources */,
 				A77A99CF245A14EE00F3578C /* UIImageExtensions.swift in Sources */,
 				A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */,
+				A7DD996A2484578D00B40141 /* PhotoCell.swift in Sources */,
 				A7ACC4C2247B00BF0098EDE0 /* CloudKitConfiguration.swift in Sources */,
 				A7175078244286F60058FCE4 /* ItemsListTableViewCell.swift in Sources */,
 				A7AD76E62463661100220A94 /* StateIndicatorLabel.swift in Sources */,
 				A74161412450D83B001ED316 /* UIAlertControllerExtensions.swift in Sources */,
+				A763AFFD2482E86000E93546 /* PhotosCollectionView.swift in Sources */,
 				A716B8FD244E43BB00D2FC89 /* ItemsListCellViewModel.swift in Sources */,
 				A77A99D1245A1DA000F3578C /* ItemsListDelegate.swift in Sources */,
 				A70FA681244CF7190045B545 /* ItemsListViewModel.swift in Sources */,
@@ -706,8 +738,10 @@
 				A76C34AA2460C4EA00362B68 /* ExpirationDatePicker.swift in Sources */,
 				A749366A2473153B003DB46E /* CloudKitMapper.swift in Sources */,
 				A700D6C72454C6FE00F16F2E /* ItemsFilterCollectionViewCell.swift in Sources */,
+				A7DD996C248462C500B40141 /* PhotoCaptureCell.swift in Sources */,
 				A7F16D24244AFF2000ED2402 /* ExpirationPeriodViewModel.swift in Sources */,
 				A77A99CD245A118200F3578C /* UIBarButtonItemExtensions.swift in Sources */,
+				A763AFF82482E13000E93546 /* LocalizedText.swift in Sources */,
 				A7C9636E247DA58800DE824F /* ClearButton.swift in Sources */,
 				A700D6C92454D96800F16F2E /* ItemsFilterViewModel.swift in Sources */,
 				A72315AE244B0943008614B2 /* ValidationRules.swift in Sources */,
@@ -715,9 +749,11 @@
 				A780EFD3245F786F002A8AD4 /* SortType.swift in Sources */,
 				A70BCCD9244795D700CC49D0 /* AddViewModel.swift in Sources */,
 				A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */,
+				A763AFFA2482E2C500E93546 /* StringExtensions.swift in Sources */,
 				A7994494247871D400D3AF62 /* DeleteButton.swift in Sources */,
 				A701536624773CC000CE9085 /* ServiceError.swift in Sources */,
 				A70BCCDD244796FB00CC49D0 /* PeriodType.swift in Sources */,
+				A760CAD6248802CB00999C12 /* PhotosDataSource.swift in Sources */,
 				A741613E2450D814001ED316 /* UIAlertActionExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -25,6 +25,8 @@ public final class AddViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
+        addChild(contentViewController)
+        contentViewController.didMove(toParent: self)
         self.bind()
     }
 
@@ -51,6 +53,7 @@ public final class AddViewController: UIViewController {
         view.backgroundColor = .systemBackground
 
         let contentView: UIView = contentViewController.view
+
         scrollView.addSubview(contentView)
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 24),
@@ -83,6 +86,11 @@ public final class AddViewController: UIViewController {
     private func bind() {
         viewModel.canSaveItem
             .sink { [weak self] in self?.doneButton.isEnabled = $0 }
+            .store(in: &subscriptions)
+
+        viewModel.needsCapturePhoto
+            .compactMap { [weak self] in self?.tryCreateImagePickerController() }
+            .sink { [weak self] in self?.present($0, animated: true) }
             .store(in: &subscriptions)
     }
 
@@ -118,5 +126,52 @@ public final class AddViewController: UIViewController {
                 }
             )
             .store(in: &subscriptions)
+    }
+
+    private func tryCreateImagePickerController() -> UIViewController? {
+        let cameraSourceType: UIImagePickerController.SourceType = .camera
+        if UIImagePickerController.isSourceTypeAvailable(cameraSourceType) {
+            return createImagePickerController(for: cameraSourceType)
+        }
+
+        let photoLibrarySourceType: UIImagePickerController.SourceType = .photoLibrary
+        if UIImagePickerController.isSourceTypeAvailable(photoLibrarySourceType) {
+            return createImagePickerController(for: photoLibrarySourceType)
+        }
+
+        return nil
+    }
+
+    private func createImagePickerController(
+        for sourceType: UIImagePickerController.SourceType
+    ) -> UIViewController {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = sourceType
+        imagePickerController.mediaTypes = ["public.image"]
+        imagePickerController.delegate = self
+        return imagePickerController
+    }
+}
+
+extension AddViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    public func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+        guard let image = tryCompressImage(info[.originalImage] as? UIImage) else {
+            assertionFailure("Cannot compress an image.")
+            return
+        }
+
+        viewModel.photos.append(image)
+        picker.dismiss(animated: true)
+    }
+
+    private func tryCompressImage(_ image: UIImage?) -> UIImage? {
+        guard let imageData = image?.jpegData(compressionQuality: 0.25) else {
+            return nil
+        }
+
+        return UIImage(data: imageData)
     }
 }

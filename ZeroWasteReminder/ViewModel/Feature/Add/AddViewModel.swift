@@ -1,12 +1,11 @@
 import Combine
+import UIKit
 
 public final class AddViewModel {
     @Published public var name: String
     @Published public var notes: String
     @Published public var expirationTypeIndex: Int
-
-    public let expirationDateViewModel: ExpirationDateViewModel
-    public let expirationPeriodViewModel: ExpirationPeriodViewModel
+    @Published public var photos: [UIImage]
 
     public var expirationType: AnyPublisher<ExpirationType, Never> {
         expirationTypeSubject.eraseToAnyPublisher()
@@ -14,6 +13,10 @@ public final class AddViewModel {
 
     public var canSaveItem: AnyPublisher<Bool, Never> {
         canSaveItemSubject.eraseToAnyPublisher()
+    }
+
+    public var needsCapturePhoto: AnyPublisher<Void, Never> {
+        needsCapturePhotoSubject.eraseToAnyPublisher()
     }
 
     public var isExpirationDateVisible: Bool {
@@ -24,10 +27,14 @@ public final class AddViewModel {
         expirationTypeIndex == ExpirationType.period.index
     }
 
+    public let expirationDateViewModel: ExpirationDateViewModel
+    public let expirationPeriodViewModel: ExpirationPeriodViewModel
+
     private let expirationTypeSubject: CurrentValueSubject<ExpirationType, Never>
     private let canSaveItemSubject: CurrentValueSubject<Bool, Never>
-    private let itemsService: ItemsService
+    private let needsCapturePhotoSubject: PassthroughSubject<Void, Never>
 
+    private let itemsService: ItemsService
     private var subscriptions: Set<AnyCancellable>
 
     public init(itemsService: ItemsService) {
@@ -35,6 +42,7 @@ public final class AddViewModel {
 
         self.name = ""
         self.notes = ""
+        self.photos = []
 
         self.expirationTypeIndex = ExpirationType.none.index
 
@@ -43,6 +51,7 @@ public final class AddViewModel {
 
         self.expirationTypeSubject = .init(ExpirationType.none)
         self.canSaveItemSubject = .init(false)
+        self.needsCapturePhotoSubject = .init()
 
         self.subscriptions = []
 
@@ -55,6 +64,10 @@ public final class AddViewModel {
         }
 
         return itemsService.add(item)
+    }
+
+    public func setNeedsCapturePhoto() {
+        needsCapturePhotoSubject.send()
     }
 
     private func bind() {

@@ -1,7 +1,7 @@
 import UIKit
 
 public final class ExpirationSectionView: UIView {
-    private let expirationLabel: UILabel = .defaultWithText("Expiration")
+    private let expirationLabel: UILabel = .defaultWithText(.localized(.expiration))
 
     private lazy var expirationSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl(items: ExpirationType.allCases.map { $0.nameTitleCased })
