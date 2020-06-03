@@ -59,4 +59,21 @@ extension PhotosCollectionView: UICollectionViewDelegateFlowLayout {
         let sideValue = collectionView.bounds.height
         return .init(width: sideValue, height: sideValue)
     }
+
+    public func collectionView(
+        _ collectionView: UICollectionView,
+        contextMenuConfigurationForItemAt indexPath: IndexPath,
+        point: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        let deleteAction = UIAction(
+            title: .localized(.removePhoto),
+            image: UIImage.fromSymbol(.trash),
+            attributes: .destructive,
+            handler: { _ in  }
+        )
+
+        return UIContextMenuConfiguration(identifier: "PhotoContextMenu" as NSCopying, previewProvider: nil) { _ in
+            UIMenu(title: "", children: [deleteAction])
+        }
+    }
 }

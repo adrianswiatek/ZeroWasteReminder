@@ -7,4 +7,6 @@ public enum LocalizedText: String {
     case photos = "Photos"
     case recapture = "Recapture"
     case remove = "Remove"
+    case removeItem = "Remove item"
+    case removePhoto = "Remove photo"
 }

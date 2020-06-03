@@ -31,7 +31,7 @@ public final class DeleteButton: UIButton {
         setImage(trashImage, for: .normal)
         imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 4)
 
-        setTitle("Delete item", for: .normal)
+        setTitle(.localized(.removeItem), for: .normal)
         setTitleColor(.expired, for: .normal)
         titleLabel?.font = .systemFont(ofSize: 14)
         titleEdgeInsets = .init(top: 0, left: 4, bottom: 0, right: 0)
