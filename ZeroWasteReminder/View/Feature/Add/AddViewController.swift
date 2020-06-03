@@ -88,6 +88,13 @@ public final class AddViewController: UIViewController {
             .sink { [weak self] in self?.doneButton.isEnabled = $0 }
             .store(in: &subscriptions)
 
+        viewModel.needsShowPhoto
+            .sink { [weak self] in
+                let photoViewController = FullScreenPhotoViewController(image: $0)
+                self?.present(photoViewController, animated: true)
+            }
+            .store(in: &subscriptions)
+
         viewModel.needsCapturePhoto
             .compactMap { [weak self] in self?.tryCreateImagePickerController() }
             .sink { [weak self] in self?.present($0, animated: true) }

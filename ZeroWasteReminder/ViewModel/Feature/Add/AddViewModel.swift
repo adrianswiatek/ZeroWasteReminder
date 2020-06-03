@@ -22,6 +22,10 @@ public final class AddViewModel {
         needsCapturePhotoSubject.eraseToAnyPublisher()
     }
 
+    public var needsShowPhoto: AnyPublisher<UIImage, Never> {
+        needsShowPhotoSubject.eraseToAnyPublisher()
+    }
+
     public var isExpirationDateVisible: Bool {
         expirationTypeIndex == ExpirationType.date.index
     }
@@ -37,6 +41,7 @@ public final class AddViewModel {
     private let expirationTypeSubject: CurrentValueSubject<ExpirationType, Never>
     private let canSaveItemSubject: CurrentValueSubject<Bool, Never>
     private let needsCapturePhotoSubject: PassthroughSubject<Void, Never>
+    private let needsShowPhotoSubject: PassthroughSubject<UIImage, Never>
 
     private let itemsService: ItemsService
     private var subscriptions: Set<AnyCancellable>
@@ -55,6 +60,7 @@ public final class AddViewModel {
         self.photosSubject = .init([])
         self.expirationTypeSubject = .init(ExpirationType.none)
         self.canSaveItemSubject = .init(false)
+        self.needsShowPhotoSubject = .init()
         self.needsCapturePhotoSubject = .init()
 
         self.subscriptions = []
@@ -77,6 +83,11 @@ public final class AddViewModel {
     public func removePhoto(atIndex index: Int) {
         precondition(0 ..< photosSubject.value.count ~= index, "Index out of bounds.")
         photosSubject.value.remove(at: index)
+    }
+
+    public func setNeedsShowPhoto(atIndex index: Int) {
+        precondition(0 ..< photosSubject.value.count ~= index, "Index out of bounds.")
+        needsShowPhotoSubject.send(photosSubject.value[index])
     }
 
     public func setNeedsCapturePhoto() {

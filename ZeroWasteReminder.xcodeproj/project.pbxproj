@@ -63,6 +63,7 @@
 		A783EE2424673B8F008BCC17 /* EditContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE2324673B8F008BCC17 /* EditContentViewController.swift */; };
 		A783EE2624674ECD008BCC17 /* AdaptiveScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */; };
 		A783EE28246755E9008BCC17 /* AddContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE27246755E9008BCC17 /* AddContentViewController.swift */; };
+		A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */; };
 		A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */; };
 		A798DF4824524B0900A84F79 /* ItemsListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A798DF4724524B0900A84F79 /* ItemsListDataSource.swift */; };
 		A7994494247871D400D3AF62 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7994493247871D400D3AF62 /* DeleteButton.swift */; };
@@ -160,6 +161,7 @@
 		A783EE2324673B8F008BCC17 /* EditContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditContentViewController.swift; sourceTree = "<group>"; };
 		A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveScrollView.swift; sourceTree = "<group>"; };
 		A783EE27246755E9008BCC17 /* AddContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentViewController.swift; sourceTree = "<group>"; };
+		A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenPhotoViewController.swift; sourceTree = "<group>"; };
 		A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateViewModel.swift; sourceTree = "<group>"; };
 		A798DF4724524B0900A84F79 /* ItemsListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListDataSource.swift; sourceTree = "<group>"; };
 		A7994493247871D400D3AF62 /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
@@ -430,6 +432,7 @@
 		A763AFFE2482F20C00E93546 /* PhotoSection */ = {
 			isa = PBXGroup;
 			children = (
+				A784410D24881C5B00FBBF3C /* FullScreenPhoto */,
 				A7DD996B248462C500B40141 /* PhotoCaptureCell.swift */,
 				A7DD99692484578D00B40141 /* PhotoCell.swift */,
 				A763AFFC2482E86000E93546 /* PhotosCollectionView.swift */,
@@ -446,6 +449,14 @@
 				A7AD76E52463661100220A94 /* StateIndicatorLabel.swift */,
 			);
 			path = Edit;
+			sourceTree = "<group>";
+		};
+		A784410D24881C5B00FBBF3C /* FullScreenPhoto */ = {
+			isa = PBXGroup;
+			children = (
+				A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */,
+			);
+			path = FullScreenPhoto;
 			sourceTree = "<group>";
 		};
 		A79B4A1C2479F6A200ECE1B1 /* ItemsService */ = {
@@ -745,6 +756,7 @@
 				A7C9636E247DA58800DE824F /* ClearButton.swift in Sources */,
 				A700D6C92454D96800F16F2E /* ItemsFilterViewModel.swift in Sources */,
 				A72315AE244B0943008614B2 /* ValidationRules.swift in Sources */,
+				A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */,
 				A700D6C42454BEF400F16F2E /* ItemsFilterDataSource.swift in Sources */,
 				A780EFD3245F786F002A8AD4 /* SortType.swift in Sources */,
 				A70BCCD9244795D700CC49D0 /* AddViewModel.swift in Sources */,
