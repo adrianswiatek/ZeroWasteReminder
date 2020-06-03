@@ -1,13 +1,10 @@
-import Combine
 import UIKit
 
 public final class PhotosCollectionView: UICollectionView {
     private let viewModel: AddViewModel
-    private var subscriptions: Set<AnyCancellable>
 
     public init(viewModel: AddViewModel) {
         self.viewModel = viewModel
-        self.subscriptions = []
 
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -69,7 +66,7 @@ extension PhotosCollectionView: UICollectionViewDelegateFlowLayout {
             title: .localized(.removePhoto),
             image: UIImage.fromSymbol(.trash),
             attributes: .destructive,
-            handler: { _ in  }
+            handler: { [weak self] _ in self?.viewModel.removePhoto(atIndex: indexPath.item) }
         )
 
         return UIContextMenuConfiguration(identifier: "PhotoContextMenu" as NSCopying, previewProvider: nil) { _ in

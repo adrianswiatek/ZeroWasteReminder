@@ -163,7 +163,7 @@ extension AddViewController: UIImagePickerControllerDelegate & UINavigationContr
             return
         }
 
-        viewModel.photos.append(image)
+        viewModel.addPhoto(image)
         picker.dismiss(animated: true)
     }
 

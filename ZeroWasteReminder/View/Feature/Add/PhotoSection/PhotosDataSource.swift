@@ -12,8 +12,6 @@ public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDa
         self.subscriptions = []
 
         super.init(collectionView: collectionView) { collectionView, indexPath, image in
-            defer { collectionView.scrollToItem(at: indexPath, at: .right, animated: true) }
-
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: PhotoCell.identifier,
                 for: indexPath
@@ -45,7 +43,7 @@ public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDa
     }
 
     private func bind() {
-        viewModel.$photos
+        viewModel.photos
             .sink { [weak self] in self?.apply($0) }
             .store(in: &subscriptions)
     }
