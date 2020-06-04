@@ -112,6 +112,7 @@ public final class AddViewController: UIViewController {
 
     private func setupGestureRecognizer() {
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleViewTap))
+        gestureRecognizer.cancelsTouchesInView = false
         view.addGestureRecognizer(gestureRecognizer)
     }
 

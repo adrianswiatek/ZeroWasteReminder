@@ -63,12 +63,6 @@ extension PhotosCollectionView: UICollectionViewDelegateFlowLayout {
         contextMenuConfigurationForItemAt indexPath: IndexPath,
         point: CGPoint
     ) -> UIContextMenuConfiguration? {
-        let fullScreenAction = UIAction(
-            title: .localized(.fullScreen),
-            image: .fromSymbol(.arrowUpLeftAndArrowDownRight),
-            handler: { [weak self] _ in self?.handler.setNeedsShowPhoto(atIndex: indexPath.item) }
-        )
-
         let deleteAction = UIAction(
             title: .localized(.removePhoto),
             image: .fromSymbol(.trash),
@@ -77,7 +71,11 @@ extension PhotosCollectionView: UICollectionViewDelegateFlowLayout {
         )
 
         return UIContextMenuConfiguration(identifier: "PhotoContextMenu" as NSCopying, previewProvider: nil) { _ in
-            UIMenu(title: "", children: [fullScreenAction, deleteAction])
+            UIMenu(title: "", children: [deleteAction])
         }
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        handler.setNeedsShowPhoto(atIndex: indexPath.item)
     }
 }
