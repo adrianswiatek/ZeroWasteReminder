@@ -46,6 +46,7 @@
 		A749366C247346A4003DB46E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749366B247346A4003DB46E /* LoadingView.swift */; };
 		A750434124707386009A1451 /* CloudKitItemsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434024707386009A1451 /* CloudKitItemsService.swift */; };
 		A750434524707517009A1451 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A750434424707517009A1451 /* CloudKit.framework */; };
+		A75E8C8D2489A85200467638 /* PhotosCollectionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75E8C8C2489A85200467638 /* PhotosCollectionHandler.swift */; };
 		A760CAD6248802CB00999C12 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A760CAD5248802CB00999C12 /* PhotosDataSource.swift */; };
 		A763AFF82482E13000E93546 /* LocalizedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A763AFF72482E13000E93546 /* LocalizedText.swift */; };
 		A763AFFA2482E2C500E93546 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A763AFF92482E2C500E93546 /* StringExtensions.swift */; };
@@ -144,6 +145,7 @@
 		A750434024707386009A1451 /* CloudKitItemsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitItemsService.swift; sourceTree = "<group>"; };
 		A750434224707513009A1451 /* ZeroWasteReminder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZeroWasteReminder.entitlements; sourceTree = "<group>"; };
 		A750434424707517009A1451 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		A75E8C8C2489A85200467638 /* PhotosCollectionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCollectionHandler.swift; sourceTree = "<group>"; };
 		A760CAD5248802CB00999C12 /* PhotosDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
 		A763AFF72482E13000E93546 /* LocalizedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedText.swift; sourceTree = "<group>"; };
 		A763AFF92482E2C500E93546 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -432,11 +434,12 @@
 		A763AFFE2482F20C00E93546 /* PhotoSection */ = {
 			isa = PBXGroup;
 			children = (
-				A784410D24881C5B00FBBF3C /* FullScreenPhoto */,
 				A7DD996B248462C500B40141 /* PhotoCaptureCell.swift */,
 				A7DD99692484578D00B40141 /* PhotoCell.swift */,
+				A75E8C8C2489A85200467638 /* PhotosCollectionHandler.swift */,
 				A763AFFC2482E86000E93546 /* PhotosCollectionView.swift */,
 				A760CAD5248802CB00999C12 /* PhotosDataSource.swift */,
+				A784410D24881C5B00FBBF3C /* FullScreenPhoto */,
 			);
 			path = PhotoSection;
 			sourceTree = "<group>";
@@ -680,6 +683,7 @@
 			files = (
 				A783EE2424673B8F008BCC17 /* EditContentViewController.swift in Sources */,
 				A7F82BA82458CB8700970CFC /* ReadModeState.swift in Sources */,
+				A75E8C8D2489A85200467638 /* PhotosCollectionHandler.swift in Sources */,
 				A7ACC4C0247B000E0098EDE0 /* CloudKitPersistenceFactory.swift in Sources */,
 				A7ACC4C7247B12E20098EDE0 /* CloudKitSharingControllerFactory.swift in Sources */,
 				A7F82BAA2458CB9C00970CFC /* SelectionModeState.swift in Sources */,

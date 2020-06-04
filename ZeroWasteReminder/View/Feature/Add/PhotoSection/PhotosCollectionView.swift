@@ -1,10 +1,11 @@
+import Combine
 import UIKit
 
 public final class PhotosCollectionView: UICollectionView {
-    private let viewModel: AddViewModel
+    private let handler: PhotosCollectionHandler
 
-    public init(viewModel: AddViewModel) {
-        self.viewModel = viewModel
+    public init(_ handler: PhotosCollectionHandler) {
+        self.handler = handler
 
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -65,14 +66,14 @@ extension PhotosCollectionView: UICollectionViewDelegateFlowLayout {
         let fullScreenAction = UIAction(
             title: .localized(.fullScreen),
             image: .fromSymbol(.arrowUpLeftAndArrowDownRight),
-            handler: { [weak self] _ in self?.viewModel.setNeedsShowPhoto(atIndex: indexPath.item) }
+            handler: { [weak self] _ in self?.handler.setNeedsShowPhoto(atIndex: indexPath.item) }
         )
 
         let deleteAction = UIAction(
             title: .localized(.removePhoto),
             image: .fromSymbol(.trash),
             attributes: .destructive,
-            handler: { [weak self] _ in self?.viewModel.removePhoto(atIndex: indexPath.item) }
+            handler: { [weak self] _ in self?.handler.setNeedsRemovePhoto(atIndex: indexPath.item) }
         )
 
         return UIContextMenuConfiguration(identifier: "PhotoContextMenu" as NSCopying, previewProvider: nil) { _ in

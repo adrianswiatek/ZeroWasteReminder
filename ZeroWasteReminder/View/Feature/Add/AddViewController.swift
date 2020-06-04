@@ -95,6 +95,15 @@ public final class AddViewController: UIViewController {
             }
             .store(in: &subscriptions)
 
+        viewModel.needsRemovePhoto
+            .sink { [weak self] index in
+                guard let self = self else { return }
+                UIAlertController.presentConfirmationSheet(in: self)
+                    .sink { [weak self] _ in self?.viewModel.removePhoto(atIndex: index) }
+                    .store(in: &self.subscriptions)
+            }
+            .store(in: &subscriptions)
+
         viewModel.needsCapturePhoto
             .compactMap { [weak self] in self?.tryCreateImagePickerController() }
             .sink { [weak self] in self?.present($0, animated: true) }
