@@ -14,7 +14,7 @@ public final class PhotoCaptureCell: UICollectionViewCell, ReuseIdentifiable {
 
         let symbolConfiguration = UIImage.SymbolConfiguration(scale: .large)
         let image = UIImage.fromSymbol(.cameraFill, withConfiguration: symbolConfiguration)
-        imageView.image = image.withColor(.secondaryLabel)
+        imageView.image = image.withColor(.label)
 
         return imageView
     }()
@@ -24,7 +24,7 @@ public final class PhotoCaptureCell: UICollectionViewCell, ReuseIdentifiable {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = .localized(.capture)
         label.font = .systemFont(ofSize: 14)
-        label.textColor = .secondaryLabel
+        label.textColor = .label
         label.textAlignment = .center
         return label
     }()
