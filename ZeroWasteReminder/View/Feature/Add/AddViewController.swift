@@ -98,7 +98,7 @@ public final class AddViewController: UIViewController {
         viewModel.needsRemovePhoto
             .sink { [weak self] index in
                 guard let self = self else { return }
-                UIAlertController.presentConfirmationSheet(in: self)
+                UIAlertController.presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
                     .sink { [weak self] _ in self?.viewModel.removePhoto(atIndex: index) }
                     .store(in: &self.subscriptions)
             }
