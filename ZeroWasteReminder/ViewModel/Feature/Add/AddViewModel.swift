@@ -6,12 +6,12 @@ public final class AddViewModel {
     @Published public var notes: String
     @Published public var expirationTypeIndex: Int
 
-    public var photos: AnyPublisher<[UIImage], Never> {
-        photosSubject.eraseToAnyPublisher()
-    }
-
     public var expirationType: AnyPublisher<ExpirationType, Never> {
         expirationTypeSubject.eraseToAnyPublisher()
+    }
+
+    public var photos: AnyPublisher<[UIImage], Never> {
+        photosSubject.eraseToAnyPublisher()
     }
 
     public var canSaveItem: AnyPublisher<Bool, Never> {
@@ -41,8 +41,8 @@ public final class AddViewModel {
     public let expirationDateViewModel: ExpirationDateViewModel
     public let expirationPeriodViewModel: ExpirationPeriodViewModel
 
-    private let photosSubject: CurrentValueSubject<[UIImage], Never>
     private let expirationTypeSubject: CurrentValueSubject<ExpirationType, Never>
+    private let photosSubject: CurrentValueSubject<[UIImage], Never>
     private let canSaveItemSubject: CurrentValueSubject<Bool, Never>
     private let needsCapturePhotoSubject: PassthroughSubject<Void, Never>
     private let needsShowPhotoSubject: PassthroughSubject<UIImage, Never>

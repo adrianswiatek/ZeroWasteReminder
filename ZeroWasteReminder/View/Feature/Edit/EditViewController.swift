@@ -90,6 +90,27 @@ public final class EditViewController: UIViewController {
         contentViewController.delete
             .sink { [weak self] in self?.handleDeleteButtonTap() }
             .store(in: &subscriptions)
+
+        viewModel.needsShowPhoto
+            .sink { [weak self] in
+                let photoViewController = FullScreenPhotoViewController(image: $0)
+                self?.present(photoViewController, animated: true)
+            }
+            .store(in: &subscriptions)
+
+        viewModel.needsRemovePhoto
+            .sink { [weak self] index in
+                guard let self = self else { return }
+                UIAlertController.presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
+                    .sink { [weak self] _ in self?.viewModel.removePhoto(atIndex: index) }
+                    .store(in: &self.subscriptions)
+            }
+            .store(in: &subscriptions)
+
+        viewModel.needsCapturePhoto
+            .compactMap { [weak self] in self?.tryCreateImagePickerController() }
+            .sink { [weak self] in self?.present($0, animated: true) }
+            .store(in: &subscriptions)
     }
 
     @objc
@@ -128,5 +149,52 @@ public final class EditViewController: UIViewController {
                 },
                 receiveValue: { [weak self] in self?.navigationController?.popViewController(animated: true) }
             )
+    }
+
+    private func tryCreateImagePickerController() -> UIViewController? {
+        let cameraSourceType: UIImagePickerController.SourceType = .camera
+        if UIImagePickerController.isSourceTypeAvailable(cameraSourceType) {
+            return createImagePickerController(for: cameraSourceType)
+        }
+
+        let photoLibrarySourceType: UIImagePickerController.SourceType = .photoLibrary
+        if UIImagePickerController.isSourceTypeAvailable(photoLibrarySourceType) {
+            return createImagePickerController(for: photoLibrarySourceType)
+        }
+
+        return nil
+    }
+
+    private func createImagePickerController(
+        for sourceType: UIImagePickerController.SourceType
+    ) -> UIViewController {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = sourceType
+        imagePickerController.mediaTypes = ["public.image"]
+        imagePickerController.delegate = self
+        return imagePickerController
+    }
+}
+
+extension EditViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    public func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+        guard let image = tryCompressImage(info[.originalImage] as? UIImage) else {
+            assertionFailure("Cannot compress an image.")
+            return
+        }
+
+        viewModel.addPhoto(image)
+        picker.dismiss(animated: true)
+    }
+
+    private func tryCompressImage(_ image: UIImage?) -> UIImage? {
+        guard let imageData = image?.jpegData(compressionQuality: 0.25) else {
+            return nil
+        }
+
+        return UIImage(data: imageData)
     }
 }
