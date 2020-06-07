@@ -37,7 +37,8 @@ public final class PhotosCollectionViewModel {
         .init([])
     }
 
-    public func addPhoto(_ photo: UIImage) {
+    public func addPhotoAtUrl(_ photoUrl: URL) {
+        guard let photo = downsizeImageAtUrl(photoUrl) else { return }
         photosSubject.value.insert(photo, at: 0)
     }
 
@@ -58,5 +59,26 @@ public final class PhotosCollectionViewModel {
     public func setNeedsRemovePhoto(atIndex index: Int) {
         precondition(0 ..< photosSubject.value.count ~= index, "Index out of bounds.")
         needsRemovePhotoSubject.send(index)
+    }
+
+    private func downsizeImageAtUrl(_ imageUrl: URL) -> UIImage? {
+        guard let imageSource = CGImageSourceCreateWithURL(imageUrl as CFURL, nil) else {
+            assertionFailure("Cannot create image source.")
+            return nil
+        }
+
+        let options: [CFString: Any] = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceShouldCacheImmediately: true,
+            kCGImageSourceThumbnailMaxPixelSize: 500
+        ]
+
+        guard let thumbnail = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options as CFDictionary) else {
+            assertionFailure("Cannot create thumbnail.")
+            return nil
+        }
+
+        return UIImage(cgImage: thumbnail)
     }
 }

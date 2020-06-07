@@ -175,20 +175,11 @@ extension AddViewController: UIImagePickerControllerDelegate & UINavigationContr
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
-        guard let image = tryCompressImage(info[.originalImage] as? UIImage) else {
-            assertionFailure("Cannot compress an image.")
-            return
+        guard let photoUrl = info[.imageURL] as? URL else {
+            preconditionFailure("Cannot determine image URL.")
         }
 
-        viewModel.photosViewModel.addPhoto(image)
+        viewModel.photosViewModel.addPhotoAtUrl(photoUrl)
         picker.dismiss(animated: true)
-    }
-
-    private func tryCompressImage(_ image: UIImage?) -> UIImage? {
-        guard let imageData = image?.jpegData(compressionQuality: 0.25) else {
-            return nil
-        }
-
-        return UIImage(data: imageData)
     }
 }
