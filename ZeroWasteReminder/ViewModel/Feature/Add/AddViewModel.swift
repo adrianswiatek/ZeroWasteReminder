@@ -91,7 +91,7 @@ public final class AddViewModel {
             return nil
         }
 
-        return Item(name: name, notes: notes, expiration: expiration)
+        return Item(name: name, notes: notes, expiration: expiration, photos: photosViewModel.createPhotos())
     }
 
     private func expirationForType(_ expirationType: ExpirationType) -> Expiration? {

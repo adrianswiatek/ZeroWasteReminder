@@ -46,6 +46,7 @@
 		A749366C247346A4003DB46E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749366B247346A4003DB46E /* LoadingView.swift */; };
 		A750434124707386009A1451 /* CloudKitItemsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434024707386009A1451 /* CloudKitItemsService.swift */; };
 		A750434524707517009A1451 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A750434424707517009A1451 /* CloudKit.framework */; };
+		A75E703B248DA01300F06E98 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75E703A248DA01300F06E98 /* Photo.swift */; };
 		A760CAD6248802CB00999C12 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A760CAD5248802CB00999C12 /* PhotosDataSource.swift */; };
 		A763AFF82482E13000E93546 /* LocalizedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A763AFF72482E13000E93546 /* LocalizedText.swift */; };
 		A763AFFA2482E2C500E93546 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A763AFF92482E2C500E93546 /* StringExtensions.swift */; };
@@ -145,6 +146,7 @@
 		A750434024707386009A1451 /* CloudKitItemsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitItemsService.swift; sourceTree = "<group>"; };
 		A750434224707513009A1451 /* ZeroWasteReminder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZeroWasteReminder.entitlements; sourceTree = "<group>"; };
 		A750434424707517009A1451 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		A75E703A248DA01300F06E98 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		A760CAD5248802CB00999C12 /* PhotosDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
 		A763AFF72482E13000E93546 /* LocalizedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedText.swift; sourceTree = "<group>"; };
 		A763AFF92482E2C500E93546 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 				A7FFA9782448F5C00061A3D6 /* ExpirationType.swift */,
 				A70BCCDA2447960200CC49D0 /* Item.swift */,
 				A70BCCDC244796FB00CC49D0 /* PeriodType.swift */,
+				A75E703A248DA01300F06E98 /* Photo.swift */,
 				A725068C2457992F006C3A2F /* RemainingState.swift */,
 				A780EFD2245F786F002A8AD4 /* SortType.swift */,
 			);
@@ -773,6 +776,7 @@
 				A780EFD3245F786F002A8AD4 /* SortType.swift in Sources */,
 				A70BCCD9244795D700CC49D0 /* AddViewModel.swift in Sources */,
 				A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */,
+				A75E703B248DA01300F06E98 /* Photo.swift in Sources */,
 				A763AFFA2482E2C500E93546 /* StringExtensions.swift in Sources */,
 				A7994494247871D400D3AF62 /* DeleteButton.swift in Sources */,
 				A701536624773CC000CE9085 /* ServiceError.swift in Sources */,

@@ -58,7 +58,7 @@ public final class EditViewModel {
 
         self.isExpirationDateVisibleSubject = .init(false)
         self.canSaveSubject = .init(false)
-        self.photosViewModel = .withPhotos([])
+        self.photosViewModel = .withPhotos(item.photos)
 
         self.subscriptions = []
 
@@ -101,10 +101,13 @@ public final class EditViewModel {
     private func tryCreateItem(_ name: String, _ notes: String, _ expirationDate: Date?) -> Item? {
         guard !name.isEmpty else { return nil }
 
+        let photos = photosViewModel.createPhotos()
+
         if let expirationDate = expirationDate {
-            return Item(id: originalItem.id, name: name, notes: notes, expiration: .date(expirationDate))
+            let expiration = Expiration.date(expirationDate)
+            return Item(id: originalItem.id, name: name, notes: notes, expiration: expiration, photos: photos)
         }
 
-        return Item(id: originalItem.id, name: name, notes: notes, expiration: .none)
+        return Item(id: originalItem.id, name: name, notes: notes, expiration: .none, photos: photos)
     }
 }

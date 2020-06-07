@@ -29,8 +29,8 @@ public final class PhotosCollectionViewModel {
         needsRemovePhotoSubject = .init()
     }
 
-    public static func withPhotos(_ photos: [UIImage]) -> Self {
-        .init(photos)
+    public static func withPhotos(_ photos: [Photo]) -> Self {
+        .init(photos.compactMap { UIImage(data: $0.data) })
     }
 
     public static func withoutPhotos() -> Self {
@@ -59,6 +59,10 @@ public final class PhotosCollectionViewModel {
     public func setNeedsRemovePhoto(atIndex index: Int) {
         precondition(0 ..< photosSubject.value.count ~= index, "Index out of bounds.")
         needsRemovePhotoSubject.send(index)
+    }
+
+    public func createPhotos() -> [Photo] {
+        photosSubject.value.compactMap { $0.pngData() }.map { Photo(data: $0) }
     }
 
     private func downsizeImageAtUrl(_ imageUrl: URL) -> UIImage? {
