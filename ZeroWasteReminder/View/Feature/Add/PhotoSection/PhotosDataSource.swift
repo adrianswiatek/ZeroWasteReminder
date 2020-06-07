@@ -3,12 +3,12 @@ import UIKit
 
 public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDataSource.Section, UIImage> {
     private let collectionView: UICollectionView
-    private let handler: PhotosCollectionHandler
+    private let viewModel: PhotosCollectionViewModel
     private var subscriptions: Set<AnyCancellable>
 
-    public init(_ collectionView: UICollectionView, _ handler: PhotosCollectionHandler) {
+    public init(_ collectionView: UICollectionView, _ viewModel: PhotosCollectionViewModel) {
         self.collectionView = collectionView
-        self.handler = handler
+        self.viewModel = viewModel
         self.subscriptions = []
 
         super.init(collectionView: collectionView) { collectionView, indexPath, image in
@@ -37,13 +37,13 @@ public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDa
                 preconditionFailure("Cannot dequeue header.")
             }
 
-            header.cancellable = header.tap.sink { [weak self] in self?.handler.setNeedsCapturePhoto() }
+            header.cancellable = header.tap.sink { [weak self] in self?.viewModel.setNeedsCapturePhoto() }
             return header
         }
     }
 
     private func bind() {
-        handler.photos
+        viewModel.photos
             .sink { [weak self] in self?.apply($0) }
             .store(in: &subscriptions)
     }

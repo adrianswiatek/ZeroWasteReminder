@@ -88,23 +88,23 @@ public final class AddViewController: UIViewController {
             .sink { [weak self] in self?.doneButton.isEnabled = $0 }
             .store(in: &subscriptions)
 
-        viewModel.needsShowPhoto
+        viewModel.photosViewModel.needsShowPhoto
             .sink { [weak self] in
                 let photoViewController = FullScreenPhotoViewController(image: $0)
                 self?.present(photoViewController, animated: true)
             }
             .store(in: &subscriptions)
 
-        viewModel.needsRemovePhoto
+        viewModel.photosViewModel.needsRemovePhoto
             .sink { [weak self] index in
                 guard let self = self else { return }
                 UIAlertController.presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
-                    .sink { [weak self] _ in self?.viewModel.removePhoto(atIndex: index) }
+                    .sink { [weak self] _ in self?.viewModel.photosViewModel.removePhoto(atIndex: index) }
                     .store(in: &self.subscriptions)
             }
             .store(in: &subscriptions)
 
-        viewModel.needsCapturePhoto
+        viewModel.photosViewModel.needsCapturePhoto
             .compactMap { [weak self] in self?.tryCreateImagePickerController() }
             .sink { [weak self] in self?.present($0, animated: true) }
             .store(in: &subscriptions)
@@ -180,7 +180,7 @@ extension AddViewController: UIImagePickerControllerDelegate & UINavigationContr
             return
         }
 
-        viewModel.addPhoto(image)
+        viewModel.photosViewModel.addPhoto(image)
         picker.dismiss(animated: true)
     }
 

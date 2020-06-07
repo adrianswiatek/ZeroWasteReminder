@@ -2,10 +2,10 @@ import Combine
 import UIKit
 
 public final class PhotosCollectionView: UICollectionView {
-    private let handler: PhotosCollectionHandler
+    private let viewModel: PhotosCollectionViewModel
 
-    public init(_ handler: PhotosCollectionHandler) {
-        self.handler = handler
+    public init(_ viewModel: PhotosCollectionViewModel) {
+        self.viewModel = viewModel
 
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -67,7 +67,7 @@ extension PhotosCollectionView: UICollectionViewDelegateFlowLayout {
             title: .localized(.removePhoto),
             image: .fromSymbol(.trash),
             attributes: .destructive,
-            handler: { [weak self] _ in self?.handler.setNeedsRemovePhoto(atIndex: indexPath.item) }
+            handler: { [weak self] _ in self?.viewModel.setNeedsRemovePhoto(atIndex: indexPath.item) }
         )
 
         return UIContextMenuConfiguration(identifier: "PhotoContextMenu" as NSCopying, previewProvider: nil) { _ in
@@ -76,6 +76,6 @@ extension PhotosCollectionView: UICollectionViewDelegateFlowLayout {
     }
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        handler.setNeedsShowPhoto(atIndex: indexPath.item)
+        viewModel.setNeedsShowPhoto(atIndex: indexPath.item)
     }
 }

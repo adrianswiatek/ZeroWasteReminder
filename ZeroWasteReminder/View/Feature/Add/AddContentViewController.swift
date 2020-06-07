@@ -28,8 +28,8 @@ public final class AddContentViewController: UIViewController {
         self.subscriptions = []
 
         self.notesTextView = .init()
-        self.photosCollectionView = .init(viewModel)
-        self.photosDataSource = .init(photosCollectionView, viewModel)
+        self.photosCollectionView = .init(viewModel.photosViewModel)
+        self.photosDataSource = .init(photosCollectionView, viewModel.photosViewModel)
 
         super.init(nibName: nil, bundle: nil)
 

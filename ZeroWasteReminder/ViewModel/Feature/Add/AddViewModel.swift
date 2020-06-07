@@ -10,24 +10,8 @@ public final class AddViewModel {
         expirationTypeSubject.eraseToAnyPublisher()
     }
 
-    public var photos: AnyPublisher<[UIImage], Never> {
-        photosSubject.eraseToAnyPublisher()
-    }
-
     public var canSaveItem: AnyPublisher<Bool, Never> {
         canSaveItemSubject.eraseToAnyPublisher()
-    }
-
-    public var needsCapturePhoto: AnyPublisher<Void, Never> {
-        needsCapturePhotoSubject.eraseToAnyPublisher()
-    }
-
-    public var needsShowPhoto: AnyPublisher<UIImage, Never> {
-        needsShowPhotoSubject.eraseToAnyPublisher()
-    }
-
-    public var needsRemovePhoto: AnyPublisher<Int, Never> {
-        needsRemovePhotoSubject.eraseToAnyPublisher()
     }
 
     public var isExpirationDateVisible: Bool {
@@ -38,15 +22,12 @@ public final class AddViewModel {
         expirationTypeIndex == ExpirationType.period.index
     }
 
+    public let photosViewModel: PhotosCollectionViewModel
     public let expirationDateViewModel: ExpirationDateViewModel
     public let expirationPeriodViewModel: ExpirationPeriodViewModel
 
     private let expirationTypeSubject: CurrentValueSubject<ExpirationType, Never>
-    private let photosSubject: CurrentValueSubject<[UIImage], Never>
     private let canSaveItemSubject: CurrentValueSubject<Bool, Never>
-    private let needsCapturePhotoSubject: PassthroughSubject<Void, Never>
-    private let needsShowPhotoSubject: PassthroughSubject<UIImage, Never>
-    private let needsRemovePhotoSubject: PassthroughSubject<Int, Never>
 
     private let itemsService: ItemsService
     private var subscriptions: Set<AnyCancellable>
@@ -59,15 +40,12 @@ public final class AddViewModel {
 
         self.expirationTypeIndex = ExpirationType.none.index
 
+        self.photosViewModel = .withoutPhotos()
         self.expirationDateViewModel = .init(.init())
         self.expirationPeriodViewModel = .init(.day)
 
-        self.photosSubject = .init([])
         self.expirationTypeSubject = .init(ExpirationType.none)
         self.canSaveItemSubject = .init(false)
-        self.needsShowPhotoSubject = .init()
-        self.needsRemovePhotoSubject = .init()
-        self.needsCapturePhotoSubject = .init()
 
         self.subscriptions = []
 
@@ -80,15 +58,6 @@ public final class AddViewModel {
         }
 
         return itemsService.add(item)
-    }
-
-    public func addPhoto(_ photo: UIImage) {
-        photosSubject.value.insert(photo, at: 0)
-    }
-
-    public func removePhoto(atIndex index: Int) {
-        precondition(0 ..< photosSubject.value.count ~= index, "Index out of bounds.")
-        photosSubject.value.remove(at: index)
     }
 
     private func bind() {
@@ -131,21 +100,5 @@ public final class AddViewModel {
         case .date: return expirationDateViewModel.expiration
         case .period: return expirationPeriodViewModel.expiration
         }
-    }
-}
-
-extension AddViewModel: PhotosCollectionHandler {
-    public func setNeedsCapturePhoto() {
-        needsCapturePhotoSubject.send()
-    }
-
-    public func setNeedsShowPhoto(atIndex index: Int) {
-        precondition(0 ..< photosSubject.value.count ~= index, "Index out of bounds.")
-        needsShowPhotoSubject.send(photosSubject.value[index])
-    }
-
-    public func setNeedsRemovePhoto(atIndex index: Int) {
-        precondition(0 ..< photosSubject.value.count ~= index, "Index out of bounds.")
-        needsRemovePhotoSubject.send(index)
     }
 }

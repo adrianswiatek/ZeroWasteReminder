@@ -11,10 +11,6 @@ public final class EditViewModel {
             .eraseToAnyPublisher()
     }
 
-    public var photos: AnyPublisher<[UIImage], Never> {
-        photosSubject.eraseToAnyPublisher()
-    }
-
     public var isExpirationDateVisible: AnyPublisher<Bool, Never>  {
         isExpirationDateVisibleSubject.eraseToAnyPublisher()
     }
@@ -34,25 +30,11 @@ public final class EditViewModel {
         canSaveSubject.eraseToAnyPublisher()
     }
 
-    public var needsCapturePhoto: AnyPublisher<Void, Never> {
-        needsCapturePhotoSubject.eraseToAnyPublisher()
-    }
-
-    public var needsShowPhoto: AnyPublisher<UIImage, Never> {
-        needsShowPhotoSubject.eraseToAnyPublisher()
-    }
-
-    public var needsRemovePhoto: AnyPublisher<Int, Never> {
-        needsRemovePhotoSubject.eraseToAnyPublisher()
-    }
+    public let photosViewModel: PhotosCollectionViewModel
 
     private let expirationDateSubject: CurrentValueSubject<Date?, Never>
     private let isExpirationDateVisibleSubject: CurrentValueSubject<Bool, Never>
-    private let photosSubject: CurrentValueSubject<[UIImage], Never>
     private let canSaveSubject: CurrentValueSubject<Bool, Never>
-    private let needsCapturePhotoSubject: PassthroughSubject<Void, Never>
-    private let needsShowPhotoSubject: PassthroughSubject<UIImage, Never>
-    private let needsRemovePhotoSubject: PassthroughSubject<Int, Never>
 
     private let originalItem: Item
     private let itemsService: ItemsService
@@ -75,11 +57,8 @@ public final class EditViewModel {
         }
 
         self.isExpirationDateVisibleSubject = .init(false)
-        self.photosSubject = .init([])
         self.canSaveSubject = .init(false)
-        self.needsShowPhotoSubject = .init()
-        self.needsRemovePhotoSubject = .init()
-        self.needsCapturePhotoSubject = .init()
+        self.photosViewModel = .withPhotos([])
 
         self.subscriptions = []
 
@@ -106,15 +85,6 @@ public final class EditViewModel {
         return itemsService.delete([originalItem])
     }
 
-    public func addPhoto(_ photo: UIImage) {
-        photosSubject.value.insert(photo, at: 0)
-    }
-
-    public func removePhoto(atIndex index: Int) {
-        precondition(0 ..< photosSubject.value.count ~= index, "Index out of bounds.")
-        photosSubject.value.remove(at: index)
-    }
-
     private func bind() {
         Publishers.CombineLatest3($name, $notes, expirationDateSubject)
             .map { [weak self] in (self?.originalItem, $0, $1, $2) }
@@ -136,21 +106,5 @@ public final class EditViewModel {
         }
 
         return Item(id: originalItem.id, name: name, notes: notes, expiration: .none)
-    }
-}
-
-extension EditViewModel: PhotosCollectionHandler {
-    public func setNeedsCapturePhoto() {
-        needsCapturePhotoSubject.send()
-    }
-
-    public func setNeedsShowPhoto(atIndex index: Int) {
-        precondition(0 ..< photosSubject.value.count ~= index, "Index out of bounds.")
-        needsShowPhotoSubject.send(photosSubject.value[index])
-    }
-
-    public func setNeedsRemovePhoto(atIndex index: Int) {
-        precondition(0 ..< photosSubject.value.count ~= index, "Index out of bounds.")
-        needsRemovePhotoSubject.send(index)
     }
 }
