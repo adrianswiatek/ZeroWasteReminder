@@ -86,9 +86,9 @@ public final class EditViewModel {
     }
 
     private func bind() {
-        Publishers.CombineLatest3($name, $notes, expirationDateSubject)
-            .map { [weak self] in (self?.originalItem, $0, $1, $2) }
-            .map { !$1.isEmpty && $0 != $0?.withName($1).withNotes($2).withExpirationDate($3) }
+        Publishers.CombineLatest4($name, $notes, expirationDateSubject, photosViewModel.photos)
+            .map { [weak self] in (self?.originalItem, $0, $1, $2, $3.asPhotos()) }
+            .map { !$1.isEmpty && $0 != $0?.withName($1).withNotes($2).withExpirationDate($3).withPhotos($4) }
             .subscribe(canSaveSubject)
             .store(in: &subscriptions)
     }

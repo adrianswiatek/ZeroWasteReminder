@@ -62,7 +62,7 @@ public final class PhotosCollectionViewModel {
     }
 
     public func createPhotos() -> [Photo] {
-        photosSubject.value.compactMap { $0.pngData() }.map { Photo(data: $0) }
+        photosSubject.value.asPhotos()
     }
 
     private func downsizeImageAtUrl(_ imageUrl: URL) -> UIImage? {
