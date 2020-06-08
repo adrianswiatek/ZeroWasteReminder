@@ -29,11 +29,11 @@ public final class PhotosCollectionViewModel {
         needsRemovePhotoSubject = .init()
     }
 
-    public static func withPhotos(_ photos: [Photo]) -> Self {
+    public static func withPhotos(_ photos: [Photo]) -> PhotosCollectionViewModel {
         .init(photos.compactMap { UIImage(data: $0.data) })
     }
 
-    public static func withoutPhotos() -> Self {
+    public static func withoutPhotos() -> PhotosCollectionViewModel {
         .init([])
     }
 

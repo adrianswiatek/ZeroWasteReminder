@@ -49,7 +49,7 @@ public final class ExpirationDateViewModel {
     private func bind() {
         $date
             .map { Self.dateFormatter.string(from: $0) }
-            .subscribe(formattedDateSubject)
+            .sink { [weak self] in self?.formattedDateSubject.send($0) }
             .store(in: &subscriptions)
     }
 }

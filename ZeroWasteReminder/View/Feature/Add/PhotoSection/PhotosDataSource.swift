@@ -2,12 +2,10 @@ import Combine
 import UIKit
 
 public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDataSource.Section, UIImage> {
-    private let collectionView: UICollectionView
     private let viewModel: PhotosCollectionViewModel
     private var subscriptions: Set<AnyCancellable>
 
     public init(_ collectionView: UICollectionView, _ viewModel: PhotosCollectionViewModel) {
-        self.collectionView = collectionView
         self.viewModel = viewModel
         self.subscriptions = []
 
@@ -28,7 +26,7 @@ public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDa
     }
 
     private func setupSupplementaryViewProvider() {
-        supplementaryViewProvider = { collectionView, kind, indexPath in
+        supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
             guard let header = collectionView.dequeueReusableSupplementaryView(
                 ofKind: UICollectionView.elementKindSectionHeader,
                 withReuseIdentifier: PhotoCaptureCell.identifier,
@@ -37,7 +35,7 @@ public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDa
                 preconditionFailure("Cannot dequeue header.")
             }
 
-            header.cancellable = header.tap.sink { [weak self] in self?.viewModel.setNeedsCapturePhoto() }
+            header.cancellable = header.tap.sink { self?.viewModel.setNeedsCapturePhoto() }
             return header
         }
     }

@@ -77,12 +77,12 @@ public final class AddViewModel {
                 return false
             }
         }
-        .subscribe(canSaveItemSubject)
+        .sink { [weak self] in self?.canSaveItemSubject.send($0) }
         .store(in: &subscriptions)
 
         $expirationTypeIndex
             .map { ExpirationType.fromIndex($0) }
-            .subscribe(expirationTypeSubject)
+            .sink { [weak self] in self?.expirationTypeSubject.send($0) }
             .store(in: &subscriptions)
     }
 
