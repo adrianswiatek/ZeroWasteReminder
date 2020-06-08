@@ -89,7 +89,7 @@ public final class EditViewModel {
         Publishers.CombineLatest4($name, $notes, expirationDateSubject, photosViewModel.photos)
             .map { [weak self] in (self?.originalItem, $0, $1, $2, $3.asPhotos()) }
             .map { !$1.isEmpty && $0 != $0?.withName($1).withNotes($2).withExpirationDate($3).withPhotos($4) }
-            .subscribe(canSaveSubject)
+            .sink { [weak self] in self?.canSaveSubject.send($0) }
             .store(in: &subscriptions)
     }
 
