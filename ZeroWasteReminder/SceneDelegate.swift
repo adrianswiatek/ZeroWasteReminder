@@ -12,14 +12,19 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let scene = scene as? UIWindowScene else { return }
 
-        let remotePersistenceFactory: RemotePersistenceFactory =
-            CloudKitPersistenceFactory(containerIdentifier: "iCloud.pl.aswiatek.PushNotifications")
+        let fileService = FileService()
+
+        let remotePersistenceFactory: RemotePersistenceFactory = CloudKitPersistenceFactory(
+            containerIdentifier: "iCloud.pl.aswiatek.PushNotifications",
+            fileService: fileService
+        )
 
         configureRemotePersistence(remotePersistenceFactory)
 
         viewControllerFactory = ViewControllerFactory(
             itemsService: remotePersistenceFactory.itemsService(),
-            sharingControllerFactory: remotePersistenceFactory.sharingControllerFactory()
+            sharingControllerFactory: remotePersistenceFactory.sharingControllerFactory(),
+            fileService: fileService
         )
 
         window = UIWindow(windowScene: scene)

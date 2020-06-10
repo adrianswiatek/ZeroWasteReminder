@@ -2,10 +2,19 @@ import Combine
 import UIKit
 
 public final class PhotosCollectionView: UICollectionView {
+    private let loadingView: LoadingView = {
+        let view = LoadingView()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.15)
+        view.layer.cornerRadius = 8
+        return view
+    }()
+
     private let viewModel: PhotosCollectionViewModel
+    private var subscriptions: Set<AnyCancellable>
 
     public init(_ viewModel: PhotosCollectionViewModel) {
         self.viewModel = viewModel
+        self.subscriptions = []
 
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -16,6 +25,7 @@ public final class PhotosCollectionView: UICollectionView {
 
         self.setupView()
         self.registerCells()
+        self.bind()
     }
 
     @available(*, unavailable)
@@ -31,7 +41,16 @@ public final class PhotosCollectionView: UICollectionView {
         translatesAutoresizingMaskIntoConstraints = false
         showsHorizontalScrollIndicator = false
         backgroundColor = .systemBackground
+        loadingView.show()
         delegate = self
+
+        addSubview(loadingView)
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor, constant: -8),
+            loadingView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor, constant: -8),
+            loadingView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor, constant: 8),
+            loadingView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor, constant: 8)
+        ])
     }
 
     private func registerCells() {
@@ -45,6 +64,12 @@ public final class PhotosCollectionView: UICollectionView {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: PhotoCaptureCell.identifier
         )
+    }
+
+    private func bind() {
+        viewModel.isLoadingOverlayVisible
+            .sink { [weak self] in $0 ? self?.loadingView.show() : self?.loadingView.hide() }
+            .store(in: &subscriptions)
     }
 }
 
@@ -67,7 +92,7 @@ extension PhotosCollectionView: UICollectionViewDelegateFlowLayout {
             title: .localized(.removePhoto),
             image: .fromSymbol(.trash),
             attributes: .destructive,
-            handler: { [weak self] _ in self?.viewModel.setNeedsRemovePhoto(atIndex: indexPath.item) }
+            handler: { [weak self] _ in self?.viewModel.setNeedsRemoveImage(atIndex: indexPath.item) }
         )
 
         return UIContextMenuConfiguration(identifier: "PhotoContextMenu" as NSCopying, previewProvider: nil) { _ in
@@ -76,6 +101,6 @@ extension PhotosCollectionView: UICollectionViewDelegateFlowLayout {
     }
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel.setNeedsShowPhoto(atIndex: indexPath.item)
+        viewModel.setNeedsShowImage(atIndex: indexPath.item)
     }
 }

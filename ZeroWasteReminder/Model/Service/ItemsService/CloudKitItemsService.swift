@@ -38,9 +38,13 @@ public final class CloudKitItemsService: ItemsService {
 
     public func add(_ item: Item) -> Future<Void, ServiceError> {
         Future { [weak self] promise in
-            guard let self = self, let record = self.mapper.map(item).toRecordInZone(self.zone) else { return }
+            guard let self = self, let itemRecord = self.mapper.map(item).toRecordInZone(self.zone) else { return }
 
-            let operation = CKModifyRecordsOperation(recordsToSave: [record])
+            let photoRecords = item.photos.compactMap {
+                self.mapper.map($0).toRecordInZone(self.zone, referencedBy: itemRecord)
+            }
+
+            let operation = CKModifyRecordsOperation(recordsToSave: [itemRecord] + photoRecords)
             operation.modifyRecordsCompletionBlock = { records, _, error in
                 if let error = error {
                     DispatchQueue.main.async { promise(.failure(.init(error))) }
@@ -76,7 +80,6 @@ public final class CloudKitItemsService: ItemsService {
     public func update(_ item: Item) -> Future<Void, Never> {
         Future { [weak self] promise in
             guard let self = self, let record = self.mapper.map(item).toRecordInZone(self.zone) else { return }
-
             self.database.fetch(withRecordID: record.recordID) { record, error in
                 assert(error == nil, error!.localizedDescription)
                 guard let updatedRecord = self.mapper.map(record).updateBy(item).toRecord() else { return }
@@ -97,6 +100,32 @@ public final class CloudKitItemsService: ItemsService {
 
     public func deleteAll() -> Future<Void, ServiceError> {
         deleteItems(itemsSubject.value)
+    }
+
+    public func fetchPhotos(forItem item: Item) -> Future<[Photo], ServiceError> {
+        Future { [weak self] promise in
+            guard let self = self else { return }
+            var photoRecords = [CKRecord]()
+
+            let itemReference = CKRecord.Reference(
+                recordID: .init(recordName: item.id.uuidString, zoneID: self.zone.zoneID),
+                action: .none
+            )
+
+            let predicate = NSPredicate(format: "%K == %@", CloudKitKey.Photo.itemId, itemReference)
+            let operation = CKQueryOperation(query: .init(recordType: "Photo", predicate: predicate))
+            operation.recordFetchedBlock = { photoRecords.append($0) }
+            operation.queryCompletionBlock = {
+                if let error = $1 {
+                    DispatchQueue.main.async { promise(.failure(ServiceError(error))) }
+                } else {
+                    let photos = photoRecords.compactMap { self.mapper.map($0).toPhoto() }
+                    DispatchQueue.main.async { promise(.success(photos)) }
+                }
+            }
+
+            self.database.add(operation)
+        }
     }
 
     private func deleteItems(_ items: [Item]) -> Future<Void, ServiceError> {

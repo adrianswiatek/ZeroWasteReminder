@@ -30,17 +30,19 @@ public final class AddViewModel {
     private let canSaveItemSubject: CurrentValueSubject<Bool, Never>
 
     private let itemsService: ItemsService
+    private let fileService: FileService
     private var subscriptions: Set<AnyCancellable>
 
-    public init(itemsService: ItemsService) {
+    public init(itemsService: ItemsService, fileService: FileService) {
         self.itemsService = itemsService
+        self.fileService = fileService
 
         self.name = ""
         self.notes = ""
 
         self.expirationTypeIndex = ExpirationType.none.index
 
-        self.photosViewModel = .withoutPhotos()
+        self.photosViewModel = .init(itemsService: itemsService, fileService: fileService)
         self.expirationDateViewModel = .init(.init())
         self.expirationPeriodViewModel = .init(.day)
 
@@ -60,18 +62,22 @@ public final class AddViewModel {
         return itemsService.add(item)
     }
 
+    public func cleanUp() {
+        _ = fileService.removeTemporaryItems()
+    }
+
     private func bind() {
         expirationType.combineLatest(
             $name.map { !$0.isEmpty },
             expirationDateViewModel.isValid,
             expirationPeriodViewModel.isValid
-        ) {
-            switch $0 {
-            case .none where $1:
+        ) { expirationType, isNameValid, isDateValid, isPeriodValid in
+            switch expirationType {
+            case .none where isNameValid:
                 return true
-            case .date where $2 && $1:
+            case .date where isDateValid && isNameValid:
                 return true
-            case .period where $3 && $1:
+            case .period where isPeriodValid && isNameValid:
                 return true
             default:
                 return false

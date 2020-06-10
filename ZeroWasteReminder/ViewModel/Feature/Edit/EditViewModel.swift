@@ -36,15 +36,17 @@ public final class EditViewModel {
     private let isExpirationDateVisibleSubject: CurrentValueSubject<Bool, Never>
     private let canSaveSubject: CurrentValueSubject<Bool, Never>
 
-    private let originalItem: Item
+    private var originalItem: Item
     private let itemsService: ItemsService
+    private let fileService: FileService
     private let dateFormatter: DateFormatter
 
     private var subscriptions: Set<AnyCancellable>
 
-    public init(item: Item, itemsService: ItemsService) {
+    public init(item: Item, itemsService: ItemsService, fileService: FileService) {
         self.originalItem = item
         self.itemsService = itemsService
+        self.fileService = fileService
         self.dateFormatter = .fullDateFormatter
 
         self.name = item.name
@@ -58,11 +60,12 @@ public final class EditViewModel {
 
         self.isExpirationDateVisibleSubject = .init(false)
         self.canSaveSubject = .init(false)
-        self.photosViewModel = .withPhotos(item.photos)
+        self.photosViewModel = .init(itemsService: itemsService, fileService: fileService)
 
         self.subscriptions = []
 
         self.bind()
+        self.photosViewModel.fetchPhotos(forItem: originalItem)
     }
 
     public func toggleExpirationDatePicker() {
@@ -85,9 +88,21 @@ public final class EditViewModel {
         return itemsService.delete([originalItem])
     }
 
+    public func cleanUp() {
+        _ = fileService.removeTemporaryItems()
+    }
+
     private func bind() {
+        photosViewModel.photos
+            .first { !$0.isEmpty }
+            .sink { [weak self] in
+                guard let self = self else { return }
+                self.originalItem = self.originalItem.withPhotos($0)
+            }
+            .store(in: &subscriptions)
+
         Publishers.CombineLatest4($name, $notes, expirationDateSubject, photosViewModel.photos)
-            .map { [weak self] in (self?.originalItem, $0, $1, $2, $3.asPhotos()) }
+            .map { [weak self] in (self?.originalItem, $0, $1, $2, $3) }
             .map { !$1.isEmpty && $0 != $0?.withName($1).withNotes($2).withExpirationDate($3).withPhotos($4) }
             .sink { [weak self] in self?.canSaveSubject.send($0) }
             .store(in: &subscriptions)

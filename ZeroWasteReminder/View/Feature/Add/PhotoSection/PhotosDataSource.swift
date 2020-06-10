@@ -35,14 +35,14 @@ public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDa
                 preconditionFailure("Cannot dequeue header.")
             }
 
-            header.cancellable = header.tap.sink { self?.viewModel.setNeedsCapturePhoto() }
+            header.cancellable = header.tap.sink { self?.viewModel.setNeedsCaptureImage() }
             return header
         }
     }
 
     private func bind() {
         viewModel.photos
-            .sink { [weak self] in self?.apply($0) }
+            .sink { [weak self] in self?.apply($0.map { $0.asImage() }) }
             .store(in: &subscriptions)
     }
 

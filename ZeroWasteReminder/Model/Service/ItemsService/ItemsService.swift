@@ -17,4 +17,6 @@ public protocol ItemsService {
 
     @discardableResult
     func deleteAll() -> Future<Void, ServiceError>
+
+    func fetchPhotos(forItem item: Item) -> Future<[Photo], ServiceError>
 }

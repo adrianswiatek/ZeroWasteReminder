@@ -48,4 +48,14 @@ public final class InMemoryItemsService: ItemsService {
             promise(.success(()))
         }
     }
+
+    public func fetchPhotos(forItem item: Item) -> Future<[Photo], ServiceError> {
+        Future { [weak self] promise in
+            let photos = self?.itemsSubject.value
+                .first { $0.id == item.id }
+                .map { $0.photos }
+
+            promise(.success(photos ?? []))
+        }
+    }
 }

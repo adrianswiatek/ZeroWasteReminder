@@ -42,6 +42,11 @@ public final class AddViewController: UIViewController {
         self.setupView()
     }
 
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.viewModel.cleanUp()
+    }
+
     private func setupNavigationItem() {
         navigationItem.title = "Add item"
 
@@ -88,23 +93,23 @@ public final class AddViewController: UIViewController {
             .sink { [weak self] in self?.doneButton.isEnabled = $0 }
             .store(in: &subscriptions)
 
-        viewModel.photosViewModel.needsShowPhoto
+        viewModel.photosViewModel.needsShowImage
             .sink { [weak self] in
                 let photoViewController = FullScreenPhotoViewController(image: $0)
                 self?.present(photoViewController, animated: true)
             }
             .store(in: &subscriptions)
 
-        viewModel.photosViewModel.needsRemovePhoto
+        viewModel.photosViewModel.needsRemoveImage
             .sink { [weak self] index in
                 guard let self = self else { return }
                 UIAlertController.presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
-                    .sink { [weak self] _ in self?.viewModel.photosViewModel.removePhoto(atIndex: index) }
+                    .sink { [weak self] _ in self?.viewModel.photosViewModel.removeImage(atIndex: index) }
                     .store(in: &self.subscriptions)
             }
             .store(in: &subscriptions)
 
-        viewModel.photosViewModel.needsCapturePhoto
+        viewModel.photosViewModel.needsCaptureImage
             .compactMap { [weak self] in self?.tryCreateImagePickerController() }
             .sink { [weak self] in self?.present($0, animated: true) }
             .store(in: &subscriptions)
@@ -175,11 +180,12 @@ extension AddViewController: UIImagePickerControllerDelegate & UINavigationContr
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
-        guard let photoUrl = info[.imageURL] as? URL else {
-            preconditionFailure("Cannot determine image URL.")
+        if let imageUrl = info[.imageURL] as? URL {
+            viewModel.photosViewModel.addImage(atUrl: imageUrl)
+        } else if let photo = info[.originalImage] as? UIImage {
+            viewModel.photosViewModel.addImage(photo)
         }
 
-        viewModel.photosViewModel.addPhotoAtUrl(photoUrl)
         picker.dismiss(animated: true)
     }
 }
