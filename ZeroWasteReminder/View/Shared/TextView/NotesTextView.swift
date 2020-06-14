@@ -16,7 +16,6 @@ public final class NotesTextView: UITextView {
     public init() {
         self.valueSubject = .init()
         self.sharedDelegate = .init()
-
         self.subscriptions = []
 
         super.init(frame: .zero, textContainer: .none)
@@ -70,7 +69,7 @@ public final class NotesTextView: UITextView {
 
     private func bind() {
         sharedDelegate.value
-            .subscribe(valueSubject)
+            .sink { [weak self] in self?.valueSubject.send($0) }
             .store(in: &subscriptions)
 
         clearButton.tap

@@ -38,9 +38,15 @@ public final class CloudKitItemsService: ItemsService {
 
     public func add(_ item: Item) -> Future<Void, ServiceError> {
         Future { [weak self] promise in
-            guard let self = self, let record = self.mapper.map(item).toRecordInZone(self.zone) else { return }
+            guard let self = self, let itemRecord = self.mapper.map(item).toRecordInZone(self.zone) else {
+                return
+            }
 
-            let operation = CKModifyRecordsOperation(recordsToSave: [record])
+            let photoRecords = item.photos.compactMap {
+                self.mapper.map($0).toRecordInZone(self.zone, referencedBy: itemRecord)
+            }
+
+            let operation = CKModifyRecordsOperation(recordsToSave: [itemRecord] + photoRecords)
             operation.modifyRecordsCompletionBlock = { records, _, error in
                 if let error = error {
                     DispatchQueue.main.async { promise(.failure(.init(error))) }
@@ -73,10 +79,9 @@ public final class CloudKitItemsService: ItemsService {
         }
     }
 
-    public func update(_ item: Item) -> Future<Void, Never> {
+    public func update(_ item: Item) -> Future<Void, ServiceError> {
         Future { [weak self] promise in
             guard let self = self, let record = self.mapper.map(item).toRecordInZone(self.zone) else { return }
-
             self.database.fetch(withRecordID: record.recordID) { record, error in
                 assert(error == nil, error!.localizedDescription)
                 guard let updatedRecord = self.mapper.map(record).updateBy(item).toRecord() else { return }
@@ -91,12 +96,69 @@ public final class CloudKitItemsService: ItemsService {
         }
     }
 
+    public func updatePhotos(_ photosChangeset: PhotosChangeset, forItem item: Item) -> Future<Void, ServiceError> {
+        Future { [weak self] promise in
+            guard let self = self else { return }
+
+            let itemRecord = self.mapper.map(item).toRecordInZone(self.zone)
+            let photoRecordsToSave = photosChangeset.toSave.compactMap {
+                self.mapper.map($0).toRecordInZone(self.zone, referencedBy: itemRecord)
+            }
+
+            let photosRecordsToDelete = photosChangeset.toDelete.compactMap {
+                self.mapper.map($0).toRecordInZone(self.zone)?.recordID
+            }
+
+            let operation = CKModifyRecordsOperation(
+                recordsToSave: photoRecordsToSave,
+                recordIDsToDelete: photosRecordsToDelete
+            )
+
+            operation.modifyRecordsCompletionBlock = { insertedRecords, deletedRecordIds, error in
+                if let error = error {
+                    DispatchQueue.main.async { promise(.failure(ServiceError(error))) }
+                } else {
+                    self.modifyPhotosCompleted(forItem: item, insertedRecords ?? [], deletedRecordIds ?? [])
+                    DispatchQueue.main.async { promise(.success(())) }
+                }
+            }
+
+            self.database.add(operation)
+        }
+    }
+
     public func delete(_ items: [Item]) -> Future<Void, ServiceError> {
         deleteItems(items)
     }
 
     public func deleteAll() -> Future<Void, ServiceError> {
         deleteItems(itemsSubject.value)
+    }
+
+    public func fetchPhotos(forItem item: Item) -> Future<[Photo], ServiceError> {
+        Future { [weak self] promise in
+            guard let self = self else { return }
+            var photoRecords = [CKRecord]()
+
+            let itemReference = CKRecord.Reference(
+                recordID: .init(recordName: item.id.uuidString, zoneID: self.zone.zoneID),
+                action: .none
+            )
+
+            let predicate = NSPredicate(format: "%K == %@", CloudKitKey.Photo.itemId, itemReference)
+            let operation = CKQueryOperation(query: .init(recordType: "Photo", predicate: predicate))
+            operation.recordFetchedBlock = { photoRecords.append($0) }
+            operation.queryCompletionBlock = {
+                if let error = $1 {
+                    DispatchQueue.main.async { promise(.failure(ServiceError(error))) }
+                } else {
+                    let photos = photoRecords.compactMap { self.mapper.map($0).toPhoto() }
+                    DispatchQueue.main.async { promise(.success(photos)) }
+                }
+            }
+
+            self.database.add(operation)
+        }
     }
 
     private func deleteItems(_ items: [Item]) -> Future<Void, ServiceError> {
@@ -117,6 +179,32 @@ public final class CloudKitItemsService: ItemsService {
 
             self.database.add(operation)
         }
+    }
+
+    private func modifyPhotosCompleted(
+        forItem item: Item,
+        _ insertedRecords: [CKRecord],
+        _ deletedRecordIds: [CKRecord.ID]
+    ) {
+        guard let itemIndex = itemsSubject.value.firstIndex(where: { $0.id == item.id }) else { return }
+
+        var photos = itemsSubject.value[itemIndex].photos
+
+        insertedRecords
+            .compactMap { mapper.map($0).toPhoto() }
+            .forEach { photo in photos.insert(photo, at: 0) }
+
+        deletedRecordIds
+            .compactMap { UUID(uuidString: $0.recordName) }
+            .forEach { photoId in photos.removeAll { $0.id == photoId } }
+
+        itemsSubject.value[itemIndex] = Item(
+            id: item.id,
+            name: item.name,
+            notes: item.notes,
+            expiration: item.expiration,
+            photos: item.photos
+        )
     }
 
     private func indexForItem(_ item: Item) -> Int? {

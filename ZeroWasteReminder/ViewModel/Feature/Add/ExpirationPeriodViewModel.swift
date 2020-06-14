@@ -45,7 +45,7 @@ public final class ExpirationPeriodViewModel {
     private func bind() {
         $periodTypeIndex
             .map { PeriodType.fromIndex($0) }
-            .subscribe(periodTypeSubject)
+            .sink { [weak self] in self?.periodTypeSubject.send($0) }
             .store(in: &subscriptions)
 
         $period

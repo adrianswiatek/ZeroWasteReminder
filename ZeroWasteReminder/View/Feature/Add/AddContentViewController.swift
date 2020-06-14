@@ -1,8 +1,9 @@
+import AVFoundation
 import Combine
 import UIKit
 
 public final class AddContentViewController: UIViewController {
-    private let nameLabel: UILabel = .defaultWithText("Item name")
+    private let nameLabel: UILabel = .defaultWithText(.localized(.itemName))
     private let nameTextView: NameTextView = {
         let textView = NameTextView()
         textView.becomeFirstResponder()
@@ -12,8 +13,12 @@ public final class AddContentViewController: UIViewController {
     private lazy var expirationSectionView: ExpirationSectionView =
         .init(viewModel: viewModel)
 
-    private let notesLabel: UILabel = .defaultWithText("Notes")
-    private let notesTextView: NotesTextView = .init()
+    private let notesLabel: UILabel = .defaultWithText(.localized(.notes))
+    private let notesTextView: NotesTextView
+
+    private let photosLabel: UILabel = .defaultWithText(.localized(.photos))
+    private let photosCollectionView: PhotosCollectionView
+    private let photosDataSource: PhotosDataSource
 
     private let viewModel: AddViewModel
     private var subscriptions: Set<AnyCancellable>
@@ -21,6 +26,10 @@ public final class AddContentViewController: UIViewController {
     public init(viewModel: AddViewModel) {
         self.viewModel = viewModel
         self.subscriptions = []
+
+        self.notesTextView = .init()
+        self.photosCollectionView = .init(viewModel.photosViewModel)
+        self.photosDataSource = .init(photosCollectionView, viewModel.photosViewModel)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -44,30 +53,55 @@ public final class AddContentViewController: UIViewController {
 
         view.addSubview(nameTextView)
         NSLayoutConstraint.activate([
-            nameTextView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
+            nameTextView.topAnchor.constraint(
+                equalTo: nameLabel.bottomAnchor, constant: Metrics.insideSectionPadding
+            ),
             nameTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             nameTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
         view.addSubview(expirationSectionView)
         NSLayoutConstraint.activate([
-            expirationSectionView.topAnchor.constraint(equalTo: nameTextView.bottomAnchor, constant: 24),
+            expirationSectionView.topAnchor.constraint(
+                equalTo: nameTextView.bottomAnchor, constant: Metrics.betweenSectionsPadding
+            ),
             expirationSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             expirationSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
         view.addSubview(notesLabel)
         NSLayoutConstraint.activate([
-            notesLabel.topAnchor.constraint(equalTo: expirationSectionView.bottomAnchor, constant: 24),
+            notesLabel.topAnchor.constraint(
+                equalTo: expirationSectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
+            ),
             notesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
 
         view.addSubview(notesTextView)
         NSLayoutConstraint.activate([
-            notesTextView.topAnchor.constraint(equalTo: notesLabel.bottomAnchor, constant: 8),
+            notesTextView.topAnchor.constraint(
+                equalTo: notesLabel.bottomAnchor, constant: Metrics.insideSectionPadding
+            ),
             notesTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            notesTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             notesTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+
+        view.addSubview(photosLabel)
+        NSLayoutConstraint.activate([
+            photosLabel.topAnchor.constraint(
+                equalTo: notesTextView.bottomAnchor, constant: Metrics.betweenSectionsPadding
+            ),
+            photosLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        ])
+
+        view.addSubview(photosCollectionView)
+        NSLayoutConstraint.activate([
+            photosCollectionView.topAnchor.constraint(
+                equalTo: photosLabel.bottomAnchor, constant: Metrics.insideSectionPadding
+            ),
+            photosCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            photosCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            photosCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 
@@ -84,5 +118,12 @@ public final class AddContentViewController: UIViewController {
             .dropFirst()
             .sink { [weak self] _ in self?.nameTextView.resignFirstResponder() }
             .store(in: &subscriptions)
+    }
+}
+
+private extension AddContentViewController {
+    enum Metrics {
+        static let insideSectionPadding: CGFloat = 8
+        static let betweenSectionsPadding: CGFloat = 24
     }
 }

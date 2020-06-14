@@ -20,7 +20,7 @@ public final class NameTextView: UITextView {
 
         super.init(frame: .zero, textContainer: .none)
 
-        self.delegate = self.sharedDelegate
+        self.delegate = sharedDelegate
 
         self.setupView()
         self.layoutClearButton()
@@ -59,7 +59,7 @@ public final class NameTextView: UITextView {
 
     private func bind() {
         sharedDelegate.value
-            .subscribe(valueSubject)
+            .sink { [weak self] in self?.valueSubject.send($0) }
             .store(in: &subscriptions)
 
         clearButton.tap

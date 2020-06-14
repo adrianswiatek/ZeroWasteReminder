@@ -13,7 +13,7 @@ public final class ExpirationPeriodView: UIView {
     }
 
     private lazy var periodTextField: UITextField = {
-        let textField = DefaultTextField(placeholder: "Period")
+        let textField = ExpirationPeriodTextField(placeholder: .localized(.period))
         textField.keyboardType = .numberPad
         textField.addTarget(self, action: #selector(handlePeriodTextFieldChange), for: .editingChanged)
         textField.delegate = self

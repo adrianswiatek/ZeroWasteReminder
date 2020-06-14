@@ -3,10 +3,16 @@ import UIKit
 public final class ViewControllerFactory {
     private let itemsService: ItemsService
     private let sharingControllerFactory: SharingControllerFactory
+    private let fileService: FileService
 
-    public init(itemsService: ItemsService, sharingControllerFactory: SharingControllerFactory) {
+    public init(
+        itemsService: ItemsService,
+        sharingControllerFactory: SharingControllerFactory,
+        fileService: FileService
+    ) {
         self.itemsService = itemsService
         self.sharingControllerFactory = sharingControllerFactory
+        self.fileService = fileService
     }
 
     public var listViewController: UIViewController {
@@ -16,13 +22,13 @@ public final class ViewControllerFactory {
     }
 
     public var addViewController: UIViewController {
-        let viewModel = AddViewModel(itemsService: itemsService)
+        let viewModel = AddViewModel(itemsService: itemsService, fileService: fileService)
         let viewController = AddViewController(viewModel: viewModel)
         return AddNavigationController(rootViewController: viewController)
     }
 
     public func editViewController(item: Item) -> UIViewController {
-        let viewModel = EditViewModel(item: item, itemsService: itemsService)
+        let viewModel = EditViewModel(item: item, itemsService: itemsService, fileService: fileService)
         return EditViewController(viewModel: viewModel)
     }
 

@@ -1,5 +1,5 @@
 import Combine
-import Foundation
+import UIKit
 
 public final class EditViewModel {
     @Published var name: String
@@ -30,19 +30,23 @@ public final class EditViewModel {
         canSaveSubject.eraseToAnyPublisher()
     }
 
+    public let photosViewModel: PhotosCollectionViewModel
+
     private let expirationDateSubject: CurrentValueSubject<Date?, Never>
     private let isExpirationDateVisibleSubject: CurrentValueSubject<Bool, Never>
     private let canSaveSubject: CurrentValueSubject<Bool, Never>
 
-    private let originalItem: Item
+    private var originalItem: Item
     private let itemsService: ItemsService
+    private let fileService: FileService
     private let dateFormatter: DateFormatter
 
     private var subscriptions: Set<AnyCancellable>
 
-    public init(item: Item, itemsService: ItemsService) {
+    public init(item: Item, itemsService: ItemsService, fileService: FileService) {
         self.originalItem = item
         self.itemsService = itemsService
+        self.fileService = fileService
         self.dateFormatter = .fullDateFormatter
 
         self.name = item.name
@@ -56,10 +60,12 @@ public final class EditViewModel {
 
         self.isExpirationDateVisibleSubject = .init(false)
         self.canSaveSubject = .init(false)
+        self.photosViewModel = .init(itemsService: itemsService, fileService: fileService)
 
         self.subscriptions = []
 
         self.bind()
+        self.photosViewModel.fetchPhotos(forItem: originalItem)
     }
 
     public func toggleExpirationDatePicker() {
@@ -70,23 +76,45 @@ public final class EditViewModel {
         expirationDateSubject.value = date
     }
 
-    public func save() -> Future<Void, Never> {
+    public func save() -> AnyPublisher<Void, ServiceError> {
         guard let item = tryCreateItem(name, notes, expirationDateSubject.value) else {
             preconditionFailure("Unable to create an item.")
         }
 
         return itemsService.update(item)
+            .flatMap { [weak self] () -> AnyPublisher<Void, ServiceError> in
+                guard let self = self else {
+                    return Empty().eraseToAnyPublisher()
+                }
+
+                return self.itemsService
+                    .updatePhotos(self.photosViewModel.photosChangeset, forItem: item)
+                    .eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
     }
 
     public func delete() -> Future<Void, ServiceError> {
         return itemsService.delete([originalItem])
     }
 
+    public func cleanUp() {
+        _ = fileService.removeTemporaryItems()
+    }
+
     private func bind() {
-        Publishers.CombineLatest3($name, $notes, expirationDateSubject)
-            .map { [weak self] in (self?.originalItem, $0, $1, $2) }
-            .map { !$1.isEmpty && $0 != $0?.withName($1).withNotes($2).withExpirationDate($3) }
-            .subscribe(canSaveSubject)
+        photosViewModel.photos
+            .first { !$0.isEmpty }
+            .sink { [weak self] in
+                guard let self = self else { return }
+                self.originalItem = self.originalItem.withPhotos($0)
+            }
+            .store(in: &subscriptions)
+
+        Publishers.CombineLatest4($name, $notes, expirationDateSubject, photosViewModel.photos)
+            .map { [weak self] in (self?.originalItem, $0, $1, $2, $3) }
+            .map { !$1.isEmpty && $0 != $0?.withName($1).withNotes($2).withExpirationDate($3).withPhotos($4) }
+            .sink { [weak self] in self?.canSaveSubject.send($0) }
             .store(in: &subscriptions)
     }
 
@@ -98,10 +126,13 @@ public final class EditViewModel {
     private func tryCreateItem(_ name: String, _ notes: String, _ expirationDate: Date?) -> Item? {
         guard !name.isEmpty else { return nil }
 
+        let photos = photosViewModel.createPhotos()
+
         if let expirationDate = expirationDate {
-            return Item(id: originalItem.id, name: name, notes: notes, expiration: .date(expirationDate))
+            let expiration = Expiration.date(expirationDate)
+            return Item(id: originalItem.id, name: name, notes: notes, expiration: expiration, photos: photos)
         }
 
-        return Item(id: originalItem.id, name: name, notes: notes, expiration: .none)
+        return Item(id: originalItem.id, name: name, notes: notes, expiration: .none, photos: photos)
     }
 }

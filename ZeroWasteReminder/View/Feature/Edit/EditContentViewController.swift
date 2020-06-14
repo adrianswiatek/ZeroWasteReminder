@@ -18,6 +18,10 @@ public final class EditContentViewController: UIViewController {
     private let notesLabel: UILabel = .defaultWithText("Notes")
     private let notesTextView = NotesTextView()
 
+    private let photosLabel: UILabel = .defaultWithText(.localized(.photos))
+    private let photosCollectionView: PhotosCollectionView
+    private let photosDataSource: PhotosDataSource
+
     private let actionsLabel: UILabel = .defaultWithText("Actions")
     private let deleteButton: DeleteButton = .init(type: .system)
 
@@ -31,6 +35,9 @@ public final class EditContentViewController: UIViewController {
 
         self.deleteSubject = .init()
         self.subscriptions = []
+
+        self.photosCollectionView = .init(viewModel.photosViewModel)
+        self.photosDataSource = .init(photosCollectionView, viewModel.photosViewModel)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -59,7 +66,7 @@ public final class EditContentViewController: UIViewController {
         view.addSubview(nameTextView)
         NSLayoutConstraint.activate([
             nameTextView.topAnchor.constraint(
-                equalTo: nameLabel.bottomAnchor, constant: Metrics.insideSectionsPadding
+                equalTo: nameLabel.bottomAnchor, constant: Metrics.insideSectionPadding
             ),
             nameTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             nameTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -82,7 +89,7 @@ public final class EditContentViewController: UIViewController {
         view.addSubview(removeDateButton)
         NSLayoutConstraint.activate([
             removeDateButton.topAnchor.constraint(
-                equalTo: expirationDateLabel.bottomAnchor, constant: Metrics.insideSectionsPadding
+                equalTo: expirationDateLabel.bottomAnchor, constant: Metrics.insideSectionPadding
             ),
             removeDateButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             removeDateButton.heightAnchor.constraint(equalToConstant: Metrics.controlsHeight),
@@ -92,7 +99,7 @@ public final class EditContentViewController: UIViewController {
         view.addSubview(dateButton)
         NSLayoutConstraint.activate([
             dateButton.leadingAnchor.constraint(
-                equalTo: removeDateButton.trailingAnchor, constant: Metrics.insideSectionsPadding
+                equalTo: removeDateButton.trailingAnchor, constant: Metrics.insideSectionPadding
             ),
             dateButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             dateButton.centerYAnchor.constraint(equalTo: removeDateButton.centerYAnchor),
@@ -116,16 +123,33 @@ public final class EditContentViewController: UIViewController {
         view.addSubview(notesTextView)
         NSLayoutConstraint.activate([
             notesTextView.topAnchor.constraint(
-                equalTo: notesLabel.bottomAnchor, constant: Metrics.insideSectionsPadding
+                equalTo: notesLabel.bottomAnchor, constant: Metrics.insideSectionPadding
             ),
             notesTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             notesTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
+        view.addSubview(photosLabel)
+        NSLayoutConstraint.activate([
+            photosLabel.topAnchor.constraint(
+                equalTo: notesTextView.bottomAnchor, constant: Metrics.betweenSectionsPadding
+            ),
+            photosLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        ])
+
+        view.addSubview(photosCollectionView)
+        NSLayoutConstraint.activate([
+            photosCollectionView.topAnchor.constraint(
+                equalTo: photosLabel.bottomAnchor, constant: Metrics.insideSectionPadding
+            ),
+            photosCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            photosCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+
         view.addSubview(actionsLabel)
         NSLayoutConstraint.activate([
             actionsLabel.topAnchor.constraint(
-                equalTo: notesTextView.bottomAnchor, constant: Metrics.betweenSectionsPadding
+                equalTo: photosCollectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
             ),
             actionsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
@@ -133,7 +157,7 @@ public final class EditContentViewController: UIViewController {
         view.addSubview(deleteButton)
         NSLayoutConstraint.activate([
             deleteButton.topAnchor.constraint(
-                equalTo: actionsLabel.bottomAnchor, constant: Metrics.insideSectionsPadding
+                equalTo: actionsLabel.bottomAnchor, constant: Metrics.insideSectionPadding
             ),
             deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             deleteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -207,6 +231,6 @@ extension EditContentViewController {
     private enum Metrics {
         static let controlsHeight: CGFloat = 44
         static let betweenSectionsPadding: CGFloat = 16
-        static let insideSectionsPadding: CGFloat = 8
+        static let insideSectionPadding: CGFloat = 8
     }
 }
