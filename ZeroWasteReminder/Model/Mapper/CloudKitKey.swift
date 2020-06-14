@@ -8,7 +8,7 @@ internal enum CloudKitKey {
 
     internal enum Photo {
         static let id = "id"
-        static let itemId = "itemId"
+        static let itemReference = "itemReference"
         static let photo = "photo"
     }
 }

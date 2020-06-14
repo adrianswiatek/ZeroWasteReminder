@@ -4,6 +4,7 @@ import UIKit
 internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     internal var window: UIWindow?
     private var viewControllerFactory: ViewControllerFactory?
+    private var subscriptionService: SubscriptionService?
 
     internal func scene(
         _ scene: UIScene,
@@ -19,7 +20,8 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fileService: fileService
         )
 
-        configureRemotePersistence(remotePersistenceFactory)
+        subscriptionService = remotePersistenceFactory.subscriptionService()
+        subscriptionService?.registerItemsSubscriptionIfNeeded()
 
         viewControllerFactory = ViewControllerFactory(
             itemsService: remotePersistenceFactory.itemsService(),
@@ -30,9 +32,5 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
         window?.rootViewController = viewControllerFactory?.listViewController
         window?.makeKeyAndVisible()
-    }
-
-    private func configureRemotePersistence(_ factory: RemotePersistenceFactory) {
-        factory.subscriptionService().registerItemsSubscriptionIfNeeded()
     }
 }

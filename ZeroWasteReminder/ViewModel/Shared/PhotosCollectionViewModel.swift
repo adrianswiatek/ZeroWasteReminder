@@ -1,30 +1,6 @@
 import Combine
 import UIKit
 
-public struct PhotosChangeset {
-    public private(set) var toSave: [Photo]
-    public private(set) var toDelete: [Photo]
-
-    public init() {
-        self.init(toSave: [], toDelete: [])
-    }
-
-    private init(toSave: [Photo], toDelete: [Photo]) {
-        self.toSave = toSave
-        self.toDelete = toDelete
-    }
-
-    public func withInsertedPhoto(_ photo: Photo) -> PhotosChangeset {
-        guard !toSave.contains(photo) else { return self }
-        return .init(toSave: toSave + [photo], toDelete: toDelete)
-    }
-
-    public func withDeletedPhoto(_ photo: Photo) -> PhotosChangeset {
-        guard !toDelete.contains(photo) else { return self }
-        return .init(toSave: toSave, toDelete: toDelete + [photo])
-    }
-}
-
 public final class PhotosCollectionViewModel {
     private let photosSubject: CurrentValueSubject<[Photo], Never>
     public var photos: AnyPublisher<[Photo], Never> {
@@ -134,7 +110,7 @@ public final class PhotosCollectionViewModel {
 
     private func addPhoto(_ photo: Photo) {
         photosSubject.value.insert(photo, at: 0)
-        photosChangeset = photosChangeset.withInsertedPhoto(photo)
+        photosChangeset = photosChangeset.withSavedPhoto(photo)
     }
 
     private func downsizeImage(atUrl url: URL) -> UIImage? {

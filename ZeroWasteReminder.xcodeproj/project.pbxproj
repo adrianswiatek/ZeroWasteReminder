@@ -94,6 +94,7 @@
 		A7DD996A2484578D00B40141 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DD99692484578D00B40141 /* PhotoCell.swift */; };
 		A7DD996C248462C500B40141 /* PhotoCaptureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DD996B248462C500B40141 /* PhotoCaptureCell.swift */; };
 		A7DD996E248463B500B40141 /* ReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DD996D248463B500B40141 /* ReuseIdentifiable.swift */; };
+		A7E317992496EBB8006B9610 /* PhotosChangeset.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E317982496EBB8006B9610 /* PhotosChangeset.swift */; };
 		A7EC2D5C2444F66800993F53 /* ExpirationDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC2D5B2444F66800993F53 /* ExpirationDateView.swift */; };
 		A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC2D5D2445004D00993F53 /* ExpirationPeriodView.swift */; };
 		A7EC2D622445127200993F53 /* PeriodTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC2D612445127200993F53 /* PeriodTypeExtensions.swift */; };
@@ -199,6 +200,7 @@
 		A7DD99692484578D00B40141 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		A7DD996B248462C500B40141 /* PhotoCaptureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureCell.swift; sourceTree = "<group>"; };
 		A7DD996D248463B500B40141 /* ReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifiable.swift; sourceTree = "<group>"; };
+		A7E317982496EBB8006B9610 /* PhotosChangeset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosChangeset.swift; sourceTree = "<group>"; };
 		A7EC2D5B2444F66800993F53 /* ExpirationDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateView.swift; sourceTree = "<group>"; };
 		A7EC2D5D2445004D00993F53 /* ExpirationPeriodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationPeriodView.swift; sourceTree = "<group>"; };
 		A7EC2D612445127200993F53 /* PeriodTypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodTypeExtensions.swift; sourceTree = "<group>"; };
@@ -482,6 +484,7 @@
 				A750434024707386009A1451 /* CloudKitItemsService.swift */,
 				A70FA67C244CEB340045B545 /* InMemoryItemsService.swift */,
 				A70FA67A244CEB140045B545 /* ItemsService.swift */,
+				A7E317982496EBB8006B9610 /* PhotosChangeset.swift */,
 			);
 			path = ItemsService;
 			sourceTree = "<group>";
@@ -737,6 +740,7 @@
 				A77A99D3245A26B700F3578C /* FilterBadgeLabel.swift in Sources */,
 				A7A8EF77247C7DF900FF1AC2 /* SharedTextViewDelegate.swift in Sources */,
 				A78172AE2494D05200F406EC /* CloudKitItemMapper.swift in Sources */,
+				A7E317992496EBB8006B9610 /* PhotosChangeset.swift in Sources */,
 				A7F82BAC2458CBA800970CFC /* FilteringModeState.swift in Sources */,
 				A70BCCE52447C56A00CC49D0 /* ExpirationTypeExtensions.swift in Sources */,
 				A72F4CBF2460B5FA008B0D5B /* ExpirationDateButton.swift in Sources */,

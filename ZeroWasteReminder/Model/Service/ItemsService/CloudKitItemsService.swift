@@ -109,6 +109,11 @@ public final class CloudKitItemsService: ItemsService {
                 self.mapper.map($0).toRecordInZone(self.zone)?.recordID
             }
 
+            guard !photoRecordsToSave.isEmpty || !photosRecordsToDelete.isEmpty else {
+                promise(.success(()))
+                return
+            }
+
             let operation = CKModifyRecordsOperation(
                 recordsToSave: photoRecordsToSave,
                 recordIDsToDelete: photosRecordsToDelete
@@ -145,7 +150,7 @@ public final class CloudKitItemsService: ItemsService {
                 action: .none
             )
 
-            let predicate = NSPredicate(format: "%K == %@", CloudKitKey.Photo.itemId, itemReference)
+            let predicate = NSPredicate(format: "%K == %@", CloudKitKey.Photo.itemReference, itemReference)
             let operation = CKQueryOperation(query: .init(recordType: "Photo", predicate: predicate))
             operation.recordFetchedBlock = { photoRecords.append($0) }
             operation.queryCompletionBlock = {

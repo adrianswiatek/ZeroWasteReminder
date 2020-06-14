@@ -7,45 +7,51 @@ public final class CloudKitSubscriptionService: SubscriptionService {
     }
 
     private let configuration: CloudKitConfiguration
-    private var subscriptions: Set<AnyCancellable>
 
     public init(configuration: CloudKitConfiguration) {
         self.configuration = configuration
-        self.subscriptions = []
     }
 
     public func registerItemsSubscriptionIfNeeded() {
-        existingItemSubscription()
+        hasItemSubscription()
+            .flatMap { [weak self] hasItemSubscription -> AnyPublisher<Void, CKError> in
+                guard let self = self, !hasItemSubscription else {
+                    return Empty<Void, CKError>().eraseToAnyPublisher()
+                }
+                return self.saveItemSubscription().eraseToAnyPublisher()
+            }
+            .subscribe(on: DispatchQueue.main)
             .sink(
                 receiveCompletion: {
                     if case .failure(let error) = $0 {
-                        print(error)
+                        assertionFailure(error.localizedDescription)
                     }
                 },
-                receiveValue: { [weak self] itemSubscription in
-                    guard let self = self, itemSubscription == nil else { return }
-
-                    self.database.save(CKQuerySubscription.itemSubscription) { _, error in
-                        if let error = error {
-                            print(error.localizedDescription)
-                        }
-                    }
-                }
-            )
-            .store(in: &subscriptions)
+                receiveValue: {})
+            .cancel()
     }
 
-    private func existingItemSubscription() -> Future<CKSubscription?, CKError> {
+    private func hasItemSubscription() -> Future<Bool, CKError> {
         Future { [weak self] promise in
             self?.database.fetchAllSubscriptions(completionHandler: { subscriptions, error in
                 if let error = error as? CKError {
                     promise(.failure(error))
-                    return
+                } else {
+                    promise(.success(subscriptions?.first { $0.notificationInfo?.category == "Item" } != nil))
                 }
-
-                let itemSubscription = subscriptions?.first { $0.notificationInfo?.category == "Item" }
-                promise(.success(itemSubscription))
             })
+        }
+    }
+
+    private func saveItemSubscription() -> Future<Void, CKError> {
+        Future { [weak self] promise in
+            self?.database.save(CKQuerySubscription.itemSubscription) { _, error in
+                if let error = error as? CKError {
+                    promise(.failure(error))
+                } else {
+                    promise(.success(()))
+                }
+            }
         }
     }
 }

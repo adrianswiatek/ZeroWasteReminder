@@ -14,7 +14,7 @@ internal final class CloudKitPhotoMapper {
         let record = CKRecord(recordType: "Photo", recordID: recordId)
         record[CloudKitKey.Photo.id] = photo.id.uuidString
         record[CloudKitKey.Photo.photo] = photoAsset()
-        record[CloudKitKey.Photo.itemId] = itemId(for: itemRecord)
+        record[CloudKitKey.Photo.itemReference] = itemReference(for: itemRecord)
         return record
     }
 
@@ -22,7 +22,7 @@ internal final class CloudKitPhotoMapper {
         fileService.trySaveData(photo.asData()).map { .init(fileURL: $0) }
     }
 
-    private func itemId(for itemRecord: CKRecord?) -> CKRecord.Reference? {
+    private func itemReference(for itemRecord: CKRecord?) -> CKRecord.Reference? {
         itemRecord.map { CKRecord.Reference(record: $0, action: .deleteSelf) }
     }
 }
