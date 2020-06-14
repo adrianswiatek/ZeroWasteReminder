@@ -104,7 +104,7 @@ public final class AddViewController: UIViewController {
             .sink { [weak self] index in
                 guard let self = self else { return }
                 UIAlertController.presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
-                    .sink { [weak self] _ in self?.viewModel.photosViewModel.removeImage(atIndex: index) }
+                    .sink { [weak self] _ in self?.viewModel.photosViewModel.deleteImage(atIndex: index) }
                     .store(in: &self.subscriptions)
             }
             .store(in: &subscriptions)

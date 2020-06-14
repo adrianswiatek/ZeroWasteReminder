@@ -108,7 +108,7 @@ public final class EditViewController: UIViewController {
             .sink { [weak self] index in
                 guard let self = self else { return }
                 UIAlertController.presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
-                    .sink { [weak self] _ in self?.viewModel.photosViewModel.removeImage(atIndex: index) }
+                    .sink { [weak self] _ in self?.viewModel.photosViewModel.deleteImage(atIndex: index) }
                     .store(in: &self.subscriptions)
             }
             .store(in: &subscriptions)
@@ -129,10 +129,16 @@ public final class EditViewController: UIViewController {
         loadingView.show()
 
         viewModel.save()
-            .sink { [weak self] _ in
-                self?.navigationController?.popViewController(animated: true)
-                self?.loadingView.hide()
-            }
+            .sink(
+                receiveCompletion: { [weak self] in
+                    guard let self = self, case .failure(let error) = $0 else { return }
+                    UIAlertController.presentError(in: self, withMessage: error.localizedDescription)
+                },
+                receiveValue: { [weak self] _ in
+                    self?.navigationController?.popViewController(animated: true)
+                    self?.loadingView.hide()
+                }
+            )
             .store(in: &subscriptions)
     }
 

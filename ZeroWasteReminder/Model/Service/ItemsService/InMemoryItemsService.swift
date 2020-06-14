@@ -23,7 +23,7 @@ public final class InMemoryItemsService: ItemsService {
         }
     }
 
-    public func update(_ item: Item) -> Future<Void, Never> {
+    public func update(_ item: Item) -> Future<Void, ServiceError> {
         Future { [weak self] promise in
             guard
                 let self = self,
@@ -33,6 +33,10 @@ public final class InMemoryItemsService: ItemsService {
             self.itemsSubject.value[itemsIndex] = item
             promise(.success(()))
         }
+    }
+
+    public func updatePhotos(_ photosChangeset: PhotosChangeset, forItem item: Item) -> Future<Void, ServiceError> {
+        Future { $0(.success(())) }
     }
 
     public func delete(_ items: [Item]) -> Future<Void, ServiceError> {
