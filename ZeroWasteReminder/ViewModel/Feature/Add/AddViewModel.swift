@@ -11,7 +11,17 @@ public final class AddViewModel {
     }
 
     public var canSaveItem: AnyPublisher<Bool, Never> {
-        canSaveItemSubject.eraseToAnyPublisher()
+        expirationType.combineLatest(
+            $name.map { !$0.isEmpty },
+            expirationPeriodViewModel.isValid
+        ) { expirationType, isNameValid, isPeriodValid in
+            switch expirationType {
+            case .none where isNameValid: return true
+            case .date where isNameValid: return true
+            case .period where isPeriodValid && isNameValid: return true
+            default: return false
+            }
+        }.eraseToAnyPublisher()
     }
 
     public var isExpirationDateVisible: Bool {
@@ -27,7 +37,6 @@ public final class AddViewModel {
     public let expirationPeriodViewModel: ExpirationPeriodViewModel
 
     private let expirationTypeSubject: CurrentValueSubject<ExpirationType, Never>
-    private let canSaveItemSubject: CurrentValueSubject<Bool, Never>
 
     private let itemsService: ItemsService
     private let fileService: FileService
@@ -47,7 +56,6 @@ public final class AddViewModel {
         self.expirationPeriodViewModel = .init(.day)
 
         self.expirationTypeSubject = .init(ExpirationType.none)
-        self.canSaveItemSubject = .init(false)
 
         self.subscriptions = []
 
@@ -67,25 +75,6 @@ public final class AddViewModel {
     }
 
     private func bind() {
-        expirationType.combineLatest(
-            $name.map { !$0.isEmpty },
-            expirationDateViewModel.isValid,
-            expirationPeriodViewModel.isValid
-        ) { expirationType, isNameValid, isDateValid, isPeriodValid in
-            switch expirationType {
-            case .none where isNameValid:
-                return true
-            case .date where isDateValid && isNameValid:
-                return true
-            case .period where isPeriodValid && isNameValid:
-                return true
-            default:
-                return false
-            }
-        }
-        .sink { [weak self] in self?.canSaveItemSubject.send($0) }
-        .store(in: &subscriptions)
-
         $expirationTypeIndex
             .map { ExpirationType.fromIndex($0) }
             .sink { [weak self] in self?.expirationTypeSubject.send($0) }
@@ -93,15 +82,15 @@ public final class AddViewModel {
     }
 
     private func createItem() -> Item? {
-        guard !name.isEmpty, let expiration = expirationForType(expirationTypeSubject.value) else {
+        guard !name.isEmpty, let expiration = expiration() else {
             return nil
         }
 
         return Item(name: name, notes: notes, expiration: expiration, photos: photosViewModel.createPhotos())
     }
 
-    private func expirationForType(_ expirationType: ExpirationType) -> Expiration? {
-        switch expirationType {
+    private func expiration() -> Expiration? {
+        switch expirationTypeSubject.value {
         case .none: return Expiration.none
         case .date: return expirationDateViewModel.expiration
         case .period: return expirationPeriodViewModel.expiration

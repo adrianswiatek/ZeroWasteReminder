@@ -309,11 +309,11 @@
 		A70FA67F244CF7090045B545 /* List */ = {
 			isa = PBXGroup;
 			children = (
-				A7F82BA22458CB5A00970CFC /* ModeState */,
-				A700D6CE2454ED9700F16F2E /* Filter */,
 				A716B8FC244E43BB00D2FC89 /* ItemsListCellViewModel.swift */,
 				A70FA680244CF7190045B545 /* ItemsListViewModel.swift */,
 				A716C9C0244FA07A004262AF /* RemainingViewModel.swift */,
+				A700D6CE2454ED9700F16F2E /* Filter */,
+				A7F82BA22458CB5A00970CFC /* ModeState */,
 			);
 			path = List;
 			sourceTree = "<group>";

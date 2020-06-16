@@ -27,14 +27,16 @@ public final class EditViewModel {
     }
 
     public var canSave: AnyPublisher<Bool, Never> {
-        canSaveSubject.eraseToAnyPublisher()
+        Publishers.CombineLatest4($name, $notes, expirationDateSubject, photosViewModel.photos)
+            .map { [weak self] in (self?.originalItem, $0, $1, $2, $3) }
+            .map { !$1.isEmpty && $0 != $0?.withName($1).withNotes($2).withExpirationDate($3).withPhotos($4) }
+            .eraseToAnyPublisher()
     }
 
     public let photosViewModel: PhotosCollectionViewModel
 
     private let expirationDateSubject: CurrentValueSubject<Date?, Never>
     private let isExpirationDateVisibleSubject: CurrentValueSubject<Bool, Never>
-    private let canSaveSubject: CurrentValueSubject<Bool, Never>
 
     private var originalItem: Item
     private let itemsService: ItemsService
@@ -59,7 +61,7 @@ public final class EditViewModel {
         }
 
         self.isExpirationDateVisibleSubject = .init(false)
-        self.canSaveSubject = .init(false)
+
         self.photosViewModel = .init(itemsService: itemsService, fileService: fileService)
 
         self.subscriptions = []
@@ -109,12 +111,6 @@ public final class EditViewModel {
                 guard let self = self else { return }
                 self.originalItem = self.originalItem.withPhotos($0)
             }
-            .store(in: &subscriptions)
-
-        Publishers.CombineLatest4($name, $notes, expirationDateSubject, photosViewModel.photos)
-            .map { [weak self] in (self?.originalItem, $0, $1, $2, $3) }
-            .map { !$1.isEmpty && $0 != $0?.withName($1).withNotes($2).withExpirationDate($3).withPhotos($4) }
-            .sink { [weak self] in self?.canSaveSubject.send($0) }
             .store(in: &subscriptions)
     }
 

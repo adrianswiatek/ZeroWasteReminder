@@ -9,7 +9,7 @@ public final class ExpirationPeriodViewModel {
     }
 
     public var isValid: AnyPublisher<Bool, Never> {
-        isValidSubject.eraseToAnyPublisher()
+        $period.map { [weak self] in self?.periodValidationRules.areValid($0) == true }.eraseToAnyPublisher()
     }
 
     public var expiration: Expiration {
@@ -20,7 +20,6 @@ public final class ExpirationPeriodViewModel {
     }
 
     private let periodTypeSubject: CurrentValueSubject<PeriodType, Never>
-    private let isValidSubject: CurrentValueSubject<Bool, Never>
 
     private let periodValidationRules: ValidationRules
     private var subscriptions: Set<AnyCancellable>
@@ -30,7 +29,6 @@ public final class ExpirationPeriodViewModel {
         periodTypeIndex = initialPeriodType.index
 
         periodTypeSubject = .init(initialPeriodType)
-        isValidSubject = .init(false)
 
         periodValidationRules = .init(.isNotEmpty, .doesNotStartFromZero, .hasMaxCount(3), .isPositiveNumber)
         subscriptions = []
@@ -46,11 +44,6 @@ public final class ExpirationPeriodViewModel {
         $periodTypeIndex
             .map { PeriodType.fromIndex($0) }
             .sink { [weak self] in self?.periodTypeSubject.send($0) }
-            .store(in: &subscriptions)
-
-        $period
-            .map { [weak self] in self?.periodValidationRules.areValid($0) == true }
-            .sink { [weak self] in self?.isValidSubject.send($0) }
             .store(in: &subscriptions)
     }
 }

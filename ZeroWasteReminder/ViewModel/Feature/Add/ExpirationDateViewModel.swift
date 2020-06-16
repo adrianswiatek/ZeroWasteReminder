@@ -12,10 +12,6 @@ public final class ExpirationDateViewModel {
         isDatePickerVisibleSubject.eraseToAnyPublisher()
     }
 
-    public var isValid: AnyPublisher<Bool, Never> {
-        Just(true).eraseToAnyPublisher()
-    }
-
     public var expiration: Expiration {
         .date(date)
     }

@@ -1,5 +1,3 @@
-import Combine
-
 public struct ItemsFilterCellViewModel: Hashable {
     public let isSelected: Bool
     public let remainingState: RemainingState

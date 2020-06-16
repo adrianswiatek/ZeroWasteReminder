@@ -15,6 +15,6 @@ public final class RemainingViewModel {
     public var state: RemainingState
 
     public init(_ item: Item) {
-        self.state = .init(expiration: item.expiration)
+        state = .init(expiration: item.expiration)
     }
 }
