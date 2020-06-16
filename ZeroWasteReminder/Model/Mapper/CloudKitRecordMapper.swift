@@ -36,11 +36,13 @@ internal final class CloudKitRecordMapper {
         return Item(id: id, name: name, notes: notes, expiration: .none, photos: [])
     }
 
-    internal func updateBy(_ item: Item?) -> CloudKitRecordMapper {
+    internal func updatedBy(_ item: Item?) -> CloudKitRecordMapper {
         guard let record = record, let item = item else { return self }
-        record[CloudKitKey.Item.name] = item.name
-        record[CloudKitKey.Item.notes] = item.notes
-        record[CloudKitKey.Item.expiration] = expiration(from: item)
+
+        applyChange(to: record, key: CloudKitKey.Item.name, value: item.name)
+        applyChange(to: record, key: CloudKitKey.Item.notes, value: item.notes)
+        applyChange(to: record, key: CloudKitKey.Item.expiration, value: expiration(from: item))
+
         return self
     }
 
@@ -58,5 +60,11 @@ internal final class CloudKitRecordMapper {
         }
 
         return date
+    }
+
+    private func applyChange<T: Equatable & CKRecordValueProtocol>(to record: CKRecord, key: String, value: T?) {
+        let valueForGivenKeyExists = record.allKeys().first(where: { $0 == key }) != nil
+        guard !valueForGivenKeyExists || record[key] != value else { return }
+        record[key] = value
     }
 }

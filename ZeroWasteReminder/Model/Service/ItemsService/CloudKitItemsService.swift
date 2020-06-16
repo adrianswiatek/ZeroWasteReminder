@@ -19,6 +19,7 @@ public final class CloudKitItemsService: ItemsService {
     private let notificationCenter: NotificationCenter
     private let configuration: CloudKitConfiguration
 
+    private var cachedItemRecords: Set<CKRecord>
     private var subscriptions: Set<AnyCancellable>
 
     public init(
@@ -31,6 +32,8 @@ public final class CloudKitItemsService: ItemsService {
         self.notificationCenter = notificationCenter
 
         self.itemsSubject = .init([])
+
+        self.cachedItemRecords = []
         self.subscriptions = []
 
         self.registerNotification()
@@ -52,6 +55,7 @@ public final class CloudKitItemsService: ItemsService {
                     DispatchQueue.main.async { promise(.failure(.init(error))) }
                 } else if let record = records?.first, let item = self.mapper.map(record).toItem() {
                     self.itemsSubject.value = self.itemsSubject.value + [item]
+                    self.cachedItemRecords.insert(record)
                     DispatchQueue.main.async { promise(.success(())) }
                 }
             }
@@ -71,6 +75,7 @@ public final class CloudKitItemsService: ItemsService {
                     DispatchQueue.main.async { promise(.failure(ServiceError(error))) }
                 } else {
                     self?.itemsSubject.value = result.compactMap { self?.mapper.map($0).toItem() }
+                    self?.cachedItemRecords = Set(result)
                     DispatchQueue.main.async { promise(.success(())) }
                 }
             }
@@ -81,10 +86,17 @@ public final class CloudKitItemsService: ItemsService {
 
     public func update(_ item: Item) -> Future<Void, ServiceError> {
         Future { [weak self] promise in
-            guard let self = self, let record = self.mapper.map(item).toRecordInZone(self.zone) else { return }
+            guard let self = self else { return }
+
+            let recordId = self.mapper.map(item).toRecordIdInZone(self.zone)
+            let cachedRecord = self.cachedItemRecords.first { $0.recordID == recordId }
+
+            guard let record = self.mapper.map(cachedRecord).updatedBy(item).toRecord() else { return }
 
             let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
-            operation.savePolicy = .changedKeys
+
+            // Make operation.perRecordCompletionBlock
+
             operation.modifyRecordsCompletionBlock = { records, _, error in
                 if let error = error as? CKError {
                     DispatchQueue.main.async { promise(.failure(ServiceError.general(error.localizedDescription))) }

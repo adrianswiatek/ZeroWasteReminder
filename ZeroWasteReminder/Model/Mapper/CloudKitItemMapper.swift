@@ -9,6 +9,10 @@ internal final class CloudKitItemMapper {
         self.fileService = fileService
     }
 
+    internal func toRecordIdInZone(_ zone: CKRecordZone) -> CKRecord.ID? {
+        .init(recordName: item.id.uuidString, zoneID: zone.zoneID)
+    }
+
     internal func toRecord() -> CKRecord? {
         toRecordInZone(.default())
     }
