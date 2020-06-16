@@ -106,7 +106,7 @@ public final class EditViewModel {
 
     private func bind() {
         photosViewModel.photos
-            .first { !$0.isEmpty }
+            .prefix(2)
             .sink { [weak self] in
                 guard let self = self else { return }
                 self.originalItem = self.originalItem.withPhotos($0)

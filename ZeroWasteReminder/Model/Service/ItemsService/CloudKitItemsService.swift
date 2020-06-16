@@ -82,17 +82,20 @@ public final class CloudKitItemsService: ItemsService {
     public func update(_ item: Item) -> Future<Void, ServiceError> {
         Future { [weak self] promise in
             guard let self = self, let record = self.mapper.map(item).toRecordInZone(self.zone) else { return }
-            self.database.fetch(withRecordID: record.recordID) { record, error in
-                assert(error == nil, error!.localizedDescription)
-                guard let updatedRecord = self.mapper.map(record).updateBy(item).toRecord() else { return }
-                self.database.save(updatedRecord) { record, error in
-                    assert(error == nil, error!.localizedDescription)
-                    guard let index = self.indexForItem(item) else { return }
-                    self.itemsSubject.value[index] = self.mapper.map(record).toItem() ?? item
 
+            let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
+            operation.savePolicy = .changedKeys
+            operation.modifyRecordsCompletionBlock = { records, _, error in
+                if let error = error as? CKError {
+                    DispatchQueue.main.async { promise(.failure(ServiceError.general(error.localizedDescription))) }
+                } else {
+                    guard let index = self.indexForItem(item), let record = records?.first else { return }
+                    self.itemsSubject.value[index] = self.mapper.map(record).toItem() ?? item
                     DispatchQueue.main.async { promise(.success(())) }
                 }
             }
+
+            self.database.add(operation)
         }
     }
 

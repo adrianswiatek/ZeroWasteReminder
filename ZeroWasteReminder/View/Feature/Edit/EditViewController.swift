@@ -131,12 +131,12 @@ public final class EditViewController: UIViewController {
         viewModel.save()
             .sink(
                 receiveCompletion: { [weak self] in
+                    defer { self?.loadingView.hide() }
                     guard let self = self, case .failure(let error) = $0 else { return }
                     UIAlertController.presentError(in: self, withMessage: error.localizedDescription)
                 },
                 receiveValue: { [weak self] _ in
                     self?.navigationController?.popViewController(animated: true)
-                    self?.loadingView.hide()
                 }
             )
             .store(in: &subscriptions)
