@@ -86,28 +86,14 @@ public final class CloudKitItemsService: ItemsService {
 
     public func update(_ item: Item) -> Future<Void, ServiceError> {
         Future { [weak self] promise in
-            guard let self = self else { return }
+            guard let self = self, let record = self.recordToUpdate(from: item) else { return }
 
-            let recordId = self.mapper.map(item).toRecordIdInZone(self.zone)
-            let cachedRecord = self.cachedItemRecords.first { $0.recordID == recordId }
+            let updateOperation = self.updateOperation(for: record, promise: promise)
+            let fetchOperation = self.postUpdatingFetchOperation(for: item, promise: promise)
+            fetchOperation.addDependency(updateOperation)
 
-            guard let record = self.mapper.map(cachedRecord).updatedBy(item).toRecord() else { return }
-
-            let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
-
-            // Make operation.perRecordCompletionBlock
-
-            operation.modifyRecordsCompletionBlock = { records, _, error in
-                if let error = error as? CKError {
-                    DispatchQueue.main.async { promise(.failure(ServiceError.general(error.localizedDescription))) }
-                } else {
-                    guard let index = self.indexForItem(item), let record = records?.first else { return }
-                    self.itemsSubject.value[index] = self.mapper.map(record).toItem() ?? item
-                    DispatchQueue.main.async { promise(.success(())) }
-                }
-            }
-
-            self.database.add(operation)
+            self.database.add(updateOperation)
+            self.database.add(fetchOperation)
         }
     }
 
@@ -193,6 +179,7 @@ public final class CloudKitItemsService: ItemsService {
                 } else if let deletedRecordIds = deletedRecordIds {
                     let deletedItemIds = deletedRecordIds.compactMap { UUID(uuidString: $0.recordName) }
                     self.itemsSubject.value = self.itemsSubject.value.filter { !deletedItemIds.contains($0.id) }
+                    self.cachedItemRecords = self.cachedItemRecords.filter { !deletedRecordIds.contains($0.recordID) }
                 }
                 DispatchQueue.main.async { promise(.success(())) }
             }
@@ -225,6 +212,54 @@ public final class CloudKitItemsService: ItemsService {
             expiration: item.expiration,
             photos: item.photos
         )
+    }
+
+    private func recordToUpdate(from item: Item) -> CKRecord? {
+        let recordId = mapper.map(item).toRecordIdInZone(zone)
+        let cachedRecord = cachedItemRecords.first { $0.recordID == recordId }
+        return mapper.map(cachedRecord).updatedBy(item).toRecord()
+    }
+
+    private func updateOperation(
+        for record: CKRecord,
+        promise: @escaping (Result<Void, ServiceError>) -> Void
+    ) -> CKModifyRecordsOperation {
+        let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
+        operation.savePolicy = .changedKeys
+        operation.modifyRecordsCompletionBlock = { _, _, error in
+            guard let error = error as? CKError else { return }
+            DispatchQueue.main.async { promise(.failure(ServiceError.general(error.localizedDescription))) }
+        }
+        return operation
+    }
+
+    private func postUpdatingFetchOperation(
+        for item: Item,
+        promise: @escaping (Result<Void, ServiceError>) -> Void
+    ) -> CKQueryOperation {
+        let recordId = CKRecord.ID(recordName: item.id.uuidString, zoneID: zone.zoneID)
+        let predicate = NSPredicate(format: "%K == %@", "recordID", recordId)
+        let operation = CKQueryOperation(query: .init(recordType: "Item", predicate: predicate))
+        operation.recordFetchedBlock = { [weak self] record in
+            guard let index = self?.indexForItem(item), let item = self?.mapper.map(record).toItem() else {
+                return
+            }
+
+            if let cachedRecordToDelete = self?.cachedItemRecords.first(where: { $0.recordID == record.recordID }) {
+                self?.cachedItemRecords.remove(cachedRecordToDelete)
+            }
+
+            self?.cachedItemRecords.insert(record)
+            self?.itemsSubject.value[index] = item
+        }
+        operation.queryCompletionBlock = { _, error in
+            if let error = error as? CKError {
+                DispatchQueue.main.async { promise(.failure(ServiceError.general(error.localizedDescription))) }
+            } else {
+                DispatchQueue.main.async { promise(.success(())) }
+            }
+        }
+        return operation
     }
 
     private func indexForItem(_ item: Item) -> Int? {
