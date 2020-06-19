@@ -2,12 +2,15 @@ import Combine
 import UIKit
 
 public final class AdaptiveScrollView: UIScrollView {
+    public var additionalOffset: CGFloat
+
     private let notificationCenter: NotificationCenter
     private var subscriptions: Set<AnyCancellable>
 
     public override init(frame: CGRect) {
         self.notificationCenter = .default
         self.subscriptions = []
+        self.additionalOffset = 0
 
         super.init(frame: frame)
 
@@ -38,6 +41,9 @@ public final class AdaptiveScrollView: UIScrollView {
 
     private func adjustInsets(_ insets: UIEdgeInsets) {
         contentInset = insets
-        scrollIndicatorInsets = insets
+        contentInset.bottom += additionalOffset
+
+        verticalScrollIndicatorInsets = insets
+        verticalScrollIndicatorInsets.bottom += additionalOffset
     }
 }

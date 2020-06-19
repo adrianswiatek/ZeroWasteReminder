@@ -8,9 +8,10 @@ public final class AddViewController: UIViewController {
     private lazy var doneButton: UIBarButtonItem =
         .doneButton(target: self, action: #selector(handleConfirm))
 
-    private let scrollView: UIScrollView
-    private let contentViewController: UIViewController
+    private let scrollView: AdaptiveScrollView
+    private let contentViewController: AddContentViewController
     private let loadingView: LoadingView
+    private let warningBarView: WarningBarView
 
     private let viewModel: AddViewModel
     private var subscriptions: Set<AnyCancellable>
@@ -19,14 +20,15 @@ public final class AddViewController: UIViewController {
         self.viewModel = viewModel
         self.subscriptions = []
 
-        self.contentViewController = AddContentViewController(viewModel: viewModel)
-        self.scrollView = AdaptiveScrollView()
-        self.loadingView = LoadingView()
+        self.contentViewController = .init(viewModel: viewModel)
+        self.scrollView = .init()
+        self.loadingView = .init()
+        self.warningBarView = .init()
 
         super.init(nibName: nil, bundle: nil)
 
-        addChild(contentViewController)
-        contentViewController.didMove(toParent: self)
+        self.addChild(self.contentViewController)
+        self.contentViewController.didMove(toParent: self)
         self.bind()
     }
 
@@ -68,6 +70,19 @@ public final class AddViewController: UIViewController {
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -64)
         ])
 
+        scrollView.addSubview(warningBarView)
+        NSLayoutConstraint.activate([
+            warningBarView.leadingAnchor.constraint(
+                equalTo: scrollView.layoutMarginsGuide.leadingAnchor, constant: -8
+            ),
+            warningBarView.bottomAnchor.constraint(equalTo:
+                scrollView.layoutMarginsGuide.bottomAnchor, constant: 8
+            ),
+            warningBarView.trailingAnchor.constraint(equalTo:
+                scrollView.layoutMarginsGuide.trailingAnchor, constant: 8
+            )
+        ])
+
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -89,8 +104,8 @@ public final class AddViewController: UIViewController {
     }
 
     private func bind() {
-        viewModel.canSaveItem
-            .sink { [weak self] in self?.doneButton.isEnabled = $0 }
+        viewModel.canSaveItem.combineLatest(viewModel.canRemotelyConnect)
+            .sink { [weak self] in self?.doneButton.isEnabled = $0 && $1 }
             .store(in: &subscriptions)
 
         viewModel.photosViewModel.needsShowImage
@@ -112,6 +127,13 @@ public final class AddViewController: UIViewController {
         viewModel.photosViewModel.needsCaptureImage
             .compactMap { [weak self] in self?.tryCreateImagePickerController() }
             .sink { [weak self] in self?.present($0, animated: true) }
+            .store(in: &subscriptions)
+
+        viewModel.canRemotelyConnect
+            .sink { [weak self] in
+                self?.warningBarView.setVisibility(!$0)
+                self?.scrollView.additionalOffset = self?.warningBarView.height ?? 0
+            }
             .store(in: &subscriptions)
     }
 

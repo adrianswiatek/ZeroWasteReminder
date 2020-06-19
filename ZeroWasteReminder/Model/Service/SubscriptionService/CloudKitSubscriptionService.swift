@@ -7,27 +7,33 @@ public final class CloudKitSubscriptionService: SubscriptionService {
     }
 
     private let configuration: CloudKitConfiguration
+    private let remoteStatusNotifier: RemoteStatusNotifier
 
-    public init(configuration: CloudKitConfiguration) {
+    public init(configuration: CloudKitConfiguration, remoteStatusNotifier: RemoteStatusNotifier) {
         self.configuration = configuration
+        self.remoteStatusNotifier = remoteStatusNotifier
     }
 
     public func registerItemsSubscriptionIfNeeded() {
-        hasItemSubscription()
-            .flatMap { [weak self] hasItemSubscription -> AnyPublisher<Void, CKError> in
-                guard let self = self, !hasItemSubscription else {
+        remoteStatusNotifier.remoteStatus
+            .filter { $0 == .connected }
+            .first()
+            .setFailureType(to: CKError.self)
+            .flatMap { [weak self] _ -> AnyPublisher<Bool, CKError> in
+                guard let self = self else {
+                    return Empty<Bool, CKError>().eraseToAnyPublisher()
+                }
+                return self.hasItemSubscription().eraseToAnyPublisher()
+            }
+            .filter { $0 == false }
+            .flatMap { [weak self] _ -> AnyPublisher<Void, CKError> in
+                guard let self = self else {
                     return Empty<Void, CKError>().eraseToAnyPublisher()
                 }
                 return self.saveItemSubscription().eraseToAnyPublisher()
             }
             .subscribe(on: DispatchQueue.main)
-            .sink(
-                receiveCompletion: {
-                    if case .failure(let error) = $0 {
-                        assertionFailure(error.localizedDescription)
-                    }
-                },
-                receiveValue: {})
+            .sink(receiveCompletion: { _ in }, receiveValue: { })
             .cancel()
     }
 

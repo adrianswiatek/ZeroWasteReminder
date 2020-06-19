@@ -5,9 +5,10 @@ public final class EditViewController: UIViewController {
     private lazy var saveButton: UIBarButtonItem =
         .doneButton(target: self, action: #selector(handleDoneButtonTap))
 
-    private let scrollView: UIScrollView
+    private let scrollView: AdaptiveScrollView
     private let contentViewController: EditContentViewController
     private let loadingView: LoadingView
+    private let warningBarView: WarningBarView
 
     private let viewModel: EditViewModel
 
@@ -17,9 +18,10 @@ public final class EditViewController: UIViewController {
     public init(viewModel: EditViewModel) {
         self.viewModel = viewModel
 
-        self.scrollView = AdaptiveScrollView()
-        self.contentViewController = EditContentViewController(viewModel: viewModel)
-        self.loadingView = LoadingView()
+        self.scrollView = .init()
+        self.contentViewController = .init(viewModel: viewModel)
+        self.loadingView = .init()
+        self.warningBarView = .init()
 
         self.subscriptions = []
 
@@ -116,6 +118,13 @@ public final class EditViewController: UIViewController {
         viewModel.photosViewModel.needsCaptureImage
             .compactMap { [weak self] in self?.tryCreateImagePickerController() }
             .sink { [weak self] in self?.present($0, animated: true) }
+            .store(in: &subscriptions)
+
+        viewModel.canRemotelyConnect
+            .sink { [weak self] in
+                self?.warningBarView.setVisibility(!$0)
+                self?.scrollView.additionalOffset = self?.warningBarView.height ?? 0
+            }
             .store(in: &subscriptions)
     }
 

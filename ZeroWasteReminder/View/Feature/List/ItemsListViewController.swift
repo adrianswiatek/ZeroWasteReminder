@@ -9,6 +9,7 @@ public final class ItemsListViewController: UIViewController {
     private let itemsListTableView: ItemsListTableView
     private let itemsListDataSource: ItemsListDataSource
     private let itemsListDelegate: ItemsListDelegate
+    private let warningBarView: WarningBarView
 
     private lazy var moreButton: UIBarButtonItem =
         .moreButton(target: self, action: #selector(handleMoreButtonTap))
@@ -45,6 +46,7 @@ public final class ItemsListViewController: UIViewController {
         self.itemsListTableView = .init()
         self.itemsListDataSource = .init(itemsListTableView, viewModel)
         self.itemsListDelegate = .init(viewModel)
+        self.warningBarView = .init()
 
         self.subscriptions = []
 
@@ -115,9 +117,16 @@ public final class ItemsListViewController: UIViewController {
             itemsListTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
+        view.addSubview(warningBarView)
+        NSLayoutConstraint.activate([
+            warningBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            warningBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            warningBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+
         view.addSubview(addButton)
         NSLayoutConstraint.activate([
-            addButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -32),
+            addButton.bottomAnchor.constraint(equalTo: warningBarView.topAnchor, constant: -16),
             addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32)
         ])
 
@@ -183,6 +192,10 @@ public final class ItemsListViewController: UIViewController {
             .map { $0 > 0 ? String(describing: $0) : "" }
             .assign(to: \.text, on: filterBadgeLabel)
             .store(in: &subscriptions)
+
+        viewModel.canRemotelyConnect
+            .sink { [weak self] in self?.warningBarView.setVisibility(!$0) }
+            .store(in: &subscriptions)
     }
 
     @objc
@@ -191,19 +204,13 @@ public final class ItemsListViewController: UIViewController {
 
         viewModel.refreshList()
             .sink(
-                receiveCompletion: { [weak self] in self?.refreshCompletionReceived($0) },
+                receiveCompletion: { [weak self] _ in
+                    self?.itemsListTableView.refreshControl?.endRefreshing()
+                    self?.loadingView.hide()
+                },
                 receiveValue: {}
             )
             .store(in: &subscriptions)
-    }
-
-    private func refreshCompletionReceived(_ completion: Subscribers.Completion<ServiceError>) {
-        itemsListTableView.refreshControl?.endRefreshing()
-        loadingView.hide()
-
-        if case .failure(let error) = completion {
-            UIAlertController.presentError(in: self, withMessage: error.localizedDescription)
-        }
     }
 
     @objc

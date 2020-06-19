@@ -32,6 +32,10 @@ public final class AddViewModel {
         expirationTypeIndex == ExpirationType.period.index
     }
 
+    public var canRemotelyConnect: AnyPublisher<Bool, Never> {
+        remoteStatusNotifier.remoteStatus.map { $0 == .connected }.eraseToAnyPublisher()
+    }
+
     public let photosViewModel: PhotosCollectionViewModel
     public let expirationDateViewModel: ExpirationDateViewModel
     public let expirationPeriodViewModel: ExpirationPeriodViewModel
@@ -40,11 +44,18 @@ public final class AddViewModel {
 
     private let itemsService: ItemsService
     private let fileService: FileService
+    private let remoteStatusNotifier: RemoteStatusNotifier
+
     private var subscriptions: Set<AnyCancellable>
 
-    public init(itemsService: ItemsService, fileService: FileService) {
+    public init(
+        itemsService: ItemsService,
+        fileService: FileService,
+        remoteStatusNotifier: RemoteStatusNotifier
+    ) {
         self.itemsService = itemsService
         self.fileService = fileService
+        self.remoteStatusNotifier = remoteStatusNotifier
 
         self.name = ""
         self.notes = ""

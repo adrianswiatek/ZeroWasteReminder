@@ -33,6 +33,10 @@ public final class EditViewModel {
             .eraseToAnyPublisher()
     }
 
+    public var canRemotelyConnect: AnyPublisher<Bool, Never> {
+        remoteStatusNotifier.remoteStatus.map { $0 == .connected }.eraseToAnyPublisher()
+    }
+
     public let photosViewModel: PhotosCollectionViewModel
 
     private let expirationDateSubject: CurrentValueSubject<Date?, Never>
@@ -41,14 +45,21 @@ public final class EditViewModel {
     private var originalItem: Item
     private let itemsService: ItemsService
     private let fileService: FileService
+    private let remoteStatusNotifier: RemoteStatusNotifier
     private let dateFormatter: DateFormatter
 
     private var subscriptions: Set<AnyCancellable>
 
-    public init(item: Item, itemsService: ItemsService, fileService: FileService) {
+    public init(
+        item: Item,
+        itemsService: ItemsService,
+        fileService: FileService,
+        remoteStatusNotifier: RemoteStatusNotifier
+    ) {
         self.originalItem = item
         self.itemsService = itemsService
         self.fileService = fileService
+        self.remoteStatusNotifier = remoteStatusNotifier
         self.dateFormatter = .fullDateFormatter
 
         self.name = item.name

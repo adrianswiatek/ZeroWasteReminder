@@ -16,14 +16,20 @@ public final class ItemsListViewModel {
         selectedItemSubject.eraseToAnyPublisher()
     }
 
+    public var canRemotelyConnect: AnyPublisher<Bool, Never> {
+        remoteStatusNotifier.remoteStatus.map { $0 == .connected }.eraseToAnyPublisher()
+    }
+
     private let itemsSubject: CurrentValueSubject<[Item], Never>
     private let selectedItemSubject: PassthroughSubject<Item, Never>
 
     private let itemsService: ItemsService
+    private let remoteStatusNotifier: RemoteStatusNotifier
     private var subscriptions: Set<AnyCancellable>
 
-    public init(itemsService: ItemsService) {
+    public init(itemsService: ItemsService, remoteStatusNotifier: RemoteStatusNotifier) {
         self.itemsService = itemsService
+        self.remoteStatusNotifier = remoteStatusNotifier
 
         self.itemsFilterViewModel = .init()
 
