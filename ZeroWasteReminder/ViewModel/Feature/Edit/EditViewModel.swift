@@ -105,8 +105,8 @@ public final class EditViewModel {
         return itemsService.update(item)
             .flatMap { [weak self] () -> AnyPublisher<Void, ServiceError> in
                 guard let self = self else { return Empty().eraseToAnyPublisher() }
-                let changeSet = self.photosViewModel.photosChangeset
-                return self.photosService.update(changeSet, forItemId: item.id).eraseToAnyPublisher()
+                let changeset = self.photosViewModel.photosChangeset
+                return self.photosService.update(changeset, forItem: item).eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()
     }

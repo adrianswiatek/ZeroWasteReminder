@@ -2,7 +2,9 @@ import Combine
 import Foundation
 
 public final class InMemoryPhotosService: PhotosService {
-    public func fetchThumbnails(forItemId itemId: UUID) -> Future<[Photo], ServiceError> {
+    private var photos: [Photo] = []
+
+    public func fetchThumbnails(forItem item: Item) -> Future<[Photo], ServiceError> {
         Future { promise in }
     }
 
@@ -12,7 +14,7 @@ public final class InMemoryPhotosService: PhotosService {
 
     public func update(
         _ photosChangeset: PhotosChangeset,
-        forItemId itemId: UUID
+        forItem item: Item
     ) -> Future<Void, ServiceError> {
         Future { promise in }
     }

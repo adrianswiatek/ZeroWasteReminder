@@ -3,7 +3,7 @@ import CloudKit
 public final class CloudKitPersistenceFactory: RemotePersistenceFactory {
     private let configuration: CloudKitConfiguration
     private let itemsRepository: ItemsRepository
-    private let fileService: FileService
+    private let mapper: CloudKitMapper
     private let notificationCenter: NotificationCenter
 
     public init(
@@ -14,7 +14,7 @@ public final class CloudKitPersistenceFactory: RemotePersistenceFactory {
     ) {
         self.configuration = CloudKitConfiguration(containerIdentifier: containerIdentifier)
         self.itemsRepository = itemsRepository
-        self.fileService = fileService
+        self.mapper = .init(fileService: fileService)
         self.notificationCenter = notificationCenter
     }
 
@@ -22,13 +22,17 @@ public final class CloudKitPersistenceFactory: RemotePersistenceFactory {
         CloudKitItemsService(
             configuration: configuration,
             itemsRepository: itemsRepository,
-            mapper: .init(fileService: fileService),
+            mapper: mapper,
             notificationCenter: notificationCenter
         )
     }
 
     public func photosService() -> PhotosService {
-        CloudKitPhotosService(configuration: configuration, itemsRepository: itemsRepository)
+        CloudKitPhotosService(
+            configuration: configuration,
+            itemsRepository: itemsRepository,
+            mapper: mapper
+        )
     }
 
     public func accountService() -> AccountService {

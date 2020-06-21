@@ -57,7 +57,7 @@ public final class PhotosCollectionViewModel {
     public func fetchThumbnails(forItem item: Item) {
         isLoadingOverlayVisibleSubject.value = true
 
-        fetchPhotosSubscription = photosService.fetchThumbnails(forItemId: item.id)
+        fetchPhotosSubscription = photosService.fetchThumbnails(forItem: item)
             .sink(
                 receiveCompletion: { _ in },
                 receiveValue: { [weak self] in
