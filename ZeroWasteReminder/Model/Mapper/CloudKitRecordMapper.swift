@@ -9,16 +9,6 @@ internal final class CloudKitRecordMapper {
         self.fileService = fileService
     }
 
-    internal func toPhoto() -> PhotoWithThumbnail? {
-        guard
-            let id = record.flatMap({ UUID(uuidString: $0.recordID.recordName) }),
-            let fullSize = toFullSize(),
-            let thumbnail = toThumbnail()
-        else { return nil }
-
-        return .init(id: id, fullSize: fullSize, thumbnail: thumbnail)
-    }
-
     internal func toFullSize() -> Photo? {
         photo(forKey: CloudKitKey.Photo.fullSize)
     }
@@ -75,7 +65,7 @@ internal final class CloudKitRecordMapper {
 
         return asset.fileURL
             .flatMap { try? Data(contentsOf: $0) }
-            .map { Photo(data: $0).withParentId(id) }
+            .map { .init(parentId: id, data: $0) }
     }
 
     private func applyChange<T: Equatable & CKRecordValueProtocol>(to record: CKRecord, key: String, value: T?) {

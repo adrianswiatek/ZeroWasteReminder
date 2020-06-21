@@ -1,19 +1,19 @@
 import Foundation
 
 public struct PhotosChangeset {
-    public let photosToSave: [PhotoWithThumbnail]
+    public let photosToSave: [PhotoToSave]
     public let idsToDelete: [UUID]
 
     public init() {
         self.init(photosToSave: [], idsToDelete: [])
     }
 
-    private init(photosToSave: [PhotoWithThumbnail], idsToDelete: [UUID]) {
+    private init(photosToSave: [PhotoToSave], idsToDelete: [UUID]) {
         self.photosToSave = photosToSave
         self.idsToDelete = idsToDelete
     }
 
-    public func withSavedPhoto(_ photo: PhotoWithThumbnail) -> PhotosChangeset {
+    public func withSavedPhoto(_ photo: PhotoToSave) -> PhotosChangeset {
         guard !photosToSave.contains(photo) else { return self }
         return .init(photosToSave: photosToSave + [photo], idsToDelete: idsToDelete)
     }

@@ -1,10 +1,10 @@
 import CloudKit
 
 internal final class CloudKitPhotoMapper {
-    private let photo: PhotoWithThumbnail
+    private let photo: PhotoToSave
     private let fileService: FileService
 
-    internal init(_ photo: PhotoWithThumbnail, _ fileService: FileService) {
+    internal init(_ photo: PhotoToSave, _ fileService: FileService) {
         self.photo = photo
         self.fileService = fileService
     }
