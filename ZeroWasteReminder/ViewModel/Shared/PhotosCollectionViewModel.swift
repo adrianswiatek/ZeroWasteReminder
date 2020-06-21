@@ -2,9 +2,9 @@ import Combine
 import UIKit
 
 public final class PhotosCollectionViewModel {
-    private let photosSubject: CurrentValueSubject<[Photo], Never>
-    public var photos: AnyPublisher<[Photo], Never> {
-        photosSubject.eraseToAnyPublisher()
+    private let thumbnailsSubject: CurrentValueSubject<[Photo], Never>
+    public var thumbnails: AnyPublisher<[Photo], Never> {
+        thumbnailsSubject.eraseToAnyPublisher()
     }
 
     private let isLoadingOverlayVisibleSubject: CurrentValueSubject<Bool, Never>
@@ -42,7 +42,7 @@ public final class PhotosCollectionViewModel {
 
         self.photosChangeset = .init()
 
-        self.photosSubject = .init([])
+        self.thumbnailsSubject = .init([])
         self.isLoadingOverlayVisibleSubject = .init(false)
         self.needsCaptureImageSubject = .init()
         self.needsShowImageSubject = .init()
@@ -52,35 +52,29 @@ public final class PhotosCollectionViewModel {
         self.subscriptions = []
     }
 
-    public func fetchPhotos(forItem item: Item) {
+    public func fetchThumbnails(forItem item: Item) {
         isLoadingOverlayVisibleSubject.value = true
 
-        fetchPhotosSubscription = itemsService.fetchPhotos(forItem: item)
+        fetchPhotosSubscription = itemsService.fetchThumbnails(forItem: item)
             .sink(
                 receiveCompletion: { _ in },
                 receiveValue: { [weak self] in
-                    self?.photosSubject.value = $0
+                    self?.thumbnailsSubject.value = $0
                     self?.isLoadingOverlayVisibleSubject.value = false
                 }
             )
     }
 
-    public func createPhotos() -> [Photo] {
-        photosSubject.value
-    }
-
     public func addImage(atUrl url: URL) {
         DispatchQueue.main.async {
-            guard let image = self.downsizeImage(atUrl: url) else { return }
-            self.addPhoto(.init(image: image))
+            self.makePhotoWithThumbnail(atUrl: url).map { self.addPhoto($0) }
         }
     }
 
     public func addImage(_ image: UIImage) {
         downsizeImageSubscription = fileService.saveTemporaryImage(image)
             .subscribe(on: DispatchQueue.global(qos: .userInitiated))
-            .compactMap { [weak self] in self?.downsizeImage(atUrl: $0) }
-            .map { Photo(image: $0) }
+            .compactMap { [weak self] in self?.makePhotoWithThumbnail(atUrl: $0) }
             .receive(on: DispatchQueue.main)
             .sink(
                 receiveCompletion: { _ in },
@@ -89,9 +83,9 @@ public final class PhotosCollectionViewModel {
     }
 
     public func deleteImage(atIndex index: Int) {
-        precondition(0 ..< photosSubject.value.count ~= index, "Index out of bounds.")
-        let photo = photosSubject.value.remove(at: index)
-        photosChangeset = photosChangeset.withDeletedPhoto(photo)
+        precondition(0 ..< thumbnailsSubject.value.count ~= index, "Index out of bounds.")
+        let photo = thumbnailsSubject.value.remove(at: index)
+        photosChangeset = photosChangeset.withDeletedPhoto(id: photo.parentId!)
     }
 
     public func setNeedsCaptureImage() {
@@ -99,30 +93,64 @@ public final class PhotosCollectionViewModel {
     }
 
     public func setNeedsShowImage(atIndex index: Int) {
-        precondition(0 ..< photosSubject.value.count ~= index, "Index out of bounds.")
-        needsShowImageSubject.send(photosSubject.value[index].asImage())
+        precondition(0 ..< thumbnailsSubject.value.count ~= index, "Index out of bounds.")
+
+        guard let id = thumbnailsSubject.value[index].parentId else {
+            preconditionFailure("Thumbnail at given index has not been found.")
+        }
+
+        if let photo = photosChangeset.photosToSave.first(where: { $0.id == id }) {
+            needsShowImageSubject.send(photo.fullSize.asImage())
+        } else {
+            fetchFullSizePhoto(withId: id)
+        }
     }
 
     public func setNeedsRemoveImage(atIndex index: Int) {
-        precondition(0 ..< photosSubject.value.count ~= index, "Index out of bounds.")
+        precondition(0 ..< thumbnailsSubject.value.count ~= index, "Index out of bounds.")
         needsRemoveImageSubject.send(index)
     }
 
-    private func addPhoto(_ photo: Photo) {
-        photosSubject.value.insert(photo, at: 0)
+    private func addPhoto(_ photo: PhotoWithThumbnail) {
+        thumbnailsSubject.value.insert(photo.thumbnail, at: 0)
         photosChangeset = photosChangeset.withSavedPhoto(photo)
     }
 
-    private func downsizeImage(atUrl url: URL) -> UIImage? {
+    private func makePhotoWithThumbnail(atUrl url: URL) -> PhotoWithThumbnail? {
+        guard
+            let fullSize = downsizeImage(atUrl: url, forSize: .fullSize),
+            let thumbnail = downsizeImage(atUrl: url, forSize: .thumbnail)
+        else { return nil }
+
+        return .init(fullSize: Photo(image: fullSize), thumbnail: Photo(image: thumbnail))
+    }
+
+    private func downsizeImage(atUrl url: URL, forSize size: PhotoSize) -> UIImage? {
         let options: [CFString: Any] = [
             kCGImageSourceCreateThumbnailFromImageAlways: true,
             kCGImageSourceCreateThumbnailWithTransform: true,
             kCGImageSourceShouldCacheImmediately: true,
-            kCGImageSourceThumbnailMaxPixelSize: 500
+            kCGImageSourceThumbnailMaxPixelSize: size.rawValue
         ]
 
         return CGImageSourceCreateWithURL(url as CFURL, nil)
             .flatMap { CGImageSourceCreateThumbnailAtIndex($0, 0, options as CFDictionary) }
             .map { UIImage(cgImage: $0) }
+    }
+
+    private func fetchFullSizePhoto(withId id: UUID) {
+        itemsService.fetchFullSizePhoto(withId: id)
+            .sink(
+                receiveCompletion: { _ in },
+                receiveValue: { [weak self] in self?.needsShowImageSubject.send($0.asImage()) }
+            )
+            .store(in: &subscriptions)
+    }
+}
+
+private extension PhotosCollectionViewModel {
+    enum PhotoSize: Int {
+        case fullSize = 750
+        case thumbnail = 250
     }
 }

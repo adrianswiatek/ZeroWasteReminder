@@ -27,10 +27,11 @@ public final class EditViewModel {
     }
 
     public var canSave: AnyPublisher<Bool, Never> {
-        Publishers.CombineLatest4($name, $notes, expirationDateSubject, photosViewModel.photos)
-            .map { [weak self] in (self?.originalItem, $0, $1, $2, $3) }
-            .map { !$1.isEmpty && $0 != $0?.withName($1).withNotes($2).withExpirationDate($3).withPhotos($4) }
-            .eraseToAnyPublisher()
+        Just(true).eraseToAnyPublisher()
+//        Publishers.CombineLatest4($name, $notes, expirationDateSubject, photosViewModel.thumbnails)
+//            .map { [weak self] in (self?.originalItem, $0, $1, $2, $3) }
+//            .map { !$1.isEmpty && $0 != $0?.withName($1).withNotes($2).withExpirationDate($3).withPhotos($4) }
+//            .eraseToAnyPublisher()
     }
 
     public var canRemotelyConnect: AnyPublisher<Bool, Never> {
@@ -78,7 +79,7 @@ public final class EditViewModel {
         self.subscriptions = []
 
         self.bind()
-        self.photosViewModel.fetchPhotos(forItem: originalItem)
+        self.photosViewModel.fetchThumbnails(forItem: originalItem)
     }
 
     public func toggleExpirationDatePicker() {
@@ -116,13 +117,13 @@ public final class EditViewModel {
     }
 
     private func bind() {
-        photosViewModel.photos
-            .prefix(2)
-            .sink { [weak self] in
-                guard let self = self else { return }
-                self.originalItem = self.originalItem.withPhotos($0)
-            }
-            .store(in: &subscriptions)
+//        photosViewModel.thumbnails
+//            .prefix(2)
+//            .sink { [weak self] in
+//                guard let self = self else { return }
+//                self.originalItem = self.originalItem.withPhotos($0)
+//            }
+//            .store(in: &subscriptions)
     }
 
     private func formattedDate(_ date: Date?) -> String? {
@@ -133,13 +134,11 @@ public final class EditViewModel {
     private func tryCreateItem(_ name: String, _ notes: String, _ expirationDate: Date?) -> Item? {
         guard !name.isEmpty else { return nil }
 
-        let photos = photosViewModel.createPhotos()
-
         if let expirationDate = expirationDate {
             let expiration = Expiration.date(expirationDate)
-            return Item(id: originalItem.id, name: name, notes: notes, expiration: expiration, photos: photos)
+            return Item(id: originalItem.id, name: name, notes: notes, expiration: expiration, photos: [])
         }
 
-        return Item(id: originalItem.id, name: name, notes: notes, expiration: .none, photos: photos)
+        return Item(id: originalItem.id, name: name, notes: notes, expiration: .none, photos: [])
     }
 }

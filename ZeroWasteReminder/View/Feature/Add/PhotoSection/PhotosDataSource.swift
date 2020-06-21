@@ -41,15 +41,15 @@ public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDa
     }
 
     private func bind() {
-        viewModel.photos
-            .sink { [weak self] in self?.apply($0.map { $0.asImage() }) }
+        viewModel.thumbnails
+            .sink { [weak self] in self?.apply($0) }
             .store(in: &subscriptions)
     }
 
-    public func apply(_ images: [UIImage]) {
+    public func apply(_ thumbnails: [Photo]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(images)
+        snapshot.appendItems(thumbnails.map { $0.asImage() })
         apply(snapshot)
     }
 }

@@ -7,8 +7,9 @@ internal enum CloudKitKey {
     }
 
     internal enum Photo {
+        static let fullSize = "fullSize"
         static let id = "id"
         static let itemReference = "itemReference"
-        static let photo = "photo"
+        static let thumbnail = "thumbnail"
     }
 }

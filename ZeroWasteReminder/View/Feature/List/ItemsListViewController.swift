@@ -126,7 +126,7 @@ public final class ItemsListViewController: UIViewController {
 
         view.addSubview(addButton)
         NSLayoutConstraint.activate([
-            addButton.bottomAnchor.constraint(equalTo: warningBarView.topAnchor, constant: -16),
+            addButton.bottomAnchor.constraint(equalTo: warningBarView.topAnchor, constant: -32),
             addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32)
         ])
 

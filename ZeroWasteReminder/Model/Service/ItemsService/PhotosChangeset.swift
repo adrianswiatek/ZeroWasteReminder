@@ -1,28 +1,30 @@
+import Foundation
+
 public struct PhotosChangeset {
-    public let toSave: [Photo]
-    public let toDelete: [Photo]
+    public let photosToSave: [PhotoWithThumbnail]
+    public let idsToDelete: [UUID]
 
     public init() {
-        self.init(toSave: [], toDelete: [])
+        self.init(photosToSave: [], idsToDelete: [])
     }
 
-    private init(toSave: [Photo], toDelete: [Photo]) {
-        self.toSave = toSave
-        self.toDelete = toDelete
+    private init(photosToSave: [PhotoWithThumbnail], idsToDelete: [UUID]) {
+        self.photosToSave = photosToSave
+        self.idsToDelete = idsToDelete
     }
 
-    public func withSavedPhoto(_ photo: Photo) -> PhotosChangeset {
-        guard !toSave.contains(photo) else { return self }
-        return .init(toSave: toSave + [photo], toDelete: toDelete)
+    public func withSavedPhoto(_ photo: PhotoWithThumbnail) -> PhotosChangeset {
+        guard !photosToSave.contains(photo) else { return self }
+        return .init(photosToSave: photosToSave + [photo], idsToDelete: idsToDelete)
     }
 
-    public func withDeletedPhoto(_ photo: Photo) -> PhotosChangeset {
-        guard !toDelete.contains(photo) else { return self }
+    public func withDeletedPhoto(id: UUID) -> PhotosChangeset {
+        guard !idsToDelete.contains(id) else { return self }
 
-        if toSave.contains(photo) {
-            return .init(toSave: toSave.filter { $0.id != photo.id }, toDelete: toDelete)
+        if photosToSave.map(\.id).contains(id) {
+            return .init(photosToSave: photosToSave.filter { $0.id != id }, idsToDelete: idsToDelete)
         }
 
-        return .init(toSave: toSave, toDelete: toDelete + [photo])
+        return .init(photosToSave: photosToSave, idsToDelete: idsToDelete + [id])
     }
 }

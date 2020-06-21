@@ -45,7 +45,7 @@ public final class AddViewModel {
     private let itemsService: ItemsService
     private let fileService: FileService
     private let remoteStatusNotifier: RemoteStatusNotifier
-
+    
     private var subscriptions: Set<AnyCancellable>
 
     public init(
@@ -73,12 +73,18 @@ public final class AddViewModel {
         self.bind()
     }
 
-    public func saveItem() -> Future<Void, ServiceError> {
+    public func saveItem() -> AnyPublisher<Void, ServiceError> {
         guard let item = createItem() else {
             preconditionFailure("Unable to create item.")
         }
 
         return itemsService.add(item)
+            .flatMap { [weak self] _ -> AnyPublisher<Void, ServiceError> in
+                guard let self = self else { return Empty().eraseToAnyPublisher() }
+                let photosChangeset = self.photosViewModel.photosChangeset
+                return self.itemsService.updatePhotos(photosChangeset, forItem: item).eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
     }
 
     public func cleanUp() {
@@ -97,7 +103,7 @@ public final class AddViewModel {
             return nil
         }
 
-        return Item(name: name, notes: notes, expiration: expiration, photos: photosViewModel.createPhotos())
+        return Item(name: name, notes: notes, expiration: expiration, photos: [])
     }
 
     private func expiration() -> Expiration? {

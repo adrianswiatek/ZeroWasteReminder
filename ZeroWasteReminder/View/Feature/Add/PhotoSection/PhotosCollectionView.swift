@@ -70,6 +70,12 @@ public final class PhotosCollectionView: UICollectionView {
         viewModel.isLoadingOverlayVisible
             .sink { [weak self] in $0 ? self?.loadingView.show() : self?.loadingView.hide() }
             .store(in: &subscriptions)
+
+        viewModel.needsShowImage
+            .sink { [weak self] _ in
+                self?.visibleCells.compactMap { $0 as? PhotoCell }.forEach { $0.hideActivityIndicator() }
+            }
+            .store(in: &subscriptions)
     }
 }
 
@@ -101,6 +107,7 @@ extension PhotosCollectionView: UICollectionViewDelegateFlowLayout {
     }
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        cellForItem(at: indexPath).flatMap { $0 as? PhotoCell }.map { $0.showActivityIndicator() }
         viewModel.setNeedsShowImage(atIndex: indexPath.item)
     }
 }

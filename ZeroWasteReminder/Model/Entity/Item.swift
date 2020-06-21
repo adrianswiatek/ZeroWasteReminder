@@ -5,7 +5,7 @@ public struct Item: Identifiable, Hashable {
     public let name: String
     public let notes: String
     public let expiration: Expiration
-    public let photos: [Photo]
+    public let photos: [PhotoWithThumbnail]
 
     public func withName(_ name: String) -> Item {
         .init(id: id, name: name, notes: notes, expiration: expiration, photos: photos)
@@ -26,17 +26,17 @@ public struct Item: Identifiable, Hashable {
         .init(id: id, name: name, notes: notes, expiration: expiration, photos: photos)
     }
 
-    public func withPhotos(_ photos: [Photo] = []) -> Item {
+    public func withPhotos(_ photos: [PhotoWithThumbnail] = []) -> Item {
         .init(id: id, name: name, notes: notes, expiration: expiration, photos: photos)
     }
 
-    public func prependingPhoto(_ photo: Photo) -> Item {
+    public func prependingPhoto(_ photo: PhotoWithThumbnail) -> Item {
         .init(id: id, name: name, notes: notes, expiration: expiration, photos: [photo] + photos)
     }
 }
 
 extension Item {
-    public init(name: String, notes: String, expiration: Expiration, photos: [Photo]) {
+    public init(name: String, notes: String, expiration: Expiration, photos: [PhotoWithThumbnail]) {
         self.id = UUID()
         self.name = name
         self.notes = notes

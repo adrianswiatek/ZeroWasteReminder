@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 
 public protocol ItemsService {
     var items: AnyPublisher<[Item], Never> { get }
@@ -22,5 +23,8 @@ public protocol ItemsService {
     func deleteAll() -> Future<Void, ServiceError>
 
     @discardableResult
-    func fetchPhotos(forItem item: Item) -> Future<[Photo], ServiceError>
+    func fetchThumbnails(forItem item: Item) -> Future<[Photo], ServiceError>
+
+    @discardableResult
+    func fetchFullSizePhoto(withId id: UUID) -> Future<Photo, ServiceError>
 }

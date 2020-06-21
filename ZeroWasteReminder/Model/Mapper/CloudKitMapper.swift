@@ -12,7 +12,7 @@ public final class CloudKitMapper {
         .init(item, fileService)
     }
 
-    internal func map(_ photo: Photo) -> CloudKitPhotoMapper {
+    internal func map(_ photo: PhotoWithThumbnail) -> CloudKitPhotoMapper {
         .init(photo, fileService)
     }
 

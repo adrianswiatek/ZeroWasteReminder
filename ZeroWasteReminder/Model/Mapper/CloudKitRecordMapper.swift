@@ -9,15 +9,22 @@ internal final class CloudKitRecordMapper {
         self.fileService = fileService
     }
 
-    internal func toPhoto() -> Photo? {
-        guard let record = record, let id = UUID(uuidString: record.recordID.recordName) else {
-            return nil
-        }
+    internal func toPhoto() -> PhotoWithThumbnail? {
+        guard
+            let id = record.flatMap({ UUID(uuidString: $0.recordID.recordName) }),
+            let fullSize = toFullSize(),
+            let thumbnail = toThumbnail()
+        else { return nil }
 
-        return (record[CloudKitKey.Photo.photo] as? CKAsset)
-            .flatMap { $0.fileURL }
-            .flatMap { try? Data(contentsOf: $0) }
-            .map { Photo(id: id, data: $0) }
+        return .init(id: id, fullSize: fullSize, thumbnail: thumbnail)
+    }
+
+    internal func toFullSize() -> Photo? {
+        photo(forKey: CloudKitKey.Photo.fullSize)
+    }
+
+    internal func toThumbnail() -> Photo? {
+        photo(forKey: CloudKitKey.Photo.thumbnail)
     }
 
     internal func toItem() -> Item? {
@@ -27,13 +34,11 @@ internal final class CloudKitRecordMapper {
             let name = record[CloudKitKey.Item.name] as? String
         else { return nil }
 
-        let notes = self.notes(from: record)
-
         if let date = record[CloudKitKey.Item.expiration] as? Date {
-            return Item(id: id, name: name, notes: notes, expiration: .date(date), photos: [])
+            return Item(id: id, name: name, notes: notes(from: record), expiration: .date(date), photos: [])
         }
 
-        return Item(id: id, name: name, notes: notes, expiration: .none, photos: [])
+        return Item(id: id, name: name, notes: notes(from: record), expiration: .none, photos: [])
     }
 
     internal func updatedBy(_ item: Item?) -> CloudKitRecordMapper {
@@ -60,6 +65,17 @@ internal final class CloudKitRecordMapper {
         }
 
         return date
+    }
+
+    private func photo(forKey key: String) -> Photo? {
+        guard
+            let id = record.flatMap({ UUID(uuidString: $0.recordID.recordName) }),
+            let asset = record?[key] as? CKAsset
+        else { return nil }
+
+        return asset.fileURL
+            .flatMap { try? Data(contentsOf: $0) }
+            .map { Photo(data: $0).withParentId(id) }
     }
 
     private func applyChange<T: Equatable & CKRecordValueProtocol>(to record: CKRecord, key: String, value: T?) {

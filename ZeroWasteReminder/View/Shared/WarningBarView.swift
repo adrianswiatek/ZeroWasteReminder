@@ -8,7 +8,7 @@ public final class WarningBarView: UIView {
     private let label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Cannot connect to iCloud account"
+        label.text = .localized(.cannotConnectToICloud)
         label.textColor = .white
         label.font = .systemFont(ofSize: 16)
         return label
@@ -50,6 +50,12 @@ public final class WarningBarView: UIView {
     }
 
     private func animateLayout() {
+        UIView.animate(
+            withDuration: 0.3,
+            animations: { self.window?.layoutIfNeeded()},
+            completion: { _ in self.label.isHidden = self.height == Metrics.hiddenHeight }
+        )
+
         UIView.animate(withDuration: 0.3) {
             self.window?.layoutIfNeeded()
         }

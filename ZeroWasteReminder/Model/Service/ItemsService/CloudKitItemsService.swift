@@ -102,12 +102,12 @@ public final class CloudKitItemsService: ItemsService {
             guard let self = self else { return }
 
             let itemRecord = self.mapper.map(item).toRecordInZone(self.zone)
-            let photoRecordsToSave = photosChangeset.toSave.compactMap {
+            let photoRecordsToSave = photosChangeset.photosToSave.compactMap {
                 self.mapper.map($0).toRecordInZone(self.zone, referencedBy: itemRecord)
             }
 
-            let photosRecordsToDelete = photosChangeset.toDelete.compactMap {
-                self.mapper.map($0).toRecordInZone(self.zone)?.recordID
+            let photosRecordsToDelete = photosChangeset.idsToDelete.compactMap {
+                CKRecord.ID(recordName: $0.uuidString, zoneID: self.zone.zoneID)
             }
 
             guard !photoRecordsToSave.isEmpty || !photosRecordsToDelete.isEmpty else {
@@ -141,7 +141,7 @@ public final class CloudKitItemsService: ItemsService {
         deleteItems(itemsSubject.value)
     }
 
-    public func fetchPhotos(forItem item: Item) -> Future<[Photo], ServiceError> {
+    public func fetchThumbnails(forItem item: Item) -> Future<[Photo], ServiceError> {
         Future { [weak self] promise in
             guard let self = self else { return }
             var photoRecords = [CKRecord]()
@@ -152,14 +152,43 @@ public final class CloudKitItemsService: ItemsService {
             )
 
             let predicate = NSPredicate(format: "%K == %@", CloudKitKey.Photo.itemReference, itemReference)
+
             let operation = CKQueryOperation(query: .init(recordType: "Photo", predicate: predicate))
+            operation.desiredKeys = [CloudKitKey.Photo.thumbnail]
+
             operation.recordFetchedBlock = { photoRecords.append($0) }
             operation.queryCompletionBlock = {
                 if let error = $1 {
                     DispatchQueue.main.async { promise(.failure(ServiceError(error))) }
                 } else {
-                    let photos = photoRecords.compactMap { self.mapper.map($0).toPhoto() }
+                    let photos = photoRecords.compactMap { self.mapper.map($0).toThumbnail() }
                     DispatchQueue.main.async { promise(.success(photos)) }
+                }
+            }
+
+            self.database.add(operation)
+        }
+    }
+
+    public func fetchFullSizePhoto(withId id: UUID) -> Future<Photo, ServiceError> {
+        Future { [weak self] promise in
+            guard let self = self else { return }
+
+            var resultRecord: CKRecord?
+
+            let recordId = CKRecord.ID(recordName: id.uuidString, zoneID: self.zone.zoneID)
+            let predicate = NSPredicate(format: "%K == %@", "recordID", recordId)
+
+            let operation = CKQueryOperation(query: .init(recordType: "Photo", predicate: predicate))
+            operation.desiredKeys = [CloudKitKey.Photo.fullSize]
+
+            operation.recordFetchedBlock = { resultRecord = $0 }
+            operation.queryCompletionBlock = {
+                if let error = $1 {
+                    DispatchQueue.main.async { promise(.failure(ServiceError(error))) }
+                } else {
+                    let fullSize: Photo! = resultRecord.flatMap { self.mapper.map($0).toFullSize() }
+                    DispatchQueue.main.async { promise(.success(fullSize)) }
                 }
             }
 

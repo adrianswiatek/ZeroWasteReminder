@@ -76,6 +76,7 @@
 		A7994494247871D400D3AF62 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7994493247871D400D3AF62 /* DeleteButton.swift */; };
 		A79B4A202479F6FA00ECE1B1 /* SubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */; };
 		A79DDDA32461F9B1008A3DFE /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79DDDA22461F9B1008A3DFE /* EditViewModel.swift */; };
+		A7A181AA249E9C5200B8E6EE /* PhotoFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A181A9249E9C5200B8E6EE /* PhotoFactory.swift */; };
 		A7A8EF73247C52E900FF1AC2 /* NameTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */; };
 		A7A8EF75247C771900FF1AC2 /* NotesTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF74247C771900FF1AC2 /* NotesTextView.swift */; };
 		A7A8EF77247C7DF900FF1AC2 /* SharedTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF76247C7DF900FF1AC2 /* SharedTextViewDelegate.swift */; };
@@ -186,6 +187,7 @@
 		A7994493247871D400D3AF62 /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
 		A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionService.swift; sourceTree = "<group>"; };
 		A79DDDA22461F9B1008A3DFE /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
+		A7A181A9249E9C5200B8E6EE /* PhotoFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoFactory.swift; sourceTree = "<group>"; };
 		A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTextView.swift; sourceTree = "<group>"; };
 		A7A8EF74247C771900FF1AC2 /* NotesTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextView.swift; sourceTree = "<group>"; };
 		A7A8EF76247C7DF900FF1AC2 /* SharedTextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTextViewDelegate.swift; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 			children = (
 				A7ACC4C1247B00BF0098EDE0 /* CloudKitConfiguration.swift */,
 				A7636A662490499F00166631 /* FileService.swift */,
+				A7A181A9249E9C5200B8E6EE /* PhotoFactory.swift */,
 				A782FAD12475E0A000C69737 /* RemoteNotificationHandler.swift */,
 				A74D163F249C2ED500FEB5CD /* RemoteStatusNotifier.swift */,
 				A7E530AB249BFD280020DB14 /* AccountService */,
@@ -817,6 +820,7 @@
 				A77A99CD245A118200F3578C /* UIBarButtonItemExtensions.swift in Sources */,
 				A763AFF82482E13000E93546 /* LocalizedText.swift in Sources */,
 				A7C9636E247DA58800DE824F /* ClearButton.swift in Sources */,
+				A7A181AA249E9C5200B8E6EE /* PhotoFactory.swift in Sources */,
 				A700D6C92454D96800F16F2E /* ItemsFilterViewModel.swift in Sources */,
 				A72315AE244B0943008614B2 /* ValidationRules.swift in Sources */,
 				A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */,

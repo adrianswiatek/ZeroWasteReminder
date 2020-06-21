@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 
 public final class InMemoryItemsService: ItemsService {
     public var items: AnyPublisher<[Item], Never> {
@@ -53,13 +54,25 @@ public final class InMemoryItemsService: ItemsService {
         }
     }
 
-    public func fetchPhotos(forItem item: Item) -> Future<[Photo], ServiceError> {
+    public func fetchThumbnails(forItem item: Item) -> Future<[Photo], ServiceError> {
         Future { [weak self] promise in
             let photos = self?.itemsSubject.value
                 .first { $0.id == item.id }
-                .map { $0.photos }
+                .map { $0.photos.map { $0.thumbnail } }
 
             promise(.success(photos ?? []))
+        }
+    }
+
+    public func fetchFullSizePhoto(withId id: UUID) -> Future<Photo, ServiceError> {
+        Future { [weak self] promise in
+            let photo = self?.itemsSubject.value.flatMap { $0.photos }.first { $0.id == id }
+
+            if let fullSizePhoto = photo?.fullSize {
+                promise(.success(fullSizePhoto))
+            } else {
+                promise(.failure(.general("Unable to fetch photo.")))
+            }
         }
     }
 }
