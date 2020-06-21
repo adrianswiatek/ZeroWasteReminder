@@ -45,6 +45,7 @@ public final class EditViewModel {
 
     private var originalItem: Item
     private let itemsService: ItemsService
+    private let photosService: PhotosService
     private let fileService: FileService
     private let remoteStatusNotifier: RemoteStatusNotifier
     private let dateFormatter: DateFormatter
@@ -54,11 +55,13 @@ public final class EditViewModel {
     public init(
         item: Item,
         itemsService: ItemsService,
+        photosService: PhotosService,
         fileService: FileService,
         remoteStatusNotifier: RemoteStatusNotifier
     ) {
         self.originalItem = item
         self.itemsService = itemsService
+        self.photosService = photosService
         self.fileService = fileService
         self.remoteStatusNotifier = remoteStatusNotifier
         self.dateFormatter = .fullDateFormatter
@@ -74,7 +77,11 @@ public final class EditViewModel {
 
         self.isExpirationDateVisibleSubject = .init(false)
 
-        self.photosViewModel = .init(itemsService: itemsService, fileService: fileService)
+        self.photosViewModel = .init(
+            photosService: photosService,
+            itemsService: itemsService,
+            fileService: fileService
+        )
 
         self.subscriptions = []
 
@@ -97,13 +104,9 @@ public final class EditViewModel {
 
         return itemsService.update(item)
             .flatMap { [weak self] () -> AnyPublisher<Void, ServiceError> in
-                guard let self = self else {
-                    return Empty().eraseToAnyPublisher()
-                }
-
-                return self.itemsService
-                    .updatePhotos(self.photosViewModel.photosChangeset, forItem: item)
-                    .eraseToAnyPublisher()
+                guard let self = self else { return Empty().eraseToAnyPublisher() }
+                let changeSet = self.photosViewModel.photosChangeset
+                return self.photosService.update(changeSet, forItemId: item.id).eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()
     }

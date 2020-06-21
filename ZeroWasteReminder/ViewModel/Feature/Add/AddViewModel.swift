@@ -43,6 +43,7 @@ public final class AddViewModel {
     private let expirationTypeSubject: CurrentValueSubject<ExpirationType, Never>
 
     private let itemsService: ItemsService
+    private let photosService: PhotosService
     private let fileService: FileService
     private let remoteStatusNotifier: RemoteStatusNotifier
     
@@ -50,10 +51,12 @@ public final class AddViewModel {
 
     public init(
         itemsService: ItemsService,
+        photosService: PhotosService,
         fileService: FileService,
         remoteStatusNotifier: RemoteStatusNotifier
     ) {
         self.itemsService = itemsService
+        self.photosService = photosService
         self.fileService = fileService
         self.remoteStatusNotifier = remoteStatusNotifier
 
@@ -62,7 +65,11 @@ public final class AddViewModel {
 
         self.expirationTypeIndex = ExpirationType.none.index
 
-        self.photosViewModel = .init(itemsService: itemsService, fileService: fileService)
+        self.photosViewModel = .init(
+            photosService: photosService,
+            itemsService: itemsService,
+            fileService: fileService
+        )
         self.expirationDateViewModel = .init(.init())
         self.expirationPeriodViewModel = .init(.day)
 
@@ -81,8 +88,8 @@ public final class AddViewModel {
         return itemsService.add(item)
             .flatMap { [weak self] _ -> AnyPublisher<Void, ServiceError> in
                 guard let self = self else { return Empty().eraseToAnyPublisher() }
-                let photosChangeset = self.photosViewModel.photosChangeset
-                return self.itemsService.updatePhotos(photosChangeset, forItem: item).eraseToAnyPublisher()
+                let changeset = self.photosViewModel.photosChangeset
+                return self.photosService.update(changeset, forItemId: item.id).eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()
     }

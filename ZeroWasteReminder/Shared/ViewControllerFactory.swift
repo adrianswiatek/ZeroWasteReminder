@@ -2,25 +2,34 @@ import UIKit
 
 public final class ViewControllerFactory {
     private let itemsService: ItemsService
+    private let photosService: PhotosService
+    private let fileService: FileService
+
+    private let itemsRepository: ItemsRepository
     private let remoteStatusNotifier: RemoteStatusNotifier
     private let sharingControllerFactory: SharingControllerFactory
-    private let fileService: FileService
 
     public init(
         itemsService: ItemsService,
+        photosService: PhotosService,
+        fileService: FileService,
+        itemsRepository: ItemsRepository,
         remoteStatusNotifier: RemoteStatusNotifier,
-        sharingControllerFactory: SharingControllerFactory,
-        fileService: FileService
+        sharingControllerFactory: SharingControllerFactory
     ) {
         self.itemsService = itemsService
+        self.photosService = photosService
+        self.fileService = fileService
+
+        self.itemsRepository = itemsRepository
         self.remoteStatusNotifier = remoteStatusNotifier
         self.sharingControllerFactory = sharingControllerFactory
-        self.fileService = fileService
     }
 
     public var listViewController: UIViewController {
         let viewModel = ItemsListViewModel(
             itemsService: itemsService,
+            itemsRepository: itemsRepository,
             remoteStatusNotifier: remoteStatusNotifier
         )
         let viewController = ItemsListViewController(viewModel: viewModel, factory: self)
@@ -30,6 +39,7 @@ public final class ViewControllerFactory {
     public var addViewController: UIViewController {
         let viewModel = AddViewModel(
             itemsService: itemsService,
+            photosService: photosService,
             fileService: fileService,
             remoteStatusNotifier: remoteStatusNotifier
         )
@@ -41,6 +51,7 @@ public final class ViewControllerFactory {
         let viewModel = EditViewModel(
             item: item,
             itemsService: itemsService,
+            photosService: photosService,
             fileService: fileService,
             remoteStatusNotifier: remoteStatusNotifier
         )
