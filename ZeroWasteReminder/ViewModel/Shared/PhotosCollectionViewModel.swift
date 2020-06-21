@@ -115,11 +115,11 @@ public final class PhotosCollectionViewModel {
 
     private func makePhotosToSave(atUrl url: URL) -> PhotoToSave? {
         guard
-            let fullSize = downsizeImage(atUrl: url, forSize: .fullSize),
-            let thumbnail = downsizeImage(atUrl: url, forSize: .thumbnail)
+            let fullSizeImage = downsizeImage(atUrl: url, forSize: .fullSize),
+            let thumbnailImage = downsizeImage(atUrl: url, forSize: .thumbnail)
         else { return nil }
 
-        return .init(fullSize: .init(image: fullSize), thumbnail: .init(image: thumbnail))
+        return .init(fullSizeImage: fullSizeImage, thumbnailImage: thumbnailImage)
     }
 
     private func downsizeImage(atUrl url: URL, forSize size: PhotoSize) -> UIImage? {

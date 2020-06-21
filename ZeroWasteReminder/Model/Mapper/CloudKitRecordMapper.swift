@@ -65,7 +65,7 @@ internal final class CloudKitRecordMapper {
 
         return asset.fileURL
             .flatMap { try? Data(contentsOf: $0) }
-            .map { .init(parentId: id, data: $0) }
+            .map { .init(id: id, data: $0) }
     }
 
     private func applyChange<T: Equatable & CKRecordValueProtocol>(to record: CKRecord, key: String, value: T?) {

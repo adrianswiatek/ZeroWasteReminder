@@ -1,15 +1,13 @@
-import Foundation
+import UIKit
 
 public struct PhotoToSave: Hashable{
     public let id: UUID
     public let fullSize: Photo
     public let thumbnail: Photo
-}
 
-public extension PhotoToSave {
-    init(fullSize: NotConnectedPhoto, thumbnail: NotConnectedPhoto) {
+    public init(fullSizeImage: UIImage, thumbnailImage: UIImage) {
         self.id = UUID()
-        self.fullSize = .init(parentId: id, data: fullSize.asData())
-        self.thumbnail = .init(parentId: id, data: thumbnail.asData())
+        self.fullSize = .init(id: id, image: fullSizeImage)
+        self.thumbnail = .init(id: id, image: thumbnailImage)
     }
 }
