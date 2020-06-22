@@ -150,9 +150,9 @@ public final class EditViewModel {
 
         if let expirationDate = expirationDate {
             let expiration = Expiration.date(expirationDate)
-            return Item(id: originalItem.id, name: name, notes: notes, expiration: expiration, photos: [])
+            return Item(id: originalItem.id, name: name, notes: notes, expiration: expiration)
         }
 
-        return Item(id: originalItem.id, name: name, notes: notes, expiration: .none, photos: [])
+        return Item(id: originalItem.id, name: name, notes: notes, expiration: .none)
     }
 }

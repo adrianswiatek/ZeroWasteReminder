@@ -5,33 +5,24 @@ public struct Item: Identifiable, Hashable {
     public let name: String
     public let notes: String
     public let expiration: Expiration
-    public let photos: [PhotoToSave]
 
     public func withName(_ name: String) -> Item {
-        .init(id: id, name: name, notes: notes, expiration: expiration, photos: photos)
+        .init(id: id, name: name, notes: notes, expiration: expiration)
     }
 
     public func withExpiration(_ expiration: Expiration) -> Item {
-        .init(id: id, name: name, notes: notes, expiration: expiration, photos: photos)
+        .init(id: id, name: name, notes: notes, expiration: expiration)
     }
 
     public func withExpirationDate(_ date: Date?) -> Item {
         if let date = date {
-            return .init(id: id, name: name, notes: notes, expiration: .date(date), photos: photos)
+            return .init(id: id, name: name, notes: notes, expiration: .date(date))
         }
-        return .init(id: id, name: name, notes: notes, expiration: .none, photos: photos)
+        return .init(id: id, name: name, notes: notes, expiration: .none)
     }
 
     public func withNotes(_ notes: String) -> Item {
-        .init(id: id, name: name, notes: notes, expiration: expiration, photos: photos)
-    }
-
-    public func withPhotos(_ photos: [PhotoToSave] = []) -> Item {
-        .init(id: id, name: name, notes: notes, expiration: expiration, photos: photos)
-    }
-
-    public func prependingPhoto(_ photo: PhotoToSave) -> Item {
-        .init(id: id, name: name, notes: notes, expiration: expiration, photos: [photo] + photos)
+        .init(id: id, name: name, notes: notes, expiration: expiration)
     }
 }
 
@@ -41,7 +32,6 @@ extension Item {
         self.name = name
         self.notes = notes
         self.expiration = expiration
-        self.photos = photos
     }
 }
 
@@ -51,7 +41,6 @@ extension Item: Equatable {
             && lhs.name == rhs.name
             && lhs.notes == rhs.notes
             && lhs.expiration == rhs.expiration
-            && lhs.photos == rhs.photos
     }
 }
 

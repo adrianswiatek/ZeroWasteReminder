@@ -25,10 +25,10 @@ internal final class CloudKitRecordMapper {
         else { return nil }
 
         if let date = record[CloudKitKey.Item.expiration] as? Date {
-            return Item(id: id, name: name, notes: notes(from: record), expiration: .date(date), photos: [])
+            return Item(id: id, name: name, notes: notes(from: record), expiration: .date(date))
         }
 
-        return Item(id: id, name: name, notes: notes(from: record), expiration: .none, photos: [])
+        return Item(id: id, name: name, notes: notes(from: record), expiration: .none)
     }
 
     internal func updatedBy(_ item: Item?) -> CloudKitRecordMapper {

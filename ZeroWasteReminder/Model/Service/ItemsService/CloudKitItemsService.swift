@@ -41,11 +41,7 @@ public final class CloudKitItemsService: ItemsService {
                 return
             }
 
-            let photoRecords = item.photos.compactMap {
-                self.mapper.map($0).toRecordInZone(self.zone, referencedBy: itemRecord)
-            }
-
-            let operation = CKModifyRecordsOperation(recordsToSave: [itemRecord] + photoRecords)
+            let operation = CKModifyRecordsOperation(recordsToSave: [itemRecord])
             operation.modifyRecordsCompletionBlock = { records, _, error in
                 if let error = error {
                     DispatchQueue.main.async { promise(.failure(.init(error))) }
