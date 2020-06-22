@@ -85,25 +85,13 @@ public final class CloudKitPhotosService: PhotosService {
         forItem item: Item
     ) -> Future<Void, ServiceError> {
         Future { [weak self] promise in
-            guard let self = self else { return }
-
-            let itemRecord = self.mapper.map(item).toRecordInZone(self.zone)
-            let photoRecordsToSave = photosChangeset.photosToSave.compactMap {
-                self.mapper.map($0).toRecordInZone(self.zone, referencedBy: itemRecord)
-            }
-
-            let photosRecordsToDelete = photosChangeset.idsToDelete.compactMap {
-                CKRecord.ID(recordName: $0.uuidString, zoneID: self.zone.zoneID)
-            }
-
-            guard !photoRecordsToSave.isEmpty || !photosRecordsToDelete.isEmpty else {
-                promise(.success(()))
-                return
+            guard let self = self, photosChangeset.hasChanges else {
+                return promise(.success(()))
             }
 
             let operation = CKModifyRecordsOperation(
-                recordsToSave: photoRecordsToSave,
-                recordIDsToDelete: photosRecordsToDelete
+                recordsToSave: self.mapToRecords(photosChangeset.photosToSave, forItem: item),
+                recordIDsToDelete: self.mapToRecordIds(photosChangeset.idsToDelete)
             )
 
             operation.modifyRecordsCompletionBlock = {
@@ -116,5 +104,14 @@ public final class CloudKitPhotosService: PhotosService {
 
             self.database.add(operation)
         }
+    }
+
+    private func mapToRecords(_ photos: [PhotoToSave], forItem item: Item) -> [CKRecord] {
+        let itemRecord = mapper.map(item).toRecordInZone(zone)
+        return photos.compactMap { mapper.map($0).toRecordInZone(zone, referencedBy: itemRecord) }
+    }
+
+    private func mapToRecordIds(_ ids: [UUID]) -> [CKRecord.ID] {
+        ids.compactMap { .init(recordName: $0.uuidString, zoneID: zone.zoneID) }
     }
 }

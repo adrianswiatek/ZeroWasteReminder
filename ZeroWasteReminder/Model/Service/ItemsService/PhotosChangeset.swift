@@ -4,6 +4,10 @@ public struct PhotosChangeset {
     public let photosToSave: [PhotoToSave]
     public let idsToDelete: [UUID]
 
+    public var hasChanges: Bool {
+        !photosToSave.isEmpty || !idsToDelete.isEmpty
+    }
+
     public init() {
         self.init(photosToSave: [], idsToDelete: [])
     }
