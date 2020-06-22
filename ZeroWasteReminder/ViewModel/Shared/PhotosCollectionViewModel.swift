@@ -29,14 +29,16 @@ public final class PhotosCollectionViewModel {
 
     public private(set) var photosChangeset: PhotosChangeset
 
-    private let fileService: FileService
+    private let photosService: PhotosService
     private let itemsService: ItemsService
+    private let fileService: FileService
 
     private var subscriptions: Set<AnyCancellable>
     private var fetchPhotosSubscription: AnyCancellable?
     private var downsizeImageSubscription: AnyCancellable?
 
-    public init(itemsService: ItemsService, fileService: FileService) {
+    public init(photosService: PhotosService, itemsService: ItemsService, fileService: FileService) {
+        self.photosService = photosService
         self.itemsService = itemsService
         self.fileService = fileService
 
@@ -55,7 +57,7 @@ public final class PhotosCollectionViewModel {
     public func fetchThumbnails(forItem item: Item) {
         isLoadingOverlayVisibleSubject.value = true
 
-        fetchPhotosSubscription = itemsService.fetchThumbnails(forItem: item)
+        fetchPhotosSubscription = photosService.fetchThumbnails(forItem: item)
             .sink(
                 receiveCompletion: { _ in },
                 receiveValue: { [weak self] in
@@ -67,25 +69,25 @@ public final class PhotosCollectionViewModel {
 
     public func addImage(atUrl url: URL) {
         DispatchQueue.main.async {
-            self.makePhotoWithThumbnail(atUrl: url).map { self.addPhoto($0) }
+            self.makePhotosToSave(atUrl: url).map { self.addPhoto($0) }
         }
     }
 
     public func addImage(_ image: UIImage) {
         downsizeImageSubscription = fileService.saveTemporaryImage(image)
             .subscribe(on: DispatchQueue.global(qos: .userInitiated))
-            .compactMap { [weak self] in self?.makePhotoWithThumbnail(atUrl: $0) }
+            .compactMap { [weak self] in self?.makePhotosToSave(atUrl: $0) }
             .receive(on: DispatchQueue.main)
             .sink(
                 receiveCompletion: { _ in },
                 receiveValue: { [weak self] in self?.addPhoto($0) }
-        )
+            )
     }
 
     public func deleteImage(atIndex index: Int) {
         precondition(0 ..< thumbnailsSubject.value.count ~= index, "Index out of bounds.")
         let photo = thumbnailsSubject.value.remove(at: index)
-        photosChangeset = photosChangeset.withDeletedPhoto(id: photo.parentId!)
+        photosChangeset = photosChangeset.withDeletedPhoto(id: photo.id)
     }
 
     public func setNeedsCaptureImage() {
@@ -95,14 +97,11 @@ public final class PhotosCollectionViewModel {
     public func setNeedsShowImage(atIndex index: Int) {
         precondition(0 ..< thumbnailsSubject.value.count ~= index, "Index out of bounds.")
 
-        guard let id = thumbnailsSubject.value[index].parentId else {
-            preconditionFailure("Thumbnail at given index has not been found.")
-        }
-
-        if let photo = photosChangeset.photosToSave.first(where: { $0.id == id }) {
+        let photoId = thumbnailsSubject.value[index].id
+        if let photo = photosChangeset.photosToSave.first(where: { $0.id == photoId }) {
             needsShowImageSubject.send(photo.fullSize.asImage())
         } else {
-            fetchFullSizePhoto(withId: id)
+            fetchFullSizePhoto(withId: photoId)
         }
     }
 
@@ -111,18 +110,18 @@ public final class PhotosCollectionViewModel {
         needsRemoveImageSubject.send(index)
     }
 
-    private func addPhoto(_ photo: PhotoWithThumbnail) {
+    private func addPhoto(_ photo: PhotoToSave) {
         thumbnailsSubject.value.insert(photo.thumbnail, at: 0)
         photosChangeset = photosChangeset.withSavedPhoto(photo)
     }
 
-    private func makePhotoWithThumbnail(atUrl url: URL) -> PhotoWithThumbnail? {
+    private func makePhotosToSave(atUrl url: URL) -> PhotoToSave? {
         guard
-            let fullSize = downsizeImage(atUrl: url, forSize: .fullSize),
-            let thumbnail = downsizeImage(atUrl: url, forSize: .thumbnail)
+            let fullSizeImage = downsizeImage(atUrl: url, forSize: .fullSize),
+            let thumbnailImage = downsizeImage(atUrl: url, forSize: .thumbnail)
         else { return nil }
 
-        return .init(fullSize: Photo(image: fullSize), thumbnail: Photo(image: thumbnail))
+        return .init(fullSizeImage: fullSizeImage, thumbnailImage: thumbnailImage)
     }
 
     private func downsizeImage(atUrl url: URL, forSize size: PhotoSize) -> UIImage? {
@@ -139,7 +138,7 @@ public final class PhotosCollectionViewModel {
     }
 
     private func fetchFullSizePhoto(withId id: UUID) {
-        itemsService.fetchFullSizePhoto(withId: id)
+        photosService.fetchFullSize(withId: id)
             .sink(
                 receiveCompletion: { _ in },
                 receiveValue: { [weak self] in self?.needsShowImageSubject.send($0.asImage()) }

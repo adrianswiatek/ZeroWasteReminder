@@ -15,7 +15,8 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = scene as? UIWindowScene else { return }
 
         let fileService = FileService()
-        let remotePersistenceFactory = buildRemotePersistenceFactory(fileService: fileService)
+        let itemsRepository = InMemoryItemsRepository()
+        let remotePersistenceFactory = buildRemotePersistenceFactory(itemsRepository, fileService)
 
         let accountService = remotePersistenceFactory.accountService()
         accountService.refreshUserEligibility()
@@ -27,9 +28,11 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         viewControllerFactory = ViewControllerFactory(
             itemsService: remotePersistenceFactory.itemsService(),
+            photosService: remotePersistenceFactory.photosService(),
+            fileService: fileService,
+            itemsRepository: itemsRepository,
             remoteStatusNotifier: remoteStatusNotifier,
-            sharingControllerFactory: remotePersistenceFactory.sharingControllerFactory(),
-            fileService: fileService
+            sharingControllerFactory: remotePersistenceFactory.sharingControllerFactory()
         )
 
         window = UIWindow(windowScene: scene)
@@ -37,9 +40,13 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
     }
 
-    private func buildRemotePersistenceFactory(fileService: FileService) -> RemotePersistenceFactory {
+    private func buildRemotePersistenceFactory(
+        _ itemsRepository: ItemsRepository,
+        _ fileService: FileService
+    ) -> RemotePersistenceFactory {
         CloudKitPersistenceFactory(
             containerIdentifier: "iCloud.pl.aswiatek.PushNotifications",
+            itemsRepository: itemsRepository,
             fileService: fileService,
             notificationCenter: .default
         )

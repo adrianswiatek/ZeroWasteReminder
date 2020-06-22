@@ -24,11 +24,17 @@ public final class ItemsListViewModel {
     private let selectedItemSubject: PassthroughSubject<Item, Never>
 
     private let itemsService: ItemsService
+    private let itemsRepository: ItemsRepository
     private let remoteStatusNotifier: RemoteStatusNotifier
     private var subscriptions: Set<AnyCancellable>
 
-    public init(itemsService: ItemsService, remoteStatusNotifier: RemoteStatusNotifier) {
+    public init(
+        itemsService: ItemsService,
+        itemsRepository: ItemsRepository,
+        remoteStatusNotifier: RemoteStatusNotifier
+    ) {
         self.itemsService = itemsService
+        self.itemsRepository = itemsRepository
         self.remoteStatusNotifier = remoteStatusNotifier
 
         self.itemsFilterViewModel = .init()
@@ -87,7 +93,7 @@ public final class ItemsListViewModel {
     }
 
     private func bind() {
-        itemsService.items.combineLatest(itemsFilterViewModel.cellViewModels, $sortType)
+        itemsRepository.items.combineLatest(itemsFilterViewModel.cellViewModels, $sortType)
             .compactMap { items, cells, sortType in
                 if cells.allSatisfy({ $0.isSelected == false }) {
                     return items.sorted(by: sortType.action())
