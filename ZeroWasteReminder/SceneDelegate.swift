@@ -27,8 +27,8 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         subscriptionService?.registerItemsSubscriptionIfNeeded()
 
         viewControllerFactory = ViewControllerFactory(
-            itemsService: InMemoryItemsService(itemsRepository: itemsRepository),//remotePersistenceFactory.itemsService(),
-            photosService: InMemoryPhotosService(),//remotePersistenceFactory.photosService(),
+            itemsService: remotePersistenceFactory.itemsService(),
+            photosService: remotePersistenceFactory.photosService(),
             fileService: fileService,
             itemsRepository: itemsRepository,
             remoteStatusNotifier: remoteStatusNotifier,

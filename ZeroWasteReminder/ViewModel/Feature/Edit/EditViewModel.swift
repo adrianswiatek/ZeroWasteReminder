@@ -27,11 +27,9 @@ public final class EditViewModel {
     }
 
     public var canSave: AnyPublisher<Bool, Never> {
-        Just(true).eraseToAnyPublisher()
-//        Publishers.CombineLatest4($name, $notes, expirationDateSubject, photosViewModel.thumbnails)
-//            .map { [weak self] in (self?.originalItem, $0, $1, $2, $3) }
-//            .map { !$1.isEmpty && $0 != $0?.withName($1).withNotes($2).withExpirationDate($3).withPhotos($4) }
-//            .eraseToAnyPublisher()
+        Publishers.CombineLatest(itemHasChanged, photoIdsHaveChanged)
+            .map { $0 || $1 }
+            .eraseToAnyPublisher()
     }
 
     public var canRemotelyConnect: AnyPublisher<Bool, Never> {
@@ -40,10 +38,25 @@ public final class EditViewModel {
 
     public let photosViewModel: PhotosCollectionViewModel
 
+    private var itemHasChanged: AnyPublisher<Bool, Never> {
+        Publishers.CombineLatest3($name, $notes, expirationDateSubject)
+            .map { [weak self] in (self?.originalItem, $0, $1, $2) }
+            .map { !$1.isEmpty && $0 != $0?.withName($1).withNotes($2).withExpirationDate($3) }
+            .eraseToAnyPublisher()
+    }
+
+    private var photoIdsHaveChanged: AnyPublisher<Bool, Never> {
+        photosViewModel.thumbnails
+            .map { $0.map(\.id) }
+            .map { [weak self] in $0 != self?.originalPhotoIds }
+            .eraseToAnyPublisher()
+    }
+
     private let expirationDateSubject: CurrentValueSubject<Date?, Never>
     private let isExpirationDateVisibleSubject: CurrentValueSubject<Bool, Never>
 
-    private var originalItem: Item
+    private let originalItem: Item
+    private var originalPhotoIds: [UUID]
     private let itemsService: ItemsService
     private let photosService: PhotosService
     private let fileService: FileService
@@ -60,6 +73,7 @@ public final class EditViewModel {
         remoteStatusNotifier: RemoteStatusNotifier
     ) {
         self.originalItem = item
+        self.originalPhotoIds = []
         self.itemsService = itemsService
         self.photosService = photosService
         self.fileService = fileService
@@ -120,13 +134,10 @@ public final class EditViewModel {
     }
 
     private func bind() {
-//        photosViewModel.thumbnails
-//            .prefix(2)
-//            .sink { [weak self] in
-//                guard let self = self else { return }
-//                self.originalItem = self.originalItem.withPhotos($0)
-//            }
-//            .store(in: &subscriptions)
+        photosViewModel.thumbnails
+            .prefix(2)
+            .sink { [weak self] in self?.originalPhotoIds = $0.map { $0.id } }
+            .store(in: &subscriptions)
     }
 
     private func formattedDate(_ date: Date?) -> String? {
