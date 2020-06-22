@@ -107,12 +107,7 @@ public final class EditViewController: UIViewController {
             .store(in: &subscriptions)
 
         viewModel.photosViewModel.needsRemoveImage
-            .sink { [weak self] index in
-                guard let self = self else { return }
-                UIAlertController.presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
-                    .sink { [weak self] _ in self?.viewModel.photosViewModel.deleteImage(atIndex: index) }
-                    .store(in: &self.subscriptions)
-            }
+            .sink { [weak self] in self?.viewModel.photosViewModel.deleteImage(atIndex: $0) }
             .store(in: &subscriptions)
 
         viewModel.photosViewModel.needsCaptureImage
