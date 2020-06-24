@@ -25,7 +25,7 @@ public final class CloudKitPhotosService: PhotosService {
         self.mapper = mapper
     }
 
-    public func fetchThumbnails(forItem item: Item) -> Future<[Photo], ServiceError> {
+    public func fetchThumbnails(for item: Item) -> Future<[Photo], ServiceError> {
         Future { [weak self] promise in
             guard let self = self else { return }
             var photoRecords = [CKRecord]()
@@ -54,7 +54,7 @@ public final class CloudKitPhotosService: PhotosService {
         }
     }
 
-    public func fetchFullSize(withId photoId: UUID) -> Future<Photo, ServiceError> {
+    public func fetchFullSize(with photoId: UUID) -> Future<Photo, ServiceError> {
         Future { [weak self] promise in
             guard let self = self else { return }
 
@@ -82,7 +82,7 @@ public final class CloudKitPhotosService: PhotosService {
 
     public func update(
         _ photosChangeset: PhotosChangeset,
-        forItem item: Item
+        for item: Item
     ) -> Future<Void, ServiceError> {
         Future { [weak self] promise in
             guard let self = self, photosChangeset.hasChanges else {
@@ -90,7 +90,7 @@ public final class CloudKitPhotosService: PhotosService {
             }
 
             let operation = CKModifyRecordsOperation(
-                recordsToSave: self.mapToRecords(photosChangeset.photosToSave, forItem: item),
+                recordsToSave: self.mapToRecords(photosChangeset.photosToSave, for: item),
                 recordIDsToDelete: self.mapToRecordIds(photosChangeset.idsToDelete)
             )
 
@@ -106,7 +106,7 @@ public final class CloudKitPhotosService: PhotosService {
         }
     }
 
-    private func mapToRecords(_ photos: [PhotoToSave], forItem item: Item) -> [CKRecord] {
+    private func mapToRecords(_ photos: [PhotoToSave], for item: Item) -> [CKRecord] {
         let itemRecord = mapper.map(item).toRecordInZone(zone)
         return photos.compactMap { mapper.map($0).toRecordInZone(zone, referencedBy: itemRecord) }
     }

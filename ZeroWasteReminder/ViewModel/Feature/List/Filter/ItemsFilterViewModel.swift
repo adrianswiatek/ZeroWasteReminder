@@ -30,7 +30,7 @@ public final class ItemsFilterViewModel {
         cellViewModelsSubject = .init(remainingStates.map(ItemsFilterCellViewModel.init))
     }
 
-    public func toggleItem(atIndex index: Int) {
+    public func toggleItem(at index: Int) {
         var cells = cellViewModelsSubject.value
         cells[index] = cells[index].toggled()
         cellViewModelsSubject.value = cells

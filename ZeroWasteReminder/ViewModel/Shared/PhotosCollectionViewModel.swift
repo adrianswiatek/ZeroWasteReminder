@@ -54,10 +54,10 @@ public final class PhotosCollectionViewModel {
         self.subscriptions = []
     }
 
-    public func fetchThumbnails(forItem item: Item) {
+    public func fetchThumbnails(for item: Item) {
         isLoadingOverlayVisibleSubject.value = true
 
-        fetchPhotosSubscription = photosService.fetchThumbnails(forItem: item)
+        fetchPhotosSubscription = photosService.fetchThumbnails(for: item)
             .sink(
                 receiveCompletion: { _ in },
                 receiveValue: { [weak self] in
@@ -67,16 +67,16 @@ public final class PhotosCollectionViewModel {
             )
     }
 
-    public func addImage(atUrl url: URL) {
+    public func addImage(at url: URL) {
         DispatchQueue.main.async {
-            self.makePhotosToSave(atUrl: url).map { self.addPhoto($0) }
+            self.makePhotosToSave(at: url).map { self.addPhoto($0) }
         }
     }
 
     public func addImage(_ image: UIImage) {
         downsizeImageSubscription = fileService.saveTemporaryImage(image)
             .subscribe(on: DispatchQueue.global(qos: .userInitiated))
-            .compactMap { [weak self] in self?.makePhotosToSave(atUrl: $0) }
+            .compactMap { [weak self] in self?.makePhotosToSave(at: $0) }
             .receive(on: DispatchQueue.main)
             .sink(
                 receiveCompletion: { _ in },
@@ -84,7 +84,7 @@ public final class PhotosCollectionViewModel {
             )
     }
 
-    public func deleteImage(atIndex index: Int) {
+    public func deleteImage(at index: Int) {
         precondition(0 ..< thumbnailsSubject.value.count ~= index, "Index out of bounds.")
         let photo = thumbnailsSubject.value.remove(at: index)
         photosChangeset = photosChangeset.withDeletedPhoto(id: photo.id)
@@ -94,18 +94,18 @@ public final class PhotosCollectionViewModel {
         needsCaptureImageSubject.send()
     }
 
-    public func setNeedsShowImage(atIndex index: Int) {
+    public func setNeedsShowImage(at index: Int) {
         precondition(0 ..< thumbnailsSubject.value.count ~= index, "Index out of bounds.")
 
         let photoId = thumbnailsSubject.value[index].id
         if let photo = photosChangeset.photosToSave.first(where: { $0.id == photoId }) {
             needsShowImageSubject.send(photo.fullSize.asImage())
         } else {
-            fetchFullSizePhoto(withId: photoId)
+            fetchFullSizePhoto(with: photoId)
         }
     }
 
-    public func setNeedsRemoveImage(atIndex index: Int) {
+    public func setNeedsRemoveImage(at index: Int) {
         precondition(0 ..< thumbnailsSubject.value.count ~= index, "Index out of bounds.")
         needsRemoveImageSubject.send(index)
     }
@@ -115,16 +115,16 @@ public final class PhotosCollectionViewModel {
         photosChangeset = photosChangeset.withSavedPhoto(photo)
     }
 
-    private func makePhotosToSave(atUrl url: URL) -> PhotoToSave? {
+    private func makePhotosToSave(at url: URL) -> PhotoToSave? {
         guard
-            let fullSizeImage = downsizeImage(atUrl: url, forSize: .fullSize),
-            let thumbnailImage = downsizeImage(atUrl: url, forSize: .thumbnail)
+            let fullSizeImage = downsizeImage(at: url, for: .fullSize),
+            let thumbnailImage = downsizeImage(at: url, for: .thumbnail)
         else { return nil }
 
         return .init(fullSizeImage: fullSizeImage, thumbnailImage: thumbnailImage)
     }
 
-    private func downsizeImage(atUrl url: URL, forSize size: PhotoSize) -> UIImage? {
+    private func downsizeImage(at url: URL, for size: PhotoSize) -> UIImage? {
         let options: [CFString: Any] = [
             kCGImageSourceCreateThumbnailFromImageAlways: true,
             kCGImageSourceCreateThumbnailWithTransform: true,
@@ -137,8 +137,8 @@ public final class PhotosCollectionViewModel {
             .map { UIImage(cgImage: $0) }
     }
 
-    private func fetchFullSizePhoto(withId id: UUID) {
-        photosService.fetchFullSize(withId: id)
+    private func fetchFullSizePhoto(with photoId: UUID) {
+        photosService.fetchFullSize(with: photoId)
             .sink(
                 receiveCompletion: { _ in },
                 receiveValue: { [weak self] in self?.needsShowImageSubject.send($0.asImage()) }

@@ -2,13 +2,13 @@ import UIKit
 
 public extension UIBarButtonItem {
     static func clearButton(target: UIViewController, action: Selector) -> UIBarButtonItem {
-        let barButtonItem = UIBarButtonItem(title: "Clear", style: .plain, target: target, action: action)
+        let barButtonItem = UIBarButtonItem(title: .localized(.clear), style: .plain, target: target, action: action)
         barButtonItem.tintColor = .white
         return barButtonItem
     }
 
     static func deleteButton(target: UIViewController, action: Selector) -> UIBarButtonItem {
-        let barButtonItem = UIBarButtonItem(title: "Delete", style: .plain, target: target, action: action)
+        let barButtonItem = UIBarButtonItem(title: .localized(.remove), style: .plain, target: target, action: action)
         barButtonItem.tintColor = .white
         return barButtonItem
     }

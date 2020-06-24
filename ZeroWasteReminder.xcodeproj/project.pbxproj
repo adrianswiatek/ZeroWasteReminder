@@ -72,7 +72,7 @@
 		A783EE28246755E9008BCC17 /* AddContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE27246755E9008BCC17 /* AddContentViewController.swift */; };
 		A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */; };
 		A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */; };
-		A798DF4824524B0900A84F79 /* ItemsListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A798DF4724524B0900A84F79 /* ItemsListDataSource.swift */; };
+		A797433424A2ABA000A05EA2 /* ItemsListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A798DF4724524B0900A84F79 /* ItemsListDataSource.swift */; };
 		A7994494247871D400D3AF62 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7994493247871D400D3AF62 /* DeleteButton.swift */; };
 		A79B4A202479F6FA00ECE1B1 /* SubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */; };
 		A79DDDA32461F9B1008A3DFE /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79DDDA22461F9B1008A3DFE /* EditViewModel.swift */; };
@@ -724,7 +724,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1140;
-				LastUpgradeCheck = 1140;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Adrian Świątek";
 				TargetAttributes = {
 					A712ED5A2441172300B00791 = {
@@ -840,6 +840,7 @@
 				A7C1A0B1249FE8E80054BBAF /* PhotosService.swift in Sources */,
 				A712ED612441172300B00791 /* SceneDelegate.swift in Sources */,
 				A79DDDA32461F9B1008A3DFE /* EditViewModel.swift in Sources */,
+				A797433424A2ABA000A05EA2 /* ItemsListDataSource.swift in Sources */,
 				A7FFA9772448F3FF0061A3D6 /* Expiration.swift in Sources */,
 				A76C34AF2460C99400362B68 /* UILabelExtension.swift in Sources */,
 				A749366C247346A4003DB46E /* LoadingView.swift in Sources */,
@@ -851,7 +852,6 @@
 				A7CA5344245E0624006D84FD /* ItemsFilterViewController.swift in Sources */,
 				A78172AA2494CF7300F406EC /* CloudKitPhotoMapper.swift in Sources */,
 				A700D6CB2454E82600F16F2E /* ItemsFilterCellViewModel.swift in Sources */,
-				A798DF4824524B0900A84F79 /* ItemsListDataSource.swift in Sources */,
 				A76C34AA2460C4EA00362B68 /* ExpirationDatePicker.swift in Sources */,
 				A749366A2473153B003DB46E /* CloudKitMapper.swift in Sources */,
 				A700D6C72454C6FE00F16F2E /* ItemsFilterCollectionViewCell.swift in Sources */,
@@ -918,6 +918,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -978,6 +979,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

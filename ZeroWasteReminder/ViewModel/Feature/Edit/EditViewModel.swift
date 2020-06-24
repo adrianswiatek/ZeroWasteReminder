@@ -100,7 +100,7 @@ public final class EditViewModel {
         self.subscriptions = []
 
         self.bind()
-        self.photosViewModel.fetchThumbnails(forItem: originalItem)
+        self.photosViewModel.fetchThumbnails(for: originalItem)
     }
 
     public func toggleExpirationDatePicker() {
@@ -120,7 +120,7 @@ public final class EditViewModel {
             .flatMap { [weak self] () -> AnyPublisher<Void, ServiceError> in
                 guard let self = self else { return Empty().eraseToAnyPublisher() }
                 let changeset = self.photosViewModel.photosChangeset
-                return self.photosService.update(changeset, forItem: item).eraseToAnyPublisher()
+                return self.photosService.update(changeset, for: item).eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()
     }

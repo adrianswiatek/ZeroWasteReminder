@@ -63,7 +63,7 @@ public final class ItemsFilterCollectionView: UICollectionView {
 
 extension ItemsFilterCollectionView: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel.toggleItem(atIndex: indexPath.item)
+        viewModel.toggleItem(at: indexPath.item)
     }
 }
 

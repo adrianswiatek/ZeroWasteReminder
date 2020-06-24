@@ -98,7 +98,7 @@ extension PhotosCollectionView: UICollectionViewDelegateFlowLayout {
             title: .localized(.removePhoto),
             image: .fromSymbol(.trash),
             attributes: .destructive,
-            handler: { [weak self] _ in self?.viewModel.setNeedsRemoveImage(atIndex: indexPath.item) }
+            handler: { [weak self] _ in self?.viewModel.setNeedsRemoveImage(at: indexPath.item) }
         )
 
         return UIContextMenuConfiguration(identifier: "PhotoContextMenu" as NSCopying, previewProvider: nil) { _ in
@@ -108,6 +108,6 @@ extension PhotosCollectionView: UICollectionViewDelegateFlowLayout {
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         cellForItem(at: indexPath).flatMap { $0 as? PhotoCell }.map { $0.showActivityIndicator() }
-        viewModel.setNeedsShowImage(atIndex: indexPath.item)
+        viewModel.setNeedsShowImage(at: indexPath.item)
     }
 }

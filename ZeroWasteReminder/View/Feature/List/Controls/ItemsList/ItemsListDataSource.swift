@@ -14,7 +14,7 @@ public final class ItemsListDataSource: UITableViewDiffableDataSource<ItemsListD
                 withIdentifier: ItemsListTableViewCell.identifier,
                 for: indexPath
             ) as? ItemsListTableViewCell
-            cell?.viewModel = viewModel.cellViewModel(forItem: item)
+            cell?.viewModel = viewModel.cellViewModel(for: item)
             return cell
         }
 

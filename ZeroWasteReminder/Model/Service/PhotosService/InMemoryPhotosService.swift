@@ -8,14 +8,14 @@ public final class InMemoryPhotosService: PhotosService {
         itemIdsToPhotos.reduce(into: [PhotoToSave]()) { $0 += $1.value }
     }
 
-    public func fetchThumbnails(forItem item: Item) -> Future<[Photo], ServiceError> {
+    public func fetchThumbnails(for item: Item) -> Future<[Photo], ServiceError> {
         Future { [weak self] promise in
             let thumbnails = self?.itemIdsToPhotos[item.id]?.map { $0.thumbnail }
             promise(.success(thumbnails ?? []))
         }
     }
 
-    public func fetchFullSize(withId photoId: UUID) -> Future<Photo, ServiceError> {
+    public func fetchFullSize(with photoId: UUID) -> Future<Photo, ServiceError> {
         Future { [weak self] promise in
             guard let photo = self?.photos.first(where: { $0.id == photoId }) else {
                 return promise(.failure(.general("Photo with given id does not exist.")))
@@ -27,7 +27,7 @@ public final class InMemoryPhotosService: PhotosService {
 
     public func update(
         _ photosChangeset: PhotosChangeset,
-        forItem item: Item
+        for item: Item
     ) -> Future<Void, ServiceError> {
         Future { [weak self] promise in
             guard photosChangeset.hasChanges else { return promise(.success(())) }

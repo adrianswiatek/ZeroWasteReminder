@@ -107,7 +107,7 @@ public final class EditViewController: UIViewController {
             .store(in: &subscriptions)
 
         viewModel.photosViewModel.needsRemoveImage
-            .sink { [weak self] in self?.viewModel.photosViewModel.deleteImage(atIndex: $0) }
+            .sink { [weak self] in self?.viewModel.photosViewModel.deleteImage(at: $0) }
             .store(in: &subscriptions)
 
         viewModel.photosViewModel.needsCaptureImage
@@ -198,7 +198,7 @@ extension EditViewController: UIImagePickerControllerDelegate & UINavigationCont
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
         if let imageUrl = info[.imageURL] as? URL {
-            viewModel.photosViewModel.addImage(atUrl: imageUrl)
+            viewModel.photosViewModel.addImage(at: imageUrl)
         } else if let photo = info[.originalImage] as? UIImage {
             viewModel.photosViewModel.addImage(photo)
         }

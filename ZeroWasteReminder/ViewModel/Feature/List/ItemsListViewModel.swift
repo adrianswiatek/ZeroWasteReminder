@@ -20,8 +20,13 @@ public final class ItemsListViewModel {
         remoteStatusNotifier.remoteStatus.map { $0 == .connected }.eraseToAnyPublisher()
     }
 
+    public var needsDeleteItem: AnyPublisher<Item, Never> {
+        needsDeleteItemSubject.eraseToAnyPublisher()
+    }
+
     private let itemsSubject: CurrentValueSubject<[Item], Never>
     private let selectedItemSubject: PassthroughSubject<Item, Never>
+    private let needsDeleteItemSubject: PassthroughSubject<Item, Never>
 
     private let itemsService: ItemsService
     private let itemsRepository: ItemsRepository
@@ -45,14 +50,19 @@ public final class ItemsListViewModel {
 
         self.itemsSubject = .init([])
         self.selectedItemSubject = .init()
+        self.needsDeleteItemSubject = .init()
 
         self.subscriptions = []
 
         self.bind()
     }
 
-    public func cellViewModel(forItem item: Item) -> ItemsListCellViewModel {
+    public func cellViewModel(for item: Item) -> ItemsListCellViewModel {
         .init(item, dateFormatter: .fullDateFormatter)
+    }
+
+    public func refreshList() -> Future<Void, ServiceError> {
+        itemsService.refresh()
     }
 
     public func deleteSelectedItems() {
@@ -64,8 +74,8 @@ public final class ItemsListViewModel {
         modeState.done(on: self)
     }
 
-    public func refreshList() -> Future<Void, ServiceError> {
-        itemsService.refresh()
+    public func deleteItem(_ item: Item) {
+        itemsService.delete([item])
     }
 
     public func deleteAll() {
@@ -90,6 +100,10 @@ public final class ItemsListViewModel {
 
     public func selectItem(at index: Int) {
         selectedItemSubject.send(itemsSubject.value[index])
+    }
+
+    public func setNeedsRemoveItem(at index: Int) {
+        needsDeleteItemSubject.send(itemsSubject.value[index])
     }
 
     private func bind() {

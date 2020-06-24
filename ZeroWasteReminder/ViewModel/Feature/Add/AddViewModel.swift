@@ -89,7 +89,7 @@ public final class AddViewModel {
             .flatMap { [weak self] _ -> AnyPublisher<Void, ServiceError> in
                 guard let self = self else { return Empty().eraseToAnyPublisher() }
                 let changeset = self.photosViewModel.photosChangeset
-                return self.photosService.update(changeset, forItem: item).eraseToAnyPublisher()
+                return self.photosService.update(changeset, for: item).eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()
     }

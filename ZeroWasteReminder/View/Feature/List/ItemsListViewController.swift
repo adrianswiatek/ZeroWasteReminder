@@ -196,6 +196,12 @@ public final class ItemsListViewController: UIViewController {
         viewModel.canRemotelyConnect
             .sink { [weak self] in self?.warningBarView.setVisibility(!$0) }
             .store(in: &subscriptions)
+
+        viewModel.needsDeleteItem
+            .sink { [weak self] item in
+                self?.askForDeleteConfirmation(whenConfirmed: { self?.viewModel.deleteItem(item) })
+            }
+            .store(in: &subscriptions)
     }
 
     @objc
@@ -231,12 +237,9 @@ public final class ItemsListViewController: UIViewController {
 
     @objc
     private func handleDeleteButtonTap(_ sender: UIBarButtonItem) {
-        actionsSubscription = UIAlertController
-            .presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
-            .sink(
-                receiveCompletion: { [weak self] _ in self?.actionsSubscription = nil },
-                receiveValue: { [weak self] _ in self?.viewModel.deleteSelectedItems() }
-            )
+        askForDeleteConfirmation(whenConfirmed: { [weak self] in
+            self?.viewModel.deleteSelectedItems()
+        })
     }
 
     @objc
@@ -254,19 +257,28 @@ public final class ItemsListViewController: UIViewController {
         viewModel.clear()
     }
 
+    private func askForDeleteConfirmation(whenConfirmed: @escaping () -> Void) {
+        actionsSubscription = UIAlertController
+            .presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
+            .sink(
+                receiveCompletion: { [weak self] _ in self?.actionsSubscription = nil },
+                receiveValue: { _ in whenConfirmed() }
+            )
+    }
+
     private func updateModeState(_ modeState: ModeState) {
         addButton.setVisibility(modeState.isAddButtonVisible)
         filterBadgeLabel.setVisibility(modeState.isFilterBadgeVisible)
         itemsListTableView.setEditing(modeState.isItemsListEditing, animated: true)
 
-        navigationItem.rightBarButtonItem = rightBarButtonItem(forModeState: modeState)
-        navigationItem.leftBarButtonItems = leftBarButtonItems(forModeState: modeState)
+        navigationItem.rightBarButtonItem = rightBarButtonItem(for: modeState)
+        navigationItem.leftBarButtonItems = leftBarButtonItems(for: modeState)
 
         itemsFilterViewController.reset()
         setupItemsFilterVisibility(modeState)
     }
 
-    private func rightBarButtonItem(forModeState modeState: ModeState) -> UIBarButtonItem? {
+    private func rightBarButtonItem(for modeState: ModeState) -> UIBarButtonItem? {
         switch modeState {
         case _ where modeState.isMoreButtonVisible:
             return moreButton
@@ -277,7 +289,7 @@ public final class ItemsListViewController: UIViewController {
         }
     }
 
-    private func leftBarButtonItems(forModeState modeState: ModeState) -> [UIBarButtonItem]? {
+    private func leftBarButtonItems(for modeState: ModeState) -> [UIBarButtonItem]? {
         switch modeState {
         case _ where modeState.isFilterButtonVisible:
             return [filterButton, sortButton]

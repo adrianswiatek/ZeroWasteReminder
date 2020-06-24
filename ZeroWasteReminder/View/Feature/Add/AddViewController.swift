@@ -119,7 +119,7 @@ public final class AddViewController: UIViewController {
             .sink { [weak self] index in
                 guard let self = self else { return }
                 UIAlertController.presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
-                    .sink { [weak self] _ in self?.viewModel.photosViewModel.deleteImage(atIndex: index) }
+                    .sink { [weak self] _ in self?.viewModel.photosViewModel.deleteImage(at: index) }
                     .store(in: &self.subscriptions)
             }
             .store(in: &subscriptions)
@@ -203,7 +203,7 @@ extension AddViewController: UIImagePickerControllerDelegate & UINavigationContr
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
         if let imageUrl = info[.imageURL] as? URL {
-            viewModel.photosViewModel.addImage(atUrl: imageUrl)
+            viewModel.photosViewModel.addImage(at: imageUrl)
         } else if let photo = info[.originalImage] as? UIImage {
             viewModel.photosViewModel.addImage(photo)
         }
