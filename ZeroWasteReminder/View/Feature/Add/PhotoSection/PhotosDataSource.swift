@@ -35,7 +35,10 @@ public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDa
                 preconditionFailure("Cannot dequeue header.")
             }
 
-            header.cancellable = header.tap.sink { self?.viewModel.setNeedsCaptureImage() }
+            header.cancellable = header.tap.sink {
+                self?.viewModel.setNeedsCaptureImage(target: $0)
+            }
+
             return header
         }
     }

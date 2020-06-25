@@ -111,7 +111,14 @@ public final class EditViewController: UIViewController {
             .store(in: &subscriptions)
 
         viewModel.photosViewModel.needsCaptureImage
-            .compactMap { [weak self] in self?.tryCreateImagePickerController() }
+            .compactMap { [weak self] in
+                switch $0 {
+                case .camera:
+                    return self?.tryCreateImagePickerController(for: .camera)
+                case .photoLibrary:
+                    return self?.tryCreateImagePickerController(for: .photoLibrary)
+                }
+            }
             .sink { [weak self] in self?.present($0, animated: true) }
             .store(in: &subscriptions)
 
@@ -167,17 +174,12 @@ public final class EditViewController: UIViewController {
             )
     }
 
-    private func tryCreateImagePickerController() -> UIViewController? {
-        let cameraSourceType: UIImagePickerController.SourceType = .camera
-        if UIImagePickerController.isSourceTypeAvailable(cameraSourceType) {
-            return createImagePickerController(for: cameraSourceType)
+    private func tryCreateImagePickerController(
+        for sourceType: UIImagePickerController.SourceType
+    ) -> UIViewController? {
+        if UIImagePickerController.isSourceTypeAvailable(sourceType) {
+            return createImagePickerController(for: sourceType)
         }
-
-        let photoLibrarySourceType: UIImagePickerController.SourceType = .photoLibrary
-        if UIImagePickerController.isSourceTypeAvailable(photoLibrarySourceType) {
-            return createImagePickerController(for: photoLibrarySourceType)
-        }
-
         return nil
     }
 

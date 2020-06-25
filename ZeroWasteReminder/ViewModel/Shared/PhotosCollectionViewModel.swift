@@ -12,8 +12,8 @@ public final class PhotosCollectionViewModel {
         isLoadingOverlayVisibleSubject.eraseToAnyPublisher()
     }
 
-    private let needsCaptureImageSubject: PassthroughSubject<Void, Never>
-    public var needsCaptureImage: AnyPublisher<Void, Never> {
+    private let needsCaptureImageSubject: PassthroughSubject<PhotoCaptureTarget, Never>
+    public var needsCaptureImage: AnyPublisher<PhotoCaptureTarget, Never> {
         needsCaptureImageSubject.eraseToAnyPublisher()
     }
 
@@ -90,8 +90,8 @@ public final class PhotosCollectionViewModel {
         photosChangeset = photosChangeset.withDeletedPhoto(id: photo.id)
     }
 
-    public func setNeedsCaptureImage() {
-        needsCaptureImageSubject.send()
+    public func setNeedsCaptureImage(target: PhotoCaptureTarget) {
+        needsCaptureImageSubject.send(target)
     }
 
     public func setNeedsShowImage(at index: Int) {

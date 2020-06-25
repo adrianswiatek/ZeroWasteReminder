@@ -2,49 +2,22 @@ import Combine
 import UIKit
 
 public final class PhotoCaptureCell: UICollectionViewCell, ReuseIdentifiable {
-    public var tap: AnyPublisher<Void, Never> {
+    public var tap: AnyPublisher<PhotoCaptureTarget, Never> {
         tapSubject.eraseToAnyPublisher()
     }
 
     public var cancellable: AnyCancellable?
 
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+    private let cameraButton: UIButton = .withSymbol(.cameraFill)
+    private let galleryButton: UIButton = .withSymbol(.photoOnRectangle)
 
-        let symbolConfiguration = UIImage.SymbolConfiguration(scale: .large)
-        let image = UIImage.fromSymbol(.cameraFill, withConfiguration: symbolConfiguration)
-        imageView.image = image.withColor(.label)
-
-        return imageView
-    }()
-
-    private let label: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = .localized(.capture)
-        label.font = .systemFont(ofSize: 14)
-        label.textColor = .label
-        label.textAlignment = .center
-        return label
-    }()
-
-    private let containerView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .tertiarySystemFill
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 8
-        return view
-    }()
-
-    private let tapSubject: PassthroughSubject<Void, Never>
+    private let tapSubject: PassthroughSubject<PhotoCaptureTarget, Never>
 
     public override init(frame: CGRect) {
         self.tapSubject = .init()
         super.init(frame: frame)
         self.setupView()
-        self.addGestureRecognizer()
+        self.setupActions()
     }
 
     @available(*, unavailable)
@@ -56,65 +29,55 @@ public final class PhotoCaptureCell: UICollectionViewCell, ReuseIdentifiable {
         let layoutGuide = UILayoutGuide()
         addLayoutGuide(layoutGuide)
         NSLayoutConstraint.activate([
-            layoutGuide.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 4),
+            layoutGuide.centerYAnchor.constraint(equalTo: centerYAnchor),
             layoutGuide.heightAnchor.constraint(equalToConstant: 8)
         ])
 
-        contentView.addSubview(containerView)
+        contentView.addSubview(cameraButton)
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
+            cameraButton.topAnchor.constraint(equalTo: contentView.topAnchor),
+            cameraButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            cameraButton.bottomAnchor.constraint(equalTo: layoutGuide.topAnchor),
+            cameraButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
         ])
 
-        contentView.addSubview(imageView)
+        contentView.addSubview(galleryButton)
         NSLayoutConstraint.activate([
-            imageView.bottomAnchor.constraint(equalTo: layoutGuide.topAnchor),
-            imageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)
-        ])
-
-        contentView.addSubview(label)
-        NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: layoutGuide.bottomAnchor),
-            label.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            label.trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
+            galleryButton.topAnchor.constraint(equalTo: layoutGuide.bottomAnchor),
+            galleryButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            galleryButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            galleryButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
         ])
     }
 
-    private func addGestureRecognizer() {
-        let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleCellPressing))
-        gestureRecognizer.minimumPressDuration = 0
-        contentView.addGestureRecognizer(gestureRecognizer)
+    private func setupActions() {
+        cameraButton.addTarget(self, action: #selector(handleCameraButtonTap), for: .touchUpInside)
+        galleryButton.addTarget(self, action: #selector(handleGalleryButtonTap), for: .touchUpInside)
     }
 
     @objc
-    private func handleCellPressing(_ gestureRecognizer: UILongPressGestureRecognizer) {
-        switch gestureRecognizer.state {
-        case .began:
-            animatePressing(withAlpha: 0.33)
-        case .ended:
-            sendTapEventIfApplied(for: gestureRecognizer)
-            animatePressing(withAlpha: 1)
-        default: break
-        }
+    private func handleCameraButtonTap() {
+        tapSubject.send(.camera)
     }
 
-    private func animatePressing(withAlpha alpha: CGFloat) {
-        UIView.animate(withDuration: 0.2) {
-            self.imageView.alpha = alpha
-            self.label.alpha = alpha
-        }
+    @objc
+    private func handleGalleryButtonTap() {
+        tapSubject.send(.photoLibrary)
     }
+}
 
-    private func sendTapEventIfApplied(for gestureRecognizer: UILongPressGestureRecognizer) {
-        let location = gestureRecognizer.location(in: contentView)
-        guard location.x >= 0 && location.y >= 0 else { return }
+private extension UIButton {
+    static func withSymbol(_ symbol: UIImage.Symbol) -> UIButton {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .tertiarySystemFill
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 8
 
-        let viewBounds = contentView.bounds
-        guard location.x <= viewBounds.width else { return }
-        guard location.y <= viewBounds.height else { return }
+        let symbolConfiguration = UIImage.SymbolConfiguration(scale: .large)
+        let image = UIImage.fromSymbol(symbol, withConfiguration: symbolConfiguration)
+        button.setImage(image.withColor(.label), for: .normal)
 
-        tapSubject.send()
+        return button
     }
 }
