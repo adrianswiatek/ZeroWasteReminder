@@ -43,11 +43,11 @@ public final class ViewControllerFactory {
             fileService: fileService,
             remoteStatusNotifier: remoteStatusNotifier
         )
-        let viewController = AddViewController(viewModel: viewModel)
+        let viewController = AddViewController(viewModel: viewModel, factory: self)
         return AddNavigationController(rootViewController: viewController)
     }
 
-    public func editViewController(item: Item) -> UIViewController {
+    public func editViewController(for item: Item) -> UIViewController {
         let viewModel = EditViewModel(
             item: item,
             itemsService: itemsService,
@@ -55,10 +55,24 @@ public final class ViewControllerFactory {
             fileService: fileService,
             remoteStatusNotifier: remoteStatusNotifier
         )
-        return EditViewController(viewModel: viewModel)
+        return EditViewController(viewModel: viewModel, factory: self)
     }
 
     public var sharingController: UIViewController {
         sharingControllerFactory.build()
+    }
+
+    public func imagePickerController(
+        for target: PhotoCaptureTarget,
+        with delegate: UIImagePickerControllerDelegate & UINavigationControllerDelegate
+    ) -> UIImagePickerController? {
+        let sourceType: UIImagePickerController.SourceType = .fromPhotoCaptureTarget(target)
+        guard UIImagePickerController.isSourceTypeAvailable(sourceType) else { return nil }
+
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = sourceType
+        imagePickerController.mediaTypes = ["public.image"]
+        imagePickerController.delegate = delegate
+        return imagePickerController
     }
 }

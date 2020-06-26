@@ -134,7 +134,7 @@ public final class ItemsListViewController: UIViewController {
     }
 
     private func setupTableView() {
-        itemsListTableView.delegate = self.itemsListDelegate
+        itemsListTableView.delegate = itemsListDelegate
 
         itemsListTableView.refreshControl = UIRefreshControl()
         itemsListTableView.refreshControl?.addTarget(self, action: #selector(refreshList), for: .valueChanged)
@@ -151,7 +151,7 @@ public final class ItemsListViewController: UIViewController {
         viewModel.selectedItem
             .sink { [weak self] in
                 guard let self = self else { return }
-                let editViewController = self.viewControllerFactory.editViewController(item: $0)
+                let editViewController = self.viewControllerFactory.editViewController(for: $0)
                 self.navigationController?.pushViewController(editViewController, animated: true)
             }
             .store(in: &subscriptions)

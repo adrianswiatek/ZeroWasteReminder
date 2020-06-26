@@ -90,6 +90,7 @@
 		A7ADB60E244E47CB00694BA0 /* DateFormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ADB60D244E47CB00694BA0 /* DateFormatterExtensions.swift */; };
 		A7AFA37124A53D5600BD5983 /* PhotoCaptureTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AFA37024A53D5600BD5983 /* PhotoCaptureTarget.swift */; };
 		A7B2A4832469E58D00D9C0B1 /* RemoveExpirationDateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2A4822469E58D00D9C0B1 /* RemoveExpirationDateButton.swift */; };
+		A7B2E50B24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2E50A24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift */; };
 		A7C1A0B1249FE8E80054BBAF /* PhotosService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C1A0B0249FE8E80054BBAF /* PhotosService.swift */; };
 		A7C1A0B3249FE9FE0054BBAF /* InMemoryPhotosService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C1A0B2249FE9FE0054BBAF /* InMemoryPhotosService.swift */; };
 		A7C1A0B5249FEA630054BBAF /* CloudKitPhotosService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C1A0B4249FEA630054BBAF /* CloudKitPhotosService.swift */; };
@@ -208,6 +209,7 @@
 		A7ADB60D244E47CB00694BA0 /* DateFormatterExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtensions.swift; sourceTree = "<group>"; };
 		A7AFA37024A53D5600BD5983 /* PhotoCaptureTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureTarget.swift; sourceTree = "<group>"; };
 		A7B2A4822469E58D00D9C0B1 /* RemoveExpirationDateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveExpirationDateButton.swift; sourceTree = "<group>"; };
+		A7B2E50A24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImagePickerController.SourceTypeExtensions.swift; sourceTree = "<group>"; };
 		A7C1A0B0249FE8E80054BBAF /* PhotosService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosService.swift; sourceTree = "<group>"; };
 		A7C1A0B2249FE9FE0054BBAF /* InMemoryPhotosService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryPhotosService.swift; sourceTree = "<group>"; };
 		A7C1A0B4249FEA630054BBAF /* CloudKitPhotosService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitPhotosService.swift; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 				A74774CB2475CD7800E41992 /* NotificationNameExtensions.swift */,
 				A7EC2D612445127200993F53 /* PeriodTypeExtensions.swift */,
 				A763AFF92482E2C500E93546 /* StringExtensions.swift */,
+				A7B2E50A24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift */,
 				A7A2DDA4249FD4FF0025B1B8 /* UUIDExtensions.swift */,
 			);
 			path = Extension;
@@ -801,6 +804,7 @@
 				A7A8EF75247C771900FF1AC2 /* NotesTextView.swift in Sources */,
 				A7DD996E248463B500B40141 /* ReuseIdentifiable.swift in Sources */,
 				A7EC2D5C2444F66800993F53 /* ExpirationDateView.swift in Sources */,
+				A7B2E50B24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift in Sources */,
 				A70FA67D244CEB340045B545 /* InMemoryItemsService.swift in Sources */,
 				A77A99D3245A26B700F3578C /* FilterBadgeLabel.swift in Sources */,
 				A7A8EF77247C7DF900FF1AC2 /* SharedTextViewDelegate.swift in Sources */,

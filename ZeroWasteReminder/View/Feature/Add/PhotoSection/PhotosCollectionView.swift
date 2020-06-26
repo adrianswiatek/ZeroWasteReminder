@@ -111,3 +111,18 @@ extension PhotosCollectionView: UICollectionViewDelegateFlowLayout {
         viewModel.setNeedsShowImage(at: indexPath.item)
     }
 }
+
+extension PhotosCollectionView: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    public func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+        if let imageUrl = info[.imageURL] as? URL {
+            viewModel.addImage(at: imageUrl)
+        } else if let photo = info[.originalImage] as? UIImage {
+            viewModel.addImage(photo)
+        }
+
+        picker.dismiss(animated: true)
+    }
+}

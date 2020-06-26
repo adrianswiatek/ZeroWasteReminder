@@ -11,12 +11,14 @@ public final class EditViewController: UIViewController {
     private let warningBarView: WarningBarView
 
     private let viewModel: EditViewModel
+    private let viewControllerFactory: ViewControllerFactory
 
     private var subscriptions: Set<AnyCancellable>
     private var deleteSubscription: AnyCancellable?
 
-    public init(viewModel: EditViewModel) {
+    public init(viewModel: EditViewModel, factory: ViewControllerFactory) {
         self.viewModel = viewModel
+        self.viewControllerFactory = factory
 
         self.scrollView = .init()
         self.contentViewController = .init(viewModel: viewModel)
@@ -111,13 +113,12 @@ public final class EditViewController: UIViewController {
             .store(in: &subscriptions)
 
         viewModel.photosViewModel.needsCaptureImage
-            .compactMap { [weak self] in
-                switch $0 {
-                case .camera:
-                    return self?.tryCreateImagePickerController(for: .camera)
-                case .photoLibrary:
-                    return self?.tryCreateImagePickerController(for: .photoLibrary)
-                }
+            .compactMap { [weak self] target in
+                guard let self = self else { return nil }
+                return self.viewControllerFactory.imagePickerController(
+                    for: target,
+                    with: self
+                )
             }
             .sink { [weak self] in self?.present($0, animated: true) }
             .store(in: &subscriptions)
@@ -172,25 +173,6 @@ public final class EditViewController: UIViewController {
                 },
                 receiveValue: { [weak self] in self?.navigationController?.popViewController(animated: true) }
             )
-    }
-
-    private func tryCreateImagePickerController(
-        for sourceType: UIImagePickerController.SourceType
-    ) -> UIViewController? {
-        if UIImagePickerController.isSourceTypeAvailable(sourceType) {
-            return createImagePickerController(for: sourceType)
-        }
-        return nil
-    }
-
-    private func createImagePickerController(
-        for sourceType: UIImagePickerController.SourceType
-    ) -> UIViewController {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.sourceType = sourceType
-        imagePickerController.mediaTypes = ["public.image"]
-        imagePickerController.delegate = self
-        return imagePickerController
     }
 }
 
