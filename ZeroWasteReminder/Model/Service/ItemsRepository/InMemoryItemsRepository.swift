@@ -3,7 +3,7 @@ import Foundation
 
 public final class InMemoryItemsRepository: ItemsRepository {
     public var items: AnyPublisher<[Item], Never> {
-        itemsSubject.eraseToAnyPublisher()
+        itemsSubject.receive(on: DispatchQueue.main).eraseToAnyPublisher()
     }
 
     private let itemsSubject = CurrentValueSubject<[Item], Never>([])

@@ -63,14 +63,12 @@ public final class CloudKitItemsService: ItemsService {
             let operation = CKQueryOperation(query: .init(recordType: "Item", predicate: .init(value: true)))
             operation.recordFetchedBlock = { result.append($0) }
             operation.queryCompletionBlock = { _, error in
-                DispatchQueue.main.async {
-                    if let error = error {
-                        promise(.failure(ServiceError(error)))
-                    } else {
-                        self?.itemsRepository.set(result.compactMap { self?.mapper.map($0).toItem() })
-                        self?.cachedItemRecords = Set(result)
-                        promise(.success(()))
-                    }
+                if let error = error {
+                    DispatchQueue.main.async { promise(.failure(ServiceError(error))) }
+                } else {
+                    self?.itemsRepository.set(result.compactMap { self?.mapper.map($0).toItem() })
+                    self?.cachedItemRecords = Set(result)
+                    DispatchQueue.main.async { promise(.success(())) }
                 }
             }
 
