@@ -51,6 +51,15 @@ public final class AddViewController: UIViewController {
         self.viewModel.cleanUp()
     }
 
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        switch traitCollection.userInterfaceStyle {
+        case .dark:
+            view.backgroundColor = .black
+        default:
+            view.backgroundColor = .white
+        }
+    }
+
     private func setupNavigationItem() {
         navigationItem.title = "Add item"
 
@@ -59,8 +68,6 @@ public final class AddViewController: UIViewController {
     }
 
     private func setupView() {
-        view.backgroundColor = .systemBackground
-
         let contentView: UIView = contentViewController.view
 
         scrollView.addSubview(contentView)

@@ -40,7 +40,7 @@ public final class PhotosCollectionView: UICollectionView {
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         showsHorizontalScrollIndicator = false
-        backgroundColor = .systemBackground
+        backgroundColor = .clear
         loadingView.show()
         delegate = self
 
