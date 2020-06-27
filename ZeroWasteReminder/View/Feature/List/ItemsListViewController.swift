@@ -104,7 +104,7 @@ public final class ItemsListViewController: UIViewController {
         itemsFilterViewController.didMove(toParent: self)
 
         NSLayoutConstraint.activate([
-            itemsFilterViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            itemsFilterViewController.view.topAnchor.constraint(equalTo: view.topAnchor, constant: -2),
             itemsFilterViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             itemsFilterViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])

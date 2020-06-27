@@ -46,7 +46,7 @@ public final class ItemsFilterViewController: UIViewController {
         itemsFilterCollectionView.isHidden = true
         view.backgroundColor = .accent
 
-        view.layer.cornerRadius = 12
+        view.layer.cornerRadius = 8
         view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         view.layer.shadowOpacity = 0.5
         view.layer.shadowOffset = .init(width: 0, height: 2)
