@@ -59,7 +59,7 @@ public final class PhotosCollectionViewModel {
 
         fetchPhotosSubscription = photosService.fetchThumbnails(for: item)
             .sink(
-                receiveCompletion: { _ in },
+                receiveCompletion: { [weak self] _ in self?.fetchPhotosSubscription?.cancel() },
                 receiveValue: { [weak self] in
                     self?.thumbnailsSubject.value = $0
                     self?.isLoadingOverlayVisibleSubject.value = false

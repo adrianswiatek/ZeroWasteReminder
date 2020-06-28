@@ -32,6 +32,7 @@ public final class ItemsListViewController: UIViewController {
     private let itemsFilterViewController: ItemsFilterViewController
 
     private var subscriptions: Set<AnyCancellable>
+    private var refreshSubscription: AnyCancellable?
     private var actionsSubscription: AnyCancellable?
 
     private let viewModel: ItemsListViewModel
@@ -208,15 +209,16 @@ public final class ItemsListViewController: UIViewController {
     private func refreshList(withLoadingIndicator: Bool = false) {
         loadingView.show(withLoadingIndicator: withLoadingIndicator)
 
-        viewModel.refreshList()
+        refreshSubscription = viewModel.refreshList()
+            .receive(on: OperationQueue.main)
             .sink(
                 receiveCompletion: { [weak self] _ in
+                    self?.refreshSubscription?.cancel()
                     self?.itemsListTableView.refreshControl?.endRefreshing()
                     self?.loadingView.hide()
                 },
                 receiveValue: {}
             )
-            .store(in: &subscriptions)
     }
 
     @objc
