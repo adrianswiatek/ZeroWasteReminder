@@ -26,6 +26,7 @@ public extension UIImage {
         case lineHorizontal3DecreaseCircleFill = "line.horizontal.3.decrease.circle.fill"
         case multiplyCircleFill = "multiply.circle.fill"
         case photoOnRectangle = "photo.on.rectangle"
+        case photoOnRectangleFill = "photo.on.rectangle.fill"
         case plus = "plus"
         case trash = "trash"
         case xmark = "xmark"

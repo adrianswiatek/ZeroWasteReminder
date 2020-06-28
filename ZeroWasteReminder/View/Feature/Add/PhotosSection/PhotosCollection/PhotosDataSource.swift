@@ -2,10 +2,10 @@ import Combine
 import UIKit
 
 public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDataSource.Section, UIImage> {
-    private let viewModel: PhotosCollectionViewModel
+    private let viewModel: PhotosViewModel
     private var subscriptions: Set<AnyCancellable>
 
-    public init(_ collectionView: UICollectionView, _ viewModel: PhotosCollectionViewModel) {
+    public init(_ collectionView: UICollectionView, _ viewModel: PhotosViewModel) {
         self.viewModel = viewModel
         self.subscriptions = []
 
@@ -35,10 +35,11 @@ public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDa
                 preconditionFailure("Cannot dequeue header.")
             }
 
-            header.cancellable = header.tap.sink {
+            let subscription = header.tap.sink {
                 self?.viewModel.setNeedsCaptureImage(target: $0)
             }
 
+            header.set(subscription)
             return header
         }
     }

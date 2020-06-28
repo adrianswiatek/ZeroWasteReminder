@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public final class PhotosCollectionViewModel {
+public final class PhotosViewModel {
     private let thumbnailsSubject: CurrentValueSubject<[Photo], Never>
     public var thumbnails: AnyPublisher<[Photo], Never> {
         thumbnailsSubject.eraseToAnyPublisher()
@@ -59,7 +59,7 @@ public final class PhotosCollectionViewModel {
 
         fetchPhotosSubscription = photosService.fetchThumbnails(for: item)
             .sink(
-                receiveCompletion: { _ in },
+                receiveCompletion: { [weak self] _ in self?.fetchPhotosSubscription?.cancel() },
                 receiveValue: { [weak self] in
                     self?.thumbnailsSubject.value = $0
                     self?.isLoadingOverlayVisibleSubject.value = false
@@ -147,7 +147,7 @@ public final class PhotosCollectionViewModel {
     }
 }
 
-private extension PhotosCollectionViewModel {
+private extension PhotosViewModel {
     enum PhotoSize: Int {
         case fullSize = 750
         case thumbnail = 250

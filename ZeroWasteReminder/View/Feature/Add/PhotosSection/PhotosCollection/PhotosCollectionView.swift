@@ -2,17 +2,10 @@ import Combine
 import UIKit
 
 public final class PhotosCollectionView: UICollectionView {
-    private let loadingView: LoadingView = {
-        let view = LoadingView()
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.15)
-        view.layer.cornerRadius = 8
-        return view
-    }()
-
-    private let viewModel: PhotosCollectionViewModel
+    private let viewModel: PhotosViewModel
     private var subscriptions: Set<AnyCancellable>
 
-    public init(_ viewModel: PhotosCollectionViewModel) {
+    public init(_ viewModel: PhotosViewModel) {
         self.viewModel = viewModel
         self.subscriptions = []
 
@@ -37,20 +30,15 @@ public final class PhotosCollectionView: UICollectionView {
         .init(width: super.intrinsicContentSize.width, height: 96)
     }
 
+    public func setVisibility(_ isVisible: Bool) {
+        isHidden = !isVisible
+    }
+
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         showsHorizontalScrollIndicator = false
         backgroundColor = .clear
-        loadingView.show()
         delegate = self
-
-        addSubview(loadingView)
-        NSLayoutConstraint.activate([
-            loadingView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor, constant: -8),
-            loadingView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor, constant: -8),
-            loadingView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor, constant: 8),
-            loadingView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor, constant: 8)
-        ])
     }
 
     private func registerCells() {
@@ -67,10 +55,6 @@ public final class PhotosCollectionView: UICollectionView {
     }
 
     private func bind() {
-        viewModel.isLoadingOverlayVisible
-            .sink { [weak self] in $0 ? self?.loadingView.show() : self?.loadingView.hide() }
-            .store(in: &subscriptions)
-
         viewModel.needsShowImage
             .sink { [weak self] _ in
                 self?.visibleCells.compactMap { $0 as? PhotoCell }.forEach { $0.hideActivityIndicator() }

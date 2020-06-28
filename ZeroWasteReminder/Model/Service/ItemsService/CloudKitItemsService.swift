@@ -64,11 +64,11 @@ public final class CloudKitItemsService: ItemsService {
             operation.recordFetchedBlock = { result.append($0) }
             operation.queryCompletionBlock = { _, error in
                 if let error = error {
-                    DispatchQueue.main.async { promise(.failure(ServiceError(error))) }
+                    promise(.failure(ServiceError(error)))
                 } else {
                     self?.itemsRepository.set(result.compactMap { self?.mapper.map($0).toItem() })
                     self?.cachedItemRecords = Set(result)
-                    DispatchQueue.main.async { promise(.success(())) }
+                    promise(.success(()))
                 }
             }
 

@@ -1,23 +1,23 @@
 import Combine
 import UIKit
 
-public final class PhotoCaptureCell: UICollectionViewCell, ReuseIdentifiable {
+public final class PhotoCaptureView: UIView {
     public var tap: AnyPublisher<PhotoCaptureTarget, Never> {
         tapSubject.eraseToAnyPublisher()
     }
 
-    public var cancellable: AnyCancellable?
-
     private let cameraButton: UIButton = .withSymbol(.cameraFill)
-    private let galleryButton: UIButton = .withSymbol(.photoOnRectangle)
+    private let galleryButton: UIButton = .withSymbol(.photoOnRectangleFill)
 
     private let tapSubject: PassthroughSubject<PhotoCaptureTarget, Never>
 
-    public override init(frame: CGRect) {
-        self.tapSubject = .init()
-        super.init(frame: frame)
-        self.setupView()
-        self.setupActions()
+    public init() {
+        tapSubject = .init()
+
+        super.init(frame: .zero)
+
+        setupView()
+        setupActions()
     }
 
     @available(*, unavailable)
@@ -25,7 +25,9 @@ public final class PhotoCaptureCell: UICollectionViewCell, ReuseIdentifiable {
         fatalError("Not supported.")
     }
 
-    private final func setupView() {
+    private func setupView() {
+        translatesAutoresizingMaskIntoConstraints = false
+
         let layoutGuide = UILayoutGuide()
         addLayoutGuide(layoutGuide)
         NSLayoutConstraint.activate([
@@ -33,20 +35,20 @@ public final class PhotoCaptureCell: UICollectionViewCell, ReuseIdentifiable {
             layoutGuide.heightAnchor.constraint(equalToConstant: 8)
         ])
 
-        contentView.addSubview(cameraButton)
+        addSubview(cameraButton)
         NSLayoutConstraint.activate([
-            cameraButton.topAnchor.constraint(equalTo: contentView.topAnchor),
-            cameraButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            cameraButton.topAnchor.constraint(equalTo: topAnchor),
+            cameraButton.leadingAnchor.constraint(equalTo: leadingAnchor),
             cameraButton.bottomAnchor.constraint(equalTo: layoutGuide.topAnchor),
-            cameraButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
+            cameraButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8)
         ])
 
-        contentView.addSubview(galleryButton)
+        addSubview(galleryButton)
         NSLayoutConstraint.activate([
             galleryButton.topAnchor.constraint(equalTo: layoutGuide.bottomAnchor),
-            galleryButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            galleryButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            galleryButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
+            galleryButton.leadingAnchor.constraint(equalTo: leadingAnchor),
+            galleryButton.bottomAnchor.constraint(equalTo: bottomAnchor),
+            galleryButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8)
         ])
     }
 
