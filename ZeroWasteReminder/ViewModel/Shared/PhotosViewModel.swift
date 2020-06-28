@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public final class PhotosCollectionViewModel {
+public final class PhotosViewModel {
     private let thumbnailsSubject: CurrentValueSubject<[Photo], Never>
     public var thumbnails: AnyPublisher<[Photo], Never> {
         thumbnailsSubject.eraseToAnyPublisher()
@@ -147,7 +147,7 @@ public final class PhotosCollectionViewModel {
     }
 }
 
-private extension PhotosCollectionViewModel {
+private extension PhotosViewModel {
     enum PhotoSize: Int {
         case fullSize = 750
         case thumbnail = 250

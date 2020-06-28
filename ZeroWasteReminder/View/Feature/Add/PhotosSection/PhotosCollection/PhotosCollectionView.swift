@@ -9,10 +9,10 @@ public final class PhotosCollectionView: UICollectionView {
         return view
     }()
 
-    private let viewModel: PhotosCollectionViewModel
+    private let viewModel: PhotosViewModel
     private var subscriptions: Set<AnyCancellable>
 
-    public init(_ viewModel: PhotosCollectionViewModel) {
+    public init(_ viewModel: PhotosViewModel) {
         self.viewModel = viewModel
         self.subscriptions = []
 
@@ -37,12 +37,16 @@ public final class PhotosCollectionView: UICollectionView {
         .init(width: super.intrinsicContentSize.width, height: 96)
     }
 
+    public func setVisibility(_ isVisible: Bool) {
+        isHidden = !isVisible
+    }
+
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         showsHorizontalScrollIndicator = false
         backgroundColor = .clear
-        loadingView.show()
         delegate = self
+        loadingView.show()
 
         addSubview(loadingView)
         NSLayoutConstraint.activate([

@@ -17,8 +17,7 @@ public final class AddContentViewController: UIViewController {
     private let notesTextView: NotesTextView
 
     private let photosLabel: UILabel = .defaultWithText(.localized(.photos))
-    private let photosCollectionView: PhotosCollectionView
-    private let photosDataSource: PhotosDataSource
+    private let photosViewController: PhotosViewController
 
     private let viewModel: AddViewModel
     private var subscriptions: Set<AnyCancellable>
@@ -28,8 +27,7 @@ public final class AddContentViewController: UIViewController {
         self.subscriptions = []
 
         self.notesTextView = .init()
-        self.photosCollectionView = .init(viewModel.photosViewModel)
-        self.photosDataSource = .init(photosCollectionView, viewModel.photosViewModel)
+        self.photosViewController = .init(viewModel: viewModel.photosViewModel)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -94,14 +92,17 @@ public final class AddContentViewController: UIViewController {
             photosLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
 
-        view.addSubview(photosCollectionView)
+        addChild(photosViewController)
+        view.addSubview(photosViewController.view)
+        photosViewController.didMove(toParent: self)
+
         NSLayoutConstraint.activate([
-            photosCollectionView.topAnchor.constraint(
+            photosViewController.view.topAnchor.constraint(
                 equalTo: photosLabel.bottomAnchor, constant: Metrics.insideSectionPadding
             ),
-            photosCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            photosCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            photosCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            photosViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            photosViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            photosViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 

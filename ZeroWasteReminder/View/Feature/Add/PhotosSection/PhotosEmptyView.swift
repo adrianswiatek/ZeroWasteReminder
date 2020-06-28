@@ -54,6 +54,16 @@ public final class PhotosEmptyView: UIView {
         .init(width: super.intrinsicContentSize.width, height: 96)
     }
 
+    public func setVisibility(_ isVisible: Bool) {
+        if let superview = superview {
+            UIView.transition(with: superview, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                super.isHidden = !isVisible
+            })
+        } else {
+            isHidden = !isVisible
+        }
+    }
+
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
 

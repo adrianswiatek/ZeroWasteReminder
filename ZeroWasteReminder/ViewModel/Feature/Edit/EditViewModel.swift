@@ -36,7 +36,7 @@ public final class EditViewModel {
         remoteStatusNotifier.remoteStatus.map { $0 == .connected }.eraseToAnyPublisher()
     }
 
-    public let photosViewModel: PhotosCollectionViewModel
+    public let photosViewModel: PhotosViewModel
 
     private var itemHasChanged: AnyPublisher<Bool, Never> {
         Publishers.CombineLatest3($name, $notes, expirationDateSubject)

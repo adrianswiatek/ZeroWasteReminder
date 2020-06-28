@@ -36,7 +36,7 @@ public final class AddViewModel {
         remoteStatusNotifier.remoteStatus.map { $0 == .connected }.eraseToAnyPublisher()
     }
 
-    public let photosViewModel: PhotosCollectionViewModel
+    public let photosViewModel: PhotosViewModel
     public let expirationDateViewModel: ExpirationDateViewModel
     public let expirationPeriodViewModel: ExpirationPeriodViewModel
 

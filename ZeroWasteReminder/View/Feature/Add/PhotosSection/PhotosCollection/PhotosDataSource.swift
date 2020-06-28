@@ -2,10 +2,10 @@ import Combine
 import UIKit
 
 public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDataSource.Section, UIImage> {
-    private let viewModel: PhotosCollectionViewModel
+    private let viewModel: PhotosViewModel
     private var subscriptions: Set<AnyCancellable>
 
-    public init(_ collectionView: UICollectionView, _ viewModel: PhotosCollectionViewModel) {
+    public init(_ collectionView: UICollectionView, _ viewModel: PhotosViewModel) {
         self.viewModel = viewModel
         self.subscriptions = []
 
