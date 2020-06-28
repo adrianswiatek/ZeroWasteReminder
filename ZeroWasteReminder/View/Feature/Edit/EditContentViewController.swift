@@ -19,8 +19,7 @@ public final class EditContentViewController: UIViewController {
     private let notesTextView = NotesTextView()
 
     private let photosLabel: UILabel = .defaultWithText(.localized(.photos))
-    private let photosCollectionView: PhotosCollectionView
-    private let photosDataSource: PhotosDataSource
+    private let photosViewController: PhotosViewController
 
     private let actionsLabel: UILabel = .defaultWithText("Actions")
     private let deleteButton: DeleteButton = .init(type: .system)
@@ -36,8 +35,7 @@ public final class EditContentViewController: UIViewController {
         self.deleteSubject = .init()
         self.subscriptions = []
 
-        self.photosCollectionView = .init(viewModel.photosViewModel)
-        self.photosDataSource = .init(photosCollectionView, viewModel.photosViewModel)
+        self.photosViewController = .init(viewModel: viewModel.photosViewModel)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -137,19 +135,22 @@ public final class EditContentViewController: UIViewController {
             photosLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
 
-        view.addSubview(photosCollectionView)
+        addChild(photosViewController)
+        view.addSubview(photosViewController.view)
+        photosViewController.didMove(toParent: self)
+
         NSLayoutConstraint.activate([
-            photosCollectionView.topAnchor.constraint(
+            photosViewController.view.topAnchor.constraint(
                 equalTo: photosLabel.bottomAnchor, constant: Metrics.insideSectionPadding
             ),
-            photosCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            photosCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            photosViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            photosViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
         view.addSubview(actionsLabel)
         NSLayoutConstraint.activate([
             actionsLabel.topAnchor.constraint(
-                equalTo: photosCollectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
+                equalTo: photosViewController.view.bottomAnchor, constant: Metrics.betweenSectionsPadding
             ),
             actionsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])

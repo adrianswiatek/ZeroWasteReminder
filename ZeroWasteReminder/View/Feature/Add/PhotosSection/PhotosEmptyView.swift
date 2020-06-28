@@ -41,9 +41,9 @@ public final class PhotosEmptyView: UIView {
     }()
 
     public init() {
-        photoCaptureView = .init()
+        self.photoCaptureView = .init()
         super.init(frame: .zero)
-        setupView()
+        self.setupView()
     }
 
     public required init?(coder: NSCoder) {
