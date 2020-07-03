@@ -37,7 +37,8 @@ public final class WarningBarView: UIView {
 
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = UIColor.almostExpired.withAlphaComponent(1)
+        backgroundColor = .almostExpired
+        layer.cornerRadius = 8
 
         addSubview(label)
         NSLayoutConstraint.activate([
@@ -64,7 +65,7 @@ public final class WarningBarView: UIView {
 
 private extension WarningBarView {
     enum Metrics {
-        static let visibleHeight: CGFloat = 36
+        static let visibleHeight: CGFloat = 48
         static let hiddenHeight: CGFloat = 0
     }
 }

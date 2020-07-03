@@ -51,15 +51,6 @@ public final class AddViewController: UIViewController {
         self.viewModel.cleanUp()
     }
 
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        switch traitCollection.userInterfaceStyle {
-        case .dark:
-            view.backgroundColor = .black
-        default:
-            view.backgroundColor = .white
-        }
-    }
-
     private func setupNavigationItem() {
         navigationItem.title = "Add item"
 
@@ -68,6 +59,8 @@ public final class AddViewController: UIViewController {
     }
 
     private func setupView() {
+        view.backgroundColor = .systemBackground
+
         let contentView: UIView = contentViewController.view
 
         scrollView.addSubview(contentView)
@@ -82,13 +75,13 @@ public final class AddViewController: UIViewController {
         scrollView.addSubview(warningBarView)
         NSLayoutConstraint.activate([
             warningBarView.leadingAnchor.constraint(
-                equalTo: scrollView.layoutMarginsGuide.leadingAnchor, constant: -8
+                equalTo: scrollView.layoutMarginsGuide.leadingAnchor, constant: 16
             ),
             warningBarView.bottomAnchor.constraint(equalTo:
-                scrollView.layoutMarginsGuide.bottomAnchor, constant: 8
+                scrollView.layoutMarginsGuide.bottomAnchor
             ),
             warningBarView.trailingAnchor.constraint(equalTo:
-                scrollView.layoutMarginsGuide.trailingAnchor, constant: 8
+                scrollView.layoutMarginsGuide.trailingAnchor, constant: -16
             )
         ])
 

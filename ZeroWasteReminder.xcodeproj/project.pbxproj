@@ -50,6 +50,8 @@
 		A74D1640249C2ED500FEB5CD /* RemoteStatusNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74D163F249C2ED500FEB5CD /* RemoteStatusNotifier.swift */; };
 		A750434124707386009A1451 /* CloudKitItemsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434024707386009A1451 /* CloudKitItemsService.swift */; };
 		A750434524707517009A1451 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A750434424707517009A1451 /* CloudKit.framework */; };
+		A759430824AFBF28007A526B /* ListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A759430724AFBF28007A526B /* ListsViewController.swift */; };
+		A759430B24AFBF5A007A526B /* ListsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A759430A24AFBF5A007A526B /* ListsViewModel.swift */; };
 		A75E703B248DA01300F06E98 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75E703A248DA01300F06E98 /* Photo.swift */; };
 		A760CAD6248802CB00999C12 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A760CAD5248802CB00999C12 /* PhotosDataSource.swift */; };
 		A7636A672490499F00166631 /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7636A662490499F00166631 /* FileService.swift */; };
@@ -172,6 +174,8 @@
 		A750434024707386009A1451 /* CloudKitItemsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitItemsService.swift; sourceTree = "<group>"; };
 		A750434224707513009A1451 /* ZeroWasteReminder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZeroWasteReminder.entitlements; sourceTree = "<group>"; };
 		A750434424707517009A1451 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		A759430724AFBF28007A526B /* ListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsViewController.swift; sourceTree = "<group>"; };
+		A759430A24AFBF5A007A526B /* ListsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsViewModel.swift; sourceTree = "<group>"; };
 		A75E703A248DA01300F06E98 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		A760CAD5248802CB00999C12 /* PhotosDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
 		A7636A662490499F00166631 /* FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
@@ -339,6 +343,7 @@
 				A7F16D22244AFF0700ED2402 /* Add */,
 				A79DDDA12461F99D008A3DFE /* Edit */,
 				A70FA67F244CF7090045B545 /* List */,
+				A759430924AFBF51007A526B /* Lists */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -499,6 +504,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		A759430624AFBF06007A526B /* Lists */ = {
+			isa = PBXGroup;
+			children = (
+				A759430724AFBF28007A526B /* ListsViewController.swift */,
+			);
+			path = Lists;
+			sourceTree = "<group>";
+		};
+		A759430924AFBF51007A526B /* Lists */ = {
+			isa = PBXGroup;
+			children = (
+				A759430A24AFBF5A007A526B /* ListsViewModel.swift */,
+			);
+			path = Lists;
+			sourceTree = "<group>";
+		};
 		A763AFFE2482F20C00E93546 /* PhotosSection */ = {
 			isa = PBXGroup;
 			children = (
@@ -656,6 +677,7 @@
 				A7DB8A32244284020035CF36 /* Add */,
 				A780EFCF245F7570002A8AD4 /* Edit */,
 				A72A46D524426C3700B0007B /* List */,
+				A759430624AFBF06007A526B /* Lists */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -792,6 +814,7 @@
 			files = (
 				A783EE2424673B8F008BCC17 /* EditContentViewController.swift in Sources */,
 				A7AFA37124A53D5600BD5983 /* PhotoCaptureTarget.swift in Sources */,
+				A759430824AFBF28007A526B /* ListsViewController.swift in Sources */,
 				A7F82BA82458CB8700970CFC /* ReadModeState.swift in Sources */,
 				A7A2DDA5249FD4FF0025B1B8 /* UUIDExtensions.swift in Sources */,
 				A7ACC4C0247B000E0098EDE0 /* CloudKitPersistenceFactory.swift in Sources */,
@@ -811,6 +834,7 @@
 				A7DB8A37244286440035CF36 /* ItemsListNavigationController.swift in Sources */,
 				A73ADDBB24A91D2D00D7E316 /* PhotosEmptyView.swift in Sources */,
 				A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */,
+				A759430B24AFBF5A007A526B /* ListsViewModel.swift in Sources */,
 				A7C1A0B7249FFA8E0054BBAF /* ItemsRepository.swift in Sources */,
 				A7A8EF73247C52E900FF1AC2 /* NameTextView.swift in Sources */,
 				A783EE2624674ECD008BCC17 /* AdaptiveScrollView.swift in Sources */,

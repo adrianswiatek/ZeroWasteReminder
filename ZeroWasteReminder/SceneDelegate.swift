@@ -36,7 +36,7 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         )
 
         window = UIWindow(windowScene: scene)
-        window?.rootViewController = viewControllerFactory?.listViewController
+        window?.rootViewController = viewControllerFactory?.listsViewController
         window?.makeKeyAndVisible()
     }
 

@@ -26,6 +26,10 @@ public final class ViewControllerFactory {
         self.sharingControllerFactory = sharingControllerFactory
     }
 
+    public var listsViewController: UIViewController {
+        ListsViewController(viewModel: .init(), factory: self)
+    }
+
     public var listViewController: UIViewController {
         let viewModel = ItemsListViewModel(
             itemsService: itemsService,
