@@ -2,11 +2,15 @@ import Combine
 import UIKit
 
 public final class ListsViewController: UIViewController {
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
+
     private let collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
         collectionView.backgroundColor = .clear
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(handlePullToRefresh), for: .valueChanged)
@@ -70,29 +74,25 @@ extension ListsViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        5
+        3
     }
 
     public func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-        cell.backgroundColor = .white
-        cell.layer.shadowOpacity = 0.24
-        cell.layer.shadowRadius = 5
-        cell.layer.shadowOffset = .init(width: 0, height: 2)
-        cell.layer.cornerRadius = 8
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ListCell.identifier,
+            for: indexPath
+        )
 
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(navigateToList))
-        cell.addGestureRecognizer(tapGestureRecognizer)
+        guard let listCell = cell as? ListCell else {
+            preconditionFailure("Unable to dequeue ListCell.")
+        }
 
-        return cell
-    }
-
-    @objc
-    private func navigateToList() {
-        present(factory.listViewController, animated: true)
+        listCell.setListName("Pantry \(indexPath.item + 1)")
+        listCell.subscription = listCell.tap.sink { print("Tapped the cell") }
+        return listCell
     }
 }
 
@@ -103,15 +103,7 @@ extension ListsViewController: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         let screenWidth = UIScreen.main.bounds.width
-        return .init(width: (screenWidth - (3 * 24)) / 2, height: 128)
-    }
-
-    public func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        minimumInteritemSpacingForSectionAt section: Int
-    ) -> CGFloat {
-        24
+        return .init(width: (screenWidth - (2 * 24)), height: 64)
     }
 
     public func collectionView(
@@ -119,6 +111,6 @@ extension ListsViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         minimumLineSpacingForSectionAt section: Int
     ) -> CGFloat {
-        24
+        16
     }
 }
