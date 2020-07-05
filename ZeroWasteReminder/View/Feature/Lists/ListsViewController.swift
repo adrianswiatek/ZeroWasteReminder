@@ -6,33 +6,46 @@ public final class ListsViewController: UIViewController {
         .lightContent
     }
 
-    private let collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
+        collectionViewLayout.headerReferenceSize = .init(width: UIScreen.main.bounds.width, height: 64)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
+        collectionView.register(
+            ListCell.self,
+            forCellWithReuseIdentifier: ListCell.identifier
+        )
+        collectionView.register(
+            NewListCell.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: NewListCell.identifier
+        )
         collectionView.backgroundColor = .clear
+        collectionView.delegate = self
         collectionView.refreshControl = UIRefreshControl()
         collectionView.refreshControl?.addTarget(self, action: #selector(handlePullToRefresh), for: .valueChanged)
         return collectionView
     }()
 
-    private let backgroundImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "ListsBackground")
-        imageView.contentMode = .scaleAspectFill
-        return imageView
-    }()
+    private lazy var dataSource: ListsDataSource = .init(collectionView, viewModel)
 
     private let viewModel: ListsViewModel
     private let factory: ViewControllerFactory
 
+    private var subscriptions: Set<AnyCancellable>
+
     public init(viewModel: ListsViewModel, factory: ViewControllerFactory) {
         self.viewModel = viewModel
         self.factory = factory
+        self.subscriptions = []
+
         super.init(nibName: nil, bundle: nil)
+
         self.setupView()
+        self.bind()
+
+        self.dataSource.apply(["Pantry", "Cosmetics", "Alcohol"])
+//        self.dataSource.apply([])
     }
 
     @available(*, unavailable)
@@ -41,17 +54,8 @@ public final class ListsViewController: UIViewController {
     }
 
     private func setupView() {
-        collectionView.dataSource = self
-        collectionView.delegate = self
-
-        view.addSubview(backgroundImageView)
-        NSLayoutConstraint.activate([
-            backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor),
-            backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-
+        view.backgroundColor = .accent
+        
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
@@ -61,38 +65,17 @@ public final class ListsViewController: UIViewController {
         ])
     }
 
+    private func bind() {
+        viewModel.needsOpenList
+            .sink { [weak self] in self.map { $0.present($0.factory.listViewController, animated: true) } }
+            .store(in: &subscriptions)
+    }
+
     @objc
     private func handlePullToRefresh() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.collectionView.refreshControl?.endRefreshing()
         }
-    }
-}
-
-extension ListsViewController: UICollectionViewDataSource {
-    public func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        3
-    }
-
-    public func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ListCell.identifier,
-            for: indexPath
-        )
-
-        guard let listCell = cell as? ListCell else {
-            preconditionFailure("Unable to dequeue ListCell.")
-        }
-
-        listCell.setListName("Pantry \(indexPath.item + 1)")
-        listCell.subscription = listCell.tap.sink { print("Tapped the cell") }
-        return listCell
     }
 }
 
@@ -112,5 +95,9 @@ extension ListsViewController: UICollectionViewDelegateFlowLayout {
         minimumLineSpacingForSectionAt section: Int
     ) -> CGFloat {
         16
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        viewModel.setNeedsOpenList()
     }
 }

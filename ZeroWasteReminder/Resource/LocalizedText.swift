@@ -5,6 +5,7 @@ public enum LocalizedText: String {
     case expiration = "Expiration"
     case fullScreen = "Full Screen"
     case itemName = "Item name"
+    case newList = "New list"
     case notes = "Notes"
     case noPhotosToShow = "No photos to show"
     case period = "Period"

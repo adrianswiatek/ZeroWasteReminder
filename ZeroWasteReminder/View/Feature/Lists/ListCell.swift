@@ -8,16 +8,13 @@ public final class ListCell: UICollectionViewCell, ReuseIdentifiable {
 
     public var subscription: AnyCancellable?
 
-    private lazy var listNameButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleEdgeInsets = .init(top: 0, left: 24, bottom: 0, right: 0)
-        button.contentHorizontalAlignment = .leading
-        button.setTitleColor(.label, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 18, weight: .medium)
-        button.titleLabel?.textAlignment = .left
-        button.addTarget(self, action: #selector(handleTap), for: .touchUpInside)
-        return button
+    private let listNameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .label
+        label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.textAlignment = .left
+        return label
     }()
 
     private let chevronImageView: UIImageView = {
@@ -39,6 +36,7 @@ public final class ListCell: UICollectionViewCell, ReuseIdentifiable {
         super.init(frame: frame)
 
         self.setupView()
+        self.setupGestureRecognizer()
     }
 
     @available(*, unavailable)
@@ -47,11 +45,11 @@ public final class ListCell: UICollectionViewCell, ReuseIdentifiable {
     }
 
     public func setListName(_ listName: String) {
-        listNameButton.setTitle(listName, for: .normal)
+        listNameLabel.text = listName
     }
 
     private func setupView() {
-        backgroundColor = .systemBackground
+        backgroundColor = .secondarySystemBackground
 
         layer.shadowOpacity = 0.24
         layer.shadowRadius = 5
@@ -59,23 +57,41 @@ public final class ListCell: UICollectionViewCell, ReuseIdentifiable {
 
         layer.cornerRadius = 8
 
-        contentView.addSubview(listNameButton)
+        contentView.addSubview(listNameLabel)
         NSLayoutConstraint.activate([
-            listNameButton.topAnchor.constraint(equalTo: contentView.topAnchor),
-            listNameButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            listNameButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            listNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            listNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
+            listNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
 
         contentView.addSubview(chevronImageView)
         NSLayoutConstraint.activate([
-            chevronImageView.leadingAnchor.constraint(equalTo: listNameButton.trailingAnchor),
+            chevronImageView.leadingAnchor.constraint(equalTo: listNameLabel.trailingAnchor),
             chevronImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
             chevronImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
 
+    private func setupGestureRecognizer() {
+        let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleTap))
+        gestureRecognizer.minimumPressDuration = 0.15
+        gestureRecognizer.cancelsTouchesInView = false
+        contentView.addGestureRecognizer(gestureRecognizer)
+    }
+
     @objc
-    private func handleTap() {
-        tapSubject.send()
+    private func handleTap(gestureRecognizer: UILongPressGestureRecognizer) {
+        switch gestureRecognizer.state {
+        case .began: animateComponents(withAlpha: 0.25)
+        case .ended: animateComponents(withAlpha: 1)
+        default: break
+        }
+    }
+
+    private func animateComponents(withAlpha alpha: CGFloat) {
+        UIView.animate(withDuration: 0.15) {
+            self.listNameLabel.alpha = alpha
+            self.chevronImageView.alpha = alpha
+        }
     }
 }

@@ -25,8 +25,15 @@ public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDa
         self.bind()
     }
 
+    public func apply(_ thumbnails: [Photo]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(thumbnails.map { $0.asImage() })
+        apply(snapshot)
+    }
+
     private func setupSupplementaryViewProvider() {
-        supplementaryViewProvider = { [weak self] collectionView, kind, indexPath in
+        supplementaryViewProvider = { [weak self] collectionView, _, indexPath in
             guard let header = collectionView.dequeueReusableSupplementaryView(
                 ofKind: UICollectionView.elementKindSectionHeader,
                 withReuseIdentifier: PhotoCaptureCell.identifier,
@@ -48,13 +55,6 @@ public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDa
         viewModel.thumbnails
             .sink { [weak self] in self?.apply($0) }
             .store(in: &subscriptions)
-    }
-
-    public func apply(_ thumbnails: [Photo]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(thumbnails.map { $0.asImage() })
-        apply(snapshot)
     }
 }
 

@@ -10,9 +10,9 @@ public final class PhotoCaptureCell: UICollectionViewCell, ReuseIdentifiable {
     private var subscription: AnyCancellable?
 
     public override init(frame: CGRect) {
-        photoCaptureView = .init()
+        self.photoCaptureView = .init()
         super.init(frame: frame)
-        setupView()
+        self.setupView()
     }
 
     @available(*, unavailable)
