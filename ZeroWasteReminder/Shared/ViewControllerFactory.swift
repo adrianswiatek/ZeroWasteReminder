@@ -27,7 +27,9 @@ public final class ViewControllerFactory {
     }
 
     public var listsViewController: UIViewController {
-        ListsViewController(viewModel: .init(), factory: self)
+        ListsNavigationController(
+            rootViewController: ListsViewController(viewModel: .init(), factory: self)
+        )
     }
 
     public var listViewController: UIViewController {
