@@ -2,20 +2,26 @@ import Combine
 import UIKit
 
 public final class ListsViewController: UIViewController {
-    private let newListView: NewListView
     private let tableView: ListsTableView
     private let dataSource: ListsDataSource
 
+    private let newListComponent: NewListComponent
+
     private let viewModel: ListsViewModel
     private let factory: ViewControllerFactory
+
+    private var subscriptions: Set<AnyCancellable>
 
     public init(viewModel: ListsViewModel, factory: ViewControllerFactory) {
         self.viewModel = viewModel
         self.factory = factory
 
-        self.newListView = .init()
         self.tableView = .init(viewModel: viewModel)
         self.dataSource = .init(tableView, viewModel)
+
+        self.newListComponent = .init()
+
+        self.subscriptions = []
 
         super.init(nibName: nil, bundle: nil)
 
@@ -40,18 +46,25 @@ public final class ListsViewController: UIViewController {
         title = "All lists"
         view.backgroundColor = .accent
 
+        view.addSubview(newListComponent.textField)
+        NSLayoutConstraint.activate([
+            newListComponent.textField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            newListComponent.textField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            newListComponent.textField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+        ])
+
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.topAnchor.constraint(equalTo: newListComponent.textField.bottomAnchor, constant: 8),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
 
-        view.addSubview(newListView)
+        view.addSubview(newListComponent.greenButton)
         NSLayoutConstraint.activate([
-            newListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32),
-            newListView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32)
+            newListComponent.greenButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32),
+            newListComponent.greenButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32)
         ])
     }
 }
