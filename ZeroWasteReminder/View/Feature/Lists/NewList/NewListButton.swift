@@ -40,8 +40,8 @@ public final class NewListButton: UIButton {
 
     public func setState(to state: NewListComponent.State) {
         let (color, image) = backgroundColorAndImageForState(state)
-        backgroundColor = color
-        setImage(image, for: .normal)
+        setBackgroundColor(color)
+        setImage(image)
     }
 
     private func backgroundColorAndImageForState(
@@ -54,6 +54,17 @@ public final class NewListButton: UIButton {
             return (.accent, .fromSymbol(.textBadgePlus, withConfiguration: symbolConfiguration))
         case .active:
             return (.expired, .fromSymbol(.xmark, withConfiguration: symbolConfiguration))
+        }
+    }
+
+    private func setImage(_ image: UIImage) {
+        setImage(image, for: .normal)
+        setImage(image.withColor(UIColor.white.withAlphaComponent(0.35)), for: .highlighted)
+    }
+
+    private func setBackgroundColor(_ color: UIColor) {
+        UIView.animate(withDuration: 0.3) {
+            self.backgroundColor = color
         }
     }
 

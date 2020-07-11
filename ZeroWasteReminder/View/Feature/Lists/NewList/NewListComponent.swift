@@ -4,6 +4,7 @@ import UIKit
 public final class NewListComponent {
     public let textField: NewListTextField
     public let greenButton: NewListButton
+    public let overlayView: NewListOverlayView
 
     private let stateSubject: CurrentValueSubject<State, Never>
     private var subscriptions: Set<AnyCancellable>
@@ -11,6 +12,7 @@ public final class NewListComponent {
     public init() {
         textField = .init()
         greenButton = .init()
+        overlayView = .init()
 
         stateSubject = .init(.idle)
         subscriptions = []
@@ -37,6 +39,7 @@ public final class NewListComponent {
     private func setState(to state: State) {
         textField.setState(to: state)
         greenButton.setState(to: state)
+        overlayView.setState(to: state)
     }
 }
 

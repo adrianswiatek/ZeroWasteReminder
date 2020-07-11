@@ -72,20 +72,25 @@ public final class NewListTextField: UITextField {
             .store(in: &subscriptions)
 
         isVisibleSubject
+            .filter { $0 }
             .delay(for: .milliseconds(300), scheduler: DispatchQueue.main)
-            .sink { [weak self] in _ = $0 ? self?.becomeFirstResponder() : self?.resignFirstResponder() }
+            .sink { [weak self] _ in self?.becomeFirstResponder() }
             .store(in: &subscriptions)
-    }
 
-    private func cancel() {
-        textSubject.send("")
-        resignFirstResponder()
+        isVisibleSubject
+            .filter { !$0 }
+            .sink { [weak self] _ in
+                self?.resignFirstResponder()
+                self?.text = ""
+            }
+            .store(in: &subscriptions)
     }
 }
 
 extension NewListTextField: UITextFieldDelegate {
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        cancel()
+        textSubject.send("")
+        resignFirstResponder()
         return true
     }
 }

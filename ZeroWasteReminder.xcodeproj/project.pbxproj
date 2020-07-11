@@ -84,6 +84,7 @@
 		A79DDDA32461F9B1008A3DFE /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79DDDA22461F9B1008A3DFE /* EditViewModel.swift */; };
 		A7A181AA249E9C5200B8E6EE /* PhotoToSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A181A9249E9C5200B8E6EE /* PhotoToSave.swift */; };
 		A7A2DDA5249FD4FF0025B1B8 /* UUIDExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A2DDA4249FD4FF0025B1B8 /* UUIDExtensions.swift */; };
+		A7A7E96024BA621F003751B6 /* NewListOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A7E95F24BA621F003751B6 /* NewListOverlayView.swift */; };
 		A7A8EF73247C52E900FF1AC2 /* NameTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */; };
 		A7A8EF75247C771900FF1AC2 /* NotesTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF74247C771900FF1AC2 /* NotesTextView.swift */; };
 		A7A8EF77247C7DF900FF1AC2 /* SharedTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF76247C7DF900FF1AC2 /* SharedTextViewDelegate.swift */; };
@@ -214,6 +215,7 @@
 		A79DDDA22461F9B1008A3DFE /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
 		A7A181A9249E9C5200B8E6EE /* PhotoToSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoToSave.swift; sourceTree = "<group>"; };
 		A7A2DDA4249FD4FF0025B1B8 /* UUIDExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDExtensions.swift; sourceTree = "<group>"; };
+		A7A7E95F24BA621F003751B6 /* NewListOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListOverlayView.swift; sourceTree = "<group>"; };
 		A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTextView.swift; sourceTree = "<group>"; };
 		A7A8EF74247C771900FF1AC2 /* NotesTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextView.swift; sourceTree = "<group>"; };
 		A7A8EF76247C7DF900FF1AC2 /* SharedTextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTextViewDelegate.swift; sourceTree = "<group>"; };
@@ -412,6 +414,7 @@
 				A7BDE68A24B51C61003215C0 /* NewListButton.swift */,
 				A71AE5CC24B916AD00996C27 /* NewListTextField.swift */,
 				A776FB4824B92A8400BBF468 /* NewListComponent.swift */,
+				A7A7E95F24BA621F003751B6 /* NewListOverlayView.swift */,
 			);
 			path = NewList;
 			sourceTree = "<group>";
@@ -924,6 +927,7 @@
 				A79DDDA32461F9B1008A3DFE /* EditViewModel.swift in Sources */,
 				A797433424A2ABA000A05EA2 /* ItemsListDataSource.swift in Sources */,
 				A7FFA9772448F3FF0061A3D6 /* Expiration.swift in Sources */,
+				A7A7E96024BA621F003751B6 /* NewListOverlayView.swift in Sources */,
 				A76C34AF2460C99400362B68 /* UILabelExtension.swift in Sources */,
 				A749366C247346A4003DB46E /* LoadingView.swift in Sources */,
 				A731DBE024A935A600CE926A /* PhotosViewController.swift in Sources */,
