@@ -412,9 +412,9 @@
 			isa = PBXGroup;
 			children = (
 				A7BDE68A24B51C61003215C0 /* NewListButton.swift */,
-				A71AE5CC24B916AD00996C27 /* NewListTextField.swift */,
 				A776FB4824B92A8400BBF468 /* NewListComponent.swift */,
 				A7A7E95F24BA621F003751B6 /* NewListOverlayView.swift */,
+				A71AE5CC24B916AD00996C27 /* NewListTextField.swift */,
 			);
 			path = NewList;
 			sourceTree = "<group>";

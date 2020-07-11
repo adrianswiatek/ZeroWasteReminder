@@ -21,6 +21,7 @@ public extension UIImage {
         case calendarBadgePlus = "calendar.badge.plus"
         case cameraFill = "camera.fill"
         case cameraOnRectangleFill = "camera.on.rectangle.fill"
+        case checkmark = "checkmark"
         case chevronRight = "chevron.right"
         case ellipsisCircle = "ellipsis.circle"
         case lineHorizontal3DecreaseCircle = "line.horizontal.3.decrease.circle"

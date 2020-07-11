@@ -2,17 +2,29 @@ import Combine
 import UIKit
 
 public final class NewListComponent {
-    public let textField: NewListTextField
-    public let greenButton: NewListButton
-    public let overlayView: NewListOverlayView
+    public var textField: UIView {
+        newsListTextField
+    }
+
+    public var button: UIView {
+        newsListButton
+    }
+
+    public var overlay: UIView {
+        newsListOverlayView
+    }
+
+    private let newsListTextField: NewListTextField
+    private let newsListButton: NewListButton
+    private let newsListOverlayView: NewListOverlayView
 
     private let stateSubject: CurrentValueSubject<State, Never>
     private var subscriptions: Set<AnyCancellable>
 
     public init() {
-        textField = .init()
-        greenButton = .init()
-        overlayView = .init()
+        newsListTextField = .init()
+        newsListButton = .init()
+        newsListOverlayView = .init()
 
         stateSubject = .init(.idle)
         subscriptions = []
@@ -25,21 +37,21 @@ public final class NewListComponent {
             .sink { [weak self] in self?.setState(to: $0) }
             .store(in: &subscriptions)
 
-        textField.cancelEditing
+        newsListTextField.cancelEditing
             .map { State.idle }
             .subscribe(stateSubject)
             .store(in: &subscriptions)
 
-        greenButton.tap
+        newsListButton.tap
             .compactMap { [weak self] in self?.stateSubject.value.toggled() }
             .subscribe(stateSubject)
             .store(in: &subscriptions)
     }
 
     private func setState(to state: State) {
-        textField.setState(to: state)
-        greenButton.setState(to: state)
-        overlayView.setState(to: state)
+        newsListTextField.setState(to: state)
+        newsListButton.setState(to: state)
+        newsListOverlayView.setState(to: state)
     }
 }
 

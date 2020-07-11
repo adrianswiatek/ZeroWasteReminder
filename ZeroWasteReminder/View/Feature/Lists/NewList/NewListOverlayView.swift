@@ -13,20 +13,12 @@ public final class NewListOverlayView: UIView {
 
     public func setState(to state: NewListComponent.State) {
         UIView.animate(withDuration: 0.3) {
-            self.backgroundColor = .fromState(state)
+            self.alpha = state == .idle ? 0 : 0.5
         }
     }
 
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
-    }
-}
-
-private extension UIColor {
-    static func fromState(_ state: NewListComponent.State) -> UIColor {
-        switch state {
-        case .idle: return UIColor.secondaryLabel.withAlphaComponent(0)
-        case .active: return UIColor.secondaryLabel.withAlphaComponent(0.35)
-        }
+        backgroundColor = .accent
     }
 }

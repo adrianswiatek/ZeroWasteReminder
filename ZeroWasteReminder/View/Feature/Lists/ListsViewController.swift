@@ -12,13 +12,17 @@ public final class ListsViewController: UIViewController {
 
     private var subscriptions: Set<AnyCancellable>
 
-    private lazy var greenButtonBottomConstraint: NSLayoutConstraint = {
-        let constraint = newListComponent.greenButton.bottomAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.bottomAnchor
+    private lazy var buttonTrailingConstraint: NSLayoutConstraint =
+        newListComponent.button.trailingAnchor.constraint(
+            equalTo: view.trailingAnchor,
+            constant: -Metrics.buttonRegularPadding
         )
-        constraint.constant = -Metrics.buttonRegularPadding
-        return constraint
-    }()
+
+    private lazy var buttonBottomConstraint: NSLayoutConstraint =
+        newListComponent.button.bottomAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+            constant: -Metrics.buttonRegularPadding
+        )
 
     public init(viewModel: ListsViewModel, factory: ViewControllerFactory) {
         self.viewModel = viewModel
@@ -84,13 +88,10 @@ public final class ListsViewController: UIViewController {
             ),
         ])
 
-        view.addSubview(newListComponent.greenButton)
+        view.addSubview(newListComponent.button)
         NSLayoutConstraint.activate([
-            greenButtonBottomConstraint,
-            newListComponent.greenButton.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor,
-                constant: -32
-            )
+            buttonBottomConstraint,
+            buttonTrailingConstraint
         ])
     }
 
@@ -100,17 +101,17 @@ public final class ListsViewController: UIViewController {
                 notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
                     .flatMap { $0 as? CGRect }
                     .map { Metrics.buttonWithKeyboardPadding + $0.height }
-                    .map { [weak self] in self?.setGreenButtonPadding(to: $0) }
+                    .map { [weak self] in self?.setButtonsPadding(to: $0) }
             }
             .store(in: &subscriptions)
 
         NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
-            .sink { [weak self] _ in self?.setGreenButtonPadding(to: Metrics.buttonRegularPadding) }
+            .sink { [weak self] _ in self?.setButtonsPadding(to: Metrics.buttonRegularPadding) }
             .store(in: &subscriptions)
     }
 
-    private func setGreenButtonPadding(to padding: CGFloat) {
-        greenButtonBottomConstraint.constant = -padding
+    private func setButtonsPadding(to padding: CGFloat) {
+        buttonBottomConstraint.constant = -padding
 
         UIView.animate(withDuration: 0) {
             self.view.layoutIfNeeded()
