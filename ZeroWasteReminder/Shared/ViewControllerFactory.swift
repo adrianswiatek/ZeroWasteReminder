@@ -8,6 +8,7 @@ public final class ViewControllerFactory {
     private let itemsRepository: ItemsRepository
     private let remoteStatusNotifier: RemoteStatusNotifier
     private let sharingControllerFactory: SharingControllerFactory
+    private let notificationCenter: NotificationCenter
 
     public init(
         itemsService: ItemsService,
@@ -15,7 +16,8 @@ public final class ViewControllerFactory {
         fileService: FileService,
         itemsRepository: ItemsRepository,
         remoteStatusNotifier: RemoteStatusNotifier,
-        sharingControllerFactory: SharingControllerFactory
+        sharingControllerFactory: SharingControllerFactory,
+        notificationCenter: NotificationCenter
     ) {
         self.itemsService = itemsService
         self.photosService = photosService
@@ -24,12 +26,15 @@ public final class ViewControllerFactory {
         self.itemsRepository = itemsRepository
         self.remoteStatusNotifier = remoteStatusNotifier
         self.sharingControllerFactory = sharingControllerFactory
+        self.notificationCenter = notificationCenter
     }
 
     public var listsViewController: UIViewController {
-        ListsNavigationController(
-            rootViewController: ListsViewController(viewModel: .init(), factory: self)
-        )
+        ListsNavigationController(rootViewController: ListsViewController(
+            viewModel: .init(),
+            factory: self,
+            notificationCenter: notificationCenter
+        ))
     }
 
     public var listViewController: UIViewController {

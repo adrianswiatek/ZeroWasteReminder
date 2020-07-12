@@ -1,20 +1,27 @@
 import Combine
 import UIKit
 
-public final class NewListTextField: UITextField {
-    public var cancelEditing: AnyPublisher<Void, Never> {
-        textSubject.filter { $0.isEmpty }.map { _ in }.eraseToAnyPublisher()
+internal final class NewListTextField: UITextField {
+    internal var editingText: AnyPublisher<String, Never> {
+        editingTextSubject.eraseToAnyPublisher()
+    }
+
+    internal var endEditing: AnyPublisher<Void, Never> {
+        endEditingSubject.eraseToAnyPublisher()
     }
 
     private lazy var heightConstraint: NSLayoutConstraint =
         heightAnchor.constraint(equalToConstant: .zero)
 
-    private let textSubject: CurrentValueSubject<String, Never>
+    private let endEditingSubject: PassthroughSubject<Void, Never>
+    private let editingTextSubject: CurrentValueSubject<String, Never>
     private let isVisibleSubject: CurrentValueSubject<Bool, Never>
+
     private var subscriptions: Set<AnyCancellable>
 
-    public init() {
-        self.textSubject = .init("")
+    internal init() {
+        self.endEditingSubject = .init()
+        self.editingTextSubject = .init("")
         self.isVisibleSubject = .init(false)
         self.subscriptions = .init()
 
@@ -25,20 +32,16 @@ public final class NewListTextField: UITextField {
     }
 
     @available(*, unavailable)
-    public required init?(coder: NSCoder) {
+    internal required init?(coder: NSCoder) {
         fatalError("Not supported.")
     }
 
-    public override func editingRect(forBounds bounds: CGRect) -> CGRect {
+    internal override func editingRect(forBounds bounds: CGRect) -> CGRect {
         bounds.inset(by: .init(top: 0, left: 16, bottom: 0, right: -16))
     }
 
-    public override func textRect(forBounds bounds: CGRect) -> CGRect {
+    internal override func textRect(forBounds bounds: CGRect) -> CGRect {
         bounds.inset(by: .init(top: 0, left: 16, bottom: 0, right: -16))
-    }
-
-    public func setState(to state: NewListComponent.State) {
-        isVisibleSubject.send(state == .active)
     }
 
     private func setupView() {
@@ -55,8 +58,8 @@ public final class NewListTextField: UITextField {
     }
 
     private func bind() {
-        textSubject
-            .sink { [weak self] _ in self?.text = "" }
+        editingTextSubject
+            .sink { [weak self] in self?.text = $0 }
             .store(in: &subscriptions)
 
         isVisibleSubject
@@ -74,24 +77,40 @@ public final class NewListTextField: UITextField {
         isVisibleSubject
             .filter { $0 }
             .delay(for: .milliseconds(300), scheduler: DispatchQueue.main)
-            .sink { [weak self] _ in self?.becomeFirstResponder() }
+            .sink { [weak self] _ in self?.beginEditing() }
             .store(in: &subscriptions)
 
         isVisibleSubject
             .filter { !$0 }
-            .sink { [weak self] _ in
-                self?.resignFirstResponder()
-                self?.text = ""
-            }
+            .sink { [weak self] _ in self?.finishEditing() }
             .store(in: &subscriptions)
+    }
+
+    private func beginEditing() {
+        becomeFirstResponder()
+    }
+
+    private func finishEditing() {
+        resignFirstResponder()
+        editingTextSubject.send("")
+    }
+}
+
+extension NewListTextField: NewListControl {
+    internal func setState(to state: NewListComponent.State) {
+        isVisibleSubject.send(state != .idle)
     }
 }
 
 extension NewListTextField: UITextFieldDelegate {
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textSubject.send("")
-        resignFirstResponder()
+        finishEditing()
+        endEditingSubject.send()
         return true
+    }
+
+    public func textFieldDidChangeSelection(_ textField: UITextField) {
+        editingTextSubject.send(textField.text ?? "")
     }
 }
 

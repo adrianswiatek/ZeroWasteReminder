@@ -2,29 +2,33 @@ import Combine
 import UIKit
 
 public final class NewListComponent {
-    public var textField: UIView {
-        newsListTextField
+    public var listName: AnyPublisher<String, Never> {
+        newListTextField.editingText.eraseToAnyPublisher()
     }
 
-    public var button: UIView {
-        newsListButton
+    public var textField: UIView {
+        newListTextField
+    }
+
+    public var buttons: UIView {
+        newListButtons
     }
 
     public var overlay: UIView {
-        newsListOverlayView
+        newListOverlayView
     }
 
-    private let newsListTextField: NewListTextField
-    private let newsListButton: NewListButton
-    private let newsListOverlayView: NewListOverlayView
+    private let newListTextField: NewListTextField
+    private let newListButtons: NewListButtons
+    private let newListOverlayView: NewListOverlayView
 
     private let stateSubject: CurrentValueSubject<State, Never>
     private var subscriptions: Set<AnyCancellable>
 
     public init() {
-        newsListTextField = .init()
-        newsListButton = .init()
-        newsListOverlayView = .init()
+        newListTextField = .init()
+        newListButtons = .init()
+        newListOverlayView = .init()
 
         stateSubject = .init(.idle)
         subscriptions = []
@@ -37,32 +41,52 @@ public final class NewListComponent {
             .sink { [weak self] in self?.setState(to: $0) }
             .store(in: &subscriptions)
 
-        newsListTextField.cancelEditing
+        newListTextField.editingText
+            .filter { [weak self] _ in self?.stateSubject.value != .idle }
+            .map { State.active(editing: !$0.isEmpty) }
+            .subscribe(stateSubject)
+            .store(in: &subscriptions)
+
+        newListTextField.endEditing
             .map { State.idle }
             .subscribe(stateSubject)
             .store(in: &subscriptions)
 
-        newsListButton.tap
-            .compactMap { [weak self] in self?.stateSubject.value.toggled() }
+        newListButtons.addTapped
+            .map { State.active(editing: false) }
+            .subscribe(stateSubject)
+            .store(in: &subscriptions)
+
+        newListButtons.dismissTapped
+            .map { State.idle }
+            .subscribe(stateSubject)
+            .store(in: &subscriptions)
+
+        newListButtons.confirmTapped
+            .map { State.idle }
             .subscribe(stateSubject)
             .store(in: &subscriptions)
     }
 
     private func setState(to state: State) {
-        newsListTextField.setState(to: state)
-        newsListButton.setState(to: state)
-        newsListOverlayView.setState(to: state)
+        newListTextField.setState(to: state)
+        newListButtons.setState(to: state)
+        newListOverlayView.setState(to: state)
     }
 }
 
 extension NewListComponent {
-    public enum State {
-        case idle, active
+    internal enum State: Equatable {
+        case idle, active(editing: Bool)
 
-        public func toggled() -> State {
-            switch self {
-            case .idle: return .active
-            case .active: return .idle
+        internal static func ==(lhs: State, rhs: State) -> Bool {
+            switch (lhs, rhs) {
+            case (.idle, .idle):
+                return true
+            case let (.active(leftEditing), .active(rightEditing)):
+                return leftEditing == rightEditing
+            default:
+                return false
             }
         }
     }

@@ -9,24 +9,24 @@ public final class ListsViewController: UIViewController {
 
     private let viewModel: ListsViewModel
     private let factory: ViewControllerFactory
+    private let notificationCenter: NotificationCenter
 
     private var subscriptions: Set<AnyCancellable>
 
-    private lazy var buttonTrailingConstraint: NSLayoutConstraint =
-        newListComponent.button.trailingAnchor.constraint(
-            equalTo: view.trailingAnchor,
-            constant: -Metrics.buttonRegularPadding
-        )
-
-    private lazy var buttonBottomConstraint: NSLayoutConstraint =
-        newListComponent.button.bottomAnchor.constraint(
+    private lazy var buttonsBottomConstraint: NSLayoutConstraint =
+        newListComponent.buttons.bottomAnchor.constraint(
             equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-            constant: -Metrics.buttonRegularPadding
+            constant: -Metrics.buttonsRegularPadding
         )
 
-    public init(viewModel: ListsViewModel, factory: ViewControllerFactory) {
+    public init(
+        viewModel: ListsViewModel,
+        factory: ViewControllerFactory,
+        notificationCenter: NotificationCenter
+    ) {
         self.viewModel = viewModel
         self.factory = factory
+        self.notificationCenter = notificationCenter
 
         self.tableView = .init(viewModel: viewModel)
         self.dataSource = .init(tableView, viewModel)
@@ -66,12 +66,12 @@ public final class ListsViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
 
-        view.addSubview(newListComponent.overlayView)
+        view.addSubview(newListComponent.overlay)
         NSLayoutConstraint.activate([
-            newListComponent.overlayView.topAnchor.constraint(equalTo: view.topAnchor),
-            newListComponent.overlayView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            newListComponent.overlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            newListComponent.overlayView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            newListComponent.overlay.topAnchor.constraint(equalTo: view.topAnchor),
+            newListComponent.overlay.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            newListComponent.overlay.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            newListComponent.overlay.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
         view.addSubview(newListComponent.textField)
@@ -88,30 +88,33 @@ public final class ListsViewController: UIViewController {
             ),
         ])
 
-        view.addSubview(newListComponent.button)
+        view.addSubview(newListComponent.buttons)
         NSLayoutConstraint.activate([
-            buttonBottomConstraint,
-            buttonTrailingConstraint
+            buttonsBottomConstraint,
+            newListComponent.buttons.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor,
+                constant: -Metrics.buttonsRegularPadding
+            )
         ])
     }
 
     private func bind() {
-        NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
+        notificationCenter.publisher(for: UIResponder.keyboardWillShowNotification)
             .sink { [weak self] notification in
                 notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
                     .flatMap { $0 as? CGRect }
                     .map { Metrics.buttonWithKeyboardPadding + $0.height }
-                    .map { [weak self] in self?.setButtonsPadding(to: $0) }
+                    .map { [weak self] in self?.setButtonsBottomPadding(to: $0) }
             }
             .store(in: &subscriptions)
 
-        NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
-            .sink { [weak self] _ in self?.setButtonsPadding(to: Metrics.buttonRegularPadding) }
+        notificationCenter.publisher(for: UIResponder.keyboardWillHideNotification)
+            .sink { [weak self] _ in self?.setButtonsBottomPadding(to: Metrics.buttonsRegularPadding) }
             .store(in: &subscriptions)
     }
 
-    private func setButtonsPadding(to padding: CGFloat) {
-        buttonBottomConstraint.constant = -padding
+    private func setButtonsBottomPadding(to padding: CGFloat) {
+        buttonsBottomConstraint.constant = -padding
 
         UIView.animate(withDuration: 0) {
             self.view.layoutIfNeeded()
@@ -121,7 +124,7 @@ public final class ListsViewController: UIViewController {
 
 private extension ListsViewController {
     enum Metrics {
-        static let buttonRegularPadding: CGFloat = 32
+        static let buttonsRegularPadding: CGFloat = 32
         static let buttonWithKeyboardPadding: CGFloat = 16
     }
 }
