@@ -15,7 +15,7 @@ public final class ListsViewController: UIViewController {
 
     private lazy var buttonsBottomConstraint: NSLayoutConstraint =
         newListComponent.buttons.bottomAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+            equalTo: view.bottomAnchor,
             constant: -Metrics.buttonsRegularPadding
         )
 
@@ -62,7 +62,7 @@ public final class ListsViewController: UIViewController {
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
 
@@ -92,7 +92,7 @@ public final class ListsViewController: UIViewController {
         NSLayoutConstraint.activate([
             buttonsBottomConstraint,
             newListComponent.buttons.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor,
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -Metrics.buttonsRegularPadding
             )
         ])
@@ -124,7 +124,7 @@ public final class ListsViewController: UIViewController {
 
 private extension ListsViewController {
     enum Metrics {
-        static let buttonsRegularPadding: CGFloat = 32
+        static let buttonsRegularPadding: CGFloat = 40
         static let buttonWithKeyboardPadding: CGFloat = 16
     }
 }
