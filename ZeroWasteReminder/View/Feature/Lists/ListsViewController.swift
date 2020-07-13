@@ -31,7 +31,7 @@ public final class ListsViewController: UIViewController {
         self.tableView = .init(viewModel: viewModel)
         self.dataSource = .init(tableView, viewModel)
 
-        self.newListComponent = .init()
+        self.newListComponent = .init(viewModel: viewModel)
 
         self.subscriptions = []
 
@@ -39,15 +39,6 @@ public final class ListsViewController: UIViewController {
 
         self.setupView()
         self.bind()
-
-        self.dataSource.apply([
-            "Pantry",
-            "Cosmetics",
-            "Alcohol",
-            "Sweets",
-            "Fridgerator",
-            "Basement"
-        ])
     }
 
     @available(*, unavailable)
@@ -112,8 +103,8 @@ public final class ListsViewController: UIViewController {
             .sink { [weak self] _ in self?.setButtonsBottomPadding(to: Metrics.buttonsRegularPadding) }
             .store(in: &subscriptions)
 
-        newListComponent.newListName
-            .sink { print($0) }
+        viewModel.lists
+            .sink { [weak self] in self?.dataSource.apply($0) }
             .store(in: &subscriptions)
     }
 

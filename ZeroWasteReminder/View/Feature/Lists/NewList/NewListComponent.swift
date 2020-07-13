@@ -2,10 +2,6 @@ import Combine
 import UIKit
 
 public final class NewListComponent {
-    public var newListName: AnyPublisher<String, Never> {
-        newListNameSubject.eraseToAnyPublisher()
-    }
-
     public var textField: UIView {
         newListTextField
     }
@@ -22,20 +18,21 @@ public final class NewListComponent {
     private let newListButtons: NewListButtons
     private let newListOverlayView: NewListOverlayView
 
-    private let newListNameSubject: PassthroughSubject<String, Never>
     private let stateSubject: CurrentValueSubject<State, Never>
     private var subscriptions: Set<AnyCancellable>
 
-    public init() {
-        newListTextField = .init()
-        newListButtons = .init()
-        newListOverlayView = .init()
+    private let viewModel: ListsViewModel
 
-        newListNameSubject = .init()
-        stateSubject = .init(.idle)
-        subscriptions = []
+    public init(viewModel: ListsViewModel) {
+        self.viewModel = viewModel
+        self.newListTextField = .init()
+        self.newListButtons = .init()
+        self.newListOverlayView = .init()
 
-        bind()
+        self.stateSubject = .init(.idle)
+        self.subscriptions = []
+
+        self.bind()
     }
 
     private func bind() {
@@ -60,7 +57,7 @@ public final class NewListComponent {
 
         newListButtons.confirmTapped.merge(with: newListTextField.doneTapped)
             .compactMap { [weak self] in self?.newListTextField.text }
-            .sink { [weak self] in self?.newListNameSubject.send($0) }
+            .sink { [weak self] in self?.viewModel.addList($0) }
             .store(in: &subscriptions)
 
         newListButtons.confirmTapped.merge(with: newListTextField.doneTapped)
