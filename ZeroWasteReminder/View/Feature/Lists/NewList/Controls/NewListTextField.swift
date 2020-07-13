@@ -6,21 +6,29 @@ internal final class NewListTextField: UITextField {
         editingTextSubject.eraseToAnyPublisher()
     }
 
-    internal var endEditing: AnyPublisher<Void, Never> {
-        endEditingSubject.eraseToAnyPublisher()
+    internal var isCurrentlyEditing: AnyPublisher<Bool, Never> {
+        editingTextSubject
+            .filter { [weak self] _ in self?.isVisibleSubject.value == true }
+            .map { !$0.isEmpty }
+            .removeDuplicates()
+            .eraseToAnyPublisher()
+    }
+
+    internal var doneTapped: AnyPublisher<Void, Never> {
+        doneTappedSubject.eraseToAnyPublisher()
     }
 
     private lazy var heightConstraint: NSLayoutConstraint =
         heightAnchor.constraint(equalToConstant: .zero)
 
-    private let endEditingSubject: PassthroughSubject<Void, Never>
+    private let doneTappedSubject: PassthroughSubject<Void, Never>
     private let editingTextSubject: CurrentValueSubject<String, Never>
     private let isVisibleSubject: CurrentValueSubject<Bool, Never>
 
     private var subscriptions: Set<AnyCancellable>
 
     internal init() {
-        self.endEditingSubject = .init()
+        self.doneTappedSubject = .init()
         self.editingTextSubject = .init("")
         self.isVisibleSubject = .init(false)
         self.subscriptions = .init()
@@ -104,8 +112,8 @@ extension NewListTextField: NewListControl {
 
 extension NewListTextField: UITextFieldDelegate {
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        finishEditing()
-        endEditingSubject.send()
+        resignFirstResponder()
+        doneTappedSubject.send()
         return true
     }
 

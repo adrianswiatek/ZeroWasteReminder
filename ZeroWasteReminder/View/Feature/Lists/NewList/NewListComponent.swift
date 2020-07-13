@@ -2,8 +2,8 @@ import Combine
 import UIKit
 
 public final class NewListComponent {
-    public var listName: AnyPublisher<String, Never> {
-        newListTextField.editingText.eraseToAnyPublisher()
+    public var newListName: AnyPublisher<String, Never> {
+        newListNameSubject.eraseToAnyPublisher()
     }
 
     public var textField: UIView {
@@ -22,6 +22,7 @@ public final class NewListComponent {
     private let newListButtons: NewListButtons
     private let newListOverlayView: NewListOverlayView
 
+    private let newListNameSubject: PassthroughSubject<String, Never>
     private let stateSubject: CurrentValueSubject<State, Never>
     private var subscriptions: Set<AnyCancellable>
 
@@ -30,6 +31,7 @@ public final class NewListComponent {
         newListButtons = .init()
         newListOverlayView = .init()
 
+        newListNameSubject = .init()
         stateSubject = .init(.idle)
         subscriptions = []
 
@@ -41,14 +43,8 @@ public final class NewListComponent {
             .sink { [weak self] in self?.setState(to: $0) }
             .store(in: &subscriptions)
 
-        newListTextField.editingText
-            .filter { [weak self] _ in self?.stateSubject.value != .idle }
-            .map { State.active(editing: !$0.isEmpty) }
-            .subscribe(stateSubject)
-            .store(in: &subscriptions)
-
-        newListTextField.endEditing
-            .map { State.idle }
+        newListTextField.isCurrentlyEditing
+            .map { State.active(editing: $0) }
             .subscribe(stateSubject)
             .store(in: &subscriptions)
 
@@ -62,7 +58,12 @@ public final class NewListComponent {
             .subscribe(stateSubject)
             .store(in: &subscriptions)
 
-        newListButtons.confirmTapped
+        newListButtons.confirmTapped.merge(with: newListTextField.doneTapped)
+            .compactMap { [weak self] in self?.newListTextField.text }
+            .sink { [weak self] in self?.newListNameSubject.send($0) }
+            .store(in: &subscriptions)
+
+        newListButtons.confirmTapped.merge(with: newListTextField.doneTapped)
             .map { State.idle }
             .subscribe(stateSubject)
             .store(in: &subscriptions)
