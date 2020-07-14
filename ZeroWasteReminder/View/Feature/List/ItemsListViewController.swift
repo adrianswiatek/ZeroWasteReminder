@@ -200,7 +200,7 @@ public final class ItemsListViewController: UIViewController {
 
         viewModel.needsDeleteItem
             .sink { [weak self] item in
-                self?.askForDeleteConfirmation(whenConfirmed: { self?.viewModel.deleteItem(item) })
+                self?.askForDeleteConfirmation(whenConfirmed: { self?.viewModel.removeItem(item) })
             }
             .store(in: &subscriptions)
     }
@@ -328,7 +328,7 @@ public final class ItemsListViewController: UIViewController {
                 .presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
                 .sink(
                     receiveCompletion: { [weak self] _ in self?.actionsSubscription = nil },
-                    receiveValue: { _ in self.viewModel.deleteAll() }
+                    receiveValue: { _ in self.viewModel.removeAll() }
                 )
         case .selectItems:
             viewModel.modeState.select(on: viewModel)

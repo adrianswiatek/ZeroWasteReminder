@@ -1,6 +1,8 @@
 public enum LocalizedText: String {
+    case allLists = "All lists"
     case cannotConnectToICloud = "Cannot connect to iCloud"
     case capture = "Capture"
+    case changeName = "Change name"
     case clear = "Clear"
     case expiration = "Expiration"
     case fullScreen = "Full Screen"

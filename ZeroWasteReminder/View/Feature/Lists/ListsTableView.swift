@@ -40,15 +40,22 @@ extension ListsTableView: UITableViewDelegate {
         contextMenuConfigurationForRowAt indexPath: IndexPath,
         point: CGPoint
     ) -> UIContextMenuConfiguration? {
+        let changeNameAction = UIAction(
+            title: .localized(.changeName),
+            image: .fromSymbol(.pencil),
+            attributes: [],
+            handler: { [weak self] _ in self?.viewModel.setNeedsChangeNameForList(at: indexPath.row) }
+        )
+
         let removeAction = UIAction(
             title: .localized(.removeList),
             image: .fromSymbol(.trash),
             attributes: .destructive,
-            handler: { [weak self] _ in self?.viewModel.removeList(at: indexPath.row) }
+            handler: { [weak self] _ in self?.viewModel.setNeedsRemoveList(at: indexPath.row) }
         )
 
         return UIContextMenuConfiguration(identifier: "ListsContextMenu" as NSCopying, previewProvider: nil) { _ in
-            UIMenu(title: "", children: [removeAction])
+            UIMenu(title: "", children: [changeNameAction, removeAction])
         }
     }
 }

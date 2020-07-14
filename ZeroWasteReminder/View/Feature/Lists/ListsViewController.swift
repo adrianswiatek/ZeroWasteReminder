@@ -11,6 +11,7 @@ public final class ListsViewController: UIViewController {
     private let factory: ViewControllerFactory
     private let notificationCenter: NotificationCenter
 
+    private var removeListSubscription: AnyCancellable?
     private var subscriptions: Set<AnyCancellable>
 
     private lazy var buttonsBottomConstraint: NSLayoutConstraint =
@@ -47,7 +48,7 @@ public final class ListsViewController: UIViewController {
     }
 
     private func setupView() {
-        title = "All lists"
+        title = .localized(.allLists)
         view.backgroundColor = .accent
 
         view.addSubview(tableView)
@@ -101,6 +102,21 @@ public final class ListsViewController: UIViewController {
 
         notificationCenter.publisher(for: UIResponder.keyboardWillHideNotification)
             .sink { [weak self] _ in self?.setButtonsBottomPadding(to: Metrics.buttonsRegularPadding) }
+            .store(in: &subscriptions)
+
+        viewModel.needsRemoveList
+            .sink { [weak self] list in
+                guard let self = self else { return }
+                self.removeListSubscription = UIAlertController
+                    .presentRemoveListConfirmationSheet(in: self)
+                    .sink { [weak self] _ in self?.viewModel.removeList(list) }
+            }
+            .store(in: &subscriptions)
+
+        viewModel.needsChangeNameForList
+            .sink { [weak self] list, index in
+                self?.tableView.selectRow(at: .init(row: index, section: 0), animated: true, scrollPosition: .middle)
+            }
             .store(in: &subscriptions)
     }
 

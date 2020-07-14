@@ -74,11 +74,11 @@ public final class ItemsListViewModel {
         modeState.done(on: self)
     }
 
-    public func deleteItem(_ item: Item) {
+    public func removeItem(_ item: Item) {
         itemsService.delete([item])
     }
 
-    public func deleteAll() {
+    public func removeAll() {
         itemsService.deleteAll()
     }
 
