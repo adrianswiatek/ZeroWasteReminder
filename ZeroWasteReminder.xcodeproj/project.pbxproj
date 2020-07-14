@@ -42,6 +42,8 @@
 		A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D624426C4C00B0007B /* ListAddButton.swift */; };
 		A72F4CBF2460B5FA008B0D5B /* ExpirationDateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72F4CBE2460B5FA008B0D5B /* ExpirationDateButton.swift */; };
 		A731DBE024A935A600CE926A /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731DBDF24A935A600CE926A /* PhotosViewController.swift */; };
+		A731F89524BE439B007348A3 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731F89424BE439B007348A3 /* ListCell.swift */; };
+		A731F89724BE45D0007348A3 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731F89624BE45D0007348A3 /* List.swift */; };
 		A73ADDB924A90C8200D7E316 /* PhotoCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73ADDB824A90C8200D7E316 /* PhotoCaptureView.swift */; };
 		A73ADDBB24A91D2D00D7E316 /* PhotosEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73ADDBA24A91D2D00D7E316 /* PhotosEmptyView.swift */; };
 		A741613E2450D814001ED316 /* UIAlertActionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */; };
@@ -175,6 +177,8 @@
 		A72A46D624426C4C00B0007B /* ListAddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAddButton.swift; sourceTree = "<group>"; };
 		A72F4CBE2460B5FA008B0D5B /* ExpirationDateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateButton.swift; sourceTree = "<group>"; };
 		A731DBDF24A935A600CE926A /* PhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
+		A731F89424BE439B007348A3 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
+		A731F89624BE45D0007348A3 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		A73ADDB824A90C8200D7E316 /* PhotoCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureView.swift; sourceTree = "<group>"; };
 		A73ADDBA24A91D2D00D7E316 /* PhotosEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosEmptyView.swift; sourceTree = "<group>"; };
 		A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertActionExtensions.swift; sourceTree = "<group>"; };
@@ -331,6 +335,7 @@
 				A7FFA9762448F3FF0061A3D6 /* Expiration.swift */,
 				A7FFA9782448F5C00061A3D6 /* ExpirationType.swift */,
 				A70BCCDA2447960200CC49D0 /* Item.swift */,
+				A731F89624BE45D0007348A3 /* List.swift */,
 				A70BCCDC244796FB00CC49D0 /* PeriodType.swift */,
 				A75E703A248DA01300F06E98 /* Photo.swift */,
 				A7A181A9249E9C5200B8E6EE /* PhotoToSave.swift */,
@@ -538,6 +543,7 @@
 		A759430624AFBF06007A526B /* Lists */ = {
 			isa = PBXGroup;
 			children = (
+				A731F89424BE439B007348A3 /* ListCell.swift */,
 				A7BDE68424B5095A003215C0 /* ListsDataSource.swift */,
 				A7BDE68824B513F5003215C0 /* ListsNavigationController.swift */,
 				A7BDE68624B50B73003215C0 /* ListsTableView.swift */,
@@ -872,6 +878,7 @@
 				A7BDE68B24B51C61003215C0 /* NewListMixedButton.swift in Sources */,
 				A71B69212443D3EB00AF7CB3 /* ExpirationSectionView.swift in Sources */,
 				A78172B02494D24400F406EC /* CloudKitRecordMapper.swift in Sources */,
+				A731F89724BE45D0007348A3 /* List.swift in Sources */,
 				A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */,
 				A74774CC2475CD7800E41992 /* NotificationNameExtensions.swift in Sources */,
 				A7C1A0B5249FEA630054BBAF /* CloudKitPhotosService.swift in Sources */,
@@ -915,6 +922,7 @@
 				A78172AC2494D01500F406EC /* CloudKitKey.swift in Sources */,
 				A79B4A202479F6FA00ECE1B1 /* SubscriptionService.swift in Sources */,
 				A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */,
+				A731F89524BE439B007348A3 /* ListCell.swift in Sources */,
 				A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */,
 				A70BCCDB2447960200CC49D0 /* Item.swift in Sources */,
 				A783EE28246755E9008BCC17 /* AddContentViewController.swift in Sources */,

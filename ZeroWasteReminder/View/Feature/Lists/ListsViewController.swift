@@ -102,10 +102,6 @@ public final class ListsViewController: UIViewController {
         notificationCenter.publisher(for: UIResponder.keyboardWillHideNotification)
             .sink { [weak self] _ in self?.setButtonsBottomPadding(to: Metrics.buttonsRegularPadding) }
             .store(in: &subscriptions)
-
-        viewModel.lists
-            .sink { [weak self] in self?.dataSource.apply($0) }
-            .store(in: &subscriptions)
     }
 
     private func setButtonsBottomPadding(to padding: CGFloat) {

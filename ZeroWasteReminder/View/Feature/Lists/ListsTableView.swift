@@ -26,12 +26,29 @@ public final class ListsTableView: UITableView {
     }
 
     private func registerCells() {
-        register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
     }
 }
 
 extension ListsTableView: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+
+    public func tableView(
+        _ tableView: UITableView,
+        contextMenuConfigurationForRowAt indexPath: IndexPath,
+        point: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        let removeAction = UIAction(
+            title: .localized(.removeList),
+            image: .fromSymbol(.trash),
+            attributes: .destructive,
+            handler: { [weak self] _ in self?.viewModel.removeList(at: indexPath.row) }
+        )
+
+        return UIContextMenuConfiguration(identifier: "ListsContextMenu" as NSCopying, previewProvider: nil) { _ in
+            UIMenu(title: "", children: [removeAction])
+        }
     }
 }

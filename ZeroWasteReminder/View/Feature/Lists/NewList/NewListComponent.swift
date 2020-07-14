@@ -57,7 +57,7 @@ public final class NewListComponent {
 
         newListButtons.confirmTapped.merge(with: newListTextField.doneTapped)
             .compactMap { [weak self] in self?.newListTextField.text }
-            .sink { [weak self] in self?.viewModel.addList($0) }
+            .sink { [weak self] in self?.viewModel.addList(withName: $0) }
             .store(in: &subscriptions)
 
         newListButtons.confirmTapped.merge(with: newListTextField.doneTapped)

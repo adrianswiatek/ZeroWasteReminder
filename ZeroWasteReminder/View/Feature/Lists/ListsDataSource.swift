@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public final class ListsDataSource: UITableViewDiffableDataSource<ListsDataSource.Section, String> {
+public final class ListsDataSource: UITableViewDiffableDataSource<ListsDataSource.Section, List> {
     private let viewModel: ListsViewModel
     private var subscriptions: Set<AnyCancellable>
 
@@ -9,26 +9,30 @@ public final class ListsDataSource: UITableViewDiffableDataSource<ListsDataSourc
         self.viewModel = viewModel
         self.subscriptions = []
 
-        super.init(tableView: tableView) { tableView, indexPath, listName in
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-            cell.backgroundColor = .secondarySystemBackground
-            cell.accessoryType = .disclosureIndicator
-            cell.textLabel?.text = listName
+        super.init(tableView: tableView) { tableView, indexPath, list in
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: ListCell.identifier,
+                for: indexPath
+            ) as? ListCell
+
+            cell?.setList(list)
             return cell
         }
 
         self.bind()
     }
 
-    public func apply(_ titles: [String]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, String>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(titles)
-        apply(snapshot)
+    private func bind() {
+        viewModel.lists
+            .sink { [weak self] in self?.apply($0) }
+            .store(in: &subscriptions)
     }
 
-    private func bind() {
-
+    private func apply(_ lists: [List]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, List>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(lists)
+        apply(snapshot)
     }
 }
 

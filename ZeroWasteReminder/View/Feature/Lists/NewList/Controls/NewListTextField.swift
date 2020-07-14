@@ -45,17 +45,19 @@ internal final class NewListTextField: UITextField {
     }
 
     internal override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        bounds.inset(by: .init(top: 0, left: 16, bottom: 0, right: -16))
+        bounds.inset(by: .init(top: 0, left: 16, bottom: 0, right: 16))
     }
 
     internal override func textRect(forBounds bounds: CGRect) -> CGRect {
-        bounds.inset(by: .init(top: 0, left: 16, bottom: 0, right: -16))
+        bounds.inset(by: .init(top: 0, left: 16, bottom: 0, right: 16))
     }
 
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .secondarySystemBackground
         placeholder = .localized(.listName)
+        directionalLayoutMargins = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
+        clearButtonMode = .whileEditing
         returnKeyType = .done
         tintColor = .accent
         delegate = self
