@@ -72,8 +72,6 @@ private extension NewListButtons {
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
 
         button.layer.cornerRadius = Metrics.buttonDiameter / 2
-        button.layer.shadowOpacity = 0.5
-        button.layer.shadowOffset = .init(width: 0, height: 2)
 
         NSLayoutConstraint.activate([
             button.heightAnchor.constraint(equalToConstant: Metrics.buttonDiameter),

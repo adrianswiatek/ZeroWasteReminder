@@ -114,8 +114,13 @@ extension NewListTextField: NewListControl {
 
 extension NewListTextField: UITextFieldDelegate {
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard textField.text?.isEmpty == false else {
+            return false
+        }
+
         resignFirstResponder()
         doneTappedSubject.send()
+
         return true
     }
 
