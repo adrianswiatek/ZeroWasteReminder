@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-internal final class NewListButtons: UIView {
+internal final class EditListButtons: UIView {
     public var addTapped: AnyPublisher<Void, Never> {
         mixedButton.addTapped
     }
@@ -21,8 +21,8 @@ internal final class NewListButtons: UIView {
     private lazy var mixedButtonTrailingConstraint: NSLayoutConstraint =
         mixedButton.trailingAnchor.constraint(equalTo: trailingAnchor)
 
-    private let confirmButton: NewListConfirmButton
-    private let mixedButton: NewListMixedButton
+    private let confirmButton: EditListConfirmButton
+    private let mixedButton: EditListMixedButton
 
     private var subscriptions: Set<AnyCancellable>
 
@@ -63,7 +63,7 @@ internal final class NewListButtons: UIView {
     }
 }
 
-private extension NewListButtons {
+private extension EditListButtons {
     func configure(_ button: UIButton) {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.alpha = 0.85
@@ -80,19 +80,19 @@ private extension NewListButtons {
     }
 }
 
-extension NewListButtons: NewListControl {
+extension EditListButtons: EditListControl {
     private enum Metrics {
         static let buttonDiameter: CGFloat = 52
     }
 
-    internal func setState(to state: NewListComponent.State) {
+    internal func setState(to state: EditListComponent.State) {
         mixedButton.setState(to: state)
         confirmButton.setState(to: state)
 
         updateView(with: state)
     }
 
-    private func updateView(with state: NewListComponent.State) {
+    private func updateView(with state: EditListComponent.State) {
         mixedButtonTrailingConstraint.constant = trailingConstant(for: state)
 
         UIView.animate(
@@ -105,7 +105,7 @@ extension NewListButtons: NewListControl {
         )
     }
 
-    private func trailingConstant(for state: NewListComponent.State) -> CGFloat {
+    private func trailingConstant(for state: EditListComponent.State) -> CGFloat {
         if case .active(let editing) = state, editing {
             return -72
         } else {

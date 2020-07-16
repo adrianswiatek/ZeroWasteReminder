@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-internal final class NewListTextField: UITextField {
+internal final class EditListTextField: UITextField {
     internal var editingText: AnyPublisher<String, Never> {
         editingTextSubject.eraseToAnyPublisher()
     }
@@ -106,13 +106,13 @@ internal final class NewListTextField: UITextField {
     }
 }
 
-extension NewListTextField: NewListControl {
-    internal func setState(to state: NewListComponent.State) {
+extension EditListTextField: EditListControl {
+    internal func setState(to state: EditListComponent.State) {
         isVisibleSubject.send(state != .idle)
     }
 }
 
-extension NewListTextField: UITextFieldDelegate {
+extension EditListTextField: UITextFieldDelegate {
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard textField.text?.isEmpty == false else {
             return false
@@ -129,7 +129,7 @@ extension NewListTextField: UITextFieldDelegate {
     }
 }
 
-private extension NewListTextField {
+private extension EditListTextField {
     enum Metric {
         static let visibleHeight: CGFloat = 44
     }

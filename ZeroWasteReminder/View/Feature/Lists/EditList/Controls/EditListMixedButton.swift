@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-internal final class NewListMixedButton: UIButton {
+internal final class EditListMixedButton: UIButton {
     internal var addTapped: AnyPublisher<Void, Never> {
         addTappedSubject.eraseToAnyPublisher()
     }
@@ -10,7 +10,7 @@ internal final class NewListMixedButton: UIButton {
         dismissTappedSubject.eraseToAnyPublisher()
     }
 
-    private let stateSubject: CurrentValueSubject<NewListComponent.State, Never>
+    private let stateSubject: CurrentValueSubject<EditListComponent.State, Never>
     private let addTappedSubject: PassthroughSubject<Void, Never>
     private let dismissTappedSubject: PassthroughSubject<Void, Never>
 
@@ -50,7 +50,7 @@ internal final class NewListMixedButton: UIButton {
     }
 
     private func backgroundColorAndImageForState(
-        _ state: NewListComponent.State
+        _ state: EditListComponent.State
     ) -> (color: UIColor, image: UIImage) {
         let symbolConfiguration = UIImage.SymbolConfiguration(scale: .large)
 
@@ -84,8 +84,8 @@ internal final class NewListMixedButton: UIButton {
     }
 }
 
-extension NewListMixedButton: NewListControl {
-    internal func setState(to state: NewListComponent.State) {
+extension EditListMixedButton: EditListControl {
+    internal func setState(to state: EditListComponent.State) {
         stateSubject.send(state)
     }
 }

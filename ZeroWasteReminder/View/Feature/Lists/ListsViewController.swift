@@ -5,7 +5,7 @@ public final class ListsViewController: UIViewController {
     private let tableView: ListsTableView
     private let dataSource: ListsDataSource
 
-    private let newListComponent: NewListComponent
+    private let editListComponent: EditListComponent
 
     private let viewModel: ListsViewModel
     private let factory: ViewControllerFactory
@@ -15,7 +15,7 @@ public final class ListsViewController: UIViewController {
     private var subscriptions: Set<AnyCancellable>
 
     private lazy var buttonsBottomConstraint: NSLayoutConstraint =
-        newListComponent.buttons.bottomAnchor.constraint(
+        editListComponent.buttons.bottomAnchor.constraint(
             equalTo: view.bottomAnchor,
             constant: -Metrics.buttonsRegularPadding
         )
@@ -32,7 +32,7 @@ public final class ListsViewController: UIViewController {
         self.tableView = .init(viewModel: viewModel)
         self.dataSource = .init(tableView, viewModel)
 
-        self.newListComponent = .init(viewModel: viewModel)
+        self.editListComponent = .init(viewModel: viewModel)
 
         self.subscriptions = []
 
@@ -58,32 +58,32 @@ public final class ListsViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
 
-        view.addSubview(newListComponent.overlay)
+        view.addSubview(editListComponent.overlay)
         NSLayoutConstraint.activate([
-            newListComponent.overlay.topAnchor.constraint(equalTo: view.topAnchor),
-            newListComponent.overlay.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            newListComponent.overlay.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            newListComponent.overlay.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            editListComponent.overlay.topAnchor.constraint(equalTo: view.topAnchor),
+            editListComponent.overlay.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            editListComponent.overlay.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            editListComponent.overlay.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
-        view.addSubview(newListComponent.textField)
+        view.addSubview(editListComponent.textField)
         NSLayoutConstraint.activate([
-            newListComponent.textField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            newListComponent.textField.leadingAnchor.constraint(
+            editListComponent.textField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            editListComponent.textField.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
                 constant: 16
             ),
-            newListComponent.textField.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -8),
-            newListComponent.textField.trailingAnchor.constraint(
+            editListComponent.textField.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -8),
+            editListComponent.textField.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -16
             ),
         ])
 
-        view.addSubview(newListComponent.buttons)
+        view.addSubview(editListComponent.buttons)
         NSLayoutConstraint.activate([
             buttonsBottomConstraint,
-            newListComponent.buttons.trailingAnchor.constraint(
+            editListComponent.buttons.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -Metrics.buttonsRegularPadding
             )

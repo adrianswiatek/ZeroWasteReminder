@@ -1,6 +1,6 @@
 import UIKit
 
-internal final class NewListOverlayView: UIView {
+internal final class EditListOverlayView: UIView {
     internal override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupView()
@@ -17,8 +17,8 @@ internal final class NewListOverlayView: UIView {
     }
 }
 
-extension NewListOverlayView: NewListControl {
-    internal func setState(to state: NewListComponent.State) {
+extension EditListOverlayView: EditListControl {
+    internal func setState(to state: EditListComponent.State) {
         UIView.animate(withDuration: 0.3) {
             self.alpha = state == .idle ? 0 : 0.25
         }

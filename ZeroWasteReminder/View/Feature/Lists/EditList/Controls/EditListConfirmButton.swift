@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-internal final class NewListConfirmButton: UIButton {
+internal final class EditListConfirmButton: UIButton {
     internal var tap: AnyPublisher<Void, Never> {
         tapSubject.eraseToAnyPublisher()
     }
@@ -47,8 +47,8 @@ internal final class NewListConfirmButton: UIButton {
     }
 }
 
-extension NewListConfirmButton: NewListControl {
-    internal func setState(to state: NewListComponent.State) {
+extension EditListConfirmButton: EditListControl {
+    internal func setState(to state: EditListComponent.State) {
         UIView.animate(
             withDuration: 0.75,
             delay: 0,
@@ -59,7 +59,7 @@ extension NewListConfirmButton: NewListControl {
         )
     }
 
-    private func action(for state: NewListComponent.State) -> () -> Void {
+    private func action(for state: EditListComponent.State) -> () -> Void {
         switch state {
         case .active(let editing) where editing: return show
         default: return hide
