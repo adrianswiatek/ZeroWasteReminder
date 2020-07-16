@@ -19,17 +19,20 @@ public final class EditListComponent {
     private let overlayView: EditListOverlayView
 
     private let stateSubject: CurrentValueSubject<State, Never>
+    private let actionSubject: CurrentValueSubject<Action, Never>
     private var subscriptions: Set<AnyCancellable>
 
     private let viewModel: ListsViewModel
 
     public init(viewModel: ListsViewModel) {
         self.viewModel = viewModel
+
         self.textFieldView = .init()
         self.buttonsView = .init()
         self.overlayView = .init()
 
         self.stateSubject = .init(.idle)
+        self.actionSubject = .init(.unspecified)
         self.subscriptions = []
 
         self.bind()
@@ -41,28 +44,45 @@ public final class EditListComponent {
             .store(in: &subscriptions)
 
         textFieldView.isCurrentlyEditing
-            .map { State.active(editing: $0) }
-            .subscribe(stateSubject)
+            .sink { [weak self] in self?.stateSubject.send(.active(editing: $0)) }
             .store(in: &subscriptions)
 
         buttonsView.addTapped
-            .map { State.active(editing: false) }
-            .subscribe(stateSubject)
+            .sink { [weak self] in
+                self?.actionSubject.send(.creating)
+                self?.stateSubject.send(.active(editing: false))
+            }
             .store(in: &subscriptions)
 
         buttonsView.dismissTapped
-            .map { State.idle }
-            .subscribe(stateSubject)
+            .sink { [weak self] in
+                guard let self = self else { return }
+                self.actionSubject.value.discard(in: self.viewModel)
+                self.actionSubject.send(.unspecified)
+                self.stateSubject.send(.idle)
+            }
             .store(in: &subscriptions)
 
         buttonsView.confirmTapped.merge(with: textFieldView.doneTapped)
             .compactMap { [weak self] in self?.textFieldView.text }
-            .sink { [weak self] in self?.viewModel.addList(withName: $0) }
+            .sink { [weak self] in
+                guard let self = self else { return }
+                self.actionSubject.value.confirm(with: $0, in: self.viewModel)
+                self.actionSubject.send(.unspecified)
+                self.stateSubject.send(.idle)
+            }
             .store(in: &subscriptions)
 
-        buttonsView.confirmTapped.merge(with: textFieldView.doneTapped)
-            .map { State.idle }
-            .subscribe(stateSubject)
+        viewModel.needsChangeNameForList
+            .map { $0.0 }
+            .receive(on: DispatchQueue.main)
+            .flatMap { [weak self] list -> AnyPublisher<List, Never> in
+                self?.actionSubject.send(.updating(list))
+                self?.stateSubject.send(.active(editing: true))
+                return Just<List>(list).eraseToAnyPublisher()
+            }
+            .delay(for: .milliseconds(200), scheduler: DispatchQueue.main)
+            .sink { [weak self] in self?.textFieldView.text = $0.name }
             .store(in: &subscriptions)
     }
 
@@ -86,6 +106,23 @@ extension EditListComponent {
             default:
                 return false
             }
+        }
+    }
+
+    internal enum Action {
+        case creating, updating(_ list: List), unspecified
+
+        internal func confirm(with name: String, in viewModel: ListsViewModel) {
+            if case .creating = self {
+                viewModel.addList(withName: name)
+            } else if case .updating(let list) = self {
+                let updatedList = list.withName(name)
+                updatedList != list ? viewModel.updateList(updatedList) : discard(in: viewModel)
+            }
+        }
+
+        internal func discard(in viewModel: ListsViewModel) {
+            viewModel.setNeedsDiscardChanges()
         }
     }
 }

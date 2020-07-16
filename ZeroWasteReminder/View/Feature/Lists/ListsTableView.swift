@@ -1,15 +1,19 @@
+import Combine
 import UIKit
 
 public final class ListsTableView: UITableView {
     private let viewModel: ListsViewModel
+    private var subscriptions: Set<AnyCancellable>
 
     public init(viewModel: ListsViewModel) {
         self.viewModel = viewModel
+        self.subscriptions = []
 
         super.init(frame: .zero, style: .plain)
 
-        self.configureView()
+        self.setupView()
         self.registerCells()
+        self.bind()
     }
 
     @available(*, unavailable)
@@ -17,7 +21,7 @@ public final class ListsTableView: UITableView {
         fatalError("Not supported.")
     }
 
-    private func configureView() {
+    private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .secondarySystemBackground
         delegate = self
@@ -27,6 +31,16 @@ public final class ListsTableView: UITableView {
 
     private func registerCells() {
         register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
+    }
+
+    private func bind() {
+        viewModel.needsDiscardChanges
+            .sink { [weak self] in self?.deselectRows() }
+            .store(in: &subscriptions)
+    }
+
+    private func deselectRows() {
+        visibleCells.filter { $0.isSelected }.forEach { $0.setSelected(false, animated: true) }
     }
 }
 
