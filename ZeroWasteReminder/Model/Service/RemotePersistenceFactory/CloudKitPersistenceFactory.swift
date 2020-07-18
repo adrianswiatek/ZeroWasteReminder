@@ -42,8 +42,8 @@ public final class CloudKitPersistenceFactory: RemotePersistenceFactory {
         )
     }
 
-    public func subscriptionService(remoteStatusNotifier: RemoteStatusNotifier) -> SubscriptionService {
-        CloudKitSubscriptionService(configuration: configuration, remoteStatusNotifier: remoteStatusNotifier)
+    public func subscriptionService(statusNotifier: StatusNotifier) -> SubscriptionService {
+        CloudKitSubscriptionService(configuration: configuration, statusNotifier: statusNotifier)
     }
 
     public func sharingControllerFactory() -> SharingControllerFactory {

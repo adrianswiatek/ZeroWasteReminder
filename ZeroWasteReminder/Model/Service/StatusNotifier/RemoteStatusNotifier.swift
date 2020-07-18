@@ -2,7 +2,7 @@ import Combine
 import Foundation
 import Network
 
-public final class RemoteStatusNotifier {
+public final class RemoteStatusNotifier: StatusNotifier {
     public var remoteStatus: AnyPublisher<RemoteStatus, Never> {
         remoteStatusSubject.receive(on: DispatchQueue.main).share().eraseToAnyPublisher()
     }
@@ -53,19 +53,5 @@ public final class RemoteStatusNotifier {
         @unknown default:
             assertionFailure("Unknown network status.")
         }
-    }
-}
-
-public enum RemoteStatus: Equatable {
-    case connected
-    case notConnected(_ reason: Reason)
-    case notDetermined
-}
-
-extension RemoteStatus {
-    public enum Reason {
-        case badInternetConnection
-        case noInternetConnection
-        case remoteAccountNotFound
     }
 }

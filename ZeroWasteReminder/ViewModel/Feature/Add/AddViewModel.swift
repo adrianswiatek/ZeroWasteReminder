@@ -33,7 +33,7 @@ public final class AddViewModel {
     }
 
     public var canRemotelyConnect: AnyPublisher<Bool, Never> {
-        remoteStatusNotifier.remoteStatus.map { $0 == .connected }.eraseToAnyPublisher()
+        statusNotifier.remoteStatus.map { $0 == .connected }.eraseToAnyPublisher()
     }
 
     public let photosViewModel: PhotosViewModel
@@ -45,7 +45,7 @@ public final class AddViewModel {
     private let itemsService: ItemsService
     private let photosRepository: PhotosRepository
     private let fileService: FileService
-    private let remoteStatusNotifier: RemoteStatusNotifier
+    private let statusNotifier: StatusNotifier
     
     private var subscriptions: Set<AnyCancellable>
 
@@ -53,12 +53,12 @@ public final class AddViewModel {
         itemsService: ItemsService,
         photosRepository: PhotosRepository,
         fileService: FileService,
-        remoteStatusNotifier: RemoteStatusNotifier
+        statusNotifier: StatusNotifier
     ) {
         self.itemsService = itemsService
         self.photosRepository = photosRepository
         self.fileService = fileService
-        self.remoteStatusNotifier = remoteStatusNotifier
+        self.statusNotifier = statusNotifier
 
         self.name = ""
         self.notes = ""

@@ -8,7 +8,6 @@ public final class ListsViewController: UIViewController {
     private let editListComponent: EditListComponent
 
     private let viewModel: ListsViewModel
-    private let factory: ViewControllerFactory
     private let notificationCenter: NotificationCenter
 
     private var removeListSubscription: AnyCancellable?
@@ -20,13 +19,8 @@ public final class ListsViewController: UIViewController {
             constant: -Metrics.buttonsRegularPadding
         )
 
-    public init(
-        viewModel: ListsViewModel,
-        factory: ViewControllerFactory,
-        notificationCenter: NotificationCenter
-    ) {
+    public init(viewModel: ListsViewModel, notificationCenter: NotificationCenter) {
         self.viewModel = viewModel
-        self.factory = factory
         self.notificationCenter = notificationCenter
 
         self.tableView = .init(viewModel: viewModel)

@@ -7,15 +7,15 @@ public final class CloudKitSubscriptionService: SubscriptionService {
     }
 
     private let configuration: CloudKitConfiguration
-    private let remoteStatusNotifier: RemoteStatusNotifier
+    private let statusNotifier: StatusNotifier
 
-    public init(configuration: CloudKitConfiguration, remoteStatusNotifier: RemoteStatusNotifier) {
+    public init(configuration: CloudKitConfiguration, statusNotifier: StatusNotifier) {
         self.configuration = configuration
-        self.remoteStatusNotifier = remoteStatusNotifier
+        self.statusNotifier = statusNotifier
     }
 
     public func registerItemsSubscriptionIfNeeded() {
-        remoteStatusNotifier.remoteStatus
+        statusNotifier.remoteStatus
             .filter { $0 == .connected }
             .first()
             .setFailureType(to: CKError.self)

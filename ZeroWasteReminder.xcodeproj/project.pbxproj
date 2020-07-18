@@ -40,6 +40,8 @@
 		A7203B8C24C3867E00C17F85 /* InMemoryListsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7203B8B24C3867E00C17F85 /* InMemoryListsRepository.swift */; };
 		A72315AE244B0943008614B2 /* ValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72315AD244B0943008614B2 /* ValidationRules.swift */; };
 		A725068D2457992F006C3A2F /* RemainingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A725068C2457992F006C3A2F /* RemainingState.swift */; };
+		A726F35B24C3C24800BE0EC5 /* StatusNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A726F35A24C3C24800BE0EC5 /* StatusNotifier.swift */; };
+		A726F35D24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A726F35C24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift */; };
 		A72A46D424426A4000B0007B /* ItemsListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D324426A4000B0007B /* ItemsListTableView.swift */; };
 		A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D624426C4C00B0007B /* ListAddButton.swift */; };
 		A72F4CBF2460B5FA008B0D5B /* ExpirationDateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72F4CBE2460B5FA008B0D5B /* ExpirationDateButton.swift */; };
@@ -56,6 +58,13 @@
 		A74D1640249C2ED500FEB5CD /* RemoteStatusNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74D163F249C2ED500FEB5CD /* RemoteStatusNotifier.swift */; };
 		A750434124707386009A1451 /* CloudKitItemsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434024707386009A1451 /* CloudKitItemsService.swift */; };
 		A750434524707517009A1451 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A750434424707517009A1451 /* CloudKit.framework */; };
+		A7547EDB24C3AF5100D82DE9 /* InMemoryAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EDA24C3AF5000D82DE9 /* InMemoryAccountService.swift */; };
+		A7547EE524C3B32000D82DE9 /* EmptySharingControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EE424C3B32000D82DE9 /* EmptySharingControllerFactory.swift */; };
+		A7547EE724C3B4BA00D82DE9 /* EmptySubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EE624C3B4BA00D82DE9 /* EmptySubscriptionService.swift */; };
+		A7547EEB24C3BFD600D82DE9 /* VariableDependenciesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EEA24C3BFD600D82DE9 /* VariableDependenciesFactory.swift */; };
+		A7547EEF24C3C01600D82DE9 /* InMemoryVariableDependenciesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EEE24C3C01600D82DE9 /* InMemoryVariableDependenciesFactory.swift */; };
+		A7547EF124C3C02F00D82DE9 /* CloudKitVariableDependenciesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EF024C3C02F00D82DE9 /* CloudKitVariableDependenciesFactory.swift */; };
+		A757B2D224C3A3CD001A3268 /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757B2D124C3A3CD001A3268 /* DependencyContainer.swift */; };
 		A759430B24AFBF5A007A526B /* ListsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A759430A24AFBF5A007A526B /* ListsViewModel.swift */; };
 		A75E703B248DA01300F06E98 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75E703A248DA01300F06E98 /* Photo.swift */; };
 		A760CAD6248802CB00999C12 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A760CAD5248802CB00999C12 /* PhotosDataSource.swift */; };
@@ -177,6 +186,8 @@
 		A7203B8B24C3867E00C17F85 /* InMemoryListsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryListsRepository.swift; sourceTree = "<group>"; };
 		A72315AD244B0943008614B2 /* ValidationRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationRules.swift; sourceTree = "<group>"; };
 		A725068C2457992F006C3A2F /* RemainingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingState.swift; sourceTree = "<group>"; };
+		A726F35A24C3C24800BE0EC5 /* StatusNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusNotifier.swift; sourceTree = "<group>"; };
+		A726F35C24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStatusNotifier.swift; sourceTree = "<group>"; };
 		A72A46D324426A4000B0007B /* ItemsListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListTableView.swift; sourceTree = "<group>"; };
 		A72A46D624426C4C00B0007B /* ListAddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAddButton.swift; sourceTree = "<group>"; };
 		A72F4CBE2460B5FA008B0D5B /* ExpirationDateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateButton.swift; sourceTree = "<group>"; };
@@ -194,6 +205,13 @@
 		A750434024707386009A1451 /* CloudKitItemsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitItemsService.swift; sourceTree = "<group>"; };
 		A750434224707513009A1451 /* ZeroWasteReminder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZeroWasteReminder.entitlements; sourceTree = "<group>"; };
 		A750434424707517009A1451 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		A7547EDA24C3AF5000D82DE9 /* InMemoryAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryAccountService.swift; sourceTree = "<group>"; };
+		A7547EE424C3B32000D82DE9 /* EmptySharingControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySharingControllerFactory.swift; sourceTree = "<group>"; };
+		A7547EE624C3B4BA00D82DE9 /* EmptySubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySubscriptionService.swift; sourceTree = "<group>"; };
+		A7547EEA24C3BFD600D82DE9 /* VariableDependenciesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableDependenciesFactory.swift; sourceTree = "<group>"; };
+		A7547EEE24C3C01600D82DE9 /* InMemoryVariableDependenciesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryVariableDependenciesFactory.swift; sourceTree = "<group>"; };
+		A7547EF024C3C02F00D82DE9 /* CloudKitVariableDependenciesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitVariableDependenciesFactory.swift; sourceTree = "<group>"; };
+		A757B2D124C3A3CD001A3268 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
 		A759430A24AFBF5A007A526B /* ListsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsViewModel.swift; sourceTree = "<group>"; };
 		A75E703A248DA01300F06E98 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		A760CAD5248802CB00999C12 /* PhotosDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
@@ -355,13 +373,14 @@
 				A7ACC4C1247B00BF0098EDE0 /* CloudKitConfiguration.swift */,
 				A7636A662490499F00166631 /* FileService.swift */,
 				A782FAD12475E0A000C69737 /* RemoteNotificationHandler.swift */,
-				A74D163F249C2ED500FEB5CD /* RemoteStatusNotifier.swift */,
+				A70FA676244CDEEA0045B545 /* ViewControllerFactory.swift */,
 				A7E530AB249BFD280020DB14 /* AccountService */,
 				A7C1A0BA249FFB7E0054BBAF /* ItemsRepository */,
 				A79B4A1C2479F6A200ECE1B1 /* ItemsService */,
 				A7203B8824C3852C00C17F85 /* ListsRepository */,
 				A7C1A0AF249FE8D30054BBAF /* PhotosRepository */,
 				A7ACC4BC247AFFE90098EDE0 /* RemotePersistenceFactory */,
+				A726F35924C3C22700BE0EC5 /* StatusNotifier */,
 				A79B4A1D2479F6B800ECE1B1 /* SubscriptionService */,
 			);
 			path = Service;
@@ -441,6 +460,16 @@
 				A7203B8924C3853B00C17F85 /* ListsRepository.swift */,
 			);
 			path = ListsRepository;
+			sourceTree = "<group>";
+		};
+		A726F35924C3C22700BE0EC5 /* StatusNotifier */ = {
+			isa = PBXGroup;
+			children = (
+				A726F35C24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift */,
+				A74D163F249C2ED500FEB5CD /* RemoteStatusNotifier.swift */,
+				A726F35A24C3C24800BE0EC5 /* StatusNotifier.swift */,
+			);
+			path = StatusNotifier;
 			sourceTree = "<group>";
 		};
 		A72A46CC2442649A00B0007B /* Resource */ = {
@@ -554,6 +583,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		A7547EE824C3BFC000D82DE9 /* DependencyContainer */ = {
+			isa = PBXGroup;
+			children = (
+				A757B2D124C3A3CD001A3268 /* DependencyContainer.swift */,
+				A7547EEA24C3BFD600D82DE9 /* VariableDependenciesFactory.swift */,
+				A7547EE924C3BFCB00D82DE9 /* Factory */,
+			);
+			path = DependencyContainer;
+			sourceTree = "<group>";
+		};
+		A7547EE924C3BFCB00D82DE9 /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				A7547EF024C3C02F00D82DE9 /* CloudKitVariableDependenciesFactory.swift */,
+				A7547EEE24C3C01600D82DE9 /* InMemoryVariableDependenciesFactory.swift */,
+			);
+			path = Factory;
+			sourceTree = "<group>";
+		};
 		A759430624AFBF06007A526B /* Lists */ = {
 			isa = PBXGroup;
 			children = (
@@ -633,6 +681,7 @@
 			isa = PBXGroup;
 			children = (
 				A782FAD52475E83300C69737 /* CloudKitSubscriptionService.swift */,
+				A7547EE624C3B4BA00D82DE9 /* EmptySubscriptionService.swift */,
 				A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */,
 			);
 			path = SubscriptionService;
@@ -694,6 +743,7 @@
 			isa = PBXGroup;
 			children = (
 				A7ACC4C6247B12E20098EDE0 /* CloudKitSharingControllerFactory.swift */,
+				A7547EE424C3B32000D82DE9 /* EmptySharingControllerFactory.swift */,
 				A7ACC4C4247B12AB0098EDE0 /* SharingControllerFactory.swift */,
 			);
 			path = SharingControllerFactory;
@@ -753,6 +803,7 @@
 			children = (
 				A7E530AC249BFD330020DB14 /* AccountService.swift */,
 				A7E530AE249C02E40020DB14 /* CloudKitAccountService.swift */,
+				A7547EDA24C3AF5000D82DE9 /* InMemoryAccountService.swift */,
 			);
 			path = AccountService;
 			sourceTree = "<group>";
@@ -771,8 +822,8 @@
 		A7EC2D602445126600993F53 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				A7547EE824C3BFC000D82DE9 /* DependencyContainer */,
 				A701536524773CC000CE9085 /* ServiceError.swift */,
-				A70FA676244CDEEA0045B545 /* ViewControllerFactory.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -884,11 +935,14 @@
 				A7A2DDA5249FD4FF0025B1B8 /* UUIDExtensions.swift in Sources */,
 				A7ACC4C0247B000E0098EDE0 /* CloudKitPersistenceFactory.swift in Sources */,
 				A7ACC4C7247B12E20098EDE0 /* CloudKitSharingControllerFactory.swift in Sources */,
+				A757B2D224C3A3CD001A3268 /* DependencyContainer.swift in Sources */,
 				A77608B424BB8CAB00BA0C66 /* EditListControl.swift in Sources */,
 				A7F82BAA2458CB9C00970CFC /* SelectionModeState.swift in Sources */,
+				A7547EE724C3B4BA00D82DE9 /* EmptySubscriptionService.swift in Sources */,
 				A7BDE68724B50B73003215C0 /* ListsTableView.swift in Sources */,
 				A7C1A0B9249FFB540054BBAF /* InMemoryItemsRepository.swift in Sources */,
 				A7EC2D622445127200993F53 /* PeriodTypeExtensions.swift in Sources */,
+				A726F35D24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift in Sources */,
 				A7BDE68B24B51C61003215C0 /* EditListMixedButton.swift in Sources */,
 				A71B69212443D3EB00AF7CB3 /* ExpirationSectionView.swift in Sources */,
 				A78172B02494D24400F406EC /* CloudKitRecordMapper.swift in Sources */,
@@ -906,15 +960,18 @@
 				A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */,
 				A759430B24AFBF5A007A526B /* ListsViewModel.swift in Sources */,
 				A7C1A0B7249FFA8E0054BBAF /* ItemsRepository.swift in Sources */,
+				A7547EE524C3B32000D82DE9 /* EmptySharingControllerFactory.swift in Sources */,
 				A7A8EF73247C52E900FF1AC2 /* NameTextView.swift in Sources */,
 				A783EE2624674ECD008BCC17 /* AdaptiveScrollView.swift in Sources */,
 				A7636A672490499F00166631 /* FileService.swift in Sources */,
 				A725068D2457992F006C3A2F /* RemainingState.swift in Sources */,
 				A7FFA9792448F5C00061A3D6 /* ExpirationType.swift in Sources */,
 				A70FA677244CDEEA0045B545 /* ViewControllerFactory.swift in Sources */,
+				A7547EF124C3C02F00D82DE9 /* CloudKitVariableDependenciesFactory.swift in Sources */,
 				A716C9C1244FA07A004262AF /* RemainingViewModel.swift in Sources */,
 				A7BDE68924B513F5003215C0 /* ListsNavigationController.swift in Sources */,
 				A7A8EF75247C771900FF1AC2 /* NotesTextView.swift in Sources */,
+				A726F35B24C3C24800BE0EC5 /* StatusNotifier.swift in Sources */,
 				A7DD996E248463B500B40141 /* ReuseIdentifiable.swift in Sources */,
 				A7EC2D5C2444F66800993F53 /* ExpirationDateView.swift in Sources */,
 				A7BDE68324B5082B003215C0 /* ListsViewController.swift in Sources */,
@@ -924,6 +981,7 @@
 				A7A8EF77247C7DF900FF1AC2 /* SharedTextViewDelegate.swift in Sources */,
 				A78172AE2494D05200F406EC /* CloudKitItemMapper.swift in Sources */,
 				A7E317992496EBB8006B9610 /* PhotosChangeset.swift in Sources */,
+				A7547EEF24C3C01600D82DE9 /* InMemoryVariableDependenciesFactory.swift in Sources */,
 				A7F82BAC2458CBA800970CFC /* FilteringModeState.swift in Sources */,
 				A7E530AF249C02E40020DB14 /* CloudKitAccountService.swift in Sources */,
 				A70BCCE52447C56A00CC49D0 /* ExpirationTypeExtensions.swift in Sources */,
@@ -944,6 +1002,7 @@
 				A77A99CF245A14EE00F3578C /* UIImageExtensions.swift in Sources */,
 				A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */,
 				A7DD996A2484578D00B40141 /* PhotoCell.swift in Sources */,
+				A7547EEB24C3BFD600D82DE9 /* VariableDependenciesFactory.swift in Sources */,
 				A7ACC4C2247B00BF0098EDE0 /* CloudKitConfiguration.swift in Sources */,
 				A7175078244286F60058FCE4 /* ItemsListTableViewCell.swift in Sources */,
 				A7AD76E62463661100220A94 /* StateIndicatorLabel.swift in Sources */,
@@ -974,6 +1033,7 @@
 				A749366C247346A4003DB46E /* LoadingView.swift in Sources */,
 				A77608B124BB8C5700BA0C66 /* EditListConfirmButton.swift in Sources */,
 				A731DBE024A935A600CE926A /* PhotosViewController.swift in Sources */,
+				A7547EDB24C3AF5100D82DE9 /* InMemoryAccountService.swift in Sources */,
 				A780EFD1245F7590002A8AD4 /* EditViewController.swift in Sources */,
 				A7ADB60E244E47CB00694BA0 /* DateFormatterExtensions.swift in Sources */,
 				A7DDA2FE249D792A005DAEA6 /* WarningBarView.swift in Sources */,

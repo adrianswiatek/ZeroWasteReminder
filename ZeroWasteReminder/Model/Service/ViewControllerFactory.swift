@@ -8,7 +8,7 @@ public final class ViewControllerFactory {
     private let listsRepository: ListsRepository
     private let photosRepository: PhotosRepository
 
-    private let remoteStatusNotifier: RemoteStatusNotifier
+    private let statusNotifier: StatusNotifier
     private let sharingControllerFactory: SharingControllerFactory
     private let notificationCenter: NotificationCenter
 
@@ -18,7 +18,7 @@ public final class ViewControllerFactory {
         fileService: FileService,
         itemsRepository: ItemsRepository,
         listsRepository: ListsRepository,
-        remoteStatusNotifier: RemoteStatusNotifier,
+        statusNotifier: StatusNotifier,
         sharingControllerFactory: SharingControllerFactory,
         notificationCenter: NotificationCenter
     ) {
@@ -29,7 +29,7 @@ public final class ViewControllerFactory {
         self.itemsRepository = itemsRepository
         self.listsRepository = listsRepository
 
-        self.remoteStatusNotifier = remoteStatusNotifier
+        self.statusNotifier = statusNotifier
         self.sharingControllerFactory = sharingControllerFactory
         self.notificationCenter = notificationCenter
     }
@@ -37,7 +37,6 @@ public final class ViewControllerFactory {
     public var listsViewController: UIViewController {
         ListsNavigationController(rootViewController: ListsViewController(
             viewModel: .init(listsRepository: listsRepository),
-            factory: self,
             notificationCenter: notificationCenter
         ))
     }
@@ -46,7 +45,7 @@ public final class ViewControllerFactory {
         let viewModel = ItemsListViewModel(
             itemsService: itemsService,
             itemsRepository: itemsRepository,
-            remoteStatusNotifier: remoteStatusNotifier
+            statusNotifier: statusNotifier
         )
         let viewController = ItemsListViewController(viewModel: viewModel, factory: self)
         return ItemsListNavigationController(rootViewController: viewController)
@@ -57,7 +56,7 @@ public final class ViewControllerFactory {
             itemsService: itemsService,
             photosRepository: photosRepository,
             fileService: fileService,
-            remoteStatusNotifier: remoteStatusNotifier
+            statusNotifier: statusNotifier
         )
         let viewController = AddViewController(viewModel: viewModel, factory: self)
         return AddNavigationController(rootViewController: viewController)
@@ -69,7 +68,7 @@ public final class ViewControllerFactory {
             itemsService: itemsService,
             photosRepository: photosRepository,
             fileService: fileService,
-            remoteStatusNotifier: remoteStatusNotifier
+            statusNotifier: statusNotifier
         )
         return EditViewController(viewModel: viewModel, factory: self)
     }

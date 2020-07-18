@@ -17,7 +17,7 @@ public final class ItemsListViewModel {
     }
 
     public var canRemotelyConnect: AnyPublisher<Bool, Never> {
-        remoteStatusNotifier.remoteStatus.map { $0 == .connected }.eraseToAnyPublisher()
+        statusNotifier.remoteStatus.map { $0 == .connected }.eraseToAnyPublisher()
     }
 
     public var needsDeleteItem: AnyPublisher<Item, Never> {
@@ -30,17 +30,17 @@ public final class ItemsListViewModel {
 
     private let itemsService: ItemsService
     private let itemsRepository: ItemsRepository
-    private let remoteStatusNotifier: RemoteStatusNotifier
+    private let statusNotifier: StatusNotifier
     private var subscriptions: Set<AnyCancellable>
 
     public init(
         itemsService: ItemsService,
         itemsRepository: ItemsRepository,
-        remoteStatusNotifier: RemoteStatusNotifier
+        statusNotifier: StatusNotifier
     ) {
         self.itemsService = itemsService
         self.itemsRepository = itemsRepository
-        self.remoteStatusNotifier = remoteStatusNotifier
+        self.statusNotifier = statusNotifier
 
         self.itemsFilterViewModel = .init()
 
