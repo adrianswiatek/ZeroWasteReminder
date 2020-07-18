@@ -27,8 +27,8 @@ public final class CloudKitPersistenceFactory: RemotePersistenceFactory {
         )
     }
 
-    public func photosService() -> PhotosService {
-        CloudKitPhotosService(
+    public func photosRepository() -> PhotosRepository {
+        CloudKitPhotosRepository(
             configuration: configuration,
             itemsRepository: itemsRepository,
             mapper: mapper

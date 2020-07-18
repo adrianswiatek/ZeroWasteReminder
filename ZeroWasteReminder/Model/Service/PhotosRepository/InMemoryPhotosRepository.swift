@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-public final class InMemoryPhotosService: PhotosService {
+public final class InMemoryPhotosRepository: PhotosRepository {
     private var itemIdsToPhotos: [UUID: [PhotoToSave]] = [:]
 
     private var photos: [PhotoToSave] {

@@ -30,7 +30,7 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         viewControllerFactory = ViewControllerFactory(
             itemsService: remotePersistenceFactory.itemsService(),
-            photosService: remotePersistenceFactory.photosService(),
+            photosRepository: remotePersistenceFactory.photosRepository(),
             fileService: fileService,
             itemsRepository: itemsRepository,
             listsRepository: listsRepository,

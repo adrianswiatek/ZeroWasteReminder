@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-public protocol PhotosService {
+public protocol PhotosRepository {
     @discardableResult
     func fetchThumbnails(for item: Item) -> Future<[Photo], ServiceError>
 

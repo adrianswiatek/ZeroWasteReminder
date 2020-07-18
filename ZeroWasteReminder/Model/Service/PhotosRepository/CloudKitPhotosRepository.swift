@@ -2,7 +2,7 @@ import CloudKit
 import Combine
 import Foundation
 
-public final class CloudKitPhotosService: PhotosService {
+public final class CloudKitPhotosRepository: PhotosRepository {
     private var database: CKDatabase {
         configuration.container.database(with: .private)
     }

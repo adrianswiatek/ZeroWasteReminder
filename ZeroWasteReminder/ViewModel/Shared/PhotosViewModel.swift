@@ -29,7 +29,7 @@ public final class PhotosViewModel {
 
     public private(set) var photosChangeset: PhotosChangeset
 
-    private let photosService: PhotosService
+    private let photosRepository: PhotosRepository
     private let itemsService: ItemsService
     private let fileService: FileService
 
@@ -37,8 +37,8 @@ public final class PhotosViewModel {
     private var fetchPhotosSubscription: AnyCancellable?
     private var downsizeImageSubscription: AnyCancellable?
 
-    public init(photosService: PhotosService, itemsService: ItemsService, fileService: FileService) {
-        self.photosService = photosService
+    public init(photosRepository: PhotosRepository, itemsService: ItemsService, fileService: FileService) {
+        self.photosRepository = photosRepository
         self.itemsService = itemsService
         self.fileService = fileService
 
@@ -57,7 +57,7 @@ public final class PhotosViewModel {
     public func fetchThumbnails(for item: Item) {
         isLoadingOverlayVisibleSubject.value = true
 
-        fetchPhotosSubscription = photosService.fetchThumbnails(for: item)
+        fetchPhotosSubscription = photosRepository.fetchThumbnails(for: item)
             .sink(
                 receiveCompletion: { [weak self] _ in self?.fetchPhotosSubscription?.cancel() },
                 receiveValue: { [weak self] in
@@ -138,7 +138,7 @@ public final class PhotosViewModel {
     }
 
     private func fetchFullSizePhoto(with photoId: UUID) {
-        photosService.fetchFullSize(with: photoId)
+        photosRepository.fetchFullSize(with: photoId)
             .sink(
                 receiveCompletion: { _ in },
                 receiveValue: { [weak self] in self?.needsShowImageSubject.send($0.asImage()) }

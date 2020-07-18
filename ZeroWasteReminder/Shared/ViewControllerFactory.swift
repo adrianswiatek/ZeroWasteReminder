@@ -2,11 +2,11 @@ import UIKit
 
 public final class ViewControllerFactory {
     private let itemsService: ItemsService
-    private let photosService: PhotosService
     private let fileService: FileService
 
     private let itemsRepository: ItemsRepository
     private let listsRepository: ListsRepository
+    private let photosRepository: PhotosRepository
 
     private let remoteStatusNotifier: RemoteStatusNotifier
     private let sharingControllerFactory: SharingControllerFactory
@@ -14,7 +14,7 @@ public final class ViewControllerFactory {
 
     public init(
         itemsService: ItemsService,
-        photosService: PhotosService,
+        photosRepository: PhotosRepository,
         fileService: FileService,
         itemsRepository: ItemsRepository,
         listsRepository: ListsRepository,
@@ -23,7 +23,7 @@ public final class ViewControllerFactory {
         notificationCenter: NotificationCenter
     ) {
         self.itemsService = itemsService
-        self.photosService = photosService
+        self.photosRepository = photosRepository
         self.fileService = fileService
 
         self.itemsRepository = itemsRepository
@@ -55,7 +55,7 @@ public final class ViewControllerFactory {
     public var addViewController: UIViewController {
         let viewModel = AddViewModel(
             itemsService: itemsService,
-            photosService: photosService,
+            photosRepository: photosRepository,
             fileService: fileService,
             remoteStatusNotifier: remoteStatusNotifier
         )
@@ -67,7 +67,7 @@ public final class ViewControllerFactory {
         let viewModel = EditViewModel(
             item: item,
             itemsService: itemsService,
-            photosService: photosService,
+            photosRepository: photosRepository,
             fileService: fileService,
             remoteStatusNotifier: remoteStatusNotifier
         )

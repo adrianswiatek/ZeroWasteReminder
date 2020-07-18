@@ -58,7 +58,7 @@ public final class EditViewModel {
     private let originalItem: Item
     private var originalPhotoIds: [UUID]
     private let itemsService: ItemsService
-    private let photosService: PhotosService
+    private let photosRepository: PhotosRepository
     private let fileService: FileService
     private let remoteStatusNotifier: RemoteStatusNotifier
     private let dateFormatter: DateFormatter
@@ -68,14 +68,14 @@ public final class EditViewModel {
     public init(
         item: Item,
         itemsService: ItemsService,
-        photosService: PhotosService,
+        photosRepository: PhotosRepository,
         fileService: FileService,
         remoteStatusNotifier: RemoteStatusNotifier
     ) {
         self.originalItem = item
         self.originalPhotoIds = []
         self.itemsService = itemsService
-        self.photosService = photosService
+        self.photosRepository = photosRepository
         self.fileService = fileService
         self.remoteStatusNotifier = remoteStatusNotifier
         self.dateFormatter = .fullDateFormatter
@@ -92,7 +92,7 @@ public final class EditViewModel {
         self.isExpirationDateVisibleSubject = .init(false)
 
         self.photosViewModel = .init(
-            photosService: photosService,
+            photosRepository: photosRepository,
             itemsService: itemsService,
             fileService: fileService
         )
@@ -120,7 +120,7 @@ public final class EditViewModel {
             .flatMap { [weak self] () -> AnyPublisher<Void, ServiceError> in
                 guard let self = self else { return Empty().eraseToAnyPublisher() }
                 let changeset = self.photosViewModel.photosChangeset
-                return self.photosService.update(changeset, for: item).eraseToAnyPublisher()
+                return self.photosRepository.update(changeset, for: item).eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()
     }
