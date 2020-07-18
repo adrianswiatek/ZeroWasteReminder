@@ -2,11 +2,10 @@ import Combine
 import Foundation
 
 public final class InMemoryItemsRepository: ItemsRepository {
+    private let itemsSubject = CurrentValueSubject<[Item], Never>([])
     public var items: AnyPublisher<[Item], Never> {
         itemsSubject.receive(on: DispatchQueue.main).eraseToAnyPublisher()
     }
-
-    private let itemsSubject = CurrentValueSubject<[Item], Never>([])
 
     public func allItems() -> [Item] {
         itemsSubject.value

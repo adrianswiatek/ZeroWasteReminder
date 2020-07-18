@@ -16,6 +16,7 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let fileService = FileService()
         let itemsRepository = InMemoryItemsRepository()
+        let listsRepository = InMemoryListsRepository()
         let notificationCenter = NotificationCenter.default
         let remotePersistenceFactory = buildRemotePersistenceFactory(itemsRepository, fileService, notificationCenter)
 
@@ -32,6 +33,7 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             photosService: remotePersistenceFactory.photosService(),
             fileService: fileService,
             itemsRepository: itemsRepository,
+            listsRepository: listsRepository,
             remoteStatusNotifier: remoteStatusNotifier,
             sharingControllerFactory: remotePersistenceFactory.sharingControllerFactory(),
             notificationCenter: notificationCenter

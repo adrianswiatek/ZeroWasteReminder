@@ -26,35 +26,33 @@ public final class ListsViewModel {
         needsOpenListSubject.eraseToAnyPublisher()
     }
 
-    public init() {
-        listsSubject = .init([])
-        needsDiscardChangesSubject = .init()
-        needsRemoveListSubject = .init()
-        needsChangeNameForListSubject = .init()
-        needsOpenListSubject = .init()
+    private let listsRepository: ListsRepository
+    private var subscriptions: Set<AnyCancellable>
 
-        listsSubject.value = [
-            .init(name: "Pantry"),
-            .init(name: "Cosmetics"),
-            .init(name: "Alcohol"),
-            .init(name: "Sweets"),
-            .init(name: "Fridgerator"),
-            .init(name: "Basement")
-        ]
+    public init(listsRepository: ListsRepository) {
+        self.listsRepository = listsRepository
+        self.subscriptions = []
+
+        self.listsSubject = .init([])
+
+        self.needsDiscardChangesSubject = .init()
+        self.needsRemoveListSubject = .init()
+        self.needsChangeNameForListSubject = .init()
+        self.needsOpenListSubject = .init()
+
+        self.bind()
     }
 
     public func addList(withName name: String) {
-        listsSubject.value.insert(.init(name: name), at: 0)
+        listsRepository.add(.init(name: name))
     }
 
     public func updateList(_ list: List) {
-        listsSubject.value
-            .firstIndex { $0.id == list.id }
-            .map { listsSubject.value[$0] = list }
+        listsRepository.update(list)
     }
 
     public func removeList(_ list: List) {
-        listsSubject.value.removeAll { $0 == list }
+        listsRepository.remove(list)
     }
 
     public func setNeedsDiscardChanges() {
@@ -73,6 +71,12 @@ public final class ListsViewModel {
 
     public func setNeedsOpenList() {
         needsOpenListSubject.send()
+    }
+
+    private func bind() {
+        listsRepository.lists
+            .subscribe(listsSubject)
+            .store(in: &subscriptions)
     }
 
     private func validate(_ index: Int) {
