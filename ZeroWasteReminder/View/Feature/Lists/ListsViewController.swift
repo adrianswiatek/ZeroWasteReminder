@@ -8,6 +8,7 @@ public final class ListsViewController: UIViewController {
     private let editListComponent: EditListComponent
 
     private let viewModel: ListsViewModel
+    private let factory: ViewControllerFactory
     private let notificationCenter: NotificationCenter
 
     private var removeListSubscription: AnyCancellable?
@@ -19,8 +20,13 @@ public final class ListsViewController: UIViewController {
             constant: -Metrics.buttonsRegularPadding
         )
 
-    public init(viewModel: ListsViewModel, notificationCenter: NotificationCenter) {
+    public init(
+        viewModel: ListsViewModel,
+        factory: ViewControllerFactory,
+        notificationCenter: NotificationCenter
+    ) {
         self.viewModel = viewModel
+        self.factory = factory
         self.notificationCenter = notificationCenter
 
         self.tableView = .init(viewModel: viewModel)
@@ -105,12 +111,11 @@ public final class ListsViewController: UIViewController {
                 guard case .remove(let list) = request else { return nil }
                 return list
             }
-            .sink { [weak self] list in
-                guard let self = self else { return }
-                self.removeListSubscription = UIAlertController
-                    .presentRemoveListConfirmationSheet(in: self)
+            .sink { [weak self] list in self.map {
+                $0.removeListSubscription = UIAlertController
+                    .presentRemoveListConfirmationSheet(in: $0)
                     .sink { [weak self] _ in self?.viewModel.removeList(list) }
-            }
+            }}
             .store(in: &subscriptions)
 
         viewModel.requestsSubject
@@ -122,6 +127,16 @@ public final class ListsViewController: UIViewController {
                 self?.viewModel.lists.firstIndex(of: list).map {
                     self?.tableView.selectRow(at: .init(row: $0, section: 0), animated: true, scrollPosition: .middle)
                 }
+            }
+            .store(in: &subscriptions)
+
+        viewModel.requestsSubject
+            .compactMap { request -> List? in
+                guard case .openItems(let list) = request else { return nil }
+                return list
+            }
+            .sink { [weak self] list in
+                self.map { $0.present($0.factory.itemsViewController(for: list), animated: true) }
             }
             .store(in: &subscriptions)
     }

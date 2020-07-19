@@ -42,7 +42,9 @@ public final class AddViewModel {
 
     private let expirationTypeSubject: CurrentValueSubject<ExpirationType, Never>
 
-    private let itemsService: ItemsService
+    private let list: List
+
+    private let itemsRepository: ItemsRepository
     private let photosRepository: PhotosRepository
     private let fileService: FileService
     private let statusNotifier: StatusNotifier
@@ -50,12 +52,14 @@ public final class AddViewModel {
     private var subscriptions: Set<AnyCancellable>
 
     public init(
-        itemsService: ItemsService,
+        list: List,
+        itemsRepository: ItemsRepository,
         photosRepository: PhotosRepository,
         fileService: FileService,
         statusNotifier: StatusNotifier
     ) {
-        self.itemsService = itemsService
+        self.list = list
+        self.itemsRepository = itemsRepository
         self.photosRepository = photosRepository
         self.fileService = fileService
         self.statusNotifier = statusNotifier
@@ -65,13 +69,9 @@ public final class AddViewModel {
 
         self.expirationTypeIndex = ExpirationType.none.index
 
-        self.photosViewModel = .init(
-            photosRepository: photosRepository,
-            itemsService: itemsService,
-            fileService: fileService
-        )
-        self.expirationDateViewModel = .init(.init())
-        self.expirationPeriodViewModel = .init(.day)
+        self.photosViewModel = .init(photosRepository: photosRepository, fileService: fileService)
+        self.expirationDateViewModel = .init(initialDate: .init())
+        self.expirationPeriodViewModel = .init(initialPeriodType: .day)
 
         self.expirationTypeSubject = .init(ExpirationType.none)
 
@@ -81,11 +81,11 @@ public final class AddViewModel {
     }
 
     public func saveItem() -> AnyPublisher<Void, ServiceError> {
-        guard let item = createItem() else {
+        guard let item = tryCreateItem() else {
             preconditionFailure("Unable to create item.")
         }
 
-        return itemsService.add(item)
+        return itemsRepository.add(.init(item: item, listId: list.id))
             .flatMap { [weak self] _ -> AnyPublisher<Void, ServiceError> in
                 guard let self = self else { return Empty().eraseToAnyPublisher() }
                 let changeset = self.photosViewModel.photosChangeset
@@ -105,7 +105,7 @@ public final class AddViewModel {
             .store(in: &subscriptions)
     }
 
-    private func createItem() -> Item? {
+    private func tryCreateItem() -> Item? {
         guard !name.isEmpty, let expiration = expiration() else {
             return nil
         }

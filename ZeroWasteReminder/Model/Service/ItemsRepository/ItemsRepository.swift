@@ -2,16 +2,23 @@ import Combine
 import Foundation
 
 public protocol ItemsRepository {
-    var items: AnyPublisher<[Item], Never> { get }
+    var events: AnyPublisher<ItemsEvent, Never> { get }
 
-    func allItems() -> [Item]
+    @discardableResult
+    func fetchAll(from list: List) -> Future<Void, ServiceError>
 
-    func add(_ item: Item)
-    func set(_ items: [Item])
+    @discardableResult
+    func add(_ item: ItemToSave) -> Future<Void, ServiceError>
 
-    func update(_ item: Item)
+    @discardableResult
+    func update(_ item: Item) -> Future<Void, ServiceError>
 
-    func delete(_ items: [Item])
-    func delete(_ itemIds: [UUID])
-    func deleteAll()
+    @discardableResult
+    func remove(_ item: Item) -> Future<Void, ServiceError>
+
+    @discardableResult
+    func remove(_ items: [Item]) -> Future<Void, ServiceError>
+
+    @discardableResult
+    func removeAll(from list: List) -> Future<Void, ServiceError>
 }

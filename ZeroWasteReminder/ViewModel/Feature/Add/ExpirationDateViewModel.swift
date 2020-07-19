@@ -23,7 +23,7 @@ public final class ExpirationDateViewModel {
 
     private static let dateFormatter: DateFormatter = .fullDateFormatter
 
-    public init(_ initialDate: Date) {
+    public init(initialDate: Date) {
         date = initialDate
 
         isDatePickerVisibleSubject = .init(false)

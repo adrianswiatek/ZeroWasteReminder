@@ -24,7 +24,7 @@ public final class ExpirationPeriodViewModel {
     private let periodValidationRules: ValidationRules
     private var subscriptions: Set<AnyCancellable>
 
-    public init(_ initialPeriodType: PeriodType) {
+    public init(initialPeriodType: PeriodType) {
         period = ""
         periodTypeIndex = initialPeriodType.index
 

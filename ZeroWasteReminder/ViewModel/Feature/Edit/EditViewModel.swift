@@ -57,7 +57,7 @@ public final class EditViewModel {
 
     private let originalItem: Item
     private var originalPhotoIds: [UUID]
-    private let itemsService: ItemsService
+    private let itemsRepository: ItemsRepository
     private let photosRepository: PhotosRepository
     private let fileService: FileService
     private let statusNotifier: StatusNotifier
@@ -67,14 +67,14 @@ public final class EditViewModel {
 
     public init(
         item: Item,
-        itemsService: ItemsService,
+        itemsRepository: ItemsRepository,
         photosRepository: PhotosRepository,
         fileService: FileService,
         statusNotifier: StatusNotifier
     ) {
         self.originalItem = item
         self.originalPhotoIds = []
-        self.itemsService = itemsService
+        self.itemsRepository = itemsRepository
         self.photosRepository = photosRepository
         self.fileService = fileService
         self.statusNotifier = statusNotifier
@@ -91,11 +91,7 @@ public final class EditViewModel {
 
         self.isExpirationDateVisibleSubject = .init(false)
 
-        self.photosViewModel = .init(
-            photosRepository: photosRepository,
-            itemsService: itemsService,
-            fileService: fileService
-        )
+        self.photosViewModel = .init(photosRepository: photosRepository, fileService: fileService)
 
         self.subscriptions = []
 
@@ -116,7 +112,7 @@ public final class EditViewModel {
             preconditionFailure("Unable to create an item.")
         }
 
-        return itemsService.update(item)
+        return itemsRepository.update(item)
             .flatMap { [weak self] () -> AnyPublisher<Void, ServiceError> in
                 guard let self = self else { return Empty().eraseToAnyPublisher() }
                 let changeset = self.photosViewModel.photosChangeset
@@ -125,8 +121,8 @@ public final class EditViewModel {
             .eraseToAnyPublisher()
     }
 
-    public func delete() -> Future<Void, ServiceError> {
-        return itemsService.delete([originalItem])
+    public func remove() -> Future<Void, ServiceError> {
+        itemsRepository.remove(originalItem)
     }
 
     public func cleanUp() {

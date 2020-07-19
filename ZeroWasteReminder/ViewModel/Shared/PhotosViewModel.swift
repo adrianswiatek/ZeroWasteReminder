@@ -30,16 +30,14 @@ public final class PhotosViewModel {
     public private(set) var photosChangeset: PhotosChangeset
 
     private let photosRepository: PhotosRepository
-    private let itemsService: ItemsService
     private let fileService: FileService
 
     private var subscriptions: Set<AnyCancellable>
     private var fetchPhotosSubscription: AnyCancellable?
     private var downsizeImageSubscription: AnyCancellable?
 
-    public init(photosRepository: PhotosRepository, itemsService: ItemsService, fileService: FileService) {
+    public init(photosRepository: PhotosRepository, fileService: FileService) {
         self.photosRepository = photosRepository
-        self.itemsService = itemsService
         self.fileService = fileService
 
         self.photosChangeset = .init()

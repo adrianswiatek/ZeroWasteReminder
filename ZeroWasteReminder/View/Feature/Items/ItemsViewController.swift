@@ -143,18 +143,17 @@ public final class ItemsViewController: UIViewController {
 
     private func bind() {
         addButton.tap
-            .sink { [weak self] in
-                guard let self = self else { return }
-                self.present(self.viewControllerFactory.addViewController, animated: true)
-            }
+            .sink { [weak self] in self.map {
+                let viewController = $0.viewControllerFactory.addViewController(for: $0.viewModel.list)
+                $0.present(viewController, animated: true)
+            }}
             .store(in: &subscriptions)
 
         viewModel.selectedItem
-            .sink { [weak self] in
-                guard let self = self else { return }
-                let editViewController = self.viewControllerFactory.editViewController(for: $0)
-                self.navigationController?.pushViewController(editViewController, animated: true)
-            }
+            .sink { [weak self] item in self.map {
+                let editViewController = $0.viewControllerFactory.editViewController(for: item)
+                $0.navigationController?.pushViewController(editViewController, animated: true)
+            }}
             .store(in: &subscriptions)
 
         viewModel.$modeState

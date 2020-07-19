@@ -27,11 +27,10 @@ internal final class DependencyContainer {
         }
 
         self.viewControllerFactory = .init(
-            itemsService: variableDependenciesFactory.itemsService,
-            photosRepository: variableDependenciesFactory.photosRepository,
             fileService: fileService,
             itemsRepository: variableDependenciesFactory.itemsRepository,
             listsRepository: variableDependenciesFactory.listsRepository,
+            photosRepository: variableDependenciesFactory.photosRepository,
             statusNotifier: variableDependenciesFactory.statusNotifier,
             sharingControllerFactory: variableDependenciesFactory.sharingControllerFactory,
             notificationCenter: notificationCenter

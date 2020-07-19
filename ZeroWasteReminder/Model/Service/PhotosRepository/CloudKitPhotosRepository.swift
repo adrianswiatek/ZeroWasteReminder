@@ -12,16 +12,10 @@ public final class CloudKitPhotosRepository: PhotosRepository {
     }
 
     private let configuration: CloudKitConfiguration
-    private let itemsRepository: ItemsRepository
     private let mapper: CloudKitMapper
 
-    public init(
-        configuration: CloudKitConfiguration,
-        itemsRepository: ItemsRepository,
-        mapper: CloudKitMapper
-    ) {
+    public init(configuration: CloudKitConfiguration, mapper: CloudKitMapper) {
         self.configuration = configuration
-        self.itemsRepository = itemsRepository
         self.mapper = mapper
     }
 

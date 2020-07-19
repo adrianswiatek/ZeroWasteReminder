@@ -21,35 +21,24 @@ internal final class CloudKitVariableDependenciesFactory: VariableDependenciesFa
             notificationCenter: notificationCenter
         )
 
+    internal lazy var subscriptionService: SubscriptionService =
+        CloudKitSubscriptionService(
+            configuration: configuration,
+            statusNotifier: statusNotifier
+        )
+
     internal lazy var itemsRepository: ItemsRepository =
         InMemoryItemsRepository()
-
-    internal lazy var itemsService: ItemsService =
-        CloudKitItemsService(
-            configuration: configuration,
-            itemsRepository: itemsRepository,
-            mapper: mapper,
-            notificationCenter: notificationCenter
-        )
 
     internal lazy var listsRepository: ListsRepository =
         InMemoryListsRepository()
 
     internal lazy var photosRepository: PhotosRepository =
-        CloudKitPhotosRepository(
-            configuration: configuration,
-            itemsRepository: itemsRepository,
-            mapper: mapper
-        )
+        CloudKitPhotosRepository(configuration: configuration, mapper: mapper)
 
     internal lazy var sharingControllerFactory: SharingControllerFactory =
         CloudKitSharingControllerFactory(configuration: configuration)
 
     internal lazy var statusNotifier: StatusNotifier =
         RemoteStatusNotifier(accountService: accountService)
-
-    internal lazy var subscriptionService: SubscriptionService = CloudKitSubscriptionService(
-        configuration: configuration,
-        statusNotifier: statusNotifier
-    )
 }

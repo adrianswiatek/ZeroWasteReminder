@@ -49,6 +49,7 @@ public final class ListsTableView: UITableView {
 extension ListsTableView: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        viewModel.requestsSubject.send(.openItems(viewModel.list(at: indexPath.row)))
     }
 
     public func tableView(

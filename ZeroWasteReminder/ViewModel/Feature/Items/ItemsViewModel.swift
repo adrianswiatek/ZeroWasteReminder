@@ -6,6 +6,7 @@ public final class ItemsViewModel {
     @Published var sortType: SortType
     @Published var selectedItemIndices: [Int]
 
+    public let list: List
     public let itemsFilterViewModel: ItemsFilterViewModel
 
     public var items: AnyPublisher<[Item], Never> {
@@ -28,22 +29,13 @@ public final class ItemsViewModel {
     private let selectedItemSubject: PassthroughSubject<Item, Never>
     private let needsDeleteItemSubject: PassthroughSubject<Item, Never>
 
-    private let list: List
-
-    private let itemsService: ItemsService
     private let itemsRepository: ItemsRepository
     private let statusNotifier: StatusNotifier
     private var subscriptions: Set<AnyCancellable>
 
-    public init(
-        list: List,
-        itemsService: ItemsService,
-        itemsRepository: ItemsRepository,
-        statusNotifier: StatusNotifier
-    ) {
+    public init(list: List, itemsRepository: ItemsRepository, statusNotifier: StatusNotifier) {
         self.list = list
 
-        self.itemsService = itemsService
         self.itemsRepository = itemsRepository
         self.statusNotifier = statusNotifier
 
@@ -67,24 +59,24 @@ public final class ItemsViewModel {
     }
 
     public func refreshList() -> Future<Void, ServiceError> {
-        itemsService.refresh()
+        itemsRepository.fetchAll(from: list)
     }
 
     public func deleteSelectedItems() {
         guard !selectedItemIndices.isEmpty else { return }
 
         let selectedItems = selectedItemIndices.map { itemsSubject.value[$0] }
-        itemsService.delete(selectedItems)
+        itemsRepository.remove(selectedItems)
 
         modeState.done(on: self)
     }
 
     public func removeItem(_ item: Item) {
-        itemsService.delete([item])
+        itemsRepository.remove(item)
     }
 
     public func removeAll() {
-        itemsService.deleteAll()
+        itemsRepository.removeAll(from: list)
     }
 
     public func filter() {
@@ -112,7 +104,12 @@ public final class ItemsViewModel {
     }
 
     private func bind() {
-        itemsRepository.items.combineLatest(itemsFilterViewModel.cellViewModels, $sortType)
+        itemsRepository.events
+            .compactMap { event -> [Item]? in
+                guard case .fetched(let lists) = event else { return nil }
+                return lists
+            }
+            .combineLatest(itemsFilterViewModel.cellViewModels, $sortType)
             .compactMap { items, cells, sortType in
                 if cells.allSatisfy({ $0.isSelected == false }) {
                     return items.sorted(by: sortType.action())

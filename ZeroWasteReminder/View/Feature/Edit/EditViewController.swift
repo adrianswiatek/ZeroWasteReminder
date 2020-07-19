@@ -163,7 +163,7 @@ public final class EditViewController: UIViewController {
                     return Empty<Void, ServiceError>().eraseToAnyPublisher()
                 }
                 self.loadingView.show()
-                return self.viewModel.delete().eraseToAnyPublisher()
+                return self.viewModel.remove().eraseToAnyPublisher()
             }
             .sink(
                 receiveCompletion: { [weak self] in

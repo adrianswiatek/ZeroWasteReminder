@@ -67,8 +67,9 @@ public final class ListsViewModel {
 
 public extension ListsViewModel {
     enum Request: Equatable {
-        case discardChanges
-        case remove(_ list: List)
         case changeName(_ list: List)
+        case discardChanges
+        case openItems(_ list: List)
+        case remove(_ list: List)
     }
 }

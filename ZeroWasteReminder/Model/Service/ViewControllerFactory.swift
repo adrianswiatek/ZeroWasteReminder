@@ -1,7 +1,6 @@
 import UIKit
 
 public final class ViewControllerFactory {
-    private let itemsService: ItemsService
     private let fileService: FileService
 
     private let itemsRepository: ItemsRepository
@@ -13,16 +12,14 @@ public final class ViewControllerFactory {
     private let notificationCenter: NotificationCenter
 
     public init(
-        itemsService: ItemsService,
-        photosRepository: PhotosRepository,
         fileService: FileService,
         itemsRepository: ItemsRepository,
         listsRepository: ListsRepository,
+        photosRepository: PhotosRepository,
         statusNotifier: StatusNotifier,
         sharingControllerFactory: SharingControllerFactory,
         notificationCenter: NotificationCenter
     ) {
-        self.itemsService = itemsService
         self.photosRepository = photosRepository
         self.fileService = fileService
 
@@ -37,6 +34,7 @@ public final class ViewControllerFactory {
     public var listsViewController: UIViewController {
         ListsNavigationController(rootViewController: ListsViewController(
             viewModel: .init(listsRepository: listsRepository),
+            factory: self,
             notificationCenter: notificationCenter
         ))
     }
@@ -44,7 +42,6 @@ public final class ViewControllerFactory {
     public func itemsViewController(for list: List) -> UIViewController {
         let viewModel = ItemsViewModel(
             list: list,
-            itemsService: itemsService,
             itemsRepository: itemsRepository,
             statusNotifier: statusNotifier
         )
@@ -52,9 +49,10 @@ public final class ViewControllerFactory {
         return ItemsNavigationController(rootViewController: viewController)
     }
 
-    public var addViewController: UIViewController {
+    public func addViewController(for list: List) -> UIViewController {
         let viewModel = AddViewModel(
-            itemsService: itemsService,
+            list: list,
+            itemsRepository: itemsRepository,
             photosRepository: photosRepository,
             fileService: fileService,
             statusNotifier: statusNotifier
@@ -66,7 +64,7 @@ public final class ViewControllerFactory {
     public func editViewController(for item: Item) -> UIViewController {
         let viewModel = EditViewModel(
             item: item,
-            itemsService: itemsService,
+            itemsRepository: itemsRepository,
             photosRepository: photosRepository,
             fileService: fileService,
             statusNotifier: statusNotifier
