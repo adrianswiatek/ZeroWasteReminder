@@ -1,9 +1,9 @@
 public protocol ModeState {
     var mode: Mode { get }
 
-    func done(on viewModel: ItemsListViewModel)
-    func filter(on viewModel: ItemsListViewModel)
-    func select(on viewModel: ItemsListViewModel)
+    func done(on viewModel: ItemsViewModel)
+    func filter(on viewModel: ItemsViewModel)
+    func select(on viewModel: ItemsViewModel)
 }
 
 extension ModeState {
@@ -14,17 +14,17 @@ extension ModeState {
     public var isFilterButtonVisible: Bool { mode == .read }
     public var isFilterBadgeVisible: Bool { mode == .read }
     public var isClearButtonVisible: Bool { mode == .filtering }
-    public var isItemsListEditing: Bool { mode == .selection }
+    public var areItemsEditing: Bool { mode == .selection }
 
-    public func done(on viewModel: ItemsListViewModel) {
+    public func done(on viewModel: ItemsViewModel) {
         viewModel.modeState = ReadModeState()
     }
 
-    public func filter(on viewModel: ItemsListViewModel) {
+    public func filter(on viewModel: ItemsViewModel) {
         viewModel.modeState = self
     }
 
-    public func select(on viewModel: ItemsListViewModel) {
+    public func select(on viewModel: ItemsViewModel) {
         viewModel.modeState = self
     }
 }

@@ -1,9 +1,7 @@
 import UIKit
 
-public final class ItemsListTableViewCell: UITableViewCell {
-    public static let identifier: String = "ItemsListTableViewCell"
-
-    public var viewModel: ItemsListCellViewModel! {
+public final class ItemsTableViewCell: UITableViewCell, ReuseIdentifiable {
+    public var viewModel: ItemsCellViewModel! {
         didSet {
             remainingView.viewModel = viewModel.remainingViewModel
             reloadUserInterface()

@@ -41,14 +41,15 @@ public final class ViewControllerFactory {
         ))
     }
 
-    public var listViewController: UIViewController {
-        let viewModel = ItemsListViewModel(
+    public func itemsViewController(for list: List) -> UIViewController {
+        let viewModel = ItemsViewModel(
+            list: list,
             itemsService: itemsService,
             itemsRepository: itemsRepository,
             statusNotifier: statusNotifier
         )
-        let viewController = ItemsListViewController(viewModel: viewModel, factory: self)
-        return ItemsListNavigationController(rootViewController: viewController)
+        let viewController = ItemsViewController(viewModel: viewModel, factory: self)
+        return ItemsNavigationController(rootViewController: viewController)
     }
 
     public var addViewController: UIViewController {

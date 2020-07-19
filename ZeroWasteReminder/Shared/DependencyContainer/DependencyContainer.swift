@@ -16,14 +16,14 @@ internal final class DependencyContainer {
         self.fileService = FileService()
 
         switch configuration {
+        case .inMemory:
+            self.variableDependenciesFactory = InMemoryVariableDependenciesFactory()
         case .cloudKit(let containerIdentifier):
             self.variableDependenciesFactory = CloudKitVariableDependenciesFactory(
                 containerIdentifier: containerIdentifier,
                 fileService: fileService,
                 notificationCenter: notificationCenter
             )
-        case .inMemory:
-            self.variableDependenciesFactory = InMemoryVariableDependenciesFactory()
         }
 
         self.viewControllerFactory = .init(

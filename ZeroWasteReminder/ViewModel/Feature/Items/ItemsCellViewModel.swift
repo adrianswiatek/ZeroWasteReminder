@@ -1,6 +1,6 @@
 import Foundation
 
-public final class ItemsListCellViewModel {
+public final class ItemsCellViewModel {
     public var itemName: String {
         item.name
     }

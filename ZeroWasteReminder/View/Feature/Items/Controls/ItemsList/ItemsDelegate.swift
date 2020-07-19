@@ -1,16 +1,16 @@
 import UIKit
 
-public final class ItemsListDelegate: NSObject, UITableViewDelegate {
-    private let viewModel: ItemsListViewModel
+public final class ItemsDelegate: NSObject, UITableViewDelegate {
+    private let viewModel: ItemsViewModel
 
-    init(_ viewModel: ItemsListViewModel) {
+    init(_ viewModel: ItemsViewModel) {
         self.viewModel = viewModel
     }
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let itemsListTableView = tableView as? ItemsListTableView else { return }
+        guard let itemsTableView = tableView as? ItemsTableView else { return }
 
-        viewModel.selectedItemIndices = itemsListTableView.selectedIndices()
+        viewModel.selectedItemIndices = itemsTableView.selectedIndices()
 
         if !tableView.isEditing {
             tableView.deselectRow(at: indexPath, animated: true)
@@ -19,8 +19,8 @@ public final class ItemsListDelegate: NSObject, UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard let itemsListTableView = tableView as? ItemsListTableView else { return }
-        viewModel.selectedItemIndices = itemsListTableView.selectedIndices()
+        guard let itemsTableView = tableView as? ItemsTableView else { return }
+        viewModel.selectedItemIndices = itemsTableView.selectedIndices()
     }
 
     public func tableView(

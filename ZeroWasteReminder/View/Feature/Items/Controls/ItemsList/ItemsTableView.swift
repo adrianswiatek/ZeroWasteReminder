@@ -1,6 +1,6 @@
 import UIKit
 
-public final class ItemsListTableView: UITableView {
+public final class ItemsTableView: UITableView {
     public init() {
         super.init(frame: .zero, style: .plain)
 
@@ -10,8 +10,8 @@ public final class ItemsListTableView: UITableView {
         separatorStyle = .none
 
         register(
-            ItemsListTableViewCell.self,
-            forCellReuseIdentifier: ItemsListTableViewCell.identifier
+            ItemsTableViewCell.self,
+            forCellReuseIdentifier: ItemsTableViewCell.identifier
         )
     }
 

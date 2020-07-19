@@ -1,14 +1,14 @@
 import Combine
 import UIKit
 
-public final class ItemsListViewController: UIViewController {
+public final class ItemsViewController: UIViewController {
     private let addButton = ListAddButton()
     private let filterBadgeLabel = FilterBadgeLabel()
     private let loadingView = LoadingView()
 
-    private let itemsListTableView: ItemsListTableView
-    private let itemsListDataSource: ItemsListDataSource
-    private let itemsListDelegate: ItemsListDelegate
+    private let itemsTableView: ItemsTableView
+    private let itemsDataSource: ItemsDataSource
+    private let itemsDelegate: ItemsDelegate
     private let warningBarView: WarningBarView
 
     private lazy var moreButton: UIBarButtonItem =
@@ -35,18 +35,18 @@ public final class ItemsListViewController: UIViewController {
     private var refreshSubscription: AnyCancellable?
     private var actionsSubscription: AnyCancellable?
 
-    private let viewModel: ItemsListViewModel
+    private let viewModel: ItemsViewModel
     private let viewControllerFactory: ViewControllerFactory
 
-    public init(viewModel: ItemsListViewModel, factory: ViewControllerFactory) {
+    public init(viewModel: ItemsViewModel, factory: ViewControllerFactory) {
         self.viewModel = viewModel
         self.viewControllerFactory = factory
 
         self.itemsFilterViewController = .init(viewModel.itemsFilterViewModel)
 
-        self.itemsListTableView = .init()
-        self.itemsListDataSource = .init(itemsListTableView, viewModel)
-        self.itemsListDelegate = .init(viewModel)
+        self.itemsTableView = .init()
+        self.itemsDataSource = .init(itemsTableView, viewModel)
+        self.itemsDelegate = .init(viewModel)
         self.warningBarView = .init()
 
         self.subscriptions = []
@@ -110,12 +110,12 @@ public final class ItemsListViewController: UIViewController {
             itemsFilterViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
-        view.addSubview(itemsListTableView)
+        view.addSubview(itemsTableView)
         NSLayoutConstraint.activate([
-            itemsListTableView.topAnchor.constraint(equalTo: itemsFilterViewController.view.bottomAnchor),
-            itemsListTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            itemsListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            itemsListTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            itemsTableView.topAnchor.constraint(equalTo: itemsFilterViewController.view.bottomAnchor),
+            itemsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            itemsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            itemsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
         view.addSubview(warningBarView)
@@ -135,10 +135,10 @@ public final class ItemsListViewController: UIViewController {
     }
 
     private func setupTableView() {
-        itemsListTableView.delegate = itemsListDelegate
+        itemsTableView.delegate = itemsDelegate
 
-        itemsListTableView.refreshControl = UIRefreshControl()
-        itemsListTableView.refreshControl?.addTarget(self, action: #selector(refreshList), for: .valueChanged)
+        itemsTableView.refreshControl = UIRefreshControl()
+        itemsTableView.refreshControl?.addTarget(self, action: #selector(refreshList), for: .valueChanged)
     }
 
     private func bind() {
@@ -214,7 +214,7 @@ public final class ItemsListViewController: UIViewController {
             .sink(
                 receiveCompletion: { [weak self] _ in
                     self?.refreshSubscription?.cancel()
-                    self?.itemsListTableView.refreshControl?.endRefreshing()
+                    self?.itemsTableView.refreshControl?.endRefreshing()
                     self?.loadingView.hide()
                 },
                 receiveValue: {}
@@ -271,7 +271,7 @@ public final class ItemsListViewController: UIViewController {
     private func updateModeState(_ modeState: ModeState) {
         addButton.setVisibility(modeState.isAddButtonVisible)
         filterBadgeLabel.setVisibility(modeState.isFilterBadgeVisible)
-        itemsListTableView.setEditing(modeState.isItemsListEditing, animated: true)
+        itemsTableView.setEditing(modeState.areItemsEditing, animated: true)
 
         navigationItem.rightBarButtonItem = rightBarButtonItem(for: modeState)
         navigationItem.leftBarButtonItems = leftBarButtonItems(for: modeState)

@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-public final class ItemsListViewModel {
+public final class ItemsViewModel {
     @Published var modeState: ModeState
     @Published var sortType: SortType
     @Published var selectedItemIndices: [Int]
@@ -28,16 +28,21 @@ public final class ItemsListViewModel {
     private let selectedItemSubject: PassthroughSubject<Item, Never>
     private let needsDeleteItemSubject: PassthroughSubject<Item, Never>
 
+    private let list: List
+
     private let itemsService: ItemsService
     private let itemsRepository: ItemsRepository
     private let statusNotifier: StatusNotifier
     private var subscriptions: Set<AnyCancellable>
 
     public init(
+        list: List,
         itemsService: ItemsService,
         itemsRepository: ItemsRepository,
         statusNotifier: StatusNotifier
     ) {
+        self.list = list
+
         self.itemsService = itemsService
         self.itemsRepository = itemsRepository
         self.statusNotifier = statusNotifier
@@ -57,7 +62,7 @@ public final class ItemsListViewModel {
         self.bind()
     }
 
-    public func cellViewModel(for item: Item) -> ItemsListCellViewModel {
+    public func cellViewModel(for item: Item) -> ItemsCellViewModel {
         .init(item, dateFormatter: .fullDateFormatter)
     }
 
