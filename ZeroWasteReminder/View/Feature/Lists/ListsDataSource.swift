@@ -23,7 +23,7 @@ public final class ListsDataSource: UITableViewDiffableDataSource<ListsDataSourc
     }
 
     private func bind() {
-        viewModel.lists
+        viewModel.$lists
             .sink { [weak self] in self?.apply($0) }
             .store(in: &subscriptions)
     }

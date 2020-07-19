@@ -34,7 +34,9 @@ public final class ListsTableView: UITableView {
     }
 
     private func bind() {
-        viewModel.needsDiscardChanges
+        viewModel.requestsSubject
+            .filter { $0 == .discardChanges }
+            .map { _ in }
             .sink { [weak self] in self?.deselectRows() }
             .store(in: &subscriptions)
     }
@@ -58,14 +60,18 @@ extension ListsTableView: UITableViewDelegate {
             title: .localized(.changeName),
             image: .fromSymbol(.pencil),
             attributes: [],
-            handler: { [weak self] _ in self?.viewModel.setNeedsChangeNameForList(at: indexPath.row) }
+            handler: { [weak viewModel] _ in
+                viewModel.map { $0.requestsSubject.send(.changeName($0.list(at: indexPath.row))) }
+            }
         )
 
         let removeAction = UIAction(
             title: .localized(.removeList),
             image: .fromSymbol(.trash),
             attributes: .destructive,
-            handler: { [weak self] _ in self?.viewModel.setNeedsRemoveList(at: indexPath.row) }
+            handler: { [weak viewModel] _ in
+                viewModel.map { $0.requestsSubject.send(.remove($0.list(at: indexPath.row))) }
+            }
         )
 
         return UIContextMenuConfiguration(identifier: "ListsContextMenu" as NSCopying, previewProvider: nil) { _ in

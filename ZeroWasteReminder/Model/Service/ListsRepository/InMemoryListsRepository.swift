@@ -2,30 +2,29 @@ import Combine
 import Foundation
 
 public final class InMemoryListsRepository: ListsRepository {
-    private let listsSubject = CurrentValueSubject<[List], Never>([])
-    public var lists: AnyPublisher<[List], Never> {
-        listsSubject.eraseToAnyPublisher()
+    public var events: AnyPublisher<ListsEvent, Never> {
+        eventsSubject.eraseToAnyPublisher()
     }
 
-    public func add(_ list: List) -> Future<Void, ServiceError> {
-        listsSubject.value.insert(list, at: 0)
-        return Future { $0(.success(())) }
+    private let eventsSubject = PassthroughSubject<ListsEvent, Never>()
+    private var lists = [List]()
+
+    public func add(_ list: List) {
+        lists.append(list)
+        eventsSubject.send(.added(list))
     }
 
-    public func refresh() -> Future<Void, ServiceError> {
-        Future { $0(.success(())) }
+    public func fetchAll() {
+        eventsSubject.send(.fetched(lists))
     }
 
-    public func update(_ list: List) -> Future<Void, ServiceError> {
-        listsSubject.value
-            .firstIndex { $0.id == list.id }
-            .map { listsSubject.value[$0] = list }
-
-        return Future { $0(.success(())) }
+    public func remove(_ list: List) {
+        lists.removeAll { $0.id == list.id }
+        eventsSubject.send(.removed(list))
     }
 
-    public func remove(_ list: List) -> Future<Void, ServiceError> {
-        listsSubject.value.removeAll { $0.id == list.id }
-        return Future { $0(.success(())) }
+    public func update(_ list: List) {
+        lists.firstIndex { $0.id == list.id }.map { lists[$0] = list }
+        eventsSubject.send(.updated(list))
     }
 }

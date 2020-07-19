@@ -34,6 +34,8 @@ public final class ListsViewController: UIViewController {
 
         self.setupView()
         self.bind()
+
+        self.viewModel.fetchLists()
     }
 
     @available(*, unavailable)
@@ -98,7 +100,11 @@ public final class ListsViewController: UIViewController {
             .sink { [weak self] _ in self?.setButtonsBottomPadding(to: Metrics.buttonsRegularPadding) }
             .store(in: &subscriptions)
 
-        viewModel.needsRemoveList
+        viewModel.requestsSubject
+            .compactMap { request -> List? in
+                guard case .remove(let list) = request else { return nil }
+                return list
+            }
             .sink { [weak self] list in
                 guard let self = self else { return }
                 self.removeListSubscription = UIAlertController
@@ -107,9 +113,15 @@ public final class ListsViewController: UIViewController {
             }
             .store(in: &subscriptions)
 
-        viewModel.needsChangeNameForList
-            .sink { [weak self] list, index in
-                self?.tableView.selectRow(at: .init(row: index, section: 0), animated: true, scrollPosition: .middle)
+        viewModel.requestsSubject
+            .compactMap { request -> List? in
+                guard case .changeName(let list) = request else { return nil }
+                return list
+            }
+            .sink { [weak self] list in
+                self?.viewModel.lists.firstIndex(of: list).map {
+                    self?.tableView.selectRow(at: .init(row: $0, section: 0), animated: true, scrollPosition: .middle)
+                }
             }
             .store(in: &subscriptions)
     }

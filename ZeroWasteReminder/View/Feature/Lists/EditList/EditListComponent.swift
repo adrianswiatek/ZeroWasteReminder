@@ -73,8 +73,11 @@ public final class EditListComponent {
             }
             .store(in: &subscriptions)
 
-        viewModel.needsChangeNameForList
-            .map { $0.0 }
+        viewModel.requestsSubject
+            .compactMap { request -> List? in
+                guard case .changeName(let list) = request else { return nil }
+                return list
+            }
             .receive(on: DispatchQueue.main)
             .flatMap { [weak self] list -> AnyPublisher<List, Never> in
                 self?.actionSubject.send(.updating(list))
@@ -117,12 +120,16 @@ extension EditListComponent {
                 viewModel.addList(withName: name)
             } else if case .updating(let list) = self {
                 let updatedList = list.withName(name)
-                updatedList != list ? viewModel.updateList(updatedList) : discard(in: viewModel)
+                updatedList != list ? update(updatedList, in: viewModel) : discard(in: viewModel)
             }
         }
 
+        internal func update(_ list: List, in viewModel: ListsViewModel) {
+            viewModel.updateList(list)
+        }
+
         internal func discard(in viewModel: ListsViewModel) {
-            viewModel.setNeedsDiscardChanges()
+            viewModel.requestsSubject.send(.discardChanges)
         }
     }
 }

@@ -1,46 +1,32 @@
 import Combine
 
 public final class ListsViewModel {
-    private let listsSubject: CurrentValueSubject<[List], Never>
-    public var lists: AnyPublisher<[List], Never> {
-        listsSubject.eraseToAnyPublisher()
-    }
+    @Published public private(set) var lists: [List]
 
-    private let needsDiscardChangesSubject: PassthroughSubject<Void, Never>
-    public var needsDiscardChanges: AnyPublisher<Void, Never> {
-        needsDiscardChangesSubject.eraseToAnyPublisher()
-    }
-
-    private let needsRemoveListSubject: PassthroughSubject<List, Never>
-    public var needsRemoveList: AnyPublisher<List, Never> {
-        needsRemoveListSubject.eraseToAnyPublisher()
-    }
-
-    private let needsChangeNameForListSubject: PassthroughSubject<(List, Int), Never>
-    public var needsChangeNameForList: AnyPublisher<(List, Int), Never> {
-        needsChangeNameForListSubject.eraseToAnyPublisher()
-    }
-
-    private let needsOpenListSubject: PassthroughSubject<Void, Never>
-    public var needsOpenList: AnyPublisher<Void, Never> {
-        needsOpenListSubject.eraseToAnyPublisher()
-    }
+    public let requestsSubject: PassthroughSubject<Request, Never>
 
     private let listsRepository: ListsRepository
     private var subscriptions: Set<AnyCancellable>
 
     public init(listsRepository: ListsRepository) {
         self.listsRepository = listsRepository
+
+        self.lists = []
+        self.requestsSubject = .init()
         self.subscriptions = []
 
-        self.listsSubject = .init([])
-
-        self.needsDiscardChangesSubject = .init()
-        self.needsRemoveListSubject = .init()
-        self.needsChangeNameForListSubject = .init()
-        self.needsOpenListSubject = .init()
-
         self.bind()
+    }
+
+    public func fetchLists() {
+        listsRepository.fetchAll()
+    }
+
+    public func list(at index: Int) -> List {
+        guard (0 ..< lists.count) ~= index else {
+            preconditionFailure("Index out of bounds.")
+        }
+        return lists[index]
     }
 
     public func addList(withName name: String) {
@@ -55,32 +41,34 @@ public final class ListsViewModel {
         listsRepository.remove(list)
     }
 
-    public func setNeedsDiscardChanges() {
-        needsDiscardChangesSubject.send()
-    }
-
-    public func setNeedsRemoveList(at index: Int) {
-        validate(index)
-        needsRemoveListSubject.send(listsSubject.value[index])
-    }
-
-    public func setNeedsChangeNameForList(at index: Int) {
-        validate(index)
-        needsChangeNameForListSubject.send((listsSubject.value[index], index))
-    }
-
-    public func setNeedsOpenList() {
-        needsOpenListSubject.send()
-    }
-
     private func bind() {
-        listsRepository.lists
-            .subscribe(listsSubject)
+        listsRepository.events
+            .sink { [weak self] in self?.updateListsWithEvent($0) }
             .store(in: &subscriptions)
     }
 
-    private func validate(_ index: Int) {
-        let isValid = (0 ..< listsSubject.value.count) ~= index
-        if !isValid { preconditionFailure("Invalid index provided.") }
+    private func updateListsWithEvent(_ event: ListsEvent) {
+        var updatedLists = lists
+
+        switch event {
+        case .added(let list):
+            updatedLists.insert(list, at: 0)
+        case .fetched(let fetchedLists):
+            updatedLists = fetchedLists
+        case .removed(let list):
+            updatedLists.removeAll { $0.id == list.id }
+        case .updated(let list):
+            updatedLists.firstIndex { $0.id == list.id }.map { updatedLists[$0] = list }
+        }
+
+        lists = updatedLists.sorted { $0.updateDate > $1.updateDate }
+    }
+}
+
+public extension ListsViewModel {
+    enum Request: Equatable {
+        case discardChanges
+        case remove(_ list: List)
+        case changeName(_ list: List)
     }
 }

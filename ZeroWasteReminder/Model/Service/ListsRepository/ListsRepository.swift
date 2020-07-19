@@ -1,17 +1,10 @@
 import Combine
 
 public protocol ListsRepository {
-    var lists: AnyPublisher<[List], Never> { get }
+    var events: AnyPublisher<ListsEvent, Never> { get }
 
-    @discardableResult
-    func refresh() -> Future<Void, ServiceError>
-
-    @discardableResult
-    func add(_ list: List) -> Future<Void, ServiceError>
-
-    @discardableResult
-    func update(_ list: List) -> Future<Void, ServiceError>
-
-    @discardableResult
-    func remove(_ list: List) -> Future<Void, ServiceError>
+    func fetchAll()
+    func add(_ list: List)
+    func update(_ list: List)
+    func remove(_ list: List)
 }
