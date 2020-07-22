@@ -11,6 +11,7 @@ public final class ItemsNavigationController: UINavigationController {
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.backgroundColor = .accent
         navigationBarAppearance.shadowColor = .clear
+        navigationBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
 
         navigationBar.standardAppearance = navigationBarAppearance
         navigationBar.isTranslucent = false

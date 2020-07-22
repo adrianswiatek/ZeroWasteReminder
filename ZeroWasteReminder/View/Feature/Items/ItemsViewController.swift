@@ -2,8 +2,7 @@ import Combine
 import UIKit
 
 public final class ItemsViewController: UIViewController {
-    private let addButton = ListAddButton()
-    private let filterBadgeLabel = FilterBadgeLabel()
+    private let addButton = ListAddButton(type: .system)
     private let loadingView = LoadingView()
 
     private let itemsTableView: ItemsTableView
@@ -28,6 +27,9 @@ public final class ItemsViewController: UIViewController {
 
     private lazy var sortButton: UIBarButtonItem =
         .sortButton(target: self, action: #selector(handleSortButtonTap))
+
+    private lazy var dismissButton: UIBarButtonItem =
+        .dismissButton(target: self, action: #selector(handleDismissButtonTap))
 
     private let itemsFilterViewController: ItemsFilterViewController
 
@@ -74,18 +76,6 @@ public final class ItemsViewController: UIViewController {
         let navigationController: UINavigationController! = self.navigationController
         assert(navigationController != nil)
 
-        let navigationBar = navigationController.navigationBar
-        navigationBar.addSubview(filterBadgeLabel)
-        NSLayoutConstraint.activate([
-            filterBadgeLabel.leadingAnchor.constraint(
-                equalTo: navigationBar.layoutMarginsGuide.leadingAnchor,
-                constant: 36
-            ),
-            filterBadgeLabel.centerYAnchor.constraint(equalTo: navigationBar.centerYAnchor),
-            filterBadgeLabel.heightAnchor.constraint(equalToConstant: 15),
-            filterBadgeLabel.widthAnchor.constraint(equalToConstant: 15)
-        ])
-
         let navigationView: UIView! = navigationController.view
         navigationView.addSubview(loadingView)
         NSLayoutConstraint.activate([
@@ -127,8 +117,8 @@ public final class ItemsViewController: UIViewController {
 
         view.addSubview(addButton)
         NSLayoutConstraint.activate([
-            addButton.bottomAnchor.constraint(equalTo: warningBarView.topAnchor, constant: -32),
-            addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32)
+            addButton.bottomAnchor.constraint(equalTo: warningBarView.topAnchor, constant: -40),
+            addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40)
         ])
 
         view.bringSubviewToFront(itemsFilterViewController.view)
@@ -186,11 +176,6 @@ public final class ItemsViewController: UIViewController {
                     ? .fromSymbol(.lineHorizontal3DecreaseCircleFill)
                     : .fromSymbol(.lineHorizontal3DecreaseCircle)
             }
-            .store(in: &subscriptions)
-
-        viewModel.itemsFilterViewModel.numberOfSelectedCells
-            .map { $0 > 0 ? String(describing: $0) : "" }
-            .assign(to: \.text, on: filterBadgeLabel)
             .store(in: &subscriptions)
 
         viewModel.canRemotelyConnect
@@ -258,18 +243,22 @@ public final class ItemsViewController: UIViewController {
         viewModel.clear()
     }
 
-    private func askForDeleteConfirmation(whenConfirmed: @escaping () -> Void) {
+    @objc
+    private func handleDismissButtonTap(_ sender: UIBarButtonItem) {
+        dismiss(animated: true)
+    }
+
+    private func askForDeleteConfirmation(whenConfirmed confirmed: @escaping () -> Void) {
         actionsSubscription = UIAlertController
             .presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
             .sink(
                 receiveCompletion: { [weak self] _ in self?.actionsSubscription = nil },
-                receiveValue: { _ in whenConfirmed() }
+                receiveValue: { _ in confirmed() }
             )
     }
 
     private func updateModeState(_ modeState: ModeState) {
         addButton.setVisibility(modeState.isAddButtonVisible)
-        filterBadgeLabel.setVisibility(modeState.isFilterBadgeVisible)
         itemsTableView.setEditing(modeState.areItemsEditing, animated: true)
 
         navigationItem.rightBarButtonItem = rightBarButtonItem(for: modeState)
@@ -293,7 +282,7 @@ public final class ItemsViewController: UIViewController {
     private func leftBarButtonItems(for modeState: ModeState) -> [UIBarButtonItem]? {
         switch modeState {
         case _ where modeState.isFilterButtonVisible:
-            return [filterButton, sortButton]
+            return [dismissButton, filterButton, sortButton]
         case _ where modeState.isDeleteButtonVisible:
             return [deleteButton]
         case _ where modeState.isClearButtonVisible:

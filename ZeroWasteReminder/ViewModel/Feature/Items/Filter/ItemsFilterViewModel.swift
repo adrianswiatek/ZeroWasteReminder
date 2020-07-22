@@ -9,6 +9,10 @@ public final class ItemsFilterViewModel {
         cellViewModels.map { $0.filter { cell in cell.isSelected }.count }.eraseToAnyPublisher()
     }
 
+    public var totalNumberOfCells: Int {
+        cellViewModelsSubject.value.count
+    }
+
     public var indexToScroll: Int {
         cellViewModelsSubject.value.firstIndex { $0.isSelected } ?? 0
     }

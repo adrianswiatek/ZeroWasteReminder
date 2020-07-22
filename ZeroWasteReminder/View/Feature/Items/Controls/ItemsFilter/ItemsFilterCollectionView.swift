@@ -24,10 +24,15 @@ public final class ItemsFilterCollectionView: UICollectionView {
         fatalError("Not supported.")
     }
 
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        collectionViewLayout.invalidateLayout()
+    }
+
     public func scrollToBeginning() {
         DispatchQueue.main.async {
             let indexToScroll = self.viewModel.indexToScroll
-            self.scrollToItem(at: IndexPath(item: indexToScroll, section: 0), at: .left, animated: true)
+            let indexPathToScroll = IndexPath(item: indexToScroll, section: 0)
+            self.scrollToItem(at: indexPathToScroll, at: .centeredHorizontally, animated: true)
         }
     }
 
@@ -73,7 +78,7 @@ extension ItemsFilterCollectionView: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        .init(width: 128, height: 26)
+        .init(width: .cellWidth, height: .cellHeight)
     }
 
     public func collectionView(
@@ -81,6 +86,22 @@ extension ItemsFilterCollectionView: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAt section: Int
     ) -> UIEdgeInsets {
-        .init(top: 0, left: 8, bottom: 0, right: 8)
+        let screenWidth = UIScreen.main.bounds.width
+
+        let numberOfCells = viewModel.totalNumberOfCells
+        let itemsTotalWidth = CGFloat(numberOfCells) * .cellWidth + CGFloat(numberOfCells + 1) * .spaceWidth
+
+        if itemsTotalWidth > screenWidth {
+            return .init(top: .zero, left: .spaceWidth, bottom: .zero, right: .spaceWidth)
+        }
+
+        let sideSpace = (screenWidth - itemsTotalWidth) / 2
+        return .init(top: .zero, left: sideSpace, bottom: .zero, right: sideSpace)
     }
+}
+
+private extension CGFloat {
+    static let cellHeight: CGFloat = 26
+    static let cellWidth: CGFloat = 128
+    static let spaceWidth: CGFloat = 8
 }

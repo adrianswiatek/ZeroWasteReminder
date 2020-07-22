@@ -2,7 +2,7 @@ import Combine
 import UIKit
 
 public final class EditViewController: UIViewController {
-    private lazy var saveButton: UIBarButtonItem =
+    private lazy var doneButton: UIBarButtonItem =
         .doneButton(target: self, action: #selector(handleDoneButtonTap))
 
     private let scrollView: AdaptiveScrollView
@@ -89,12 +89,12 @@ public final class EditViewController: UIViewController {
     }
 
     private func setupNavigationItem() {
-        navigationItem.rightBarButtonItem = saveButton
+        navigationItem.rightBarButtonItem = doneButton
     }
 
     private func bind() {
         viewModel.canSave
-            .assign(to: \.isEnabled, on: saveButton)
+            .assign(to: \.isEnabled, on: doneButton)
             .store(in: &subscriptions)
 
         contentViewController.delete

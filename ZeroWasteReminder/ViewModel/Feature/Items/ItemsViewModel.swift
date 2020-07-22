@@ -105,22 +105,37 @@ public final class ItemsViewModel {
 
     private func bind() {
         itemsRepository.events
-            .compactMap { event -> [Item]? in
-                guard case .fetched(let lists) = event else { return nil }
-                return lists
-            }
+            .compactMap { [weak self] in self?.updatedWithEvent($0) }
+            .flatMap { Just($0).eraseToAnyPublisher() }
             .combineLatest(itemsFilterViewModel.cellViewModels, $sortType)
-            .compactMap { items, cells, sortType in
-                if cells.allSatisfy({ $0.isSelected == false }) {
-                    return items.sorted(by: sortType.action())
+                .compactMap { items, cells, sortType in
+                    if cells.allSatisfy({ $0.isSelected == false }) {
+                        return items.sorted(by: sortType.action())
+                    }
+                    return cells.flatMap { $0.filter(items) }.sorted(by: sortType.action())
                 }
-                return cells.flatMap { $0.filter(items) }.sorted(by: sortType.action())
-            }
-            .subscribe(itemsSubject)
-            .store(in: &subscriptions)
+                .subscribe(itemsSubject)
+                .store(in: &subscriptions)
 
         $modeState
             .sink { [weak self] _ in self?.selectedItemIndices = [] }
             .store(in: &subscriptions)
+    }
+
+    private func updatedWithEvent(_ event: ItemsEvent) -> [Item] {
+        var updatedItems = itemsSubject.value
+
+        switch event {
+        case .added(let item):
+            updatedItems += [item]
+        case .fetched(let items):
+            updatedItems = items
+        case .removed(let items):
+            items.forEach { item in updatedItems.removeAll { item.id == $0.id } }
+        case .updated(let item):
+            updatedItems.firstIndex { $0.id == item.id }.map { updatedItems[$0] = item }
+        }
+
+        return updatedItems
     }
 }

@@ -8,10 +8,10 @@ public final class ListAddButton: UIButton {
 
     private let tapSubject: PassthroughSubject<Void, Never>
 
-    public init() {
+    public override init(frame: CGRect) {
         self.tapSubject = .init()
 
-        super.init(frame: .zero)
+        super.init(frame: frame)
         
         self.setupView()
         self.setupActions()
@@ -32,15 +32,14 @@ public final class ListAddButton: UIButton {
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
 
-        setImage(.fromSymbol(.plus), for: .normal)
-        setImage(.fromSymbol(.plus), for: .highlighted)
+        let configuration = UIImage.SymbolConfiguration(scale: .large)
+        setImage(.fromSymbol(.plus, withConfiguration: configuration), for: .normal)
+        setImage(.fromSymbol(.plus, withConfiguration: configuration), for: .highlighted)
 
         tintColor = .white
         backgroundColor = .accent
 
         layer.cornerRadius = 26
-        layer.shadowOpacity = 0.5
-        layer.shadowOffset = .init(width: 0, height: 2)
 
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: 52),
@@ -50,46 +49,10 @@ public final class ListAddButton: UIButton {
 
     private func setupActions() {
         addTarget(self, action: #selector(handleTouchUpInside), for: .touchUpInside)
-        addTarget(self, action: #selector(handleTouchUpOutside), for: .touchUpOutside)
-        addTarget(self, action: #selector(handleTouchDown), for: .touchDown)
     }
 
     @objc
     private func handleTouchUpInside() {
-        animateButton(action: animateTouchUp)
         tapSubject.send()
-    }
-
-    @objc
-    private func handleTouchUpOutside() {
-        animateButton(action: animateTouchUp)
-    }
-
-    @objc
-    private func handleTouchDown() {
-        animateButton {
-            self.backgroundColor = self.backgroundColor?.withAlphaComponent(0.75)
-            self.imageView?.transform = .init(scaleX: 0.9, y: 0.9)
-            self.transform = .init(scaleX: 0.9, y: 0.9)
-            self.layer.shadowRadius = 1
-        }
-    }
-
-    private func animateTouchUp()  {
-        self.backgroundColor = self.backgroundColor?.withAlphaComponent(1)
-        self.imageView?.transform = .identity
-        self.transform = .identity
-        self.layer.shadowRadius = 3
-    }
-
-    private func animateButton(action: @escaping () -> Void) {
-        UIView.animate(
-            withDuration: 0.125,
-            delay: 0,
-            usingSpringWithDamping: 10,
-            initialSpringVelocity: 0,
-            options: [],
-            animations: action
-        )
     }
 }
