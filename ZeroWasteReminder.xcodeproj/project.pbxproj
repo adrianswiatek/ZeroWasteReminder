@@ -28,7 +28,7 @@
 		A716B8FD244E43BB00D2FC89 /* ItemsCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A716B8FC244E43BB00D2FC89 /* ItemsCellViewModel.swift */; };
 		A716C9C1244FA07A004262AF /* RemainingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A716C9C0244FA07A004262AF /* RemainingViewModel.swift */; };
 		A716C9C8244FB505004262AF /* RemainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A716C9C7244FB505004262AF /* RemainingView.swift */; };
-		A7175078244286F60058FCE4 /* ItemsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7175077244286F60058FCE4 /* ItemsTableViewCell.swift */; };
+		A7175078244286F60058FCE4 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7175077244286F60058FCE4 /* ItemCell.swift */; };
 		A71AE5CD24B916AD00996C27 /* EditListTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71AE5CC24B916AD00996C27 /* EditListTextField.swift */; };
 		A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */; };
 		A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */; };
@@ -174,7 +174,7 @@
 		A716B8FC244E43BB00D2FC89 /* ItemsCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsCellViewModel.swift; sourceTree = "<group>"; };
 		A716C9C0244FA07A004262AF /* RemainingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingViewModel.swift; sourceTree = "<group>"; };
 		A716C9C7244FB505004262AF /* RemainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingView.swift; sourceTree = "<group>"; };
-		A7175077244286F60058FCE4 /* ItemsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsTableViewCell.swift; sourceTree = "<group>"; };
+		A7175077244286F60058FCE4 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 		A71AE5CC24B916AD00996C27 /* EditListTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListTextField.swift; sourceTree = "<group>"; };
 		A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNavigationController.swift; sourceTree = "<group>"; };
@@ -325,7 +325,7 @@
 			children = (
 				A798DF4724524B0900A84F79 /* ItemsDataSource.swift */,
 				A72A46D324426A4000B0007B /* ItemsTableView.swift */,
-				A7175077244286F60058FCE4 /* ItemsTableViewCell.swift */,
+				A7175077244286F60058FCE4 /* ItemCell.swift */,
 				A77A99D0245A1DA000F3578C /* ItemsDelegate.swift */,
 				A716C9C7244FB505004262AF /* RemainingView.swift */,
 			);
@@ -1001,7 +1001,7 @@
 				A7DD996A2484578D00B40141 /* PhotoCell.swift in Sources */,
 				A7547EEB24C3BFD600D82DE9 /* VariableDependenciesFactory.swift in Sources */,
 				A7ACC4C2247B00BF0098EDE0 /* CloudKitConfiguration.swift in Sources */,
-				A7175078244286F60058FCE4 /* ItemsTableViewCell.swift in Sources */,
+				A7175078244286F60058FCE4 /* ItemCell.swift in Sources */,
 				A7AD76E62463661100220A94 /* StateIndicatorLabel.swift in Sources */,
 				A74161412450D83B001ED316 /* UIAlertControllerExtensions.swift in Sources */,
 				A74D1640249C2ED500FEB5CD /* RemoteStatusNotifier.swift in Sources */,

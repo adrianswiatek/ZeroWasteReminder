@@ -11,9 +11,9 @@ public final class ItemsDataSource: UITableViewDiffableDataSource<ItemsDataSourc
 
         super.init(tableView: tableView) { tableView, indexPath, item in
             let cell = tableView.dequeueReusableCell(
-                withIdentifier: ItemsTableViewCell.identifier,
+                withIdentifier: ItemCell.identifier,
                 for: indexPath
-            ) as? ItemsTableViewCell
+            ) as? ItemCell
             cell?.viewModel = viewModel.cellViewModel(for: item)
             return cell
         }

@@ -10,8 +10,8 @@ public final class ItemsTableView: UITableView {
         separatorStyle = .none
 
         register(
-            ItemsTableViewCell.self,
-            forCellReuseIdentifier: ItemsTableViewCell.identifier
+            ItemCell.self,
+            forCellReuseIdentifier: ItemCell.identifier
         )
     }
 

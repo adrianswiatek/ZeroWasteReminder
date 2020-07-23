@@ -17,7 +17,7 @@ public final class ListsViewController: UIViewController {
     private lazy var buttonsBottomConstraint: NSLayoutConstraint =
         editListComponent.buttons.bottomAnchor.constraint(
             equalTo: view.bottomAnchor,
-            constant: -Metrics.buttonsRegularPadding
+            constant: -.buttonsRegularPadding
         )
 
     public init(
@@ -55,9 +55,9 @@ public final class ListsViewController: UIViewController {
 
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: .bigPadding),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -.smallPadding * 3),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -.bigPadding)
         ])
 
         view.addSubview(editListComponent.overlay)
@@ -70,16 +70,22 @@ public final class ListsViewController: UIViewController {
 
         view.addSubview(editListComponent.textField)
         NSLayoutConstraint.activate([
-            editListComponent.textField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            editListComponent.textField.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor,
+                constant: .smallPadding
+            ),
             editListComponent.textField.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                constant: 16
+                constant: .bigPadding
             ),
-            editListComponent.textField.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -8),
+            editListComponent.textField.bottomAnchor.constraint(
+                equalTo: tableView.topAnchor,
+                constant: -.smallPadding
+            ),
             editListComponent.textField.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                constant: -16
-            ),
+                constant: -.bigPadding
+            )
         ])
 
         view.addSubview(editListComponent.buttons)
@@ -87,7 +93,7 @@ public final class ListsViewController: UIViewController {
             buttonsBottomConstraint,
             editListComponent.buttons.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                constant: -Metrics.buttonsRegularPadding
+                constant: -.buttonsRegularPadding
             )
         ])
     }
@@ -97,13 +103,13 @@ public final class ListsViewController: UIViewController {
             .sink { [weak self] notification in
                 notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
                     .flatMap { $0 as? CGRect }
-                    .map { Metrics.buttonWithKeyboardPadding + $0.height }
+                    .map { .buttonWithKeyboardPadding + $0.height }
                     .map { [weak self] in self?.setButtonsBottomPadding(to: $0) }
             }
             .store(in: &subscriptions)
 
         notificationCenter.publisher(for: UIResponder.keyboardWillHideNotification)
-            .sink { [weak self] _ in self?.setButtonsBottomPadding(to: Metrics.buttonsRegularPadding) }
+            .sink { [weak self] _ in self?.setButtonsBottomPadding(to: .buttonsRegularPadding) }
             .store(in: &subscriptions)
 
         viewModel.requestsSubject
@@ -150,9 +156,10 @@ public final class ListsViewController: UIViewController {
     }
 }
 
-private extension ListsViewController {
-    enum Metrics {
-        static let buttonsRegularPadding: CGFloat = 40
-        static let buttonWithKeyboardPadding: CGFloat = 16
-    }
+private extension CGFloat {
+    static let buttonsRegularPadding: CGFloat = 40
+    static let buttonWithKeyboardPadding: CGFloat = 16
+
+    static let smallPadding: CGFloat = 8
+    static let bigPadding: CGFloat = 16
 }
