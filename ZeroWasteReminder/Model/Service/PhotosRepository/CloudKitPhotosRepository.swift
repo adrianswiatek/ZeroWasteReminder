@@ -8,7 +8,7 @@ public final class CloudKitPhotosRepository: PhotosRepository {
     }
 
     private var zone: CKRecordZone {
-        configuration.itemsZone
+        configuration.appZone
     }
 
     private let configuration: CloudKitConfiguration

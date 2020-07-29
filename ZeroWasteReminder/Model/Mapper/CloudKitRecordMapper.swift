@@ -17,6 +17,17 @@ internal final class CloudKitRecordMapper {
         photo(forKey: CloudKitKey.Photo.thumbnail)
     }
 
+    internal func toList() -> List? {
+        guard
+            let record = record,
+            let id = UUID(uuidString: record.recordID.recordName),
+            let name = record[CloudKitKey.List.name] as? String,
+            let updateDate = record[CloudKitKey.List.updateDate] as? Date
+        else { return nil }
+
+        return List(id: id, name: name, updateDate: updateDate)
+    }
+
     internal func toItem() -> Item? {
         guard
             let record = record,
@@ -29,6 +40,15 @@ internal final class CloudKitRecordMapper {
         }
 
         return Item(id: id, name: name, notes: notes(from: record), expiration: .none)
+    }
+
+    internal func updatedBy(_ list: List?) -> CloudKitRecordMapper {
+        guard let record = record, let list = list else { return self }
+
+        applyChange(to: record, key: CloudKitKey.List.name, value: list.name)
+        applyChange(to: record, key: CloudKitKey.List.updateDate, value: list.updateDate)
+
+        return self
     }
 
     internal func updatedBy(_ item: Item?) -> CloudKitRecordMapper {

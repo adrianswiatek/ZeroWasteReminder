@@ -8,6 +8,10 @@ public final class CloudKitMapper {
         self.fileService = fileService
     }
 
+    internal func map(_ list: List) -> CloudKitListMapper {
+        .init(list)
+    }
+
     internal func map(_ item: Item) -> CloudKitItemMapper {
         .init(item, fileService)
     }

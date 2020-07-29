@@ -131,7 +131,11 @@ public final class ListsViewController: UIViewController {
             }
             .sink { [weak self] list in
                 self?.viewModel.lists.firstIndex(of: list).map {
-                    self?.tableView.selectRow(at: .init(row: $0, section: 0), animated: true, scrollPosition: .middle)
+                    let indexPath = IndexPath(row: $0, section: 0)
+                    self?.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
+                        self?.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+                    }
                 }
             }
             .store(in: &subscriptions)

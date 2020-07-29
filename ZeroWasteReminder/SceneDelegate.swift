@@ -13,7 +13,9 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let scene = scene as? UIWindowScene else { return }
 
-        dependencyContainer = DependencyContainer(configuration: .inMemory)
+        dependencyContainer = DependencyContainer(
+            configuration: .cloudKit(containerIdentifier: "iCloud.pl.aswiatek.PushNotifications")
+        )
 
         window = UIWindow(windowScene: scene)
         window?.rootViewController = dependencyContainer?.rootViewController

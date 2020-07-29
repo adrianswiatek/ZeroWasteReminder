@@ -16,8 +16,6 @@ public final class ListsViewModel {
         self.subscriptions = []
 
         self.bind()
-
-        listsRepository.add(.init(name: "Test list with longer name"))
     }
 
     public func fetchLists() {

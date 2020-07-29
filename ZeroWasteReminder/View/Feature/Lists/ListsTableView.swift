@@ -12,6 +12,7 @@ public final class ListsTableView: UITableView {
         super.init(frame: .zero, style: .plain)
 
         self.setupView()
+        self.setupRefreshControl()
         self.registerCells()
         self.bind()
     }
@@ -29,6 +30,11 @@ public final class ListsTableView: UITableView {
         layer.cornerRadius = 8
     }
 
+    private func setupRefreshControl() {
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+    }
+
     private func registerCells() {
         register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
     }
@@ -39,10 +45,19 @@ public final class ListsTableView: UITableView {
             .map { _ in }
             .sink { [weak self] in self?.deselectRows() }
             .store(in: &subscriptions)
+
+        viewModel.$lists
+            .sink { [weak self] _ in self?.refreshControl?.endRefreshing() }
+            .store(in: &subscriptions)
     }
 
     private func deselectRows() {
         visibleCells.filter { $0.isSelected }.forEach { $0.setSelected(false, animated: true) }
+    }
+
+    @objc
+    private func handleRefresh() {
+        viewModel.fetchLists()
     }
 }
 

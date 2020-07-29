@@ -119,6 +119,8 @@
 		A7BDE68724B50B73003215C0 /* ListsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDE68624B50B73003215C0 /* ListsTableView.swift */; };
 		A7BDE68924B513F5003215C0 /* ListsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDE68824B513F5003215C0 /* ListsNavigationController.swift */; };
 		A7BDE68B24B51C61003215C0 /* EditListMixedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDE68A24B51C61003215C0 /* EditListMixedButton.swift */; };
+		A7C0680424D20642007556F5 /* CloudKitListsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C0680324D20642007556F5 /* CloudKitListsRepository.swift */; };
+		A7C0680624D2092F007556F5 /* CloudKitListMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C0680524D2092F007556F5 /* CloudKitListMapper.swift */; };
 		A7C1A0B1249FE8E80054BBAF /* PhotosRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C1A0B0249FE8E80054BBAF /* PhotosRepository.swift */; };
 		A7C1A0B3249FE9FE0054BBAF /* InMemoryPhotosRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C1A0B2249FE9FE0054BBAF /* InMemoryPhotosRepository.swift */; };
 		A7C1A0B5249FEA630054BBAF /* CloudKitPhotosRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C1A0B4249FEA630054BBAF /* CloudKitPhotosRepository.swift */; };
@@ -266,6 +268,8 @@
 		A7BDE68624B50B73003215C0 /* ListsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsTableView.swift; sourceTree = "<group>"; };
 		A7BDE68824B513F5003215C0 /* ListsNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsNavigationController.swift; sourceTree = "<group>"; };
 		A7BDE68A24B51C61003215C0 /* EditListMixedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListMixedButton.swift; sourceTree = "<group>"; };
+		A7C0680324D20642007556F5 /* CloudKitListsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitListsRepository.swift; sourceTree = "<group>"; };
+		A7C0680524D2092F007556F5 /* CloudKitListMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitListMapper.swift; sourceTree = "<group>"; };
 		A7C1A0B0249FE8E80054BBAF /* PhotosRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosRepository.swift; sourceTree = "<group>"; };
 		A7C1A0B2249FE9FE0054BBAF /* InMemoryPhotosRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryPhotosRepository.swift; sourceTree = "<group>"; };
 		A7C1A0B4249FEA630054BBAF /* CloudKitPhotosRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitPhotosRepository.swift; sourceTree = "<group>"; };
@@ -458,6 +462,7 @@
 		A7203B8824C3852C00C17F85 /* ListsRepository */ = {
 			isa = PBXGroup;
 			children = (
+				A7C0680324D20642007556F5 /* CloudKitListsRepository.swift */,
 				A7203B8B24C3867E00C17F85 /* InMemoryListsRepository.swift */,
 				A7203B8924C3853B00C17F85 /* ListsRepository.swift */,
 			);
@@ -681,6 +686,7 @@
 			isa = PBXGroup;
 			children = (
 				A78172AD2494D05200F406EC /* CloudKitItemMapper.swift */,
+				A7C0680524D2092F007556F5 /* CloudKitListMapper.swift */,
 				A78172AB2494D01500F406EC /* CloudKitKey.swift */,
 				A74936692473153B003DB46E /* CloudKitMapper.swift */,
 				A78172A92494CF7300F406EC /* CloudKitPhotoMapper.swift */,
@@ -957,6 +963,7 @@
 				A7FFA97D244909B40061A3D6 /* DateExtensions.swift in Sources */,
 				A7DB8A37244286440035CF36 /* ItemsNavigationController.swift in Sources */,
 				A73ADDBB24A91D2D00D7E316 /* PhotosEmptyView.swift in Sources */,
+				A7C0680424D20642007556F5 /* CloudKitListsRepository.swift in Sources */,
 				A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */,
 				A759430B24AFBF5A007A526B /* ListsViewModel.swift in Sources */,
 				A7547EE524C3B32000D82DE9 /* EmptySharingControllerFactory.swift in Sources */,
@@ -987,6 +994,7 @@
 				A71AE5CD24B916AD00996C27 /* EditListTextField.swift in Sources */,
 				A71B691E2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift in Sources */,
 				A7B2A4832469E58D00D9C0B1 /* RemoveExpirationDateButton.swift in Sources */,
+				A7C0680624D2092F007556F5 /* CloudKitListMapper.swift in Sources */,
 				A7E530AD249BFD330020DB14 /* AccountService.swift in Sources */,
 				A78172AC2494D01500F406EC /* CloudKitKey.swift in Sources */,
 				A79B4A202479F6FA00ECE1B1 /* SubscriptionService.swift in Sources */,
