@@ -22,6 +22,10 @@ public final class ListsViewModel {
         listsRepository.fetchAll()
     }
 
+    public func index(of list: List) -> Int? {
+        lists.firstIndex(of: list)
+    }
+
     public func list(at index: Int) -> List {
         guard (0 ..< lists.count) ~= index else {
             preconditionFailure("Index out of bounds.")

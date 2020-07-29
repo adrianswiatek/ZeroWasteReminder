@@ -22,6 +22,19 @@ public final class ListsTableView: UITableView {
         fatalError("Not supported.")
     }
 
+    public func selectList(_ list: List) {
+        indexPath(for: list).map { indexPath in
+            selectRow(at: indexPath, animated: true, scrollPosition: .none)
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
+                self.scrollToRow(at: indexPath, at: .top, animated: true)
+            }
+        }
+    }
+
+    public func deselectList(_ list: List) {
+        indexPath(for: list).map { deselectRow(at: $0, animated: true) }
+    }
+
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .secondarySystemBackground
@@ -58,6 +71,10 @@ public final class ListsTableView: UITableView {
     @objc
     private func handleRefresh() {
         viewModel.fetchLists()
+    }
+
+    private func indexPath(for list: List) -> IndexPath? {
+        viewModel.index(of: list).map { .init(row: $0, section: 0) }
     }
 }
 

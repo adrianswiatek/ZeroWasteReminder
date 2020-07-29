@@ -118,9 +118,13 @@ public final class ListsViewController: UIViewController {
                 return list
             }
             .sink { [weak self] list in self.map {
+                self?.tableView.selectList(list)
                 $0.removeListSubscription = UIAlertController
                     .presentRemoveListConfirmationSheet(in: $0)
-                    .sink { [weak self] _ in self?.viewModel.removeList(list) }
+                    .sink(
+                        receiveCompletion: { [weak self] _ in self?.tableView.deselectList(list) },
+                        receiveValue: { [weak self] _ in self?.viewModel.removeList(list) }
+                    )
             }}
             .store(in: &subscriptions)
 
@@ -129,15 +133,7 @@ public final class ListsViewController: UIViewController {
                 guard case .changeName(let list) = request else { return nil }
                 return list
             }
-            .sink { [weak self] list in
-                self?.viewModel.lists.firstIndex(of: list).map {
-                    let indexPath = IndexPath(row: $0, section: 0)
-                    self?.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
-                        self?.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-                    }
-                }
-            }
+            .sink { [weak self] list in self?.tableView.selectList(list) }
             .store(in: &subscriptions)
 
         viewModel.requestsSubject
