@@ -5,6 +5,7 @@ public final class ListsViewController: UIViewController {
     private let tableView: ListsTableView
     private let dataSource: ListsDataSource
 
+    private let loadingView: LoadingView
     private let editListComponent: EditListComponent
 
     private let viewModel: ListsViewModel
@@ -33,6 +34,7 @@ public final class ListsViewController: UIViewController {
         self.dataSource = .init(tableView, viewModel)
 
         self.editListComponent = .init(viewModel: viewModel)
+        self.loadingView = .init()
 
         self.subscriptions = []
 
@@ -52,6 +54,7 @@ public final class ListsViewController: UIViewController {
     private func setupView() {
         title = .localized(.allLists)
         view.backgroundColor = .accent
+        loadingView.backgroundColor = UIColor.accent.withAlphaComponent(0.35)
 
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -95,6 +98,14 @@ public final class ListsViewController: UIViewController {
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                 constant: -.buttonsRegularPadding
             )
+        ])
+
+        view.addSubview(loadingView)
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 
@@ -144,6 +155,10 @@ public final class ListsViewController: UIViewController {
             .sink { [weak self] list in
                 self.map { $0.present($0.factory.itemsViewController(for: list), animated: true) }
             }
+            .store(in: &subscriptions)
+
+        viewModel.isLoading
+            .sink { [weak self] in $0 ? self?.loadingView.show() : self?.loadingView.hide() }
             .store(in: &subscriptions)
     }
 

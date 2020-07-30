@@ -45,6 +45,7 @@ public final class ListsTableView: UITableView {
 
     private func setupRefreshControl() {
         refreshControl = UIRefreshControl()
+        refreshControl?.tintColor = .clear
         refreshControl?.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
     }
 
@@ -58,10 +59,6 @@ public final class ListsTableView: UITableView {
             .map { _ in }
             .sink { [weak self] in self?.deselectRows() }
             .store(in: &subscriptions)
-
-        viewModel.$lists
-            .sink { [weak self] _ in self?.refreshControl?.endRefreshing() }
-            .store(in: &subscriptions)
     }
 
     private func deselectRows() {
@@ -70,6 +67,7 @@ public final class ListsTableView: UITableView {
 
     @objc
     private func handleRefresh() {
+        refreshControl?.endRefreshing()
         viewModel.fetchLists()
     }
 

@@ -3,16 +3,21 @@ import Combine
 public final class ListsViewModel {
     @Published public private(set) var lists: [List]
 
+    public let isLoading: AnyPublisher<Bool, Never>
     public let requestsSubject: PassthroughSubject<Request, Never>
 
     private let listsRepository: ListsRepository
+    private let isLoadingSubject: CurrentValueSubject<Bool, Never>
     private var subscriptions: Set<AnyCancellable>
 
     public init(listsRepository: ListsRepository) {
-        self.listsRepository = listsRepository
+        let listsRepositoryDecorator = ListsRepositoryStateDecorator(listsRepository)
+        self.listsRepository = listsRepositoryDecorator
+        self.isLoading = listsRepositoryDecorator.isLoading
 
         self.lists = []
         self.requestsSubject = .init()
+        self.isLoadingSubject = .init(false)
         self.subscriptions = []
 
         self.bind()

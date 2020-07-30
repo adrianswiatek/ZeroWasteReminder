@@ -97,7 +97,7 @@
 		A79DDDA32461F9B1008A3DFE /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79DDDA22461F9B1008A3DFE /* EditViewModel.swift */; };
 		A7A181AA249E9C5200B8E6EE /* PhotoToSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A181A9249E9C5200B8E6EE /* PhotoToSave.swift */; };
 		A7A2DDA5249FD4FF0025B1B8 /* UUIDExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A2DDA4249FD4FF0025B1B8 /* UUIDExtensions.swift */; };
-		A7A7E96024BA621F003751B6 /* NewListOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A7E95F24BA621F003751B6 /* NewListOverlayView.swift */; };
+		A7A7E96024BA621F003751B6 /* EditListOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A7E95F24BA621F003751B6 /* EditListOverlayView.swift */; };
 		A7A8EF73247C52E900FF1AC2 /* NameTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */; };
 		A7A8EF75247C771900FF1AC2 /* NotesTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF74247C771900FF1AC2 /* NotesTextView.swift */; };
 		A7A8EF77247C7DF900FF1AC2 /* SharedTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF76247C7DF900FF1AC2 /* SharedTextViewDelegate.swift */; };
@@ -128,6 +128,7 @@
 		A7C1A3EB24C49CAD00978BC4 /* ListsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C1A3EA24C49CAD00978BC4 /* ListsEvent.swift */; };
 		A7C9636E247DA58800DE824F /* ClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C9636D247DA58800DE824F /* ClearButton.swift */; };
 		A7CA5344245E0624006D84FD /* ItemsFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CA5343245E0624006D84FD /* ItemsFilterViewController.swift */; };
+		A7CA890124D369ED008A8AE7 /* ListsRepositoryStateDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CA890024D369ED008A8AE7 /* ListsRepositoryStateDecorator.swift */; };
 		A7CD75C7248C53FC00FCD8DF /* PhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CD75C6248C53FC00FCD8DF /* PhotosViewModel.swift */; };
 		A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A34244285010035CF36 /* AddViewController.swift */; };
 		A7DB8A37244286440035CF36 /* ItemsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A36244286440035CF36 /* ItemsNavigationController.swift */; };
@@ -246,7 +247,7 @@
 		A79DDDA22461F9B1008A3DFE /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
 		A7A181A9249E9C5200B8E6EE /* PhotoToSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoToSave.swift; sourceTree = "<group>"; };
 		A7A2DDA4249FD4FF0025B1B8 /* UUIDExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDExtensions.swift; sourceTree = "<group>"; };
-		A7A7E95F24BA621F003751B6 /* NewListOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListOverlayView.swift; sourceTree = "<group>"; };
+		A7A7E95F24BA621F003751B6 /* EditListOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListOverlayView.swift; sourceTree = "<group>"; };
 		A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTextView.swift; sourceTree = "<group>"; };
 		A7A8EF74247C771900FF1AC2 /* NotesTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextView.swift; sourceTree = "<group>"; };
 		A7A8EF76247C7DF900FF1AC2 /* SharedTextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTextViewDelegate.swift; sourceTree = "<group>"; };
@@ -277,6 +278,7 @@
 		A7C1A3EA24C49CAD00978BC4 /* ListsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsEvent.swift; sourceTree = "<group>"; };
 		A7C9636D247DA58800DE824F /* ClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButton.swift; sourceTree = "<group>"; };
 		A7CA5343245E0624006D84FD /* ItemsFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsFilterViewController.swift; sourceTree = "<group>"; };
+		A7CA890024D369ED008A8AE7 /* ListsRepositoryStateDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsRepositoryStateDecorator.swift; sourceTree = "<group>"; };
 		A7CD75C6248C53FC00FCD8DF /* PhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewModel.swift; sourceTree = "<group>"; };
 		A7DB8A34244285010035CF36 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		A7DB8A36244286440035CF36 /* ItemsNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsNavigationController.swift; sourceTree = "<group>"; };
@@ -465,6 +467,7 @@
 				A7C0680324D20642007556F5 /* CloudKitListsRepository.swift */,
 				A7203B8B24C3867E00C17F85 /* InMemoryListsRepository.swift */,
 				A7203B8924C3853B00C17F85 /* ListsRepository.swift */,
+				A7CA890024D369ED008A8AE7 /* ListsRepositoryStateDecorator.swift */,
 			);
 			path = ListsRepository;
 			sourceTree = "<group>";
@@ -645,11 +648,11 @@
 		A77608B224BB8C7000BA0C66 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
-				A7BDE68A24B51C61003215C0 /* EditListMixedButton.swift */,
-				A77608B024BB8C5700BA0C66 /* EditListConfirmButton.swift */,
-				A7A7E95F24BA621F003751B6 /* NewListOverlayView.swift */,
-				A71AE5CC24B916AD00996C27 /* EditListTextField.swift */,
 				A700C06824BB8EB500A9B00B /* EditListButtons.swift */,
+				A77608B024BB8C5700BA0C66 /* EditListConfirmButton.swift */,
+				A7BDE68A24B51C61003215C0 /* EditListMixedButton.swift */,
+				A7A7E95F24BA621F003751B6 /* EditListOverlayView.swift */,
+				A71AE5CC24B916AD00996C27 /* EditListTextField.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -994,6 +997,7 @@
 				A71AE5CD24B916AD00996C27 /* EditListTextField.swift in Sources */,
 				A71B691E2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift in Sources */,
 				A7B2A4832469E58D00D9C0B1 /* RemoveExpirationDateButton.swift in Sources */,
+				A7CA890124D369ED008A8AE7 /* ListsRepositoryStateDecorator.swift in Sources */,
 				A7C0680624D2092F007556F5 /* CloudKitListMapper.swift in Sources */,
 				A7E530AD249BFD330020DB14 /* AccountService.swift in Sources */,
 				A78172AC2494D01500F406EC /* CloudKitKey.swift in Sources */,
@@ -1034,7 +1038,7 @@
 				A79DDDA32461F9B1008A3DFE /* EditViewModel.swift in Sources */,
 				A797433424A2ABA000A05EA2 /* ItemsDataSource.swift in Sources */,
 				A7FFA9772448F3FF0061A3D6 /* Expiration.swift in Sources */,
-				A7A7E96024BA621F003751B6 /* NewListOverlayView.swift in Sources */,
+				A7A7E96024BA621F003751B6 /* EditListOverlayView.swift in Sources */,
 				A76C34AF2460C99400362B68 /* UILabelExtension.swift in Sources */,
 				A749366C247346A4003DB46E /* LoadingView.swift in Sources */,
 				A77608B124BB8C5700BA0C66 /* EditListConfirmButton.swift in Sources */,
