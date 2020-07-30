@@ -143,6 +143,7 @@
 		A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC2D5D2445004D00993F53 /* ExpirationPeriodView.swift */; };
 		A7EC2D622445127200993F53 /* PeriodTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC2D612445127200993F53 /* PeriodTypeExtensions.swift */; };
 		A7F16D24244AFF2000ED2402 /* ExpirationPeriodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F16D23244AFF2000ED2402 /* ExpirationPeriodViewModel.swift */; };
+		A7F3D36624D3838F0059841A /* EmptyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F3D36524D3838F0059841A /* EmptyListView.swift */; };
 		A7F82BA42458CB6700970CFC /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F82BA32458CB6700970CFC /* Mode.swift */; };
 		A7F82BA62458CB7200970CFC /* ModeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F82BA52458CB7200970CFC /* ModeState.swift */; };
 		A7F82BA82458CB8700970CFC /* ReadModeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F82BA72458CB8700970CFC /* ReadModeState.swift */; };
@@ -293,6 +294,7 @@
 		A7EC2D5D2445004D00993F53 /* ExpirationPeriodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationPeriodView.swift; sourceTree = "<group>"; };
 		A7EC2D612445127200993F53 /* PeriodTypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodTypeExtensions.swift; sourceTree = "<group>"; };
 		A7F16D23244AFF2000ED2402 /* ExpirationPeriodViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationPeriodViewModel.swift; sourceTree = "<group>"; };
+		A7F3D36524D3838F0059841A /* EmptyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyListView.swift; sourceTree = "<group>"; };
 		A7F82BA32458CB6700970CFC /* Mode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
 		A7F82BA52458CB7200970CFC /* ModeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeState.swift; sourceTree = "<group>"; };
 		A7F82BA72458CB8700970CFC /* ReadModeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadModeState.swift; sourceTree = "<group>"; };
@@ -614,6 +616,7 @@
 		A759430624AFBF06007A526B /* Lists */ = {
 			isa = PBXGroup;
 			children = (
+				A7F3D36524D3838F0059841A /* EmptyListView.swift */,
 				A731F89424BE439B007348A3 /* ListCell.swift */,
 				A7BDE68424B5095A003215C0 /* ListsDataSource.swift */,
 				A7BDE68824B513F5003215C0 /* ListsNavigationController.swift */,
@@ -938,6 +941,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7F3D36624D3838F0059841A /* EmptyListView.swift in Sources */,
 				A783EE2424673B8F008BCC17 /* EditContentViewController.swift in Sources */,
 				A7AFA37124A53D5600BD5983 /* PhotoCaptureTarget.swift in Sources */,
 				A7F82BA82458CB8700970CFC /* ReadModeState.swift in Sources */,

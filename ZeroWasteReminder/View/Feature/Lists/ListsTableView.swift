@@ -38,6 +38,7 @@ public final class ListsTableView: UITableView {
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .secondarySystemBackground
+        tableFooterView = UIView()
         delegate = self
 
         layer.cornerRadius = 8
@@ -59,6 +60,16 @@ public final class ListsTableView: UITableView {
             .map { _ in }
             .sink { [weak self] in self?.deselectRows() }
             .store(in: &subscriptions)
+
+        viewModel.$lists
+            .map { $0.isEmpty }
+            .sink { [weak self] in self?.backgroundView = $0 ? EmptyListView() : nil }
+            .store(in: &subscriptions)
+
+        viewModel.isLoading
+            .filter { $0 == false }
+            .sink { [weak self] _ in self?.refreshControl?.endRefreshing() }
+            .store(in: &subscriptions)
     }
 
     private func deselectRows() {
@@ -67,7 +78,6 @@ public final class ListsTableView: UITableView {
 
     @objc
     private func handleRefresh() {
-        refreshControl?.endRefreshing()
         viewModel.fetchLists()
     }
 

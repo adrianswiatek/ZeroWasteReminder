@@ -26,6 +26,7 @@ public extension UIImage {
         case ellipsisCircle = "ellipsis.circle"
         case lineHorizontal3DecreaseCircle = "line.horizontal.3.decrease.circle"
         case lineHorizontal3DecreaseCircleFill = "line.horizontal.3.decrease.circle.fill"
+        case listDash = "list.dash"
         case multiplyCircleFill = "multiply.circle.fill"
         case pencil = "pencil"
         case photoOnRectangle = "photo.on.rectangle"
