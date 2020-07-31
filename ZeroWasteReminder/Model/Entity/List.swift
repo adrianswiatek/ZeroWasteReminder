@@ -1,7 +1,7 @@
 import Foundation
 
 public struct List: Identifiable, Hashable {
-    public let id: UUID
+    public let id: Id<List>
     public let name: String
     public let updateDate: Date
 
@@ -11,7 +11,9 @@ public struct List: Identifiable, Hashable {
 }
 
 extension List {
-    public init(name: String) {
-        self.init(id: UUID(), name: name, updateDate: Date())
+    public init(id: Id<List>, name: String) {
+        self.id = id
+        self.name = name
+        self.updateDate = Date()
     }
 }

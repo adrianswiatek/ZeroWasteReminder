@@ -8,7 +8,7 @@ internal final class CloudKitListMapper {
     }
 
     internal func toRecordIdInZone(_ zone: CKRecordZone) -> CKRecord.ID? {
-        .init(recordName: list.id.uuidString, zoneID: zone.zoneID)
+        .init(recordName: list.id.asString, zoneID: zone.zoneID)
     }
 
     internal func toRecord() -> CKRecord? {
@@ -16,7 +16,7 @@ internal final class CloudKitListMapper {
     }
 
     internal func toRecordInZone(_ zone: CKRecordZone) -> CKRecord? {
-        let recordId = CKRecord.ID(recordName: list.id.uuidString, zoneID: zone.zoneID)
+        let recordId = CKRecord.ID(recordName: list.id.asString, zoneID: zone.zoneID)
         let record = CKRecord(recordType: "List", recordID: recordId)
         record[CloudKitKey.List.name] = list.name
         record[CloudKitKey.List.updateDate] = list.updateDate

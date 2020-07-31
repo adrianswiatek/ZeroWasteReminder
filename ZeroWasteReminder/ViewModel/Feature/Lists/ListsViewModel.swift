@@ -39,7 +39,8 @@ public final class ListsViewModel {
     }
 
     public func addList(withName name: String) {
-        listsRepository.add(.init(name: name))
+        let id = listsRepository.nextId()
+        listsRepository.add(.init(id: id, name: name))
     }
 
     public func updateList(_ list: List) {

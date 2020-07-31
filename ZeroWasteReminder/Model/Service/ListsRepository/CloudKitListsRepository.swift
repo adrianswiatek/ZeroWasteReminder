@@ -67,7 +67,7 @@ public final class CloudKitListsRepository: ListsRepository {
 
         operation.modifyRecordsCompletionBlock = { [weak self] _, recordIds, error in
             let id = recordIds?.first.flatMap { test in UUID(uuidString: test.recordName) }
-            guard list.id == id else { return }
+            guard list.id.asUuid == id else { return }
             self?.eventsSubject.send(.removed(list))
         }
 

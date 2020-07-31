@@ -20,12 +20,11 @@ internal final class CloudKitRecordMapper {
     internal func toList() -> List? {
         guard
             let record = record,
-            let id = UUID(uuidString: record.recordID.recordName),
             let name = record[CloudKitKey.List.name] as? String,
             let updateDate = record[CloudKitKey.List.updateDate] as? Date
         else { return nil }
 
-        return List(id: id, name: name, updateDate: updateDate)
+        return List(id: .fromString(record.recordID.recordName), name: name, updateDate: updateDate)
     }
 
     internal func toItem() -> Item? {
