@@ -48,13 +48,13 @@ public final class CloudKitPhotosRepository: PhotosRepository {
         }
     }
 
-    public func fetchFullSize(with photoId: UUID) -> Future<Photo, ServiceError> {
+    public func fetchFullSize(with photoId: Id<Photo>) -> Future<Photo, ServiceError> {
         Future { [weak self] promise in
             guard let self = self else { return }
 
             var resultRecord: CKRecord?
 
-            let recordId = CKRecord.ID(recordName: photoId.uuidString, zoneID: self.zone.zoneID)
+            let recordId = CKRecord.ID(recordName: photoId.asString, zoneID: self.zone.zoneID)
             let predicate = NSPredicate(format: "%K == %@", "recordID", recordId)
 
             let operation = CKQueryOperation(query: .init(recordType: "Photo", predicate: predicate))
@@ -105,7 +105,7 @@ public final class CloudKitPhotosRepository: PhotosRepository {
         return photos.compactMap { mapper.map($0).toRecordInZone(zone, referencedBy: itemRecord) }
     }
 
-    private func mapToRecordIds(_ ids: [UUID]) -> [CKRecord.ID] {
-        ids.compactMap { .init(recordName: $0.uuidString, zoneID: zone.zoneID) }
+    private func mapToRecordIds(_ ids: [Id<Photo>]) -> [CKRecord.ID] {
+        ids.compactMap { .init(recordName: $0.asString, zoneID: zone.zoneID) }
     }
 }

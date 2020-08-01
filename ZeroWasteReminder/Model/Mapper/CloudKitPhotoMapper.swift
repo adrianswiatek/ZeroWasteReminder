@@ -10,7 +10,7 @@ internal final class CloudKitPhotoMapper {
     }
 
     internal func toRecordInZone(_ zone: CKRecordZone, referencedBy itemRecord: CKRecord? = nil) -> CKRecord? {
-        let recordId = CKRecord.ID(recordName: photo.id.uuidString, zoneID: zone.zoneID)
+        let recordId = CKRecord.ID(recordName: photo.id.asString, zoneID: zone.zoneID)
         let record = CKRecord(recordType: "Photo", recordID: recordId)
         record[CloudKitKey.Photo.fullSize] = photoAsset(forPhoto: photo.fullSize)
         record[CloudKitKey.Photo.thumbnail] = photoAsset(forPhoto: photo.thumbnail)

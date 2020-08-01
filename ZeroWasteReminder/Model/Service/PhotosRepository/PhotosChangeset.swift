@@ -2,7 +2,7 @@ import Foundation
 
 public struct PhotosChangeset {
     public let photosToSave: [PhotoToSave]
-    public let idsToDelete: [UUID]
+    public let idsToDelete: [Id<Photo>]
 
     public var hasChanges: Bool {
         !photosToSave.isEmpty || !idsToDelete.isEmpty
@@ -12,7 +12,7 @@ public struct PhotosChangeset {
         self.init(photosToSave: [], idsToDelete: [])
     }
 
-    private init(photosToSave: [PhotoToSave], idsToDelete: [UUID]) {
+    private init(photosToSave: [PhotoToSave], idsToDelete: [Id<Photo>]) {
         self.photosToSave = photosToSave
         self.idsToDelete = idsToDelete
     }
@@ -22,7 +22,7 @@ public struct PhotosChangeset {
         return .init(photosToSave: photosToSave + [photo], idsToDelete: idsToDelete)
     }
 
-    public func withDeletedPhoto(id: UUID) -> PhotosChangeset {
+    public func withDeletedPhoto(id: Id<Photo>) -> PhotosChangeset {
         guard !idsToDelete.contains(id) else { return self }
 
         if photosToSave.map(\.id).contains(id) {

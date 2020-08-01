@@ -56,7 +56,7 @@ public final class EditViewModel {
     private let isExpirationDateVisibleSubject: CurrentValueSubject<Bool, Never>
 
     private let originalItem: Item
-    private var originalPhotoIds: [UUID]
+    private var originalPhotoIds: [Id<Photo>]
     private let itemsRepository: ItemsRepository
     private let photosRepository: PhotosRepository
     private let fileService: FileService

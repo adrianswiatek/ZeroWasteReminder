@@ -78,7 +78,7 @@ internal final class CloudKitRecordMapper {
 
     private func photo(forKey key: String) -> Photo? {
         guard
-            let id = record.flatMap({ UUID(uuidString: $0.recordID.recordName) }),
+            let id = record.map({ Id<Photo>.fromString($0.recordID.recordName) }),
             let asset = record?[key] as? CKAsset
         else { return nil }
 

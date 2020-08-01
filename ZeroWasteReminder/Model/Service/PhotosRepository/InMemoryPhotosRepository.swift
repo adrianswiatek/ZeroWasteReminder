@@ -15,7 +15,7 @@ public final class InMemoryPhotosRepository: PhotosRepository {
         }
     }
 
-    public func fetchFullSize(with photoId: UUID) -> Future<Photo, ServiceError> {
+    public func fetchFullSize(with photoId: Id<Photo>) -> Future<Photo, ServiceError> {
         Future { [weak self] promise in
             guard let photo = self?.photos.first(where: { $0.id == photoId }) else {
                 return promise(.failure(.general("Photo with given id does not exist.")))

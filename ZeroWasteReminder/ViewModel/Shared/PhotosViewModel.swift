@@ -119,7 +119,11 @@ public final class PhotosViewModel {
             let thumbnailImage = downsizeImage(at: url, for: .thumbnail)
         else { return nil }
 
-        return .init(fullSizeImage: fullSizeImage, thumbnailImage: thumbnailImage)
+        return .init(
+            id: photosRepository.nextId(),
+            fullSizeImage: fullSizeImage,
+            thumbnailImage: thumbnailImage
+        )
     }
 
     private func downsizeImage(at url: URL, for size: PhotoSize) -> UIImage? {
@@ -135,7 +139,7 @@ public final class PhotosViewModel {
             .map { UIImage(cgImage: $0) }
     }
 
-    private func fetchFullSizePhoto(with photoId: UUID) {
+    private func fetchFullSizePhoto(with photoId: Id<Photo>) {
         photosRepository.fetchFullSize(with: photoId)
             .sink(
                 receiveCompletion: { _ in },
