@@ -25,7 +25,7 @@ public final class CloudKitPhotosRepository: PhotosRepository {
             var photoRecords = [CKRecord]()
 
             let itemReference = CKRecord.Reference(
-                recordID: .init(recordName: item.id.uuidString, zoneID: self.zone.zoneID),
+                recordID: .init(recordName: item.id.asString, zoneID: self.zone.zoneID),
                 action: .none
             )
 

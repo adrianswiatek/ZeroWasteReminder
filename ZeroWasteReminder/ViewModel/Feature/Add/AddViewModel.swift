@@ -110,7 +110,7 @@ public final class AddViewModel {
             return nil
         }
 
-        return Item(name: name, notes: notes, expiration: expiration, photos: [])
+        return Item(id: itemsRepository.nextId(), name: name, notes: notes, expiration: expiration, photos: [])
     }
 
     private func expiration() -> Expiration? {

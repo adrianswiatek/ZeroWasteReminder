@@ -2,7 +2,7 @@ import Combine
 import Foundation
 
 public final class InMemoryPhotosRepository: PhotosRepository {
-    private var itemIdsToPhotos: [UUID: [PhotoToSave]] = [:]
+    private var itemIdsToPhotos: [Id<Item>: [PhotoToSave]] = [:]
 
     private var photos: [PhotoToSave] {
         itemIdsToPhotos.reduce(into: [PhotoToSave]()) { $0 += $1.value }

@@ -1,7 +1,7 @@
 import Foundation
 
 public struct Item: Identifiable, Hashable {
-    public let id: UUID
+    public let id: Id<Item>
     public let name: String
     public let notes: String
     public let expiration: Expiration
@@ -27,8 +27,8 @@ public struct Item: Identifiable, Hashable {
 }
 
 extension Item {
-    public init(name: String, notes: String, expiration: Expiration, photos: [PhotoToSave]) {
-        self.id = UUID()
+    public init(id: Id<Item>, name: String, notes: String, expiration: Expiration, photos: [PhotoToSave]) {
+        self.id = id
         self.name = name
         self.notes = notes
         self.expiration = expiration

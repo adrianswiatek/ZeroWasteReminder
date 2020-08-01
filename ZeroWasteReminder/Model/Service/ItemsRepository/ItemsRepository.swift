@@ -22,3 +22,9 @@ public protocol ItemsRepository {
     @discardableResult
     func removeAll(from list: List) -> Future<Void, ServiceError>
 }
+
+public extension ItemsRepository {
+    func nextId() -> Id<Item> {
+        .fromUuid(.init())
+    }
+}

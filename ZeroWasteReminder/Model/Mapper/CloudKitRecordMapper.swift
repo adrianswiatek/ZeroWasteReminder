@@ -28,11 +28,11 @@ internal final class CloudKitRecordMapper {
     }
 
     internal func toItem() -> Item? {
-        guard
-            let record = record,
-            let id = UUID(uuidString: record.recordID.recordName),
-            let name = record[CloudKitKey.Item.name] as? String
-        else { return nil }
+        guard let record = record, let name = record[CloudKitKey.Item.name] as? String else {
+            return nil
+        }
+
+        let id = Id<Item>.fromString(record.recordID.recordName)
 
         if let date = record[CloudKitKey.Item.expiration] as? Date {
             return Item(id: id, name: name, notes: notes(from: record), expiration: .date(date))
