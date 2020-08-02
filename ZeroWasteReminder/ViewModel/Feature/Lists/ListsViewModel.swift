@@ -8,7 +8,6 @@ public final class ListsViewModel {
     public let requestsSubject: PassthroughSubject<Request, Never>
 
     private let listsRepository: ListsRepository
-    private let isLoadingSubject: CurrentValueSubject<Bool, Never>
     private var subscriptions: Set<AnyCancellable>
 
     public init(listsRepository: ListsRepository, statusNotifier: StatusNotifier) {
@@ -19,7 +18,6 @@ public final class ListsViewModel {
 
         self.lists = []
         self.requestsSubject = .init()
-        self.isLoadingSubject = .init(false)
         self.subscriptions = []
 
         self.bind()
@@ -80,6 +78,7 @@ public final class ListsViewModel {
 public extension ListsViewModel {
     enum Request: Equatable {
         case changeName(_ list: List)
+        case disableLoadingIndicatorOnce
         case discardChanges
         case openItems(_ list: List)
         case remove(_ list: List)

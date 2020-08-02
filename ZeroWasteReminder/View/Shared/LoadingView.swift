@@ -7,7 +7,10 @@ public final class LoadingView: UIView {
         return view
     }()
 
+    private var isIndicatorEnabled: Bool
+
     public override init(frame: CGRect) {
+        self.isIndicatorEnabled = true
         super.init(frame: frame)
         self.setupView()
     }
@@ -17,16 +20,22 @@ public final class LoadingView: UIView {
         fatalError("Not supported.")
     }
 
-    public func show(withLoadingIndicator: Bool = true) {
-        if withLoadingIndicator {
+    public func show() {
+        if isIndicatorEnabled {
             activityIndicatorView.startAnimating()
         }
+
         animate(alpha: 1)
+        isIndicatorEnabled = true
     }
 
     public func hide() {
         animate(alpha: 0)
         activityIndicatorView.stopAnimating()
+    }
+
+    public func disableLoadingIndicatorOnce() {
+        isIndicatorEnabled = false
     }
 
     private func setupView() {

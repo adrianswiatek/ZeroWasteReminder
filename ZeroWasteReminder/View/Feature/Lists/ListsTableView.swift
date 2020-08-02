@@ -37,7 +37,7 @@ public final class ListsTableView: UITableView {
 
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .secondarySystemBackground
+        backgroundColor = .systemBackground
         tableFooterView = UIView()
         delegate = self
 
@@ -46,7 +46,6 @@ public final class ListsTableView: UITableView {
 
     private func setupRefreshControl() {
         refreshControl = UIRefreshControl()
-        refreshControl?.tintColor = .clear
         refreshControl?.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
     }
 
@@ -56,9 +55,7 @@ public final class ListsTableView: UITableView {
 
     private func bind() {
         viewModel.requestsSubject
-            .filter { $0 == .discardChanges }
-            .map { _ in }
-            .sink { [weak self] in self?.deselectRows() }
+            .sink { [weak self] in self?.handleRequest($0) }
             .store(in: &subscriptions)
 
         viewModel.$lists
@@ -78,11 +75,20 @@ public final class ListsTableView: UITableView {
 
     @objc
     private func handleRefresh() {
+        viewModel.requestsSubject.send(.disableLoadingIndicatorOnce)
         viewModel.fetchLists()
     }
 
     private func indexPath(for list: List) -> IndexPath? {
         viewModel.index(of: list).map { .init(row: $0, section: 0) }
+    }
+
+    private func handleRequest(_ request: ListsViewModel.Request) {
+        switch request {
+        case .changeName(let list): selectList(list)
+        case .discardChanges: deselectRows()
+        default: break
+        }
     }
 }
 

@@ -134,37 +134,7 @@ public final class ListsViewController: UIViewController {
             .store(in: &subscriptions)
 
         viewModel.requestsSubject
-            .compactMap { request -> List? in
-                guard case .remove(let list) = request else { return nil }
-                return list
-            }
-            .sink { [weak self] list in self.map {
-                self?.tableView.selectList(list)
-                $0.removeListSubscription = UIAlertController
-                    .presentRemoveListConfirmationSheet(in: $0)
-                    .sink(
-                        receiveCompletion: { [weak self] _ in self?.tableView.deselectList(list) },
-                        receiveValue: { [weak self] _ in self?.viewModel.removeList(list) }
-                    )
-            }}
-            .store(in: &subscriptions)
-
-        viewModel.requestsSubject
-            .compactMap { request -> List? in
-                guard case .changeName(let list) = request else { return nil }
-                return list
-            }
-            .sink { [weak self] list in self?.tableView.selectList(list) }
-            .store(in: &subscriptions)
-
-        viewModel.requestsSubject
-            .compactMap { request -> List? in
-                guard case .openItems(let list) = request else { return nil }
-                return list
-            }
-            .sink { [weak self] list in
-                self.map { $0.present($0.factory.itemsViewController(for: list), animated: true) }
-            }
+            .sink { [weak self] in self?.handleRequest($0) }
             .store(in: &subscriptions)
 
         viewModel.isLoading
@@ -174,6 +144,23 @@ public final class ListsViewController: UIViewController {
         viewModel.canRemotelyConnect
             .sink { [weak self] in self?.warningBarView.setVisibility(!$0) }
             .store(in: &subscriptions)
+    }
+
+    private func handleRequest(_ request: ListsViewModel.Request) {
+        switch request {
+        case .disableLoadingIndicatorOnce:
+            loadingView.disableLoadingIndicatorOnce()
+        case .openItems(let list):
+            present(factory.itemsViewController(for: list), animated: true)
+        case .remove(let list):
+            tableView.selectList(list)
+            removeListSubscription = UIAlertController.presentRemoveListConfirmationSheet(in: self).sink(
+                receiveCompletion: { [weak self] _ in self?.tableView.deselectList(list) },
+                receiveValue: { [weak self] _ in self?.viewModel.removeList(list) }
+            )
+        default:
+            break
+        }
     }
 
     private func setButtonsBottomPadding(to padding: CGFloat) {

@@ -52,7 +52,7 @@ public final class ListCell: UITableViewCell, ReuseIdentifiable {
     }
 
     private func setupView() {
-        backgroundColor = .secondarySystemBackground
+        backgroundColor = .systemBackground
         selectedBackgroundView = backgroundView()
         accessoryView = .init(frame: .init(x: 0, y: 0, width: .smallPadding, height: 0))
 

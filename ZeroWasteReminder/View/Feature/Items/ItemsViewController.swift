@@ -191,7 +191,10 @@ public final class ItemsViewController: UIViewController {
 
     @objc
     private func refreshList(withLoadingIndicator: Bool = false) {
-        loadingView.show(withLoadingIndicator: withLoadingIndicator)
+        if !withLoadingIndicator {
+            loadingView.disableLoadingIndicatorOnce()
+        }
+        loadingView.show()
 
         refreshSubscription = viewModel.refreshList()
             .receive(on: OperationQueue.main)
