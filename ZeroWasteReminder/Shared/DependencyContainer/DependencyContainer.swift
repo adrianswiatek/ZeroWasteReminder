@@ -36,6 +36,7 @@ internal final class DependencyContainer {
             notificationCenter: notificationCenter
         )
 
+        variableDependenciesFactory.accountService.refreshUserEligibility()
         variableDependenciesFactory.subscriptionService.registerItemsSubscriptionIfNeeded()
     }
 

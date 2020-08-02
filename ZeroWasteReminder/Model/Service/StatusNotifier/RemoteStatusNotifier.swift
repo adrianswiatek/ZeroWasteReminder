@@ -30,7 +30,7 @@ public final class RemoteStatusNotifier: StatusNotifier {
     private func setupNetworkMonitor() {
         networkMonitor.start(queue: .global(qos: .background))
         networkMonitor.pathUpdateHandler = { [weak self] in
-            self?.networkReachabilitySubject.value = $0.status
+            self?.networkReachabilitySubject.send($0.status)
         }
     }
 

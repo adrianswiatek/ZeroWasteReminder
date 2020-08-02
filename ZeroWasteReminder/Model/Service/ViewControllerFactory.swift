@@ -33,7 +33,7 @@ public final class ViewControllerFactory {
 
     public var listsViewController: UIViewController {
         ListsNavigationController(rootViewController: ListsViewController(
-            viewModel: .init(listsRepository: listsRepository),
+            viewModel: .init(listsRepository: listsRepository, statusNotifier: statusNotifier),
             factory: self,
             notificationCenter: notificationCenter
         ))

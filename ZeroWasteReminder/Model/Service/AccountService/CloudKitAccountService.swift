@@ -2,7 +2,6 @@ import CloudKit
 import Combine
 
 public final class CloudKitAccountService: AccountService {
-    private let isUserEligibleSubject: CurrentValueSubject<Bool, Never>
     public var isUserEligible: AnyPublisher<Bool, Never> {
         isUserEligibleSubject.share().eraseToAnyPublisher()
     }
@@ -10,6 +9,7 @@ public final class CloudKitAccountService: AccountService {
     private let container: CKContainer
     private let notificationCenter: NotificationCenter
 
+    private let isUserEligibleSubject: CurrentValueSubject<Bool, Never>
     private var subscriptions: Set<AnyCancellable>
 
     public init(

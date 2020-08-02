@@ -110,14 +110,14 @@ public final class ItemsViewController: UIViewController {
 
         view.addSubview(warningBarView)
         NSLayoutConstraint.activate([
-            warningBarView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: 8),
+            warningBarView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             warningBarView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -8),
-            warningBarView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor, constant: -8)
+            warningBarView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
         ])
 
         view.addSubview(addButton)
         NSLayoutConstraint.activate([
-            addButton.bottomAnchor.constraint(equalTo: warningBarView.topAnchor, constant: -40),
+            addButton.bottomAnchor.constraint(equalTo: warningBarView.topAnchor, constant: -24),
             addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40)
         ])
 

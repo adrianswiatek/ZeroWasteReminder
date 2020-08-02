@@ -6,6 +6,7 @@ public final class ListsViewController: UIViewController {
     private let dataSource: ListsDataSource
 
     private let loadingView: LoadingView
+    private let warningBarView: WarningBarView
     private let editListComponent: EditListComponent
 
     private let viewModel: ListsViewModel
@@ -17,8 +18,8 @@ public final class ListsViewController: UIViewController {
 
     private lazy var buttonsBottomConstraint: NSLayoutConstraint =
         editListComponent.buttons.bottomAnchor.constraint(
-            equalTo: view.bottomAnchor,
-            constant: -.buttonsRegularPadding
+            equalTo: tableView.bottomAnchor,
+            constant: -.buttonVerticalPadding
         )
 
     public init(
@@ -33,8 +34,9 @@ public final class ListsViewController: UIViewController {
         self.tableView = .init(viewModel: viewModel)
         self.dataSource = .init(tableView, viewModel)
 
-        self.editListComponent = .init(viewModel: viewModel)
         self.loadingView = .init()
+        self.warningBarView = .init()
+        self.editListComponent = .init(viewModel: viewModel)
 
         self.subscriptions = []
 
@@ -56,10 +58,17 @@ public final class ListsViewController: UIViewController {
         view.backgroundColor = .accent
         loadingView.backgroundColor = UIColor.accent.withAlphaComponent(0.35)
 
+        view.addSubview(warningBarView)
+        NSLayoutConstraint.activate([
+            warningBarView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            warningBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -.smallPadding),
+            warningBarView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
+        ])
+
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: .bigPadding),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -.smallPadding * 3),
+            tableView.bottomAnchor.constraint(equalTo: warningBarView.topAnchor, constant: -.smallPadding),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -.bigPadding)
         ])
 
@@ -96,7 +105,7 @@ public final class ListsViewController: UIViewController {
             buttonsBottomConstraint,
             editListComponent.buttons.trailingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                constant: -.buttonsRegularPadding
+                constant: -.buttonHorizontalPadding
             )
         ])
 
@@ -113,14 +122,15 @@ public final class ListsViewController: UIViewController {
         notificationCenter.publisher(for: UIResponder.keyboardWillShowNotification)
             .sink { [weak self] notification in
                 notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
-                    .flatMap { $0 as? CGRect }
-                    .map { .buttonWithKeyboardPadding + $0.height }
-                    .map { [weak self] in self?.setButtonsBottomPadding(to: $0) }
+                    .flatMap { ($0 as? CGRect)?.height }
+                    .map { [weak self] height in
+                        self.map { $0.setButtonsBottomPadding(to: height - $0.warningBarView.height) }
+                    }
             }
             .store(in: &subscriptions)
 
         notificationCenter.publisher(for: UIResponder.keyboardWillHideNotification)
-            .sink { [weak self] _ in self?.setButtonsBottomPadding(to: .buttonsRegularPadding) }
+            .sink { [weak self] _ in self?.setButtonsBottomPadding(to: .buttonVerticalPadding) }
             .store(in: &subscriptions)
 
         viewModel.requestsSubject
@@ -160,6 +170,10 @@ public final class ListsViewController: UIViewController {
         viewModel.isLoading
             .sink { [weak self] in $0 ? self?.loadingView.show() : self?.loadingView.hide() }
             .store(in: &subscriptions)
+
+        viewModel.canRemotelyConnect
+            .sink { [weak self] in self?.warningBarView.setVisibility(!$0) }
+            .store(in: &subscriptions)
     }
 
     private func setButtonsBottomPadding(to padding: CGFloat) {
@@ -172,8 +186,8 @@ public final class ListsViewController: UIViewController {
 }
 
 private extension CGFloat {
-    static let buttonsRegularPadding: CGFloat = 40
-    static let buttonWithKeyboardPadding: CGFloat = 16
+    static let buttonVerticalPadding: CGFloat = 20
+    static let buttonHorizontalPadding: CGFloat = 40
 
     static let smallPadding: CGFloat = 8
     static let bigPadding: CGFloat = 16

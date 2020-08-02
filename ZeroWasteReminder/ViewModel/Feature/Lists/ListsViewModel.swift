@@ -4,16 +4,18 @@ public final class ListsViewModel {
     @Published public private(set) var lists: [List]
 
     public let isLoading: AnyPublisher<Bool, Never>
+    public let canRemotelyConnect: AnyPublisher<Bool, Never>
     public let requestsSubject: PassthroughSubject<Request, Never>
 
     private let listsRepository: ListsRepository
     private let isLoadingSubject: CurrentValueSubject<Bool, Never>
     private var subscriptions: Set<AnyCancellable>
 
-    public init(listsRepository: ListsRepository) {
+    public init(listsRepository: ListsRepository, statusNotifier: StatusNotifier) {
         let listsRepositoryDecorator = ListsRepositoryStateDecorator(listsRepository)
         self.listsRepository = listsRepositoryDecorator
         self.isLoading = listsRepositoryDecorator.isLoading
+        self.canRemotelyConnect = statusNotifier.remoteStatus.map { $0 == .connected }.eraseToAnyPublisher()
 
         self.lists = []
         self.requestsSubject = .init()

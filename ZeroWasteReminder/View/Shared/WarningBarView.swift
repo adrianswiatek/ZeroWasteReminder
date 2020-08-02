@@ -65,7 +65,7 @@ public final class WarningBarView: UIView {
 
 private extension WarningBarView {
     enum Metrics {
-        static let visibleHeight: CGFloat = 48
+        static let visibleHeight: CGFloat = 32
         static let hiddenHeight: CGFloat = 0
     }
 }
