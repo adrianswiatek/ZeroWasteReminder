@@ -55,7 +55,11 @@ public final class PhotosCollectionView: UICollectionView {
     }
 
     private func bind() {
-        viewModel.needsShowImage
+        viewModel.requestSubject
+            .filter {
+                guard case .showPhoto(_) = $0 else { return false }
+                return true
+            }
             .sink { [weak self] _ in
                 self?.visibleCells.compactMap { $0 as? PhotoCell }.forEach { $0.hideActivityIndicator() }
             }
@@ -82,7 +86,12 @@ extension PhotosCollectionView: UICollectionViewDelegateFlowLayout {
             title: .localized(.removePhoto),
             image: .fromSymbol(.trash),
             attributes: .destructive,
-            handler: { [weak self] _ in self?.viewModel.setNeedsRemoveImage(at: indexPath.item) }
+            handler: { [weak self] _ in
+                self.map {
+                    let photo = $0.viewModel.thumbnail(at: indexPath.item)
+                    $0.viewModel.requestSubject.send(.removePhoto(photo))
+                }
+            }
         )
 
         return UIContextMenuConfiguration(identifier: "PhotoContextMenu" as NSCopying, previewProvider: nil) { _ in
@@ -92,6 +101,6 @@ extension PhotosCollectionView: UICollectionViewDelegateFlowLayout {
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         cellForItem(at: indexPath).flatMap { $0 as? PhotoCell }.map { $0.showActivityIndicator() }
-        viewModel.setNeedsShowImage(at: indexPath.item)
+        viewModel.requestSubject.send(.showPhotoAt(index: indexPath.item))
     }
 }

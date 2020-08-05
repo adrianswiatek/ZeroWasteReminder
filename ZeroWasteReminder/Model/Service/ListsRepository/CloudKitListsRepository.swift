@@ -19,6 +19,24 @@ public final class CloudKitListsRepository: ListsRepository {
         self.eventsSubject = .init()
     }
 
+    public func fetchAll() {
+        let query = CKQuery(recordType: "List", predicate: .init(value: true))
+        let operation = CKQueryOperation(query: query)
+
+        var records = [CKRecord]()
+
+        operation.recordFetchedBlock = {
+            records.append($0)
+        }
+
+        operation.completionBlock = { [weak self] in
+            let lists = records.compactMap { self?.mapper.map($0).toList() }
+            self?.eventsSubject.send(.fetched(lists))
+        }
+
+        database.add(operation)
+    }
+
     public func add(_ list: List) {
         guard let record = mapper.map(list).toRecordInZone(zone) else { return }
 
@@ -39,24 +57,6 @@ public final class CloudKitListsRepository: ListsRepository {
         database.add(operation)
     }
 
-    public func fetchAll() {
-        let query = CKQuery(recordType: "List", predicate: .init(value: true))
-        let operation = CKQueryOperation(query: query)
-
-        var records = [CKRecord]()
-
-        operation.recordFetchedBlock = {
-            records.append($0)
-        }
-
-        operation.completionBlock = { [weak self] in
-            let lists = records.compactMap { self?.mapper.map($0).toList() }
-            self?.eventsSubject.send(.fetched(lists))
-        }
-
-        database.add(operation)
-    }
-
     public func remove(_ list: List) {
         guard let recordId = mapper.map(list).toRecordIdInZone(zone) else { return }
 
@@ -66,8 +66,8 @@ public final class CloudKitListsRepository: ListsRepository {
         )
 
         operation.modifyRecordsCompletionBlock = { [weak self] _, recordIds, error in
-            let id = recordIds?.first.flatMap { test in UUID(uuidString: test.recordName) }
-            guard list.id.asUuid == id else { return }
+            let id: Id<List>? = recordIds?.first.map { .fromString($0.recordName) }
+            guard id == list.id else { return }
             self?.eventsSubject.send(.removed(list))
         }
 

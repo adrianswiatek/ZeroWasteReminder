@@ -19,7 +19,7 @@ internal final class CloudKitPhotoMapper {
     }
 
     private func photoAsset(forPhoto photo: Photo) -> CKAsset? {
-        fileService.trySaveData(photo.asData()).map { .init(fileURL: $0) }
+        fileService.trySaveData(photo.asData).map { .init(fileURL: $0) }
     }
 
     private func itemReference(for itemRecord: CKRecord?) -> CKRecord.Reference? {

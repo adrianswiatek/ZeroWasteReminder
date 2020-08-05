@@ -55,7 +55,7 @@
 		A749366C247346A4003DB46E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749366B247346A4003DB46E /* LoadingView.swift */; };
 		A74C418B24D4BCC500399918 /* Id.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74C418A24D4BCC500399918 /* Id.swift */; };
 		A74D1640249C2ED500FEB5CD /* RemoteStatusNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74D163F249C2ED500FEB5CD /* RemoteStatusNotifier.swift */; };
-		A750434124707386009A1451 /* CloudKitItemsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434024707386009A1451 /* CloudKitItemsService.swift */; };
+		A750434124707386009A1451 /* CloudKitItemsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434024707386009A1451 /* CloudKitItemsRepository.swift */; };
 		A750434524707517009A1451 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A750434424707517009A1451 /* CloudKit.framework */; };
 		A7547EDB24C3AF5100D82DE9 /* InMemoryAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EDA24C3AF5000D82DE9 /* InMemoryAccountService.swift */; };
 		A7547EE524C3B32000D82DE9 /* EmptySharingControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EE424C3B32000D82DE9 /* EmptySharingControllerFactory.swift */; };
@@ -206,7 +206,7 @@
 		A749366B247346A4003DB46E /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		A74C418A24D4BCC500399918 /* Id.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Id.swift; sourceTree = "<group>"; };
 		A74D163F249C2ED500FEB5CD /* RemoteStatusNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStatusNotifier.swift; sourceTree = "<group>"; };
-		A750434024707386009A1451 /* CloudKitItemsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitItemsService.swift; sourceTree = "<group>"; };
+		A750434024707386009A1451 /* CloudKitItemsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitItemsRepository.swift; sourceTree = "<group>"; };
 		A750434224707513009A1451 /* ZeroWasteReminder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZeroWasteReminder.entitlements; sourceTree = "<group>"; };
 		A750434424707517009A1451 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		A7547EDA24C3AF5000D82DE9 /* InMemoryAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryAccountService.swift; sourceTree = "<group>"; };
@@ -384,7 +384,6 @@
 			isa = PBXGroup;
 			children = (
 				A7ACC4C1247B00BF0098EDE0 /* CloudKitConfiguration.swift */,
-				A750434024707386009A1451 /* CloudKitItemsService.swift */,
 				A7636A662490499F00166631 /* FileService.swift */,
 				A782FAD12475E0A000C69737 /* RemoteNotificationHandler.swift */,
 				A70FA676244CDEEA0045B545 /* ViewControllerFactory.swift */,
@@ -776,6 +775,7 @@
 		A7C1A0BA249FFB7E0054BBAF /* ItemsRepository */ = {
 			isa = PBXGroup;
 			children = (
+				A750434024707386009A1451 /* CloudKitItemsRepository.swift */,
 				A7C1A0B8249FFB540054BBAF /* InMemoryItemsRepository.swift */,
 				A7AD372224C4E8A300C908DF /* ItemsRepository.swift */,
 			);
@@ -1042,7 +1042,7 @@
 				A7C1A0B3249FE9FE0054BBAF /* InMemoryPhotosRepository.swift in Sources */,
 				A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */,
 				A700D6C22454BD6A00F16F2E /* ItemsFilterCollectionView.swift in Sources */,
-				A750434124707386009A1451 /* CloudKitItemsService.swift in Sources */,
+				A750434124707386009A1451 /* CloudKitItemsRepository.swift in Sources */,
 				A7BDE68524B5095A003215C0 /* ListsDataSource.swift in Sources */,
 				A7F82BA42458CB6700970CFC /* Mode.swift in Sources */,
 				A7F82BA62458CB7200970CFC /* ModeState.swift in Sources */,

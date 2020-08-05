@@ -12,21 +12,7 @@ public final class PhotosViewModel {
         isLoadingOverlayVisibleSubject.eraseToAnyPublisher()
     }
 
-    private let needsCaptureImageSubject: PassthroughSubject<PhotoCaptureTarget, Never>
-    public var needsCaptureImage: AnyPublisher<PhotoCaptureTarget, Never> {
-        needsCaptureImageSubject.eraseToAnyPublisher()
-    }
-
-    private let needsShowImageSubject: PassthroughSubject<UIImage, Never>
-    public var needsShowImage: AnyPublisher<UIImage, Never> {
-        needsShowImageSubject.eraseToAnyPublisher()
-    }
-
-    private let needsRemoveImageSubject: PassthroughSubject<Int, Never>
-    public var needsRemoveImage: AnyPublisher<Int, Never> {
-        needsRemoveImageSubject.eraseToAnyPublisher()
-    }
-
+    public let requestSubject: PassthroughSubject<Request, Never>
     public private(set) var photosChangeset: PhotosChangeset
 
     private let photosRepository: PhotosRepository
@@ -40,16 +26,16 @@ public final class PhotosViewModel {
         self.photosRepository = photosRepository
         self.fileService = fileService
 
+        self.requestSubject = .init()
         self.photosChangeset = .init()
 
         self.thumbnailsSubject = .init([])
         self.isLoadingOverlayVisibleSubject = .init(false)
-        self.needsCaptureImageSubject = .init()
-        self.needsShowImageSubject = .init()
-        self.needsRemoveImageSubject = .init()
 
         self.downsizeImageSubscription = nil
         self.subscriptions = []
+
+        self.bind()
     }
 
     public func fetchThumbnails(for item: Item) {
@@ -82,30 +68,32 @@ public final class PhotosViewModel {
             )
     }
 
-    public func deleteImage(at index: Int) {
-        precondition(0 ..< thumbnailsSubject.value.count ~= index, "Index out of bounds.")
-        let photo = thumbnailsSubject.value.remove(at: index)
-        photosChangeset = photosChangeset.withDeletedPhoto(id: photo.id)
-    }
-
-    public func setNeedsCaptureImage(target: PhotoCaptureTarget) {
-        needsCaptureImageSubject.send(target)
-    }
-
-    public func setNeedsShowImage(at index: Int) {
-        precondition(0 ..< thumbnailsSubject.value.count ~= index, "Index out of bounds.")
-
-        let photoId = thumbnailsSubject.value[index].id
-        if let photo = photosChangeset.photosToSave.first(where: { $0.id == photoId }) {
-            needsShowImageSubject.send(photo.fullSize.asImage())
-        } else {
-            fetchFullSizePhoto(with: photoId)
+    public func deletePhoto(_ photo: Photo) {
+        thumbnailsSubject.value.firstIndex(of: photo).map {
+            thumbnailsSubject.value.remove(at: $0)
+            photosChangeset = photosChangeset.withDeletedPhoto(id: photo.id)
         }
     }
 
-    public func setNeedsRemoveImage(at index: Int) {
+    public func thumbnail(at index: Int) -> Photo {
         precondition(0 ..< thumbnailsSubject.value.count ~= index, "Index out of bounds.")
-        needsRemoveImageSubject.send(index)
+        return thumbnailsSubject.value[index]
+    }
+
+//    public func setNeedsRemoveImage(at index: Int) {
+//        precondition(0 ..< thumbnailsSubject.value.count ~= index, "Index out of bounds.")
+//        needsRemoveImageSubject.send(index)
+//    }
+
+    private func bind() {
+        requestSubject
+            .compactMap { [weak self] in
+                guard let self = self, case .showPhotoAt(let index) = $0 else { return nil }
+                precondition(0 ..< self.thumbnailsSubject.value.count ~= index, "Index out of bounds.")
+                return index
+            }
+            .sink { [weak self] in self?.sendShowPhotoRequest(at: $0) }
+            .store(in: &subscriptions)
     }
 
     private func addPhoto(_ photo: PhotoToSave) {
@@ -139,11 +127,19 @@ public final class PhotosViewModel {
             .map { UIImage(cgImage: $0) }
     }
 
-    private func fetchFullSizePhoto(with photoId: Id<Photo>) {
+    private func sendShowPhotoRequest(at index: Int) {
+        precondition(0 ..< thumbnailsSubject.value.count ~= index, "Index out of bounds.")
+
+        let photoId = thumbnailsSubject.value[index].id
+
+        if let photo = photosChangeset.photosToSave.first(where: { $0.id == photoId }) {
+            return requestSubject.send(.showPhoto(photo.fullSize))
+        }
+
         photosRepository.fetchFullSize(with: photoId)
             .sink(
                 receiveCompletion: { _ in },
-                receiveValue: { [weak self] in self?.needsShowImageSubject.send($0.asImage()) }
+                receiveValue: { [weak self] in self?.requestSubject.send(.showPhoto($0)) }
             )
             .store(in: &subscriptions)
     }
@@ -153,5 +149,14 @@ private extension PhotosViewModel {
     enum PhotoSize: Int {
         case fullSize = 750
         case thumbnail = 250
+    }
+}
+
+public extension PhotosViewModel {
+    enum Request: Equatable {
+        case capturePhoto(target: PhotoCaptureTarget)
+        case removePhoto(_ photo: Photo)
+        case showPhoto(_ photo: Photo)
+        case showPhotoAt(index: Int)
     }
 }

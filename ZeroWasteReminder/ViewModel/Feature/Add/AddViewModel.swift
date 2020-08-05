@@ -6,6 +6,10 @@ public final class AddViewModel {
     @Published public var notes: String
     @Published public var expirationTypeIndex: Int
 
+    public var isLoading: AnyPublisher<Bool, Never> {
+        isLoadingSubject.eraseToAnyPublisher()
+    }
+
     public var expirationType: AnyPublisher<ExpirationType, Never> {
         expirationTypeSubject.eraseToAnyPublisher()
     }
@@ -40,6 +44,9 @@ public final class AddViewModel {
     public let expirationDateViewModel: ExpirationDateViewModel
     public let expirationPeriodViewModel: ExpirationPeriodViewModel
 
+    public let requestSubject: PassthroughSubject<Request, Never>
+
+    private let isLoadingSubject: PassthroughSubject<Bool, Never>
     private let expirationTypeSubject: CurrentValueSubject<ExpirationType, Never>
 
     private let list: List
@@ -73,6 +80,8 @@ public final class AddViewModel {
         self.expirationDateViewModel = .init(initialDate: .init())
         self.expirationPeriodViewModel = .init(initialPeriodType: .day)
 
+        self.requestSubject = .init()
+        self.isLoadingSubject = .init()
         self.expirationTypeSubject = .init(ExpirationType.none)
 
         self.subscriptions = []
@@ -80,18 +89,13 @@ public final class AddViewModel {
         self.bind()
     }
 
-    public func saveItem() -> AnyPublisher<Void, ServiceError> {
+    public func saveItem() {
         guard let item = tryCreateItem() else {
             preconditionFailure("Unable to create item.")
         }
 
-        return itemsRepository.add(.init(item: item, listId: list.id))
-            .flatMap { [weak self] _ -> AnyPublisher<Void, ServiceError> in
-                guard let self = self else { return Empty().eraseToAnyPublisher() }
-                let changeset = self.photosViewModel.photosChangeset
-                return self.photosRepository.update(changeset, for: item).eraseToAnyPublisher()
-            }
-            .eraseToAnyPublisher()
+        itemsRepository.add(ItemToSave(item: item, list: list))
+        isLoadingSubject.send(true)
     }
 
     public func cleanUp() {
@@ -102,6 +106,22 @@ public final class AddViewModel {
         $expirationTypeIndex
             .map { ExpirationType.fromIndex($0) }
             .sink { [weak self] in self?.expirationTypeSubject.send($0) }
+            .store(in: &subscriptions)
+
+        itemsRepository.events
+            .compactMap { event -> Item? in
+                guard case .added(let item) = event else { return nil }
+                return item
+            }
+            .flatMap { [weak self] item -> AnyPublisher<Void, Never> in
+                guard let self = self else { return Empty().eraseToAnyPublisher() }
+                let changeset = self.photosViewModel.photosChangeset
+                return self.photosRepository.update(changeset, for: item).eraseToAnyPublisher()
+            }
+            .sink { [weak self] in
+                self?.requestSubject.send(.dismiss)
+                self?.isLoadingSubject.send(false)
+            }
             .store(in: &subscriptions)
     }
 
@@ -119,5 +139,11 @@ public final class AddViewModel {
         case .date: return expirationDateViewModel.expiration
         case .period: return expirationPeriodViewModel.expiration
         }
+    }
+}
+
+public extension AddViewModel {
+    enum Request: Equatable {
+        case dismiss
     }
 }

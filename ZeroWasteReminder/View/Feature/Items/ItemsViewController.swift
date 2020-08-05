@@ -59,7 +59,7 @@ public final class ItemsViewController: UIViewController {
         self.setupTableView()
         self.bind()
 
-        self.refreshList(withLoadingIndicator: true)
+        self.fetchItems(withLoadingIndicator: true)
     }
 
     @available(*, unavailable)
@@ -128,7 +128,7 @@ public final class ItemsViewController: UIViewController {
         itemsTableView.delegate = itemsDelegate
 
         itemsTableView.refreshControl = UIRefreshControl()
-        itemsTableView.refreshControl?.addTarget(self, action: #selector(refreshList), for: .valueChanged)
+        itemsTableView.refreshControl?.addTarget(self, action: #selector(fetchItems), for: .valueChanged)
     }
 
     private func bind() {
@@ -160,7 +160,7 @@ public final class ItemsViewController: UIViewController {
             .assign(to: \.isEnabled, on: deleteButton)
             .store(in: &subscriptions)
 
-        viewModel.items
+        viewModel.$items
             .map { !$0.isEmpty }
             .sink { [weak self] itemsExist in
                 self?.moreButton.isEnabled = itemsExist
@@ -190,22 +190,22 @@ public final class ItemsViewController: UIViewController {
     }
 
     @objc
-    private func refreshList(withLoadingIndicator: Bool = false) {
+    private func fetchItems(withLoadingIndicator: Bool = false) {
         if !withLoadingIndicator {
             loadingView.disableLoadingIndicatorOnce()
         }
-        loadingView.show()
+//        loadingView.show()
 
-        refreshSubscription = viewModel.refreshList()
-            .receive(on: OperationQueue.main)
-            .sink(
-                receiveCompletion: { [weak self] _ in
-                    self?.refreshSubscription?.cancel()
-                    self?.itemsTableView.refreshControl?.endRefreshing()
-                    self?.loadingView.hide()
-                },
-                receiveValue: {}
-            )
+        viewModel.fetchItems()
+//        refreshSubscription = viewModel.refreshList()
+//            .sink(
+//                receiveCompletion: { [weak self] _ in
+//                    self?.refreshSubscription?.cancel()
+//                    self?.itemsTableView.refreshControl?.endRefreshing()
+//                    self?.loadingView.hide()
+//                },
+//                receiveValue: {}
+//            )
     }
 
     @objc

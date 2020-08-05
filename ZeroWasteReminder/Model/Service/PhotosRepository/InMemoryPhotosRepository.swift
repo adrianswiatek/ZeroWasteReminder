@@ -28,7 +28,7 @@ public final class InMemoryPhotosRepository: PhotosRepository {
     public func update(
         _ photosChangeset: PhotosChangeset,
         for item: Item
-    ) -> Future<Void, ServiceError> {
+    ) -> Future<Void, Never> {
         Future { [weak self] promise in
             guard photosChangeset.hasChanges else { return promise(.success(())) }
 

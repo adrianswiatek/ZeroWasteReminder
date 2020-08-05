@@ -28,7 +28,7 @@ public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDa
     public func apply(_ thumbnails: [Photo]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(thumbnails.map { $0.asImage() })
+        snapshot.appendItems(thumbnails.map { $0.asImage })
         apply(snapshot)
     }
 
@@ -43,7 +43,7 @@ public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDa
             }
 
             let subscription = header.tap.sink {
-                self?.viewModel.setNeedsCaptureImage(target: $0)
+                self?.viewModel.requestSubject.send(.capturePhoto(target: $0))
             }
 
             header.set(subscription)

@@ -2,16 +2,13 @@ import Combine
 import Foundation
 
 public final class ItemsViewModel {
-    @Published var modeState: ModeState
-    @Published var sortType: SortType
-    @Published var selectedItemIndices: [Int]
+    @Published public var items: [Item]
+    @Published public var modeState: ModeState
+    @Published public var sortType: SortType
+    @Published public var selectedItemIndices: [Int]
 
     public let list: List
     public let itemsFilterViewModel: ItemsFilterViewModel
-
-    public var items: AnyPublisher<[Item], Never> {
-        itemsSubject.eraseToAnyPublisher()
-    }
 
     public var selectedItem: AnyPublisher<Item, Never> {
         selectedItemSubject.eraseToAnyPublisher()
@@ -25,7 +22,6 @@ public final class ItemsViewModel {
         needsDeleteItemSubject.eraseToAnyPublisher()
     }
 
-    private let itemsSubject: CurrentValueSubject<[Item], Never>
     private let selectedItemSubject: PassthroughSubject<Item, Never>
     private let needsDeleteItemSubject: PassthroughSubject<Item, Never>
 
@@ -41,11 +37,11 @@ public final class ItemsViewModel {
 
         self.itemsFilterViewModel = .init()
 
+        self.items = []
         self.modeState = ReadModeState()
         self.sortType = .ascending
         self.selectedItemIndices = []
 
-        self.itemsSubject = .init([])
         self.selectedItemSubject = .init()
         self.needsDeleteItemSubject = .init()
 
@@ -58,14 +54,14 @@ public final class ItemsViewModel {
         .init(item, dateFormatter: .fullDateFormatter)
     }
 
-    public func refreshList() -> Future<Void, ServiceError> {
+    public func fetchItems() {
         itemsRepository.fetchAll(from: list)
     }
 
     public func deleteSelectedItems() {
         guard !selectedItemIndices.isEmpty else { return }
 
-        let selectedItems = selectedItemIndices.map { itemsSubject.value[$0] }
+        let selectedItems = selectedItemIndices.map { items[$0] }
         itemsRepository.remove(selectedItems)
 
         modeState.done(on: self)
@@ -76,7 +72,7 @@ public final class ItemsViewModel {
     }
 
     public func removeAll() {
-        itemsRepository.removeAll(from: list)
+        itemsRepository.remove(items)
     }
 
     public func filter() {
@@ -96,11 +92,11 @@ public final class ItemsViewModel {
     }
 
     public func selectItem(at index: Int) {
-        selectedItemSubject.send(itemsSubject.value[index])
+        selectedItemSubject.send(items[index])
     }
 
     public func setNeedsRemoveItem(at index: Int) {
-        needsDeleteItemSubject.send(itemsSubject.value[index])
+        needsDeleteItemSubject.send(items[index])
     }
 
     private func bind() {
@@ -114,7 +110,7 @@ public final class ItemsViewModel {
                     }
                     return cells.flatMap { $0.filter(items) }.sorted(by: sortType.action())
                 }
-                .subscribe(itemsSubject)
+                .sink { [weak self] in self?.items = $0 }
                 .store(in: &subscriptions)
 
         $modeState
@@ -123,7 +119,7 @@ public final class ItemsViewModel {
     }
 
     private func updatedWithEvent(_ event: ItemsEvent) -> [Item] {
-        var updatedItems = itemsSubject.value
+        var updatedItems = items
 
         switch event {
         case .added(let item):

@@ -107,21 +107,21 @@ public final class EditViewModel {
         expirationDateSubject.value = date
     }
 
-    public func save() -> AnyPublisher<Void, ServiceError> {
+    public func save() {
         guard let item = tryCreateItem(name, notes, expirationDateSubject.value) else {
             preconditionFailure("Unable to create an item.")
         }
 
         return itemsRepository.update(item)
-            .flatMap { [weak self] () -> AnyPublisher<Void, ServiceError> in
-                guard let self = self else { return Empty().eraseToAnyPublisher() }
-                let changeset = self.photosViewModel.photosChangeset
-                return self.photosRepository.update(changeset, for: item).eraseToAnyPublisher()
-            }
-            .eraseToAnyPublisher()
+//            .flatMap { [weak self] () -> AnyPublisher<Void, ServiceError> in
+//                guard let self = self else { return Empty().eraseToAnyPublisher() }
+//                let changeset = self.photosViewModel.photosChangeset
+//                return self.photosRepository.update(changeset, for: item).eraseToAnyPublisher()
+//            }
+//            .eraseToAnyPublisher()
     }
 
-    public func remove() -> Future<Void, ServiceError> {
+    public func remove() {
         itemsRepository.remove(originalItem)
     }
 

@@ -26,11 +26,11 @@ public struct Photo: Hashable {
         self.image = image
     }
 
-    public func asImage() -> UIImage {
+    public var asImage: UIImage {
         image
     }
 
-    public func asData() -> Data {
+    public var asData: Data {
         data
     }
 }

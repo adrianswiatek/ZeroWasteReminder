@@ -9,7 +9,7 @@ public protocol PhotosRepository {
     func fetchFullSize(with photoId: Id<Photo>) -> Future<Photo, ServiceError>
 
     @discardableResult
-    func update(_ photosChangeset: PhotosChangeset, for item: Item) -> Future<Void, ServiceError>
+    func update(_ photosChangeset: PhotosChangeset, for item: Item) -> Future<Void, Never>
 }
 
 public extension PhotosRepository {

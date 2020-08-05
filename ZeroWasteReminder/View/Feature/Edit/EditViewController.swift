@@ -101,26 +101,8 @@ public final class EditViewController: UIViewController {
             .sink { [weak self] in self?.handleDeleteButtonTap() }
             .store(in: &subscriptions)
 
-        viewModel.photosViewModel.needsShowImage
-            .sink { [weak self] in
-                let photoViewController = FullScreenPhotoViewController(image: $0)
-                self?.present(photoViewController, animated: true)
-            }
-            .store(in: &subscriptions)
-
-        viewModel.photosViewModel.needsRemoveImage
-            .sink { [weak self] in self?.viewModel.photosViewModel.deleteImage(at: $0) }
-            .store(in: &subscriptions)
-
-        viewModel.photosViewModel.needsCaptureImage
-            .compactMap { [weak self] target in
-                guard let self = self else { return nil }
-                return self.viewControllerFactory.imagePickerController(
-                    for: target,
-                    with: self
-                )
-            }
-            .sink { [weak self] in self?.present($0, animated: true) }
+        viewModel.photosViewModel.requestSubject
+            .sink { [weak self] in self?.handleRequest($0) }
             .store(in: &subscriptions)
 
         viewModel.canRemotelyConnect
@@ -129,6 +111,21 @@ public final class EditViewController: UIViewController {
                 self?.scrollView.additionalOffset = self?.warningBarView.height ?? 0
             }
             .store(in: &subscriptions)
+    }
+
+    private func handleRequest(_ request: PhotosViewModel.Request) {
+        switch request {
+        case .capturePhoto(let target):
+            viewControllerFactory.imagePickerController(for: target, with: self).map {
+                present($0, animated: true)
+            }
+        case .removePhoto(let photo):
+            viewModel.photosViewModel.deletePhoto(photo)
+        case .showPhoto(let photo):
+            present(FullScreenPhotoViewController(image: photo.asImage), animated: true)
+        default:
+            break
+        }
     }
 
     @objc
@@ -141,17 +138,17 @@ public final class EditViewController: UIViewController {
         loadingView.show()
 
         viewModel.save()
-            .sink(
-                receiveCompletion: { [weak self] in
-                    defer { self?.loadingView.hide() }
-                    guard let self = self, case .failure(let error) = $0 else { return }
-                    UIAlertController.presentError(in: self, withMessage: error.localizedDescription)
-                },
-                receiveValue: { [weak self] _ in
-                    self?.navigationController?.popViewController(animated: true)
-                }
-            )
-            .store(in: &subscriptions)
+//            .sink(
+//                receiveCompletion: { [weak self] in
+//                    defer { self?.loadingView.hide() }
+//                    guard let self = self, case .failure(let error) = $0 else { return }
+//                    UIAlertController.presentError(in: self, withMessage: error.localizedDescription)
+//                },
+//                receiveValue: { [weak self] _ in
+//                    self?.navigationController?.popViewController(animated: true)
+//                }
+//            )
+//            .store(in: &subscriptions)
     }
 
     private func handleDeleteButtonTap() {
@@ -163,7 +160,8 @@ public final class EditViewController: UIViewController {
                     return Empty<Void, ServiceError>().eraseToAnyPublisher()
                 }
                 self.loadingView.show()
-                return self.viewModel.remove().eraseToAnyPublisher()
+                return Empty<Void, ServiceError>().eraseToAnyPublisher()
+//                return self.viewModel.remove().eraseToAnyPublisher()
             }
             .sink(
                 receiveCompletion: { [weak self] in

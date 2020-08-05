@@ -110,31 +110,17 @@ public final class AddViewController: UIViewController {
             .sink { [weak self] in self?.doneButton.isEnabled = $0 && $1 }
             .store(in: &subscriptions)
 
-        viewModel.photosViewModel.needsShowImage
-            .sink { [weak self] in
-                let photoViewController = FullScreenPhotoViewController(image: $0)
-                self?.present(photoViewController, animated: true)
-            }
+        viewModel.requestSubject
+            .filter { $0 == .dismiss }
+            .sink { [weak self] _ in self?.dismiss(animated: true) }
             .store(in: &subscriptions)
 
-        viewModel.photosViewModel.needsRemoveImage
-            .sink { [weak self] index in
-                guard let self = self else { return }
-                UIAlertController.presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
-                    .sink { [weak self] _ in self?.viewModel.photosViewModel.deleteImage(at: index) }
-                    .store(in: &self.subscriptions)
-            }
+        viewModel.isLoading
+            .sink { [weak self] in $0 ? self?.loadingView.show() : self?.loadingView.hide() }
             .store(in: &subscriptions)
 
-        viewModel.photosViewModel.needsCaptureImage
-            .compactMap { [weak self] target in
-                guard let self = self else { return nil }
-                return self.viewControllerFactory.imagePickerController(
-                    for: target,
-                    with: self
-                )
-            }
-            .sink { [weak self] in self?.present($0, animated: true) }
+        viewModel.photosViewModel.requestSubject
+            .sink { [weak self] in self?.handleRequest($0) }
             .store(in: &subscriptions)
 
         viewModel.canRemotelyConnect
@@ -151,6 +137,23 @@ public final class AddViewController: UIViewController {
         view.addGestureRecognizer(gestureRecognizer)
     }
 
+    private func handleRequest(_ request: PhotosViewModel.Request) {
+        switch request {
+        case .capturePhoto(let target):
+            viewControllerFactory.imagePickerController(for: target, with: self).map {
+                present($0, animated: true)
+            }
+        case .showPhoto(let photo):
+            present(FullScreenPhotoViewController(image: photo.asImage), animated: true)
+        case .removePhoto(let photo):
+            UIAlertController.presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
+                .sink { [weak self] _ in self?.viewModel.photosViewModel.deletePhoto(photo) }
+                .store(in: &self.subscriptions)
+        default:
+            break
+        }
+    }
+
     @objc
     private func handleViewTap() {
         view.endEditing(true)
@@ -163,21 +166,7 @@ public final class AddViewController: UIViewController {
 
     @objc
     private func handleConfirm() {
-        loadingView.show()
-
         viewModel.saveItem()
-            .sink(
-                receiveCompletion: { [weak self] in
-                    guard case .failure(let error) = $0, let self = self else { return }
-                    self.loadingView.hide()
-                    UIAlertController.presentError(in: self, withMessage: error.localizedDescription)
-                },
-                receiveValue: { [weak self] _ in
-                    self?.dismiss(animated: true)
-                    self?.loadingView.hide()
-                }
-            )
-            .store(in: &subscriptions)
     }
 }
 

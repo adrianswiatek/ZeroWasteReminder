@@ -77,7 +77,7 @@ public final class CloudKitPhotosRepository: PhotosRepository {
     public func update(
         _ photosChangeset: PhotosChangeset,
         for item: Item
-    ) -> Future<Void, ServiceError> {
+    ) -> Future<Void, Never> {
         Future { [weak self] promise in
             guard let self = self, photosChangeset.hasChanges else {
                 return promise(.success(()))
@@ -88,12 +88,8 @@ public final class CloudKitPhotosRepository: PhotosRepository {
                 recordIDsToDelete: self.mapToRecordIds(photosChangeset.idsToDelete)
             )
 
-            operation.modifyRecordsCompletionBlock = {
-                if let error = $2 {
-                    DispatchQueue.main.async { promise(.failure(ServiceError(error))) }
-                } else {
-                    DispatchQueue.main.async { promise(.success(())) }
-                }
+            operation.modifyRecordsCompletionBlock = { _, _, _ in
+                DispatchQueue.main.async { promise(.success(())) }
             }
 
             self.database.add(operation)

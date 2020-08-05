@@ -22,8 +22,7 @@ public final class ItemsDataSource: UITableViewDiffableDataSource<ItemsDataSourc
     }
 
     private func bind() {
-        viewModel.items
-            .receive(on: DispatchQueue.main)
+        viewModel.$items
             .sink { [weak self] in self?.apply(items: $0) }
             .store(in: &subscriptions)
     }
