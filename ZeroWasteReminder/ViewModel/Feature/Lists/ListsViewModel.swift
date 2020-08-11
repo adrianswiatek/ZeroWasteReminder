@@ -31,13 +31,6 @@ public final class ListsViewModel {
         lists.firstIndex(of: list)
     }
 
-    public func list(at index: Int) -> List {
-        guard (0 ..< lists.count) ~= index else {
-            preconditionFailure("Index out of bounds.")
-        }
-        return lists[index]
-    }
-
     public func addList(withName name: String) {
         let id = listsRepository.nextId()
         listsRepository.add(.init(id: id, name: name))

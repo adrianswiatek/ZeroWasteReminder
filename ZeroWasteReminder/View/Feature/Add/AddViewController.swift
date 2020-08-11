@@ -143,13 +143,13 @@ public final class AddViewController: UIViewController {
             viewControllerFactory.imagePickerController(for: target, with: self).map {
                 present($0, animated: true)
             }
-        case .showPhoto(let photo):
-            present(FullScreenPhotoViewController(image: photo.asImage), animated: true)
         case .removePhoto(let photo):
             UIAlertController.presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
                 .sink { [weak self] _ in self?.viewModel.photosViewModel.deletePhoto(photo) }
                 .store(in: &self.subscriptions)
-        default:
+        case .showPhoto(let photo):
+            present(FullScreenPhotoViewController(image: photo.asImage), animated: true)
+        case .showPhotoAt(_):
             break
         }
     }

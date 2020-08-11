@@ -14,7 +14,6 @@ public final class EditViewController: UIViewController {
     private let viewControllerFactory: ViewControllerFactory
 
     private var subscriptions: Set<AnyCancellable>
-    private var deleteSubscription: AnyCancellable?
 
     public init(viewModel: EditViewModel, factory: ViewControllerFactory) {
         self.viewModel = viewModel
@@ -97,8 +96,17 @@ public final class EditViewController: UIViewController {
             .assign(to: \.isEnabled, on: doneButton)
             .store(in: &subscriptions)
 
+        viewModel.requestSubject
+            .filter { $0 == .dismiss }
+            .sink { [weak self] _ in self?.navigationController?.popViewController(animated: true) }
+            .store(in: &subscriptions)
+
+        viewModel.isLoading
+            .sink { [weak self] in $0 ? self?.loadingView.show() : self?.loadingView.hide() }
+            .store(in: &subscriptions)
+
         contentViewController.delete
-            .sink { [weak self] in self?.handleDeleteButtonTap() }
+            .sink { [weak self] in self?.handleRemoveButtonTap() }
             .store(in: &subscriptions)
 
         viewModel.photosViewModel.requestSubject
@@ -123,7 +131,7 @@ public final class EditViewController: UIViewController {
             viewModel.photosViewModel.deletePhoto(photo)
         case .showPhoto(let photo):
             present(FullScreenPhotoViewController(image: photo.asImage), animated: true)
-        default:
+        case .showPhotoAt(_):
             break
         }
     }
@@ -135,42 +143,14 @@ public final class EditViewController: UIViewController {
 
     @objc
     private func handleDoneButtonTap() {
-        loadingView.show()
-
-        viewModel.save()
-//            .sink(
-//                receiveCompletion: { [weak self] in
-//                    defer { self?.loadingView.hide() }
-//                    guard let self = self, case .failure(let error) = $0 else { return }
-//                    UIAlertController.presentError(in: self, withMessage: error.localizedDescription)
-//                },
-//                receiveValue: { [weak self] _ in
-//                    self?.navigationController?.popViewController(animated: true)
-//                }
-//            )
-//            .store(in: &subscriptions)
+        viewModel.saveItem()
     }
 
-    private func handleDeleteButtonTap() {
-        deleteSubscription = UIAlertController
+    private func handleRemoveButtonTap() {
+        UIAlertController
             .presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
-            .mapError { _ in ServiceError.general("") }
-            .flatMap { [weak self] _ -> AnyPublisher<Void, ServiceError> in
-                guard let self = self else {
-                    return Empty<Void, ServiceError>().eraseToAnyPublisher()
-                }
-                self.loadingView.show()
-                return Empty<Void, ServiceError>().eraseToAnyPublisher()
-//                return self.viewModel.remove().eraseToAnyPublisher()
-            }
-            .sink(
-                receiveCompletion: { [weak self] in
-                    self?.loadingView.hide()
-                    guard let self = self, case .failure(let error) = $0 else { return }
-                    UIAlertController.presentError(in: self, withMessage: error.localizedDescription)
-                },
-                receiveValue: { [weak self] in self?.navigationController?.popViewController(animated: true) }
-            )
+            .sink { [weak self] _ in self?.viewModel.remove() }
+            .store(in: &subscriptions)
     }
 }
 

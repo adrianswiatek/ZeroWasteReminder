@@ -12,8 +12,8 @@ public final class ListsTableView: UITableView {
         super.init(frame: .zero, style: .plain)
 
         self.setupView()
-        self.setupRefreshControl()
         self.registerCells()
+        self.setupRefreshControl()
         self.bind()
     }
 
@@ -95,7 +95,7 @@ public final class ListsTableView: UITableView {
 extension ListsTableView: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        viewModel.requestsSubject.send(.openItems(viewModel.list(at: indexPath.row)))
+        viewModel.requestsSubject.send(.openItems(viewModel.lists[indexPath.row]))
     }
 
     public func tableView(
@@ -108,7 +108,7 @@ extension ListsTableView: UITableViewDelegate {
             image: .fromSymbol(.pencil),
             attributes: [],
             handler: { [weak viewModel] _ in
-                viewModel.map { $0.requestsSubject.send(.changeName($0.list(at: indexPath.row))) }
+                viewModel.map { $0.requestsSubject.send(.changeName($0.lists[indexPath.row])) }
             }
         )
 
@@ -117,7 +117,7 @@ extension ListsTableView: UITableViewDelegate {
             image: .fromSymbol(.trash),
             attributes: .destructive,
             handler: { [weak viewModel] _ in
-                viewModel.map { $0.requestsSubject.send(.remove($0.list(at: indexPath.row))) }
+                viewModel.map { $0.requestsSubject.send(.remove($0.lists[indexPath.row])) }
             }
         )
 

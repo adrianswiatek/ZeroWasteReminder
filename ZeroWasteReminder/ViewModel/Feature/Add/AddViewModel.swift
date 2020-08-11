@@ -10,6 +10,8 @@ public final class AddViewModel {
         isLoadingSubject.eraseToAnyPublisher()
     }
 
+    public let requestSubject: PassthroughSubject<Request, Never>
+
     public var expirationType: AnyPublisher<ExpirationType, Never> {
         expirationTypeSubject.eraseToAnyPublisher()
     }
@@ -44,8 +46,6 @@ public final class AddViewModel {
     public let expirationDateViewModel: ExpirationDateViewModel
     public let expirationPeriodViewModel: ExpirationPeriodViewModel
 
-    public let requestSubject: PassthroughSubject<Request, Never>
-
     private let isLoadingSubject: PassthroughSubject<Bool, Never>
     private let expirationTypeSubject: CurrentValueSubject<ExpirationType, Never>
 
@@ -65,8 +65,8 @@ public final class AddViewModel {
         fileService: FileService,
         statusNotifier: StatusNotifier
     ) {
-        self.list = list
         self.itemsRepository = itemsRepository
+        self.list = list
         self.photosRepository = photosRepository
         self.fileService = fileService
         self.statusNotifier = statusNotifier
@@ -94,8 +94,8 @@ public final class AddViewModel {
             preconditionFailure("Unable to create item.")
         }
 
-        itemsRepository.add(ItemToSave(item: item, list: list))
         isLoadingSubject.send(true)
+        itemsRepository.add(ItemToSave(item: item, list: list))
     }
 
     public func cleanUp() {
@@ -118,10 +118,10 @@ public final class AddViewModel {
                 let changeset = self.photosViewModel.photosChangeset
                 return self.photosRepository.update(changeset, for: item).eraseToAnyPublisher()
             }
-            .sink { [weak self] in
-                self?.requestSubject.send(.dismiss)
-                self?.isLoadingSubject.send(false)
-            }
+            .sink(
+                receiveCompletion: { [weak self] _ in self?.isLoadingSubject.send(false) },
+                receiveValue: { [weak self] in self?.requestSubject.send(.dismiss) }
+            )
             .store(in: &subscriptions)
     }
 

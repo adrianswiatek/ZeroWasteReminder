@@ -5,6 +5,12 @@ public final class EditViewModel {
     @Published var name: String
     @Published var notes: String
 
+    public let requestSubject: PassthroughSubject<Request, Never>
+
+    public var isLoading: AnyPublisher<Bool, Never> {
+        isLoadingSubject.eraseToAnyPublisher()
+    }
+
     public var expirationDate: AnyPublisher<(date: Date, formatted: String), Never> {
         expirationDateSubject
             .map { [weak self] in ($0 ?? Date(), self?.formattedDate($0) ?? "Toggle date picker") }
@@ -52,6 +58,7 @@ public final class EditViewModel {
             .eraseToAnyPublisher()
     }
 
+    private let isLoadingSubject: PassthroughSubject<Bool, Never>
     private let expirationDateSubject: CurrentValueSubject<Date?, Never>
     private let isExpirationDateVisibleSubject: CurrentValueSubject<Bool, Never>
 
@@ -72,9 +79,9 @@ public final class EditViewModel {
         fileService: FileService,
         statusNotifier: StatusNotifier
     ) {
+        self.itemsRepository = itemsRepository
         self.originalItem = item
         self.originalPhotoIds = []
-        self.itemsRepository = itemsRepository
         self.photosRepository = photosRepository
         self.fileService = fileService
         self.statusNotifier = statusNotifier
@@ -89,6 +96,8 @@ public final class EditViewModel {
             self.expirationDateSubject = .init(nil)
         }
 
+        self.requestSubject = .init()
+        self.isLoadingSubject = .init()
         self.isExpirationDateVisibleSubject = .init(false)
 
         self.photosViewModel = .init(photosRepository: photosRepository, fileService: fileService)
@@ -107,32 +116,56 @@ public final class EditViewModel {
         expirationDateSubject.value = date
     }
 
-    public func save() {
+    public func saveItem() {
         guard let item = tryCreateItem(name, notes, expirationDateSubject.value) else {
             preconditionFailure("Unable to create an item.")
         }
 
-        return itemsRepository.update(item)
-//            .flatMap { [weak self] () -> AnyPublisher<Void, ServiceError> in
-//                guard let self = self else { return Empty().eraseToAnyPublisher() }
-//                let changeset = self.photosViewModel.photosChangeset
-//                return self.photosRepository.update(changeset, for: item).eraseToAnyPublisher()
-//            }
-//            .eraseToAnyPublisher()
+        isLoadingSubject.send(true)
+        itemsRepository.update(item)
     }
 
     public func remove() {
+        isLoadingSubject.send(true)
         itemsRepository.remove(originalItem)
     }
 
     public func cleanUp() {
         _ = fileService.removeTemporaryItems()
+        isLoadingSubject.send(false)
     }
 
     private func bind() {
         photosViewModel.thumbnails
             .prefix(2)
             .sink { [weak self] in self?.originalPhotoIds = $0.map { $0.id } }
+            .store(in: &subscriptions)
+
+        itemsRepository.events
+            .compactMap { event -> Void? in
+                guard case .removed(_) = event else { return nil }
+                return ()
+            }
+            .sink(
+                receiveCompletion: { [weak self] _ in self?.isLoadingSubject.send(false) },
+                receiveValue: { [weak self] in self?.requestSubject.send(.dismiss) }
+            )
+            .store(in: &subscriptions)
+
+        itemsRepository.events
+            .compactMap { event -> Item? in
+                guard case .updated(let item) = event else { return nil }
+                return item
+            }
+            .flatMap { [weak self] item -> AnyPublisher<Void, Never> in
+                guard let self = self else { return Empty().eraseToAnyPublisher() }
+                let changeset = self.photosViewModel.photosChangeset
+                return self.photosRepository.update(changeset, for: item).eraseToAnyPublisher()
+            }
+            .sink(
+                receiveCompletion: { [weak self] _ in self?.isLoadingSubject.send(false) },
+                receiveValue: { [weak self] in self?.requestSubject.send(.dismiss) }
+            )
             .store(in: &subscriptions)
     }
 
@@ -150,5 +183,11 @@ public final class EditViewModel {
         }
 
         return Item(id: originalItem.id, name: name, notes: notes, expiration: .none)
+    }
+}
+
+public extension EditViewModel {
+    enum Request: Equatable {
+        case dismiss
     }
 }

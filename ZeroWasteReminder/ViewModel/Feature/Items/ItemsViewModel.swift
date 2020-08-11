@@ -7,6 +7,9 @@ public final class ItemsViewModel {
     @Published public var sortType: SortType
     @Published public var selectedItemIndices: [Int]
 
+    public let isLoading: AnyPublisher<Bool, Never>
+    public let requestsSubject: PassthroughSubject<Request, Never>
+
     public let list: List
     public let itemsFilterViewModel: ItemsFilterViewModel
 
@@ -18,12 +21,7 @@ public final class ItemsViewModel {
         statusNotifier.remoteStatus.map { $0 == .connected }.eraseToAnyPublisher()
     }
 
-    public var needsDeleteItem: AnyPublisher<Item, Never> {
-        needsDeleteItemSubject.eraseToAnyPublisher()
-    }
-
     private let selectedItemSubject: PassthroughSubject<Item, Never>
-    private let needsDeleteItemSubject: PassthroughSubject<Item, Never>
 
     private let itemsRepository: ItemsRepository
     private let statusNotifier: StatusNotifier
@@ -32,7 +30,9 @@ public final class ItemsViewModel {
     public init(list: List, itemsRepository: ItemsRepository, statusNotifier: StatusNotifier) {
         self.list = list
 
-        self.itemsRepository = itemsRepository
+        let itemsRepositoryDecorator = ItemsRepositoryStateDecorator(itemsRepository)
+        self.itemsRepository = itemsRepositoryDecorator
+        self.isLoading = itemsRepositoryDecorator.isLoading
         self.statusNotifier = statusNotifier
 
         self.itemsFilterViewModel = .init()
@@ -42,8 +42,8 @@ public final class ItemsViewModel {
         self.sortType = .ascending
         self.selectedItemIndices = []
 
+        self.requestsSubject = .init()
         self.selectedItemSubject = .init()
-        self.needsDeleteItemSubject = .init()
 
         self.subscriptions = []
 
@@ -95,10 +95,6 @@ public final class ItemsViewModel {
         selectedItemSubject.send(items[index])
     }
 
-    public func setNeedsRemoveItem(at index: Int) {
-        needsDeleteItemSubject.send(items[index])
-    }
-
     private func bind() {
         itemsRepository.events
             .compactMap { [weak self] in self?.updatedWithEvent($0) }
@@ -126,6 +122,8 @@ public final class ItemsViewModel {
             updatedItems += [item]
         case .fetched(let items):
             updatedItems = items
+        case .finishedWithoutResult:
+            break
         case .removed(let items):
             items.forEach { item in updatedItems.removeAll { item.id == $0.id } }
         case .updated(let item):
@@ -133,5 +131,12 @@ public final class ItemsViewModel {
         }
 
         return updatedItems
+    }
+}
+
+public extension ItemsViewModel {
+    enum Request: Equatable {
+        case disableLoadingIndicatorOnce
+        case removeItem(_ item: Item)
     }
 }

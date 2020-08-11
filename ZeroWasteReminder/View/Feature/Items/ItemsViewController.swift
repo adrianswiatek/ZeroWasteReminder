@@ -7,7 +7,6 @@ public final class ItemsViewController: UIViewController {
 
     private let itemsTableView: ItemsTableView
     private let itemsDataSource: ItemsDataSource
-    private let itemsDelegate: ItemsDelegate
     private let warningBarView: WarningBarView
 
     private lazy var moreButton: UIBarButtonItem =
@@ -46,9 +45,8 @@ public final class ItemsViewController: UIViewController {
 
         self.itemsFilterViewController = .init(viewModel.itemsFilterViewModel)
 
-        self.itemsTableView = .init()
+        self.itemsTableView = .init(viewModel)
         self.itemsDataSource = .init(itemsTableView, viewModel)
-        self.itemsDelegate = .init(viewModel)
         self.warningBarView = .init()
 
         self.subscriptions = []
@@ -56,10 +54,9 @@ public final class ItemsViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
 
         self.setupView()
-        self.setupTableView()
         self.bind()
 
-        self.fetchItems(withLoadingIndicator: true)
+        self.viewModel.fetchItems()
     }
 
     @available(*, unavailable)
@@ -124,13 +121,6 @@ public final class ItemsViewController: UIViewController {
         view.bringSubviewToFront(itemsFilterViewController.view)
     }
 
-    private func setupTableView() {
-        itemsTableView.delegate = itemsDelegate
-
-        itemsTableView.refreshControl = UIRefreshControl()
-        itemsTableView.refreshControl?.addTarget(self, action: #selector(fetchItems), for: .valueChanged)
-    }
-
     private func bind() {
         addButton.tap
             .sink { [weak self] in self.map {
@@ -182,30 +172,22 @@ public final class ItemsViewController: UIViewController {
             .sink { [weak self] in self?.warningBarView.setVisibility(!$0) }
             .store(in: &subscriptions)
 
-        viewModel.needsDeleteItem
-            .sink { [weak self] item in
-                self?.askForDeleteConfirmation(whenConfirmed: { self?.viewModel.removeItem(item) })
-            }
+        viewModel.isLoading
+            .sink { [weak self] in $0 ? self?.loadingView.show() : self?.loadingView.hide() }
+            .store(in: &subscriptions)
+
+        viewModel.requestsSubject
+            .sink { [weak self] in self?.handleRequest($0) }
             .store(in: &subscriptions)
     }
 
-    @objc
-    private func fetchItems(withLoadingIndicator: Bool = false) {
-        if !withLoadingIndicator {
+    private func handleRequest(_ request: ItemsViewModel.Request) {
+        switch request {
+        case .disableLoadingIndicatorOnce:
             loadingView.disableLoadingIndicatorOnce()
+        case .removeItem(let item):
+            askForDeleteConfirmation(whenConfirmed: { [weak viewModel] in viewModel?.removeItem(item) })
         }
-//        loadingView.show()
-
-        viewModel.fetchItems()
-//        refreshSubscription = viewModel.refreshList()
-//            .sink(
-//                receiveCompletion: { [weak self] _ in
-//                    self?.refreshSubscription?.cancel()
-//                    self?.itemsTableView.refreshControl?.endRefreshing()
-//                    self?.loadingView.hide()
-//                },
-//                receiveValue: {}
-//            )
     }
 
     @objc
