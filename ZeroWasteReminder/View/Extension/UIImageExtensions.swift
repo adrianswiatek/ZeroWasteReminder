@@ -32,6 +32,7 @@ public extension UIImage {
         case photoOnRectangle = "photo.on.rectangle"
         case photoOnRectangleFill = "photo.on.rectangle.fill"
         case plus = "plus"
+        case squareAndPencil = "square.and.pencil"
         case textBadgePlus = "text.badge.plus"
         case trash = "trash"
         case xmark = "xmark"

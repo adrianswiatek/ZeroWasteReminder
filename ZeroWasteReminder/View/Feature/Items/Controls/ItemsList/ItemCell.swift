@@ -8,7 +8,7 @@ public final class ItemCell: UITableViewCell, ReuseIdentifiable {
         }
     }
 
-    public let nameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .label
@@ -17,7 +17,7 @@ public final class ItemCell: UITableViewCell, ReuseIdentifiable {
         return label
     }()
 
-    public let expirationDateLabel: UILabel = {
+    private let expirationDateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 14, weight: .light)
@@ -25,7 +25,28 @@ public final class ItemCell: UITableViewCell, ReuseIdentifiable {
         return label
     }()
 
-    public let remainingView = RemainingView()
+    private let noteImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.setContentHuggingPriority(.defaultLow + 1, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(.defaultHigh + 1, for: .horizontal)
+        imageView.isHidden = true
+
+        let symbolConfiguration = UIImage.SymbolConfiguration(scale: .small)
+        let image = UIImage.fromSymbol(.squareAndPencil, withConfiguration: symbolConfiguration)
+        imageView.image = image.withColor(.secondaryLabel)
+
+        return imageView
+    }()
+
+    private lazy var secondRowStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [expirationDateLabel, noteImageView])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 8
+        return stackView
+    }()
+
+    private let remainingView = RemainingView()
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: nil)
@@ -60,12 +81,12 @@ public final class ItemCell: UITableViewCell, ReuseIdentifiable {
             nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32)
         ])
 
-        contentView.addSubview(expirationDateLabel)
+        contentView.addSubview(secondRowStackView)
         NSLayoutConstraint.activate([
-            expirationDateLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4),
-            expirationDateLabel.leadingAnchor.constraint(equalTo: remainingView.trailingAnchor, constant: 8),
-            expirationDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            expirationDateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32)
+            secondRowStackView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4),
+            secondRowStackView.leadingAnchor.constraint(equalTo: remainingView.trailingAnchor, constant: 8),
+            secondRowStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            secondRowStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
         ])
     }
 
@@ -78,5 +99,6 @@ public final class ItemCell: UITableViewCell, ReuseIdentifiable {
     private func reloadUserInterface() {
         nameLabel.text = viewModel.itemName
         expirationDateLabel.text = viewModel.expirationDate
+        noteImageView.isHidden = !viewModel.hasNotes
     }
 }

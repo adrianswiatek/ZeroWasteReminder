@@ -1,25 +1,22 @@
 import Foundation
 
 public final class ItemsCellViewModel {
-    public var itemName: String {
-        item.name
-    }
-
-    public var expirationDate: String {
-        if case .date(let date) = item.expiration {
-            return dateFormatter.string(from: date)
-        }
-        return "[not defined]"
-    }
+    public let itemName: String
+    public let hasNotes: Bool
+    public let expirationDate: String
 
     public let remainingViewModel: RemainingViewModel
 
-    private let item: Item
-    private let dateFormatter: DateFormatter
-
     public init(_ item: Item, dateFormatter: DateFormatter) {
-        self.item = item
+        self.itemName = item.name
+        self.hasNotes = !item.notes.isEmpty
+
+        if case .date(let date) = item.expiration {
+            expirationDate = dateFormatter.string(from: date)
+        } else {
+            expirationDate = "[not defined]"
+        }
+
         self.remainingViewModel = RemainingViewModel(item)
-        self.dateFormatter = dateFormatter
     }
 }
