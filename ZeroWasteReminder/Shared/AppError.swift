@@ -1,4 +1,4 @@
-public enum ServiceError: Error {
+public enum AppError: Error {
     case general(_ message: String)
 
     public var localizedDescription: String {

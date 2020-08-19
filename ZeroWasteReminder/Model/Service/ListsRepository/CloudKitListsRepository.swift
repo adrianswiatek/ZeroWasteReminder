@@ -34,6 +34,10 @@ public final class CloudKitListsRepository: ListsRepository {
             self?.eventsSubject.send(.fetched(lists))
         }
 
+        operation.queryCompletionBlock = { [weak self] in
+            $1.map { self?.eventsSubject.send(.error(.init($0))) }
+        }
+
         database.add(operation)
     }
 
@@ -45,13 +49,12 @@ public final class CloudKitListsRepository: ListsRepository {
             recordIDsToDelete: nil
         )
 
-        operation.modifyRecordsCompletionBlock = { [weak self] records, _, error in
-            guard
-                let record = records?.first, let
-                list = self?.mapper.map(record).toList()
-            else { return }
-
-            self?.eventsSubject.send(.added(list))
+        operation.modifyRecordsCompletionBlock = { [weak self] in
+            if let error = $2 {
+                self?.eventsSubject.send(.error(.init(error)))
+            } else if let list = self?.mapper.map($0?.first).toList() {
+                self?.eventsSubject.send(.added(list))
+            }
         }
 
         database.add(operation)
@@ -65,10 +68,13 @@ public final class CloudKitListsRepository: ListsRepository {
             recordIDsToDelete: [recordId]
         )
 
-        operation.modifyRecordsCompletionBlock = { [weak self] _, recordIds, error in
-            let id: Id<List>? = recordIds?.first.map { .fromString($0.recordName) }
-            guard id == list.id else { return }
-            self?.eventsSubject.send(.removed(list))
+        operation.modifyRecordsCompletionBlock = { [weak self] in
+            let id: Id<List>? = $1?.first.map { .fromString($0.recordName) }
+            if let error = $2 {
+                self?.eventsSubject.send(.error(.init(error)))
+            } else if id == list.id {
+                self?.eventsSubject.send(.removed(list))
+            }
         }
 
         database.add(operation)
@@ -82,10 +88,12 @@ public final class CloudKitListsRepository: ListsRepository {
             recordIDsToDelete: nil
         )
         operation.savePolicy = .allKeys
-        operation.modifyRecordsCompletionBlock = { [weak self] records, _, error in
-            records?.first
-                .flatMap { self?.mapper.map($0).toList() }
-                .map { self?.eventsSubject.send(.updated($0)) }
+        operation.modifyRecordsCompletionBlock = { [weak self] in
+            if let error = $2 {
+                self?.eventsSubject.send(.error(.init(error)))
+            } else if let list = self?.mapper.map($0?.first).toList() {
+                self?.eventsSubject.send(.updated(list))
+            }
         }
 
         database.add(operation)

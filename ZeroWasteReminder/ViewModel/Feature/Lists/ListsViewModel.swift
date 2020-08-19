@@ -62,6 +62,8 @@ public final class ListsViewModel {
             updatedLists.removeAll { $0.id == list.id }
         case .updated(let list):
             updatedLists.firstIndex { $0.id == list.id }.map { updatedLists[$0] = list }
+        case .error(let error):
+            requestsSubject.send(.showErrorMessage(error.localizedDescription))
         }
 
         lists = updatedLists.sorted { $0.updateDate > $1.updateDate }
@@ -75,5 +77,6 @@ public extension ListsViewModel {
         case discardChanges
         case openItems(_ list: List)
         case remove(_ list: List)
+        case showErrorMessage(_ message: String)
     }
 }

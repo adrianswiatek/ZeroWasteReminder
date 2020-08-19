@@ -8,14 +8,14 @@ public final class InMemoryPhotosRepository: PhotosRepository {
         itemIdsToPhotos.reduce(into: [PhotoToSave]()) { $0 += $1.value }
     }
 
-    public func fetchThumbnails(for item: Item) -> Future<[Photo], ServiceError> {
+    public func fetchThumbnails(for item: Item) -> Future<[Photo], AppError> {
         Future { [weak self] promise in
             let thumbnails = self?.itemIdsToPhotos[item.id]?.map { $0.thumbnail }
             promise(.success(thumbnails ?? []))
         }
     }
 
-    public func fetchFullSize(with photoId: Id<Photo>) -> Future<Photo, ServiceError> {
+    public func fetchFullSize(with photoId: Id<Photo>) -> Future<Photo, AppError> {
         Future { [weak self] promise in
             guard let photo = self?.photos.first(where: { $0.id == photoId }) else {
                 return promise(.failure(.general("Photo with given id does not exist.")))

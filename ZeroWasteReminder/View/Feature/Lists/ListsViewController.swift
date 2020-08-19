@@ -158,6 +158,8 @@ public final class ListsViewController: UIViewController {
                 receiveCompletion: { [weak self] _ in self?.tableView.deselectList(list) },
                 receiveValue: { [weak self] _ in self?.viewModel.removeList(list) }
             )
+        case .showErrorMessage(let message):
+            UIAlertController.presentError(in: self, withMessage: message)
         default:
             break
         }

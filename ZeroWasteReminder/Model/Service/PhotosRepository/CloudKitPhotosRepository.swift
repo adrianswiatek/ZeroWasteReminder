@@ -19,7 +19,7 @@ public final class CloudKitPhotosRepository: PhotosRepository {
         self.mapper = mapper
     }
 
-    public func fetchThumbnails(for item: Item) -> Future<[Photo], ServiceError> {
+    public func fetchThumbnails(for item: Item) -> Future<[Photo], AppError> {
         Future { [weak self] promise in
             guard let self = self else { return }
             var photoRecords = [CKRecord]()
@@ -37,7 +37,7 @@ public final class CloudKitPhotosRepository: PhotosRepository {
             operation.recordFetchedBlock = { photoRecords.append($0) }
             operation.queryCompletionBlock = {
                 if let error = $1 {
-                    DispatchQueue.main.async { promise(.failure(ServiceError(error))) }
+                    DispatchQueue.main.async { promise(.failure(AppError(error))) }
                 } else {
                     let photos = photoRecords.compactMap { self.mapper.map($0).toThumbnail() }
                     DispatchQueue.main.async { promise(.success(photos)) }
@@ -48,7 +48,7 @@ public final class CloudKitPhotosRepository: PhotosRepository {
         }
     }
 
-    public func fetchFullSize(with photoId: Id<Photo>) -> Future<Photo, ServiceError> {
+    public func fetchFullSize(with photoId: Id<Photo>) -> Future<Photo, AppError> {
         Future { [weak self] promise in
             guard let self = self else { return }
 
@@ -63,7 +63,7 @@ public final class CloudKitPhotosRepository: PhotosRepository {
             operation.recordFetchedBlock = { resultRecord = $0 }
             operation.queryCompletionBlock = {
                 if let error = $1 {
-                    DispatchQueue.main.async { promise(.failure(ServiceError(error))) }
+                    DispatchQueue.main.async { promise(.failure(AppError(error))) }
                 } else {
                     let fullSize: Photo! = resultRecord.flatMap { self.mapper.map($0).toFullSize() }
                     DispatchQueue.main.async { promise(.success(fullSize)) }
