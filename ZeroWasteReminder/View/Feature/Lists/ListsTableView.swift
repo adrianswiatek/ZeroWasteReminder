@@ -69,8 +69,8 @@ public final class ListsTableView: UITableView {
             .store(in: &subscriptions)
     }
 
-    private func deselectRows() {
-        visibleCells.filter { $0.isSelected }.forEach { $0.setSelected(false, animated: true) }
+    private func deselectAllLists() {
+        viewModel.lists.forEach { deselectList($0) }
     }
 
     @objc
@@ -86,7 +86,7 @@ public final class ListsTableView: UITableView {
     private func handleRequest(_ request: ListsViewModel.Request) {
         switch request {
         case .changeName(let list): selectList(list)
-        case .discardChanges, .showErrorMessage(_): deselectRows()
+        case .discardChanges, .showErrorMessage(_): deselectAllLists()
         default: break
         }
     }
