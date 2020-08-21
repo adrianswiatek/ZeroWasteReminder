@@ -120,6 +120,8 @@ public final class ItemsViewModel {
         switch event {
         case .added(let item):
             updatedItems += [item]
+        case .error(let error):
+            requestsSubject.send(.showErrorMessage(error.localizedDescription))
         case .fetched(let items):
             updatedItems = items
         case .finishedWithoutResult:
@@ -138,5 +140,6 @@ public extension ItemsViewModel {
     enum Request: Equatable {
         case disableLoadingIndicatorOnce
         case removeItem(_ item: Item)
+        case showErrorMessage(_ message: String)
     }
 }

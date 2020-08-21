@@ -81,21 +81,24 @@ public final class CloudKitListsRepository: ListsRepository {
     }
 
     public func update(_ list: List) {
-        guard let record = mapper.map(list).toRecordInZone(zone) else { return }
+        guard let recordId = mapper.map(list).toRecordIdInZone(zone) else { return }
 
-        let operation = CKModifyRecordsOperation(
-            recordsToSave: [record],
-            recordIDsToDelete: nil
-        )
-        operation.savePolicy = .allKeys
-        operation.modifyRecordsCompletionBlock = { [weak self] in
-            if let error = $2 {
+        database.fetch(withRecordID: recordId) { [weak self] in
+            if let error = $1 {
                 self?.eventsSubject.send(.error(.init(error)))
-            } else if let list = self?.mapper.map($0?.first).toList() {
-                self?.eventsSubject.send(.updated(list))
+            } else if let updatedRecord = self?.mapper.map($0).updatedBy(list).toRecord() {
+                self?.saveUpdatedRecord(updatedRecord)
             }
         }
+    }
 
-        database.add(operation)
+    private func saveUpdatedRecord(_ record: CKRecord) {
+        database.save(record) { [weak self] in
+            if let error = $1 {
+                self?.eventsSubject.send(.error(.init(error)))
+            } else if let updatedList = self?.mapper.map($0).toList() {
+                self?.eventsSubject.send(.updated(updatedList))
+            }
+        }
     }
 }

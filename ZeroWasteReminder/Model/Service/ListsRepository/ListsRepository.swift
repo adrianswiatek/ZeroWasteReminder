@@ -5,8 +5,8 @@ public protocol ListsRepository {
 
     func fetchAll()
     func add(_ list: List)
-    func update(_ list: List)
     func remove(_ list: List)
+    func update(_ list: List)
 }
 
 public extension ListsRepository {

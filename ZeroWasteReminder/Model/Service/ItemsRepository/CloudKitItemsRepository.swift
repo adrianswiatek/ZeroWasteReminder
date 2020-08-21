@@ -37,6 +37,10 @@ public final class CloudKitItemsRepository: ItemsRepository {
             self?.eventsSubject.send(.fetched(items))
         }
 
+        operation.queryCompletionBlock = { [weak self] in
+            $1.map { self?.eventsSubject.send(.error(.init($0))) }
+        }
+
         database.add(operation)
     }
 
@@ -51,32 +55,15 @@ public final class CloudKitItemsRepository: ItemsRepository {
             recordIDsToDelete: nil
         )
 
-        operation.modifyRecordsCompletionBlock = { [weak self] records, _, error in
-            guard
-                let record = records?.first, let
-                list = self?.mapper.map(record).toItem()
-            else { return }
-
-            self?.eventsSubject.send(.added(list))
+        operation.modifyRecordsCompletionBlock = { [weak self] in
+            if let error = $2 {
+                self?.eventsSubject.send(.error(.init(error)))
+            } else if let item = self?.mapper.map($0?.first).toItem() {
+                self?.eventsSubject.send(.added(item))
+            }
         }
 
         database.add(operation)
-    }
-
-    public func update(_ item: Item) {
-        guard let recordId = mapper.map(item).toRecordIdInZone(zone) else { return }
-
-        database.fetch(withRecordID: recordId) { [weak self] record, _ in
-            self?.mapper.map(record).updatedBy(item).toRecord().map {
-                self?.database.save($0) { updatedRecord, _ in
-                    if let updatedItem = self?.mapper.map(updatedRecord).toItem(), updatedItem.id == item.id {
-                        self?.eventsSubject.send(.updated(updatedItem))
-                    } else {
-                        self?.eventsSubject.send(.finishedWithoutResult)
-                    }
-                }
-            }
-        }
     }
 
     public func remove(_ item: Item) {
@@ -87,10 +74,13 @@ public final class CloudKitItemsRepository: ItemsRepository {
             recordIDsToDelete: [recordId]
         )
 
-        operation.modifyRecordsCompletionBlock = { [weak self] _, recordIds, _ in
-            let id = recordIds?.first.flatMap { UUID(uuidString: $0.recordName) }
-            guard id == item.id.asUuid else { return }
-            self?.eventsSubject.send(.removed(item))
+        operation.modifyRecordsCompletionBlock = { [weak self] in
+            let id: Id<Item>? = $1?.first.map { .fromString($0.recordName) }
+            if let error = $2 {
+                self?.eventsSubject.send(.error(.init(error)))
+            } else if id == item.id {
+                self?.eventsSubject.send(.removed(item))
+            }
         }
 
         database.add(operation)
@@ -105,14 +95,39 @@ public final class CloudKitItemsRepository: ItemsRepository {
             recordIDsToDelete: recordIds
         )
 
-        operation.modifyRecordsCompletionBlock = { [weak self] _, recordIds, _ in
-            let ids: [Id<Item>] = recordIds.map { $0.compactMap { .fromString($0.recordName) } } ?? []
+        operation.modifyRecordsCompletionBlock = { [weak self] in
+            let ids: [Id<Item>] = $1.map { $0.compactMap { .fromString($0.recordName) } } ?? []
             let removedItems = ids.compactMap { id in items.first { $0.id == id } }
 
-            guard !removedItems.isEmpty else { return }
-            self?.eventsSubject.send(.removed(removedItems))
+            if let error = $2 {
+                self?.eventsSubject.send(.error(.init(error)))
+            } else if !removedItems.isEmpty {
+                self?.eventsSubject.send(.removed(removedItems))
+            }
         }
 
         database.add(operation)
+    }
+
+    public func update(_ item: Item) {
+        guard let recordId = mapper.map(item).toRecordIdInZone(zone) else { return }
+
+        database.fetch(withRecordID: recordId) { [weak self] in
+            if let error = $1 {
+                self?.eventsSubject.send(.error(.init(error)))
+            } else if let updatedRecord = self?.mapper.map($0).updatedBy(item).toRecord() {
+                self?.saveUpdatedRecord(updatedRecord)
+            }
+        }
+    }
+
+    private func saveUpdatedRecord(_ record: CKRecord) {
+        database.save(record) { [weak self] in
+            if let error = $1 {
+                self?.eventsSubject.send(.error(.init(error)))
+            } else if let updatedItem = self?.mapper.map($0).toItem() {
+                self?.eventsSubject.send(.updated(updatedItem))
+            }
+        }
     }
 }

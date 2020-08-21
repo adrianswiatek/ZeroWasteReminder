@@ -1,5 +1,6 @@
 public enum ItemsEvent {
     case added(_ item: Item)
+    case error(_ error: AppError)
     case fetched(_ items: [Item])
     case finishedWithoutResult
     case removed(_ items: [Item])

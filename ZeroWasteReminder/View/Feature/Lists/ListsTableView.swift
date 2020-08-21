@@ -86,7 +86,7 @@ public final class ListsTableView: UITableView {
     private func handleRequest(_ request: ListsViewModel.Request) {
         switch request {
         case .changeName(let list): selectList(list)
-        case .discardChanges: deselectRows()
+        case .discardChanges, .showErrorMessage(_): deselectRows()
         default: break
         }
     }

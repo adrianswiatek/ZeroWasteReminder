@@ -187,6 +187,8 @@ public final class ItemsViewController: UIViewController {
             loadingView.disableLoadingIndicatorOnce()
         case .removeItem(let item):
             askForDeleteConfirmation(whenConfirmed: { [weak viewModel] in viewModel?.removeItem(item) })
+        case .showErrorMessage(let message):
+            UIAlertController.presentError(in: self, withMessage: message)
         }
     }
 
