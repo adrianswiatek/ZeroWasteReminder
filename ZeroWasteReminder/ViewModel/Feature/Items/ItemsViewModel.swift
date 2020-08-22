@@ -137,6 +137,7 @@ public final class ItemsViewModel {
 public extension ItemsViewModel {
     enum Request: Equatable {
         case disableLoadingIndicatorOnce
+        case moveItem(_ item: Item)
         case removeItem(_ item: Item)
         case showErrorMessage(_ message: String)
     }

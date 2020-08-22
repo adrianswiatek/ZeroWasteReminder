@@ -2,10 +2,6 @@ import Combine
 import UIKit
 
 public final class EditContentViewController: UIViewController {
-    public var delete: AnyPublisher<Void, Never> {
-        deleteSubject.eraseToAnyPublisher()
-    }
-
     private let nameLabel: UILabel = .defaultWithText("Item name")
     private let nameTextView = NameTextView()
 
@@ -22,17 +18,14 @@ public final class EditContentViewController: UIViewController {
     private let photosViewController: PhotosViewController
 
     private let actionsLabel: UILabel = .defaultWithText("Actions")
-    private let deleteButton: DeleteButton = .init(type: .system)
+    private let moveButton: ActionButton = .move
+    private let removeButton: ActionButton = .remove
 
     private let viewModel: EditViewModel
-
-    private let deleteSubject: PassthroughSubject<Void, Never>
     private var subscriptions: Set<AnyCancellable>
 
     public init(viewModel: EditViewModel) {
         self.viewModel = viewModel
-
-        self.deleteSubject = .init()
         self.subscriptions = []
 
         self.photosViewController = .init(viewModel: viewModel.photosViewModel)
@@ -155,13 +148,24 @@ public final class EditContentViewController: UIViewController {
             actionsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
 
-        view.addSubview(deleteButton)
+        view.addSubview(removeButton)
         NSLayoutConstraint.activate([
-            deleteButton.topAnchor.constraint(
+            removeButton.topAnchor.constraint(
                 equalTo: actionsLabel.bottomAnchor, constant: Metrics.insideSectionPadding
             ),
-            deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            deleteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            removeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            removeButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
+        view.addSubview(moveButton)
+        NSLayoutConstraint.activate([
+            moveButton.topAnchor.constraint(
+                equalTo: actionsLabel.bottomAnchor, constant: Metrics.insideSectionPadding
+            ),
+            moveButton.leadingAnchor.constraint(
+                equalTo: removeButton.trailingAnchor, constant: Metrics.insideSectionPadding
+            ),
+            moveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
@@ -180,11 +184,15 @@ public final class EditContentViewController: UIViewController {
             }
             .store(in: &subscriptions)
 
-        deleteButton.tap
+        removeButton.tap
             .sink { [weak self] in
-                self?.deleteSubject.send()
+                self?.viewModel.requestSubject.send(.removeItem)
                 self?.view.endEditing(true)
             }
+            .store(in: &subscriptions)
+
+        moveButton.tap
+            .sink { [weak self] in self?.viewModel.requestSubject.send(.moveItem) }
             .store(in: &subscriptions)
 
         datePicker.value

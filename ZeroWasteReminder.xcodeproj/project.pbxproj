@@ -93,7 +93,6 @@
 		A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */; };
 		A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */; };
 		A797433424A2ABA000A05EA2 /* ItemsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A798DF4724524B0900A84F79 /* ItemsDataSource.swift */; };
-		A7994494247871D400D3AF62 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7994493247871D400D3AF62 /* DeleteButton.swift */; };
 		A79B4A202479F6FA00ECE1B1 /* SubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */; };
 		A79DDDA32461F9B1008A3DFE /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79DDDA22461F9B1008A3DFE /* EditViewModel.swift */; };
 		A7A181AA249E9C5200B8E6EE /* PhotoToSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A181A9249E9C5200B8E6EE /* PhotoToSave.swift */; };
@@ -130,6 +129,7 @@
 		A7C9636E247DA58800DE824F /* ClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C9636D247DA58800DE824F /* ClearButton.swift */; };
 		A7CA5344245E0624006D84FD /* ItemsFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CA5343245E0624006D84FD /* ItemsFilterViewController.swift */; };
 		A7CA890124D369ED008A8AE7 /* ListsRepositoryStateDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CA890024D369ED008A8AE7 /* ListsRepositoryStateDecorator.swift */; };
+		A7CAC7EA24F1BE480094FF15 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CAC7E924F1BE480094FF15 /* ActionButton.swift */; };
 		A7CD75C7248C53FC00FCD8DF /* PhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CD75C6248C53FC00FCD8DF /* PhotosViewModel.swift */; };
 		A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A34244285010035CF36 /* AddViewController.swift */; };
 		A7DB8A37244286440035CF36 /* ItemsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A36244286440035CF36 /* ItemsNavigationController.swift */; };
@@ -245,7 +245,6 @@
 		A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenPhotoViewController.swift; sourceTree = "<group>"; };
 		A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateViewModel.swift; sourceTree = "<group>"; };
 		A798DF4724524B0900A84F79 /* ItemsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsDataSource.swift; sourceTree = "<group>"; };
-		A7994493247871D400D3AF62 /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
 		A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionService.swift; sourceTree = "<group>"; };
 		A79DDDA22461F9B1008A3DFE /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
 		A7A181A9249E9C5200B8E6EE /* PhotoToSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoToSave.swift; sourceTree = "<group>"; };
@@ -282,6 +281,7 @@
 		A7C9636D247DA58800DE824F /* ClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButton.swift; sourceTree = "<group>"; };
 		A7CA5343245E0624006D84FD /* ItemsFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsFilterViewController.swift; sourceTree = "<group>"; };
 		A7CA890024D369ED008A8AE7 /* ListsRepositoryStateDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsRepositoryStateDecorator.swift; sourceTree = "<group>"; };
+		A7CAC7E924F1BE480094FF15 /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		A7CD75C6248C53FC00FCD8DF /* PhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewModel.swift; sourceTree = "<group>"; };
 		A7DB8A34244285010035CF36 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		A7DB8A36244286440035CF36 /* ItemsNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsNavigationController.swift; sourceTree = "<group>"; };
@@ -731,11 +731,11 @@
 		A7A8EF79247C80F700FF1AC2 /* Button */ = {
 			isa = PBXGroup;
 			children = (
-				A7994493247871D400D3AF62 /* DeleteButton.swift */,
+				A7CAC7E924F1BE480094FF15 /* ActionButton.swift */,
+				A7C9636D247DA58800DE824F /* ClearButton.swift */,
 				A72F4CBE2460B5FA008B0D5B /* ExpirationDateButton.swift */,
 				A76C34A92460C4EA00362B68 /* ExpirationDatePicker.swift */,
 				A7B2A4822469E58D00D9C0B1 /* RemoveExpirationDateButton.swift */,
-				A7C9636D247DA58800DE824F /* ClearButton.swift */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -1085,11 +1085,11 @@
 				A700D6C42454BEF400F16F2E /* ItemsFilterDataSource.swift in Sources */,
 				A7515DDF24E35A3700FB226E /* ItemsRepositoryStateDecorator.swift in Sources */,
 				A780EFD3245F786F002A8AD4 /* SortType.swift in Sources */,
+				A7CAC7EA24F1BE480094FF15 /* ActionButton.swift in Sources */,
 				A70BCCD9244795D700CC49D0 /* AddViewModel.swift in Sources */,
 				A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */,
 				A75E703B248DA01300F06E98 /* Photo.swift in Sources */,
 				A763AFFA2482E2C500E93546 /* StringExtensions.swift in Sources */,
-				A7994494247871D400D3AF62 /* DeleteButton.swift in Sources */,
 				A701536624773CC000CE9085 /* AppError.swift in Sources */,
 				A70BCCDD244796FB00CC49D0 /* PeriodType.swift in Sources */,
 				A760CAD6248802CB00999C12 /* PhotosDataSource.swift in Sources */,

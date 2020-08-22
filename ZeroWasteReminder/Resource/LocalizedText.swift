@@ -8,6 +8,7 @@ public enum LocalizedText: String {
     case fullScreen = "Full Screen"
     case itemName = "Item name"
     case listName = "List name"
+    case moveItem = "Move item"
     case newList = "New list"
     case notes = "Notes"
     case noPhotosToShow = "No photos to show"

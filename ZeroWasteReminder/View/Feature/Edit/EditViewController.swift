@@ -92,25 +92,20 @@ public final class EditViewController: UIViewController {
     }
 
     private func bind() {
+        viewModel.requestSubject
+            .sink { [weak self] in self?.handleRequest($0) }
+            .store(in: &subscriptions)
+
+        viewModel.photosViewModel.requestSubject
+            .sink { [weak self] in self?.handlePhotoRequest($0) }
+            .store(in: &subscriptions)
+
         viewModel.canSave
             .assign(to: \.isEnabled, on: doneButton)
             .store(in: &subscriptions)
 
-        viewModel.requestSubject
-            .filter { $0 == .dismiss }
-            .sink { [weak self] _ in self?.navigationController?.popViewController(animated: true) }
-            .store(in: &subscriptions)
-
         viewModel.isLoading
             .sink { [weak self] in $0 ? self?.loadingView.show() : self?.loadingView.hide() }
-            .store(in: &subscriptions)
-
-        contentViewController.delete
-            .sink { [weak self] in self?.handleRemoveButtonTap() }
-            .store(in: &subscriptions)
-
-        viewModel.photosViewModel.requestSubject
-            .sink { [weak self] in self?.handleRequest($0) }
             .store(in: &subscriptions)
 
         viewModel.canRemotelyConnect
@@ -121,7 +116,18 @@ public final class EditViewController: UIViewController {
             .store(in: &subscriptions)
     }
 
-    private func handleRequest(_ request: PhotosViewModel.Request) {
+    private func handleRequest(_ request: EditViewModel.Request) {
+        switch request {
+        case .dismiss:
+            navigationController?.popViewController(animated: true)
+        case .moveItem:
+            print("Move item")
+        case .removeItem:
+            handleRemoveButtonTap()
+        }
+    }
+
+    private func handlePhotoRequest(_ request: PhotosViewModel.Request) {
         switch request {
         case .capturePhoto(let target):
             viewControllerFactory.imagePickerController(for: target, with: self).map {

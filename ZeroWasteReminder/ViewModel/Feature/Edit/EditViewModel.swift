@@ -189,5 +189,7 @@ public final class EditViewModel {
 public extension EditViewModel {
     enum Request: Equatable {
         case dismiss
+        case moveItem
+        case removeItem
     }
 }
