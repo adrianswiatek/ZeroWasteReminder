@@ -2,15 +2,7 @@ import Combine
 import UIKit
 
 public final class PhotosViewController: UIViewController {
-    private let loadingView: LoadingView = {
-        let view = LoadingView()
-        let loadingViewColor: UIColor = view.traitCollection.userInterfaceStyle == .dark ? .black : .white
-        view.backgroundColor = loadingViewColor.withAlphaComponent(0.75)
-        view.layer.cornerRadius = 8
-        view.show()
-        return view
-    }()
-
+    private let loadingView: LoadingView
     private let emptyView: PhotosEmptyView
 
     private let collectionView: PhotosCollectionView
@@ -23,6 +15,7 @@ public final class PhotosViewController: UIViewController {
     public init(viewModel: PhotosViewModel) {
         self.viewModel = viewModel
 
+        self.loadingView = .init()
         self.emptyView = .init()
 
         self.collectionView = .init(viewModel)
@@ -32,6 +25,7 @@ public final class PhotosViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
+        self.setupLoadingView()
         self.setupView()
         self.bind()
     }
@@ -39,6 +33,13 @@ public final class PhotosViewController: UIViewController {
     @available(*, unavailable)
     public required init?(coder: NSCoder) {
         fatalError("Not supported.")
+    }
+
+    private func setupLoadingView() {
+       let loadingViewColor: UIColor = view.traitCollection.userInterfaceStyle == .dark ? .black : .white
+       loadingView.backgroundColor = loadingViewColor.withAlphaComponent(0.75)
+       loadingView.layer.cornerRadius = 8
+       loadingView.show()
     }
 
     private func setupView() {
