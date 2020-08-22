@@ -120,9 +120,9 @@ public final class EditViewController: UIViewController {
         switch request {
         case .dismiss:
             navigationController?.popViewController(animated: true)
-        case .moveItem:
+        case .moveCurrentItem:
             print("Move item")
-        case .removeItem:
+        case .removeCurrentItem:
             handleRemoveButtonTap()
         }
     }
@@ -137,7 +137,7 @@ public final class EditViewController: UIViewController {
             viewModel.photosViewModel.deletePhoto(photo)
         case .showPhoto(let photo):
             present(FullScreenPhotoViewController(image: photo.asImage), animated: true)
-        case .showPhotoAt(_):
+        case .showPhotoAt:
             break
         }
     }

@@ -186,13 +186,16 @@ public final class EditContentViewController: UIViewController {
 
         removeButton.tap
             .sink { [weak self] in
-                self?.viewModel.requestSubject.send(.removeItem)
+                self?.viewModel.requestSubject.send(.removeCurrentItem)
                 self?.view.endEditing(true)
             }
             .store(in: &subscriptions)
 
         moveButton.tap
-            .sink { [weak self] in self?.viewModel.requestSubject.send(.moveItem) }
+            .sink { [weak self] in
+                self?.viewModel.requestSubject.send(.moveCurrentItem)
+                self?.view.endEditing(true)
+            }
             .store(in: &subscriptions)
 
         datePicker.value

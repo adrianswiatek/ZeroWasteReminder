@@ -67,7 +67,7 @@ public final class ListCell: UITableViewCell, ReuseIdentifiable {
         NSLayoutConstraint.activate([
             calendarImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: .smallPadding),
             calendarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: .bigPadding),
-            calendarImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -.smallPadding),
+            calendarImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -.smallPadding)
         ])
 
         contentView.addSubview(dateLabel)

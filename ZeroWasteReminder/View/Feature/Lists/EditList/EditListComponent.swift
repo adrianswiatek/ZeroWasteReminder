@@ -100,7 +100,7 @@ extension EditListComponent {
     internal enum State: Equatable {
         case idle, active(editing: Bool)
 
-        internal static func ==(lhs: State, rhs: State) -> Bool {
+        internal static func == (lhs: State, rhs: State) -> Bool {
             switch (lhs, rhs) {
             case (.idle, .idle):
                 return true

@@ -149,7 +149,7 @@ public final class AddViewController: UIViewController {
                 .store(in: &self.subscriptions)
         case .showPhoto(let photo):
             present(FullScreenPhotoViewController(image: photo.asImage), animated: true)
-        case .showPhotoAt(_):
+        case .showPhotoAt:
             break
         }
     }

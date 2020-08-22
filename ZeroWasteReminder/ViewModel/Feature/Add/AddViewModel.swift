@@ -55,7 +55,7 @@ public final class AddViewModel {
     private let photosRepository: PhotosRepository
     private let fileService: FileService
     private let statusNotifier: StatusNotifier
-    
+
     private var subscriptions: Set<AnyCancellable>
 
     public init(

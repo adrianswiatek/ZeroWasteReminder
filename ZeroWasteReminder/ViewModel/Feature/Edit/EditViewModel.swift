@@ -17,7 +17,7 @@ public final class EditViewModel {
             .eraseToAnyPublisher()
     }
 
-    public var isExpirationDateVisible: AnyPublisher<Bool, Never>  {
+    public var isExpirationDateVisible: AnyPublisher<Bool, Never> {
         isExpirationDateVisibleSubject.eraseToAnyPublisher()
     }
 
@@ -189,7 +189,7 @@ public final class EditViewModel {
 public extension EditViewModel {
     enum Request: Equatable {
         case dismiss
-        case moveItem
-        case removeItem
+        case moveCurrentItem
+        case removeCurrentItem
     }
 }
