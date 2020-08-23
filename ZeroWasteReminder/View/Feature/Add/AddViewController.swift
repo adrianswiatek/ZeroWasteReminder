@@ -6,7 +6,7 @@ public final class AddViewController: UIViewController {
         .dismissButton(target: self, action: #selector(handleDismiss))
 
     private lazy var doneButton: UIBarButtonItem =
-        .doneButton(target: self, action: #selector(handleConfirm))
+        .doneButton(target: self, action: #selector(handleDone))
 
     private let scrollView: AdaptiveScrollView
     private let contentViewController: AddContentViewController
@@ -52,7 +52,7 @@ public final class AddViewController: UIViewController {
     }
 
     private func setupNavigationItem() {
-        navigationItem.title = "Add item"
+        navigationItem.title = .localized(.addItem)
 
         navigationItem.leftBarButtonItem = dismissButton
         navigationItem.rightBarButtonItem = doneButton
@@ -165,7 +165,7 @@ public final class AddViewController: UIViewController {
     }
 
     @objc
-    private func handleConfirm() {
+    private func handleDone() {
         viewModel.saveItem()
     }
 }

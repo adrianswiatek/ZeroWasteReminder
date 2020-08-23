@@ -89,4 +89,10 @@ public final class ViewControllerFactory {
         imagePickerController.delegate = delegate
         return imagePickerController
     }
+
+    public func moveItemViewController(item: Item, list: List) -> UIViewController {
+        let viewModel = MoveItemViewModel(item: item, list: list)
+        let viewController = MoveItemViewController(viewModel: viewModel)
+        return MoveItemNavigationController(rootViewController: viewController)
+    }
 }

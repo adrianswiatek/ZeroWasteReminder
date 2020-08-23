@@ -186,7 +186,8 @@ public final class ItemsViewController: UIViewController {
         case .disableLoadingIndicatorOnce:
             loadingView.disableLoadingIndicatorOnce()
         case .moveItem(let item):
-            print("Move item:", item.name)
+            let viewController = viewControllerFactory.moveItemViewController(item: item, list: viewModel.list)
+            present(viewController, animated: true)
         case .removeItem(let item):
             askForDeleteConfirmation(whenConfirmed: { [weak viewModel] in viewModel?.removeItem(item) })
         case .showErrorMessage(let message):

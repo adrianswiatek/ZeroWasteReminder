@@ -97,6 +97,9 @@
 		A79DDDA32461F9B1008A3DFE /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79DDDA22461F9B1008A3DFE /* EditViewModel.swift */; };
 		A7A181AA249E9C5200B8E6EE /* PhotoToSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A181A9249E9C5200B8E6EE /* PhotoToSave.swift */; };
 		A7A2DDA5249FD4FF0025B1B8 /* UUIDExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A2DDA4249FD4FF0025B1B8 /* UUIDExtensions.swift */; };
+		A7A7495124F309CC009D6F25 /* MoveItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A7495024F309CC009D6F25 /* MoveItemViewController.swift */; };
+		A7A7495424F30A0F009D6F25 /* MoveItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A7495324F30A0F009D6F25 /* MoveItemViewModel.swift */; };
+		A7A7495624F31404009D6F25 /* MoveItemNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A7495524F31404009D6F25 /* MoveItemNavigationController.swift */; };
 		A7A7E96024BA621F003751B6 /* EditListOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A7E95F24BA621F003751B6 /* EditListOverlayView.swift */; };
 		A7A8EF73247C52E900FF1AC2 /* NameTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */; };
 		A7A8EF75247C771900FF1AC2 /* NotesTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF74247C771900FF1AC2 /* NotesTextView.swift */; };
@@ -249,6 +252,9 @@
 		A79DDDA22461F9B1008A3DFE /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
 		A7A181A9249E9C5200B8E6EE /* PhotoToSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoToSave.swift; sourceTree = "<group>"; };
 		A7A2DDA4249FD4FF0025B1B8 /* UUIDExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDExtensions.swift; sourceTree = "<group>"; };
+		A7A7495024F309CC009D6F25 /* MoveItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemViewController.swift; sourceTree = "<group>"; };
+		A7A7495324F30A0F009D6F25 /* MoveItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemViewModel.swift; sourceTree = "<group>"; };
+		A7A7495524F31404009D6F25 /* MoveItemNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemNavigationController.swift; sourceTree = "<group>"; };
 		A7A7E95F24BA621F003751B6 /* EditListOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListOverlayView.swift; sourceTree = "<group>"; };
 		A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTextView.swift; sourceTree = "<group>"; };
 		A7A8EF74247C771900FF1AC2 /* NotesTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextView.swift; sourceTree = "<group>"; };
@@ -404,6 +410,7 @@
 				A79DDDA12461F99D008A3DFE /* Edit */,
 				A70FA67F244CF7090045B545 /* Items */,
 				A759430924AFBF51007A526B /* Lists */,
+				A7A7495224F30A01009D6F25 /* MoveItem */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -718,6 +725,23 @@
 			path = Edit;
 			sourceTree = "<group>";
 		};
+		A7A7494F24F309B4009D6F25 /* MoveItem */ = {
+			isa = PBXGroup;
+			children = (
+				A7A7495524F31404009D6F25 /* MoveItemNavigationController.swift */,
+				A7A7495024F309CC009D6F25 /* MoveItemViewController.swift */,
+			);
+			path = MoveItem;
+			sourceTree = "<group>";
+		};
+		A7A7495224F30A01009D6F25 /* MoveItem */ = {
+			isa = PBXGroup;
+			children = (
+				A7A7495324F30A0F009D6F25 /* MoveItemViewModel.swift */,
+			);
+			path = MoveItem;
+			sourceTree = "<group>";
+		};
 		A7A8EF78247C80DE00FF1AC2 /* TextView */ = {
 			isa = PBXGroup;
 			children = (
@@ -817,6 +841,7 @@
 				A780EFCF245F7570002A8AD4 /* Edit */,
 				A72A46D524426C3700B0007B /* Items */,
 				A759430624AFBF06007A526B /* Lists */,
+				A7A7494F24F309B4009D6F25 /* MoveItem */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -1006,6 +1031,7 @@
 				A7E317992496EBB8006B9610 /* PhotosChangeset.swift in Sources */,
 				A7547EEF24C3C01600D82DE9 /* InMemoryVariableDependenciesFactory.swift in Sources */,
 				A7F82BAC2458CBA800970CFC /* FilteringModeState.swift in Sources */,
+				A7A7495424F30A0F009D6F25 /* MoveItemViewModel.swift in Sources */,
 				A7E530AF249C02E40020DB14 /* CloudKitAccountService.swift in Sources */,
 				A70BCCE52447C56A00CC49D0 /* ExpirationTypeExtensions.swift in Sources */,
 				A72F4CBF2460B5FA008B0D5B /* ExpirationDateButton.swift in Sources */,
@@ -1014,6 +1040,7 @@
 				A71B691E2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift in Sources */,
 				A7B2A4832469E58D00D9C0B1 /* RemoveExpirationDateButton.swift in Sources */,
 				A7CA890124D369ED008A8AE7 /* ListsRepositoryStateDecorator.swift in Sources */,
+				A7A7495624F31404009D6F25 /* MoveItemNavigationController.swift in Sources */,
 				A7C0680624D2092F007556F5 /* CloudKitListMapper.swift in Sources */,
 				A7E530AD249BFD330020DB14 /* AccountService.swift in Sources */,
 				A78172AC2494D01500F406EC /* CloudKitKey.swift in Sources */,
@@ -1032,6 +1059,7 @@
 				A7175078244286F60058FCE4 /* ItemCell.swift in Sources */,
 				A7AD76E62463661100220A94 /* StateIndicatorLabel.swift in Sources */,
 				A74161412450D83B001ED316 /* UIAlertControllerExtensions.swift in Sources */,
+				A7A7495124F309CC009D6F25 /* MoveItemViewController.swift in Sources */,
 				A74D1640249C2ED500FEB5CD /* RemoteStatusNotifier.swift in Sources */,
 				A763AFFD2482E86000E93546 /* PhotosCollectionView.swift in Sources */,
 				A716B8FD244E43BB00D2FC89 /* ItemsCellViewModel.swift in Sources */,
