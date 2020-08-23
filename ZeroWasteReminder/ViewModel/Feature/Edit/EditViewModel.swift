@@ -5,6 +5,8 @@ public final class EditViewModel {
     @Published var name: String
     @Published var notes: String
 
+    public let originalItem: Item
+
     public let requestSubject: PassthroughSubject<Request, Never>
 
     public var isLoading: AnyPublisher<Bool, Never> {
@@ -62,7 +64,6 @@ public final class EditViewModel {
     private let expirationDateSubject: CurrentValueSubject<Date?, Never>
     private let isExpirationDateVisibleSubject: CurrentValueSubject<Bool, Never>
 
-    private let originalItem: Item
     private var originalPhotoIds: [Id<Photo>]
     private let itemsRepository: ItemsRepository
     private let photosRepository: PhotosRepository

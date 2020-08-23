@@ -90,8 +90,8 @@ public final class ViewControllerFactory {
         return imagePickerController
     }
 
-    public func moveItemViewController(item: Item, list: List) -> UIViewController {
-        let viewModel = MoveItemViewModel(item: item, list: list)
+    public func moveItemViewController(item: Item) -> UIViewController {
+        let viewModel = MoveItemViewModel(item: item)
         let viewController = MoveItemViewController(viewModel: viewModel)
         return MoveItemNavigationController(rootViewController: viewController)
     }

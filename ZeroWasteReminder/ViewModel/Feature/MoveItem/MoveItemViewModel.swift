@@ -6,10 +6,8 @@ public final class MoveItemViewModel {
     }
 
     private let item: Item
-    private let list: List
 
-    public init(item: Item, list: List) {
+    public init(item: Item) {
         self.item = item
-        self.list = list
     }
 }
