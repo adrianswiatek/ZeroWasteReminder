@@ -17,9 +17,9 @@ public final class InMemoryItemsRepository: ItemsRepository {
         eventsSubject.send(.fetched(items))
     }
 
-    public func add(_ itemToSave: ItemToSave) {
-        items.append(itemToSave)
-        eventsSubject.send(.added(itemToSave.item))
+    public func add(_ itemWithList: ItemToSave) {
+        items.append(itemWithList)
+        eventsSubject.send(.added(itemWithList.item))
     }
 
     public func update(_ item: Item) {
@@ -27,7 +27,7 @@ public final class InMemoryItemsRepository: ItemsRepository {
             return
         }
 
-        items[index] = ItemToSave(item: item, list: items[index].list)
+        items[index] = ItemToSave(item, items[index].list)
         eventsSubject.send(.updated(item))
     }
 

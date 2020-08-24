@@ -42,6 +42,11 @@ public final class MoveItemViewController: UIViewController {
         viewModel.canMoveItem
             .sink { [weak self] in self?.doneButton.isEnabled = $0 }
             .store(in: &subscriptions)
+
+        viewModel.requestSubject
+            .filter { $0 == .dismiss }
+            .sink { [weak self] _ in self?.dismiss(animated: true) }
+            .store(in: &subscriptions)
     }
 
     @objc

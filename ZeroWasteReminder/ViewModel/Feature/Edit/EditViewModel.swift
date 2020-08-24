@@ -177,13 +177,7 @@ public final class EditViewModel {
 
     private func tryCreateItem(_ name: String, _ notes: String, _ expirationDate: Date?) -> Item? {
         guard !name.isEmpty else { return nil }
-
-        if let expirationDate = expirationDate {
-            let expiration = Expiration.date(expirationDate)
-            return Item(id: originalItem.id, name: name, notes: notes, expiration: expiration)
-        }
-
-        return Item(id: originalItem.id, name: name, notes: notes, expiration: .none)
+        return originalItem.withName(name).withNotes(notes).withExpirationDate(expirationDate)
     }
 }
 

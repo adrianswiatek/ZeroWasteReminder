@@ -95,7 +95,7 @@ public final class AddViewModel {
         }
 
         isLoadingSubject.send(true)
-        itemsRepository.add(ItemToSave(item: item, list: list))
+        itemsRepository.add(ItemToSave(item, list))
     }
 
     public func cleanUp() {
@@ -130,7 +130,14 @@ public final class AddViewModel {
             return nil
         }
 
-        return Item(id: itemsRepository.nextId(), name: name, notes: notes, expiration: expiration, photos: [])
+        return Item(
+            id: itemsRepository.nextId(),
+            name: name,
+            notes: notes,
+            expiration: expiration,
+            photos: [],
+            listId: list.id
+        )
     }
 
     private func expiration() -> Expiration? {

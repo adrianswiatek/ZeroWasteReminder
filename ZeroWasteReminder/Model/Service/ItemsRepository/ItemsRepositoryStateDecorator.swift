@@ -19,6 +19,10 @@ public final class ItemsRepositoryStateDecorator: ItemsRepository {
         self.bind()
     }
 
+    public func fetch(by itemId: Id<Item>) {
+
+    }
+
     public func fetchAll(from list: List) {
         isLoadingSubject.send(true)
         itemsRepository.fetchAll(from: list)

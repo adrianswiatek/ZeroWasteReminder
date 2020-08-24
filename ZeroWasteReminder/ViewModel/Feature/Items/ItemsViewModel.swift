@@ -124,6 +124,8 @@ public final class ItemsViewModel {
             requestsSubject.send(.showErrorMessage(error.localizedDescription))
         case .fetched(let items):
             updatedItems = items
+        case .moved:
+            break
         case .removed(let items):
             items.forEach { item in updatedItems.removeAll { item.id == $0.id } }
         case .updated(let item):

@@ -2,6 +2,7 @@ import UIKit
 
 public final class ViewControllerFactory {
     private let fileService: FileService
+    private let moveItemService: MoveItemService
 
     private let itemsRepository: ItemsRepository
     private let listsRepository: ListsRepository
@@ -13,6 +14,7 @@ public final class ViewControllerFactory {
 
     public init(
         fileService: FileService,
+        moveItemService: MoveItemService,
         itemsRepository: ItemsRepository,
         listsRepository: ListsRepository,
         photosRepository: PhotosRepository,
@@ -20,11 +22,12 @@ public final class ViewControllerFactory {
         sharingControllerFactory: SharingControllerFactory,
         notificationCenter: NotificationCenter
     ) {
-        self.photosRepository = photosRepository
         self.fileService = fileService
+        self.moveItemService = moveItemService
 
         self.itemsRepository = itemsRepository
         self.listsRepository = listsRepository
+        self.photosRepository = photosRepository
 
         self.statusNotifier = statusNotifier
         self.sharingControllerFactory = sharingControllerFactory
@@ -91,7 +94,7 @@ public final class ViewControllerFactory {
     }
 
     public func moveItemViewController(item: Item) -> UIViewController {
-        let viewModel = MoveItemViewModel(item: item)
+        let viewModel = MoveItemViewModel(item: item, moveItemService: moveItemService)
         let viewController = MoveItemViewController(viewModel: viewModel)
         return MoveItemNavigationController(rootViewController: viewController)
     }
