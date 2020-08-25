@@ -60,7 +60,9 @@ public final class ListsTableView: UITableView {
 
         viewModel.$lists
             .map { $0.isEmpty }
-            .sink { [weak self] in self?.backgroundView = $0 ? EmptyListView() : nil }
+            .sink { [weak self] in
+                self?.backgroundView = $0 ? EmptyListView(text: .localized(.noListsAddedYet)) : nil
+            }
             .store(in: &subscriptions)
 
         viewModel.isLoading

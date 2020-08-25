@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public final class ListCell: UITableViewCell, ReuseIdentifiable {
+public final class ListCell: UITableViewCell {
     private var subscriptions: Set<AnyCancellable>
 
     private let titleLabel: UILabel = {
@@ -80,7 +80,7 @@ public final class ListCell: UITableViewCell, ReuseIdentifiable {
 
     private func backgroundView() -> UIView {
         let view = UIView()
-        view.backgroundColor = UIColor.accent.withAlphaComponent(0.5)
+        view.backgroundColor = UIColor.lightGray.withAlphaComponent(0.15)
         return view
     }
 }

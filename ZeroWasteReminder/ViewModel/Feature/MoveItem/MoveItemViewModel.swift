@@ -2,15 +2,21 @@ import Combine
 
 public final class MoveItemViewModel {
     @Published public var lists: [List]
+    @Published private var selectedList: List?
 
-    public let requestSubject: PassthroughSubject<Request, Never>
+    public let requestsSubject: PassthroughSubject<Request, Never>
+
+    public var isLoading: AnyPublisher<Bool, Never> {
+        isLoadingSubject.eraseToAnyPublisher()
+    }
 
     public var canMoveItem: AnyPublisher<Bool, Never> {
-        Just(false).share().eraseToAnyPublisher()
+        $selectedList.map { $0 != nil }.eraseToAnyPublisher()
     }
 
     private let item: Item
     private let moveItemService: MoveItemService
+    private let isLoadingSubject: PassthroughSubject<Bool, Never>
 
     private var subscriptions: Set<AnyCancellable>
 
@@ -19,28 +25,47 @@ public final class MoveItemViewModel {
         self.moveItemService = moveItemService
 
         self.lists = []
-        self.requestSubject = .init()
         self.subscriptions = []
 
+        self.requestsSubject = .init()
+        self.isLoadingSubject = .init()
+
         self.bind()
-        self.moveItemService.fetchLists(for: item)
+        self.fetchLists()
+    }
+
+    public func fetchLists() {
+        moveItemService.fetchLists(for: item)
+        isLoadingSubject.send(true)
+    }
+
+    public func selectList(_ list: List) {
+        selectedList = list
+    }
+
+    public func moveItem() {
+        selectedList.map { moveItemService.moveItem(item, toList: $0) }
+        isLoadingSubject.send(true)
     }
 
     private func bind() {
         moveItemService.events
-            .sink { [weak self] in self?.handleEvent($0) }
+            .sink { [weak self] in
+                self?.isLoadingSubject.send(false)
+                self?.handleEvent($0)
+            }
             .store(in: &subscriptions)
     }
 
     private func handleEvent(_ event: MoveItemEvent) {
         switch event {
+        case .error(let error):
+            requestsSubject.send(.showErrorMessage(error.localizedDescription))
         case .fetched(let lists):
-            self.lists = lists
+            self.lists = lists.sorted { $0.updateDate > $1.updateDate }
         case .moved:
-            requestSubject.send(.dismiss)
+            requestsSubject.send(.dismiss)
         }
-
-        print(event)
     }
 }
 
@@ -48,5 +73,6 @@ public final class MoveItemViewModel {
 public extension MoveItemViewModel {
     enum Request: Equatable {
         case dismiss
+        case showErrorMessage(_ message: String)
     }
 }

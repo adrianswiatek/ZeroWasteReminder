@@ -51,6 +51,7 @@ public final class ItemsTableView: UITableView {
 
     private func bind() {
         viewModel.isLoading
+            .filter { $0 == false }
             .sink { [weak self] _ in self?.refreshControl?.endRefreshing() }
             .store(in: &subscriptions)
     }

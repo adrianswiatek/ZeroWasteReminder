@@ -44,9 +44,10 @@ public final class MoveItemService: MoveItemServiceProtocol {
     public func moveItem(_ item: Item, toList list: List) {
         moveItemSubscription = itemsRepository.events
             .compactMap { event -> Item? in
-                guard case .moved(let item) = event else { return nil }
+                guard case .updated(let item) = event else { return nil }
                 return item
             }
+            .filter { $0.listId == list.id }
             .sink { [weak self] in
                 self?.eventsSubject.send(.moved($0))
                 self?.moveItemSubscription = nil

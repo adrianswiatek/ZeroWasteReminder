@@ -1,6 +1,6 @@
 import UIKit
 
-public final class ItemCell: UITableViewCell, ReuseIdentifiable {
+public final class ItemCell: UITableViewCell {
     public var viewModel: ItemsCellViewModel! {
         didSet {
             remainingView.viewModel = viewModel.remainingViewModel

@@ -8,12 +8,18 @@ public final class MoveItemViewController: UIViewController {
     private lazy var doneButton: UIBarButtonItem =
         .doneButton(target: self, action: #selector(handleDone))
 
+    private let tableView: MoveItemTableView
+    private let dataSource: MoveItemDataSource
+
     private let viewModel: MoveItemViewModel
     private var subscriptions: Set<AnyCancellable>
 
     public init(viewModel: MoveItemViewModel) {
         self.viewModel = viewModel
         self.subscriptions = []
+
+        self.tableView = .init(viewModel)
+        self.dataSource = .init(tableView, viewModel)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -29,6 +35,14 @@ public final class MoveItemViewController: UIViewController {
 
     private func setupView() {
         view.backgroundColor = .systemBackground
+
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
 
     private func setupNavigationItem() {
@@ -43,10 +57,18 @@ public final class MoveItemViewController: UIViewController {
             .sink { [weak self] in self?.doneButton.isEnabled = $0 }
             .store(in: &subscriptions)
 
-        viewModel.requestSubject
-            .filter { $0 == .dismiss }
-            .sink { [weak self] _ in self?.dismiss(animated: true) }
+        viewModel.requestsSubject
+            .sink { [weak self] in self?.handleRequest($0) }
             .store(in: &subscriptions)
+    }
+
+    private func handleRequest(_ request: MoveItemViewModel.Request) {
+        switch request {
+        case .dismiss:
+            dismiss(animated: true)
+        case .showErrorMessage(let message):
+            UIAlertController.presentError(in: self, withMessage: message)
+        }
     }
 
     @objc
@@ -55,6 +77,6 @@ public final class MoveItemViewController: UIViewController {
     }
 
     @objc func handleDone() {
-        dismiss(animated: true)
+        viewModel.moveItem()
     }
 }
