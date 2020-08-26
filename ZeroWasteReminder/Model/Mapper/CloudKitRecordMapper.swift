@@ -58,6 +58,7 @@ internal final class CloudKitRecordMapper {
         applyChange(to: record, key: CloudKitKey.Item.name, value: item.name)
         applyChange(to: record, key: CloudKitKey.Item.notes, value: item.notes)
         applyChange(to: record, key: CloudKitKey.Item.expiration, value: expiration(from: item))
+        applyChange(to: record, key: CloudKitKey.Item.listReference, value: listReference(from: item, and: record))
 
         return self
     }
@@ -68,6 +69,10 @@ internal final class CloudKitRecordMapper {
 
     private func notes(from record: CKRecord) -> String {
         record[CloudKitKey.Item.notes] as? String ?? ""
+    }
+
+    private func listReference(from item: Item, and record: CKRecord) -> CKRecord.Reference {
+        .init(recordID: .init(recordName: item.listId.asString, zoneID: record.recordID.zoneID), action: .deleteSelf)
     }
 
     private func listId(from record: CKRecord) -> Id<List>? {
