@@ -7,27 +7,27 @@ public final class InMemoryItemsRepository: ItemsRepository {
         eventsSubject.eraseToAnyPublisher()
     }
 
-    private var items = [ItemToSave]()
+    private var items = [Item]()
 
     public func fetchAll(from list: List) {
         let items = self.items
-            .filter { $0.list.id == list.id }
-            .map { $0.item }
+            .filter { $0.listId == list.id }
+            .map { $0 }
 
         eventsSubject.send(.fetched(items))
     }
 
-    public func add(_ itemWithList: ItemToSave) {
-        items.append(itemWithList)
-        eventsSubject.send(.added(itemWithList.item))
+    public func add(_ itemToSave: ItemToSave) {
+        items.append(itemToSave.item)
+        eventsSubject.send(.added(itemToSave.item))
     }
 
     public func update(_ item: Item) {
-        guard let index = items.firstIndex(where: { $0.item.id == item.id }) else {
+        guard let index = items.firstIndex(where: { $0.id == item.id }) else {
             return
         }
 
-        items[index] = ItemToSave(item, items[index].list)
+        items[index] = item
         eventsSubject.send(.updated(item))
     }
 
@@ -42,6 +42,6 @@ public final class InMemoryItemsRepository: ItemsRepository {
     }
 
     private func internalRemove(_ item: Item) {
-        items.removeAll { $0.item.id == item.id }
+        items.removeAll { $0.id == item.id }
     }
 }
