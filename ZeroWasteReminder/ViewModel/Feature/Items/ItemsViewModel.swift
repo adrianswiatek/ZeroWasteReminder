@@ -98,7 +98,6 @@ public final class ItemsViewModel {
     private func bind() {
         itemsRepository.events
             .compactMap { [weak self] in self?.updatedWithEvent($0) }
-            .flatMap { Just($0).eraseToAnyPublisher() }
             .combineLatest(itemsFilterViewModel.cellViewModels, $sortType)
                 .compactMap { items, cells, sortType in
                     if cells.allSatisfy({ $0.isSelected == false }) {
@@ -130,7 +129,7 @@ public final class ItemsViewModel {
             updatedItems.firstIndex { $0.id == item.id }.map { updatedItems[$0] = item }
         }
 
-        return updatedItems
+        return updatedItems.removedAll { $0.listId != list.id }
     }
 }
 

@@ -11,6 +11,8 @@ public final class MoveItemViewController: UIViewController {
     private let tableView: MoveItemTableView
     private let dataSource: MoveItemDataSource
 
+    private let loadingView: LoadingView
+
     private let viewModel: MoveItemViewModel
     private var subscriptions: Set<AnyCancellable>
 
@@ -21,11 +23,15 @@ public final class MoveItemViewController: UIViewController {
         self.tableView = .init(viewModel)
         self.dataSource = .init(tableView, viewModel)
 
+        self.loadingView = .init()
+
         super.init(nibName: nil, bundle: nil)
 
         self.setupView()
         self.setupNavigationItem()
         self.bind()
+
+        self.viewModel.fetchLists()
     }
 
     @available(*, unavailable)
@@ -43,6 +49,14 @@ public final class MoveItemViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+
+        view.addSubview(loadingView)
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
 
     private func setupNavigationItem() {
@@ -55,6 +69,10 @@ public final class MoveItemViewController: UIViewController {
     private func bind() {
         viewModel.canMoveItem
             .sink { [weak self] in self?.doneButton.isEnabled = $0 }
+            .store(in: &subscriptions)
+
+        viewModel.isLoading
+            .sink { [weak self] in $0 ? self?.loadingView.show() : self?.loadingView.hide() }
             .store(in: &subscriptions)
 
         viewModel.requestsSubject
