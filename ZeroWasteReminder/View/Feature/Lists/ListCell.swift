@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public final class ListCell: UITableViewCell, ReuseIdentifiable {
+public final class ListCell: UITableViewCell {
     private var subscriptions: Set<AnyCancellable>
 
     private let titleLabel: UILabel = {
@@ -67,7 +67,7 @@ public final class ListCell: UITableViewCell, ReuseIdentifiable {
         NSLayoutConstraint.activate([
             calendarImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: .smallPadding),
             calendarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: .bigPadding),
-            calendarImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -.smallPadding),
+            calendarImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -.smallPadding)
         ])
 
         contentView.addSubview(dateLabel)
@@ -80,7 +80,7 @@ public final class ListCell: UITableViewCell, ReuseIdentifiable {
 
     private func backgroundView() -> UIView {
         let view = UIView()
-        view.backgroundColor = UIColor.accent.withAlphaComponent(0.5)
+        view.backgroundColor = UIColor.lightGray.withAlphaComponent(0.15)
         return view
     }
 }

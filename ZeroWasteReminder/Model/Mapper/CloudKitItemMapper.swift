@@ -36,6 +36,6 @@ internal final class CloudKitItemMapper {
     }
 
     private func listReference(for listRecord: CKRecord?) -> CKRecord.Reference? {
-        listRecord.map { CKRecord.Reference(record: $0, action: .deleteSelf) }
+        listRecord.map { .init(record: $0, action: .deleteSelf) }
     }
 }

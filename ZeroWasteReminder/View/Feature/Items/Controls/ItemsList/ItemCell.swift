@@ -1,6 +1,6 @@
 import UIKit
 
-public final class ItemCell: UITableViewCell, ReuseIdentifiable {
+public final class ItemCell: UITableViewCell {
     public var viewModel: ItemsCellViewModel! {
         didSet {
             remainingView.viewModel = viewModel.remainingViewModel
@@ -86,7 +86,7 @@ public final class ItemCell: UITableViewCell, ReuseIdentifiable {
             secondRowStackView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4),
             secondRowStackView.leadingAnchor.constraint(equalTo: remainingView.trailingAnchor, constant: 8),
             secondRowStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            secondRowStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            secondRowStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
     }
 

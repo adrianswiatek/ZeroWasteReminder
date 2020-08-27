@@ -12,14 +12,16 @@ public final class EmptyListView: UIView {
     private let label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "No lists added yet"
         label.textColor = .tertiaryLabel
         label.textAlignment = .center
         return label
     }()
 
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
+    private let text: String
+
+    public init(text: String) {
+        self.text = text
+        super.init(frame: .zero)
         self.setupView()
     }
 
@@ -29,6 +31,8 @@ public final class EmptyListView: UIView {
     }
 
     private func setupView() {
+        label.text = text
+
         addSubview(imageView)
         NSLayoutConstraint.activate([
             imageView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 64),

@@ -7,7 +7,7 @@ public struct ItemsFilterCellViewModel: Hashable {
         case .notDefined: return "Not defined"
         case .expired: return "Expired"
         case .almostExpired: return "Almost expired"
-        case .valid(_, _): return "Valid"
+        case .valid: return "Valid"
         }
     }
 
@@ -33,7 +33,7 @@ public struct ItemsFilterCellViewModel: Hashable {
             return []
         }
 
-        if case .valid(_, _) = remainingState {
+        if case .valid = remainingState {
             let invalidStates: [RemainingState] = [.notDefined, .expired, .almostExpired]
             return items.filter { !invalidStates.contains(RemainingState(expiration: $0.expiration)) }
         }

@@ -51,6 +51,7 @@ public final class ItemsTableView: UITableView {
 
     private func bind() {
         viewModel.isLoading
+            .filter { $0 == false }
             .sink { [weak self] _ in self?.refreshControl?.endRefreshing() }
             .store(in: &subscriptions)
     }
@@ -78,6 +79,15 @@ extension ItemsTableView: UITableViewDelegate {
         contextMenuConfigurationForRowAt indexPath: IndexPath,
         point: CGPoint
     ) -> UIContextMenuConfiguration? {
+        let moveAction = UIAction(
+            title: .localized(.moveItem),
+            image: .fromSymbol(.arrowRightArrowLeft),
+            attributes: [],
+            handler: { [weak viewModel] _ in
+                viewModel.map { $0.requestsSubject.send(.moveItem($0.items[indexPath.row])) }
+            }
+        )
+
         let deleteAction = UIAction(
             title: .localized(.removeItem),
             image: .fromSymbol(.trash),
@@ -88,7 +98,7 @@ extension ItemsTableView: UITableViewDelegate {
         )
 
         return UIContextMenuConfiguration(identifier: "ItemsContextMenu" as NSCopying, previewProvider: nil) { _ in
-            UIMenu(title: "", children: [deleteAction])
+            UIMenu(title: "", children: [moveAction, deleteAction])
         }
     }
 }

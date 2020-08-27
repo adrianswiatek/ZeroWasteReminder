@@ -83,8 +83,7 @@ public final class ListsViewController: UIViewController {
         view.addSubview(editListComponent.textField)
         NSLayoutConstraint.activate([
             editListComponent.textField.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor,
-                constant: .smallPadding
+                equalTo: view.safeAreaLayoutGuide.topAnchor
             ),
             editListComponent.textField.leadingAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.leadingAnchor,

@@ -23,6 +23,6 @@ internal final class CloudKitPhotoMapper {
     }
 
     private func itemReference(for itemRecord: CKRecord?) -> CKRecord.Reference? {
-        itemRecord.map { CKRecord.Reference(record: $0, action: .deleteSelf) }
+        itemRecord.map { .init(record: $0, action: .deleteSelf) }
     }
 }

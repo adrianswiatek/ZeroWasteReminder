@@ -5,6 +5,8 @@ public final class EditViewModel {
     @Published var name: String
     @Published var notes: String
 
+    public let originalItem: Item
+
     public let requestSubject: PassthroughSubject<Request, Never>
 
     public var isLoading: AnyPublisher<Bool, Never> {
@@ -17,7 +19,7 @@ public final class EditViewModel {
             .eraseToAnyPublisher()
     }
 
-    public var isExpirationDateVisible: AnyPublisher<Bool, Never>  {
+    public var isExpirationDateVisible: AnyPublisher<Bool, Never> {
         isExpirationDateVisibleSubject.eraseToAnyPublisher()
     }
 
@@ -62,7 +64,6 @@ public final class EditViewModel {
     private let expirationDateSubject: CurrentValueSubject<Date?, Never>
     private let isExpirationDateVisibleSubject: CurrentValueSubject<Bool, Never>
 
-    private let originalItem: Item
     private var originalPhotoIds: [Id<Photo>]
     private let itemsRepository: ItemsRepository
     private let photosRepository: PhotosRepository
@@ -176,18 +177,14 @@ public final class EditViewModel {
 
     private func tryCreateItem(_ name: String, _ notes: String, _ expirationDate: Date?) -> Item? {
         guard !name.isEmpty else { return nil }
-
-        if let expirationDate = expirationDate {
-            let expiration = Expiration.date(expirationDate)
-            return Item(id: originalItem.id, name: name, notes: notes, expiration: expiration)
-        }
-
-        return Item(id: originalItem.id, name: name, notes: notes, expiration: .none)
+        return originalItem.withName(name).withNotes(notes).withExpirationDate(expirationDate)
     }
 }
 
 public extension EditViewModel {
     enum Request: Equatable {
         case dismiss
+        case moveCurrentItem
+        case removeCurrentItem
     }
 }

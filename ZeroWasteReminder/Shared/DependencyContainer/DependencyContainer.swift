@@ -5,6 +5,7 @@ internal final class DependencyContainer {
     private let notificationCenter: NotificationCenter
 
     private let fileService: FileService
+    private let moveItemService: MoveItemService
 
     private let variableDependenciesFactory: VariableDependenciesFactory
     private let viewControllerFactory: ViewControllerFactory
@@ -26,8 +27,14 @@ internal final class DependencyContainer {
             )
         }
 
+        self.moveItemService = MoveItemService(
+            variableDependenciesFactory.listsRepository,
+            variableDependenciesFactory.itemsRepository
+        )
+
         self.viewControllerFactory = .init(
             fileService: fileService,
+            moveItemService: moveItemService,
             itemsRepository: variableDependenciesFactory.itemsRepository,
             listsRepository: variableDependenciesFactory.listsRepository,
             photosRepository: variableDependenciesFactory.photosRepository,

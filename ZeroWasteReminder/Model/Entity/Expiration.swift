@@ -10,7 +10,7 @@ extension Expiration: Equatable {
         switch (lhs, rhs) {
         case (.none, .none):
             return true
-        case (.none, .date(_)), (.date(_), .none):
+        case (.none, .date), (.date, .none):
             return false
         case let (.date(lhsDate), .date(rhsDate)):
             return Calendar.current.compare(lhsDate, to: rhsDate, toGranularity: .day) == .orderedSame
@@ -23,9 +23,9 @@ extension Expiration: Comparable {
         switch (lhs, rhs) {
         case (.none, .none):
             return false
-        case (.none, .date(_)):
+        case (.none, .date):
             return true
-        case (.date(_), .none):
+        case (.date, .none):
             return false
         case let (.date(lhsDate), .date(rhsDate)):
             return Calendar.current.compare(lhsDate, to: rhsDate, toGranularity: .day) == .orderedAscending

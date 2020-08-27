@@ -28,17 +28,19 @@ internal final class CloudKitRecordMapper {
     }
 
     internal func toItem() -> Item? {
-        guard let record = record, let name = record[CloudKitKey.Item.name] as? String else {
-            return nil
-        }
+        guard
+            let record = record,
+            let name = record[CloudKitKey.Item.name] as? String,
+            let listId = listId(from: record)
+        else { return nil }
 
-        let id = Id<Item>.fromString(record.recordID.recordName)
-
-        if let date = record[CloudKitKey.Item.expiration] as? Date {
-            return Item(id: id, name: name, notes: notes(from: record), expiration: .date(date))
-        }
-
-        return Item(id: id, name: name, notes: notes(from: record), expiration: .none)
+        return Item(
+            id: .fromString(record.recordID.recordName),
+            name: name,
+            notes: notes(from: record),
+            expiration: (record[CloudKitKey.Item.expiration] as? Date).map { .date($0) } ?? .none,
+            listId: listId
+        )
     }
 
     internal func updatedBy(_ list: List?) -> CloudKitRecordMapper {
@@ -56,6 +58,7 @@ internal final class CloudKitRecordMapper {
         applyChange(to: record, key: CloudKitKey.Item.name, value: item.name)
         applyChange(to: record, key: CloudKitKey.Item.notes, value: item.notes)
         applyChange(to: record, key: CloudKitKey.Item.expiration, value: expiration(from: item))
+        applyChange(to: record, key: CloudKitKey.Item.listReference, value: listReference(from: item, and: record))
 
         return self
     }
@@ -66,6 +69,15 @@ internal final class CloudKitRecordMapper {
 
     private func notes(from record: CKRecord) -> String {
         record[CloudKitKey.Item.notes] as? String ?? ""
+    }
+
+    private func listReference(from item: Item, and record: CKRecord) -> CKRecord.Reference {
+        .init(recordID: .init(recordName: item.listId.asString, zoneID: record.recordID.zoneID), action: .deleteSelf)
+    }
+
+    private func listId(from record: CKRecord) -> Id<List>? {
+        let listReference = record[CloudKitKey.Item.listReference] as? CKRecord.Reference
+        return listReference.map { .fromString($0.recordID.recordName) }
     }
 
     private func expiration(from item: Item) -> Date? {
