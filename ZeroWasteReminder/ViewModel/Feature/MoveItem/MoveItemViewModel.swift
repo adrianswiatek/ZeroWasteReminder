@@ -64,6 +64,7 @@ public final class MoveItemViewModel {
 
 public extension MoveItemViewModel {
     enum Request: Equatable {
+        case disableLoadingIndicatorOnce
         case dismiss
         case showErrorMessage(_ message: String)
     }

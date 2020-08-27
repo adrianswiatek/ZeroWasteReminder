@@ -99,6 +99,8 @@ public final class MoveItemViewController: UIViewController {
 
     private func handleRequest(_ request: MoveItemViewModel.Request) {
         switch request {
+        case .disableLoadingIndicatorOnce:
+            loadingView.disableLoadingIndicatorOnce()
         case .dismiss:
             dismiss(animated: true)
         case .showErrorMessage(let message):

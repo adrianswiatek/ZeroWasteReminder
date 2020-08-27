@@ -11,17 +11,11 @@ public final class MoveItemDataSource: UITableViewDiffableDataSource<MoveItemDat
 
         super.init(tableView: tableView) { tableView, indexPath, list in
             let cell = tableView.dequeueReusableCell(
-                withIdentifier: UITableViewCell.identifier,
+                withIdentifier: MoveItemListCell.identifier,
                 for: indexPath
-            )
+            ) as? MoveItemListCell
 
-            cell.textLabel?.text = list.name
-
-            let backgroundView = UIView()
-            backgroundView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.15)
-            backgroundView.layer.cornerRadius = 16
-            cell.selectedBackgroundView = backgroundView
-
+            cell?.set(list)
             return cell
         }
 

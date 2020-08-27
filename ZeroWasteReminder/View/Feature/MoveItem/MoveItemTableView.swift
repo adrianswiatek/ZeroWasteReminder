@@ -34,7 +34,7 @@ public final class MoveItemTableView: UITableView {
     }
 
     private func registerCells() {
-        register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.identifier)
+        register(MoveItemListCell.self, forCellReuseIdentifier: MoveItemListCell.identifier)
     }
 
     private func setupRefreshControl() {
@@ -58,6 +58,7 @@ public final class MoveItemTableView: UITableView {
 
     @objc
     private func handleRefresh() {
+        viewModel.requestsSubject.send(.disableLoadingIndicatorOnce)
         viewModel.fetchLists()
     }
 }
