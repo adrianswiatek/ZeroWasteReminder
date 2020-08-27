@@ -1,6 +1,7 @@
 public enum LocalizedText: String {
     case addItem = "Add item"
     case allLists = "All lists"
+    case availableLists = "Available lists"
     case cannotConnectToICloud = "Cannot connect to iCloud"
     case capture = "Capture"
     case changeName = "Change name"
@@ -8,6 +9,7 @@ public enum LocalizedText: String {
     case expiration = "Expiration"
     case fullScreen = "Full Screen"
     case itemName = "Item name"
+    case itemToMove = "Item to move"
     case listName = "List name"
     case moveItem = "Move item"
     case newList = "New list"

@@ -8,10 +8,11 @@ public final class MoveItemViewController: UIViewController {
     private lazy var doneButton: UIBarButtonItem =
         .doneButton(target: self, action: #selector(handleDone))
 
+    private let loadingView: LoadingView
+    private let headerView: MoveItemHeaderView
+
     private let tableView: MoveItemTableView
     private let dataSource: MoveItemDataSource
-
-    private let loadingView: LoadingView
 
     private let viewModel: MoveItemViewModel
     private var subscriptions: Set<AnyCancellable>
@@ -20,10 +21,11 @@ public final class MoveItemViewController: UIViewController {
         self.viewModel = viewModel
         self.subscriptions = []
 
+        self.loadingView = .init()
+        self.headerView = .init(viewModel)
+
         self.tableView = .init(viewModel)
         self.dataSource = .init(tableView, viewModel)
-
-        self.loadingView = .init()
 
         super.init(nibName: nil, bundle: nil)
 
@@ -42,12 +44,27 @@ public final class MoveItemViewController: UIViewController {
     private func setupView() {
         view.backgroundColor = .systemBackground
 
+        view.addSubview(headerView)
+        NSLayoutConstraint.activate([
+            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            headerView.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                constant: Metric.padding
+            ),
+            headerView.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -Metric.padding
+            )
+        ])
+
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
+            tableView.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Metric.padding
+            ),
+            tableView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor)
         ])
 
         view.addSubview(loadingView)
@@ -96,5 +113,11 @@ public final class MoveItemViewController: UIViewController {
 
     @objc func handleDone() {
         viewModel.moveItem()
+    }
+}
+
+private extension MoveItemViewController {
+    enum Metric {
+        static let padding: CGFloat = 16
     }
 }

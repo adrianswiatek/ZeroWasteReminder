@@ -19,6 +19,7 @@ public final class MoveItemDataSource: UITableViewDiffableDataSource<MoveItemDat
 
             let backgroundView = UIView()
             backgroundView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.15)
+            backgroundView.layer.cornerRadius = 16
             cell.selectedBackgroundView = backgroundView
 
             return cell

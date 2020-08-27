@@ -4,6 +4,7 @@ public final class MoveItemViewModel {
     @Published public var lists: [List]
     @Published private var selectedList: List?
 
+    public let itemName: String
     public var isLoading: AnyPublisher<Bool, Never>
     public let requestsSubject: PassthroughSubject<Request, Never>
 
@@ -24,6 +25,7 @@ public final class MoveItemViewModel {
         self.isLoading = moveItemService.isLoading
         self.requestsSubject = .init()
 
+        self.itemName = item.name
         self.lists = []
         self.subscriptions = []
 

@@ -28,6 +28,9 @@ public final class MoveItemTableView: UITableView {
         separatorStyle = .none
         tableFooterView = UIView()
         delegate = self
+
+        layer.cornerRadius = 16
+        layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
     }
 
     private func registerCells() {
