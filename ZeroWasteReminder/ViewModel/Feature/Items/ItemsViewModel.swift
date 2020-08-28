@@ -24,15 +24,25 @@ public final class ItemsViewModel {
     private let selectedItemSubject: PassthroughSubject<Item, Never>
 
     private let itemsRepository: ItemsRepository
+    private let listsUpdater: AutomaticListsUpdater
     private let statusNotifier: StatusNotifier
     private var subscriptions: Set<AnyCancellable>
 
-    public init(list: List, itemsRepository: ItemsRepository, statusNotifier: StatusNotifier) {
+    public init(
+        list: List,
+        itemsRepository: ItemsRepository,
+        listsUpdater: AutomaticListsUpdater,
+        statusNotifier: StatusNotifier
+    ) {
         self.list = list
 
         let itemsRepositoryDecorator = ItemsRepositoryStateDecorator(itemsRepository)
         self.itemsRepository = itemsRepositoryDecorator
         self.isLoading = itemsRepositoryDecorator.isLoading
+
+        self.listsUpdater = listsUpdater
+        listsUpdater.startUpdating(list)
+
         self.statusNotifier = statusNotifier
 
         self.itemsFilterViewModel = .init()

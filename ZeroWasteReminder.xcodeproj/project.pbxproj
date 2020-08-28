@@ -70,6 +70,7 @@
 		A7547EF124C3C02F00D82DE9 /* CloudKitVariableDependenciesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EF024C3C02F00D82DE9 /* CloudKitVariableDependenciesFactory.swift */; };
 		A757B2D224C3A3CD001A3268 /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757B2D124C3A3CD001A3268 /* DependencyContainer.swift */; };
 		A759430B24AFBF5A007A526B /* ListsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A759430A24AFBF5A007A526B /* ListsViewModel.swift */; };
+		A75DBFFF24F9A7FC00F658B6 /* AutomaticListsUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75DBFFE24F9A7FC00F658B6 /* AutomaticListsUpdater.swift */; };
 		A75E703B248DA01300F06E98 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75E703A248DA01300F06E98 /* Photo.swift */; };
 		A760CAD6248802CB00999C12 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A760CAD5248802CB00999C12 /* PhotosDataSource.swift */; };
 		A7636A672490499F00166631 /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7636A662490499F00166631 /* FileService.swift */; };
@@ -236,6 +237,7 @@
 		A7547EF024C3C02F00D82DE9 /* CloudKitVariableDependenciesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitVariableDependenciesFactory.swift; sourceTree = "<group>"; };
 		A757B2D124C3A3CD001A3268 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
 		A759430A24AFBF5A007A526B /* ListsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsViewModel.swift; sourceTree = "<group>"; };
+		A75DBFFE24F9A7FC00F658B6 /* AutomaticListsUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomaticListsUpdater.swift; sourceTree = "<group>"; };
 		A75E703A248DA01300F06E98 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		A760CAD5248802CB00999C12 /* PhotosDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
 		A7636A662490499F00166631 /* FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
@@ -422,6 +424,7 @@
 				A7ACC4BC247AFFE90098EDE0 /* RemotePersistenceFactory */,
 				A726F35924C3C22700BE0EC5 /* StatusNotifier */,
 				A79B4A1D2479F6B800ECE1B1 /* SubscriptionService */,
+				A75DBFFE24F9A7FC00F658B6 /* AutomaticListsUpdater.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1161,6 +1164,7 @@
 				A700D6C92454D96800F16F2E /* ItemsFilterViewModel.swift in Sources */,
 				A72315AE244B0943008614B2 /* ValidationRules.swift in Sources */,
 				A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */,
+				A75DBFFF24F9A7FC00F658B6 /* AutomaticListsUpdater.swift in Sources */,
 				A700D6C42454BEF400F16F2E /* ItemsFilterDataSource.swift in Sources */,
 				A71388FA24F5B41C00EE5C68 /* EmptyMoveItemView.swift in Sources */,
 				A7515DDF24E35A3700FB226E /* ItemsRepositoryStateDecorator.swift in Sources */,

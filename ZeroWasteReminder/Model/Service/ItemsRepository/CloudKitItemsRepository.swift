@@ -3,7 +3,7 @@ import Combine
 
 public final class CloudKitItemsRepository: ItemsRepository {
     public var events: AnyPublisher<ItemsEvent, Never> {
-        eventsSubject.receive(on: DispatchQueue.main).eraseToAnyPublisher()
+        eventsSubject.receive(on: DispatchQueue.main).share().eraseToAnyPublisher()
     }
 
     private let eventsSubject: PassthroughSubject<ItemsEvent, Never>

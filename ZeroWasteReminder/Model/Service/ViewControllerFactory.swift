@@ -8,6 +8,7 @@ public final class ViewControllerFactory {
     private let listsRepository: ListsRepository
     private let photosRepository: PhotosRepository
 
+    private let listUpdater: AutomaticListsUpdater
     private let statusNotifier: StatusNotifier
     private let sharingControllerFactory: SharingControllerFactory
     private let notificationCenter: NotificationCenter
@@ -18,6 +19,7 @@ public final class ViewControllerFactory {
         itemsRepository: ItemsRepository,
         listsRepository: ListsRepository,
         photosRepository: PhotosRepository,
+        listUpdater: AutomaticListsUpdater,
         statusNotifier: StatusNotifier,
         sharingControllerFactory: SharingControllerFactory,
         notificationCenter: NotificationCenter
@@ -29,6 +31,7 @@ public final class ViewControllerFactory {
         self.listsRepository = listsRepository
         self.photosRepository = photosRepository
 
+        self.listUpdater = listUpdater
         self.statusNotifier = statusNotifier
         self.sharingControllerFactory = sharingControllerFactory
         self.notificationCenter = notificationCenter
@@ -46,6 +49,7 @@ public final class ViewControllerFactory {
         let viewModel = ItemsViewModel(
             list: list,
             itemsRepository: itemsRepository,
+            listsUpdater: listUpdater,
             statusNotifier: statusNotifier
         )
         let viewController = ItemsViewController(viewModel: viewModel, factory: self)

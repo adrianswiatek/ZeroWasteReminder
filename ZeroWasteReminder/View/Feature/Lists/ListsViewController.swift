@@ -152,14 +152,13 @@ public final class ListsViewController: UIViewController {
         case .openItems(let list):
             present(factory.itemsViewController(for: list), animated: true)
         case .remove(let list):
-            tableView.selectList(list)
             removeListSubscription = UIAlertController.presentRemoveListConfirmationSheet(in: self).sink(
                 receiveCompletion: { [weak self] _ in self?.tableView.deselectList(list) },
                 receiveValue: { [weak self] _ in self?.viewModel.removeList(list) }
             )
         case .showErrorMessage(let message):
             UIAlertController.presentError(in: self, withMessage: message)
-        default:
+        case .changeName, .discardChanges:
             break
         }
     }
