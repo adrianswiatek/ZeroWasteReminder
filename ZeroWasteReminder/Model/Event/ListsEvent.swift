@@ -3,5 +3,9 @@ public enum ListsEvent {
     case error(_ error: AppError)
     case fetched(_ lists: [List])
     case removed(_ list: List)
-    case updated(_ list: List)
+    case updated(_ lists: [List])
+
+    public static func updated(_ list: List) -> ListsEvent {
+        .updated([list])
+    }
 }

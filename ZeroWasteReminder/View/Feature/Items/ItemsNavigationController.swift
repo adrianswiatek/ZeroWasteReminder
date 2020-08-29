@@ -16,6 +16,8 @@ public final class ItemsNavigationController: UINavigationController {
         navigationBar.standardAppearance = navigationBarAppearance
         navigationBar.isTranslucent = false
         navigationBar.tintColor = .white
+
+        modalPresentationStyle = .fullScreen
     }
 
     @available(*, unavailable)

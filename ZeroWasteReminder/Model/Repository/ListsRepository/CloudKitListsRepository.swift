@@ -92,6 +92,10 @@ public final class CloudKitListsRepository: ListsRepository {
         }
     }
 
+    public func update(_ lists: [List]) {
+        lists.forEach { update($0) }
+    }
+
     private func saveUpdatedRecord(_ record: CKRecord) {
         database.save(record) { [weak self] in
             if let error = $1 {

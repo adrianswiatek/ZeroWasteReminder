@@ -34,6 +34,11 @@ public final class ListsRepositoryStateDecorator: ListsRepository {
         listsRepository.update(list)
     }
 
+    public func update(_ lists: [List]) {
+        isLoadingSubject.send(true)
+        listsRepository.update(lists)
+    }
+
     public func remove(_ list: List) {
         isLoadingSubject.send(true)
         listsRepository.remove(list)

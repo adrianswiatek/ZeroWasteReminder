@@ -6,7 +6,7 @@ internal final class DependencyContainer {
 
     private let fileService: FileService
     private let moveItemService: MoveItemService
-    private let listUpdater: AutomaticListsUpdater
+    private let listsChangeListener: ListsChangeListener
 
     private let variableDependenciesFactory: VariableDependenciesFactory
     private let viewControllerFactory: ViewControllerFactory
@@ -33,8 +33,7 @@ internal final class DependencyContainer {
             itemsRepository: variableDependenciesFactory.itemsRepository
         )
 
-        self.listUpdater = AutomaticListsUpdater(
-            listsRepository: variableDependenciesFactory.listsRepository,
+        self.listsChangeListener = DefaultlistsChangeListener(
             itemsRepository: variableDependenciesFactory.itemsRepository,
             moveItemService: moveItemService
         )
@@ -45,7 +44,7 @@ internal final class DependencyContainer {
             itemsRepository: variableDependenciesFactory.itemsRepository,
             listsRepository: variableDependenciesFactory.listsRepository,
             photosRepository: variableDependenciesFactory.photosRepository,
-            listUpdater: listUpdater,
+            listsChangeListener: listsChangeListener,
             statusNotifier: variableDependenciesFactory.statusNotifier,
             sharingControllerFactory: variableDependenciesFactory.sharingControllerFactory,
             notificationCenter: notificationCenter
