@@ -87,6 +87,8 @@ public final class ListsViewModel {
             updatedLists.insert(list, at: 0)
         case .fetched(let fetchedLists):
             updatedLists = fetchedLists
+        case .noResult:
+            break
         case .removed(let list):
             updatedLists.removeAll { $0.id == list.id }
         case .updated(let lists):

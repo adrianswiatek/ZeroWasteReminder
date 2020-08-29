@@ -54,6 +54,8 @@ public final class CloudKitListsRepository: ListsRepository {
                 self?.eventsSubject.send(.error(.init(error)))
             } else if let list = self?.mapper.map($0?.first).toList() {
                 self?.eventsSubject.send(.added(list))
+            } else {
+                self?.eventsSubject.send(.noResult)
             }
         }
 
@@ -74,6 +76,8 @@ public final class CloudKitListsRepository: ListsRepository {
                 self?.eventsSubject.send(.error(.init(error)))
             } else if id == list.id {
                 self?.eventsSubject.send(.removed(list))
+            } else {
+                self?.eventsSubject.send(.noResult)
             }
         }
 
@@ -88,12 +92,32 @@ public final class CloudKitListsRepository: ListsRepository {
                 self?.eventsSubject.send(.error(.init(error)))
             } else if let updatedRecord = self?.mapper.map($0).updatedBy(list).toRecord() {
                 self?.saveUpdatedRecord(updatedRecord)
+            } else {
+                self?.eventsSubject.send(.noResult)
             }
         }
     }
 
     public func update(_ lists: [List]) {
-        lists.forEach { update($0) }
+        let records = lists.compactMap { mapper.map($0).toRecordInZone(zone) }
+        guard !records.isEmpty else { return }
+
+        let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
+        operation.savePolicy = .allKeys
+        operation.modifyRecordsCompletionBlock = { [weak self] in
+            let ids: [Id<List>] = $0.map { $0.compactMap { self?.mapper.map($0).toList()?.id } } ?? []
+            let updatedLists = ids.compactMap { id in lists.first { $0.id == id } }
+
+            if let error = $2 {
+                self?.eventsSubject.send(.error(.init(error)))
+            } else if !updatedLists.isEmpty {
+                self?.eventsSubject.send(.updated(updatedLists))
+            } else {
+                self?.eventsSubject.send(.noResult)
+            }
+        }
+
+        database.add(operation)
     }
 
     private func saveUpdatedRecord(_ record: CKRecord) {
@@ -102,6 +126,8 @@ public final class CloudKitListsRepository: ListsRepository {
                 self?.eventsSubject.send(.error(.init(error)))
             } else if let updatedList = self?.mapper.map($0).toList() {
                 self?.eventsSubject.send(.updated(updatedList))
+            } else {
+                self?.eventsSubject.send(.noResult)
             }
         }
     }
