@@ -23,6 +23,7 @@ internal final class DependencyContainer {
         case .cloudKit(let containerIdentifier):
             self.variableDependenciesFactory = CloudKitVariableDependenciesFactory(
                 containerIdentifier: containerIdentifier,
+                listsCache: InMemoryCloudKitCache(),
                 fileService: fileService,
                 notificationCenter: notificationCenter
             )

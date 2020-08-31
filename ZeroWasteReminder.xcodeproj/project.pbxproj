@@ -37,6 +37,8 @@
 		A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */; };
 		A71B691E2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691D2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift */; };
 		A71B69212443D3EB00AF7CB3 /* ExpirationSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B69202443D3EB00AF7CB3 /* ExpirationSectionView.swift */; };
+		A71C718F24FD7C5C00973611 /* CloudKitCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71C718E24FD7C5C00973611 /* CloudKitCache.swift */; };
+		A71C719124FD7E4400973611 /* InMemoryCloudKitCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71C719024FD7E4400973611 /* InMemoryCloudKitCache.swift */; };
 		A71F636C24F860DE009BC4AE /* MoveItemListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71F636B24F860DE009BC4AE /* MoveItemListCell.swift */; };
 		A7203B8A24C3853B00C17F85 /* ListsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7203B8924C3853B00C17F85 /* ListsRepository.swift */; };
 		A7203B8C24C3867E00C17F85 /* InMemoryListsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7203B8B24C3867E00C17F85 /* InMemoryListsRepository.swift */; };
@@ -204,6 +206,8 @@
 		A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNavigationController.swift; sourceTree = "<group>"; };
 		A71B691D2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationPeriodTextField.swift; sourceTree = "<group>"; };
 		A71B69202443D3EB00AF7CB3 /* ExpirationSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationSectionView.swift; sourceTree = "<group>"; };
+		A71C718E24FD7C5C00973611 /* CloudKitCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitCache.swift; sourceTree = "<group>"; };
+		A71C719024FD7E4400973611 /* InMemoryCloudKitCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryCloudKitCache.swift; sourceTree = "<group>"; };
 		A71F636B24F860DE009BC4AE /* MoveItemListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemListCell.swift; sourceTree = "<group>"; };
 		A7203B8924C3853B00C17F85 /* ListsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsRepository.swift; sourceTree = "<group>"; };
 		A7203B8B24C3867E00C17F85 /* InMemoryListsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryListsRepository.swift; sourceTree = "<group>"; };
@@ -385,6 +389,7 @@
 		A70BCCD72447959C00CC49D0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A71C718D24FD7C4600973611 /* Cache */,
 				A70FA678244CEAF50045B545 /* Entity */,
 				A7C1A3EC24C4A86500978BC4 /* Event */,
 				A79B4A1E2479F6CD00ECE1B1 /* Mapper */,
@@ -495,6 +500,15 @@
 				A77608B224BB8C7000BA0C66 /* Controls */,
 			);
 			path = EditList;
+			sourceTree = "<group>";
+		};
+		A71C718D24FD7C4600973611 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				A71C718E24FD7C5C00973611 /* CloudKitCache.swift */,
+				A71C719024FD7E4400973611 /* InMemoryCloudKitCache.swift */,
+			);
+			path = Cache;
 			sourceTree = "<group>";
 		};
 		A7203B8824C3852C00C17F85 /* ListsRepository */ = {
@@ -1066,6 +1080,7 @@
 				A7C1A0B5249FEA630054BBAF /* CloudKitPhotosRepository.swift in Sources */,
 				A712ED632441172300B00791 /* ItemsViewController.swift in Sources */,
 				A78AC17C24F8362700B2A59D /* MoveItemHeaderView.swift in Sources */,
+				A71C718F24FD7C5C00973611 /* CloudKitCache.swift in Sources */,
 				A700C06924BB8EB500A9B00B /* EditListButtons.swift in Sources */,
 				A7ACC4C5247B12AB0098EDE0 /* SharingControllerFactory.swift in Sources */,
 				A7FFA97D244909B40061A3D6 /* DateExtensions.swift in Sources */,
@@ -1082,6 +1097,7 @@
 				A783EE2624674ECD008BCC17 /* AdaptiveScrollView.swift in Sources */,
 				A7636A672490499F00166631 /* FileService.swift in Sources */,
 				A725068D2457992F006C3A2F /* RemainingState.swift in Sources */,
+				A71C719124FD7E4400973611 /* InMemoryCloudKitCache.swift in Sources */,
 				A7FFA9792448F5C00061A3D6 /* ExpirationType.swift in Sources */,
 				A70FA677244CDEEA0045B545 /* ViewControllerFactory.swift in Sources */,
 				A7547EF124C3C02F00D82DE9 /* CloudKitVariableDependenciesFactory.swift in Sources */,

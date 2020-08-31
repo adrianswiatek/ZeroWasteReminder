@@ -5,8 +5,4 @@ public enum ListsEvent {
     case noResult
     case removed(_ list: List)
     case updated(_ lists: [List])
-
-    public static func updated(_ list: List) -> ListsEvent {
-        .updated([list])
-    }
 }

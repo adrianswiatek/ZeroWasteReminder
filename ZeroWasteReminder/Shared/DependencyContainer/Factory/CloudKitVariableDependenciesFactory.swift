@@ -3,16 +3,20 @@ import Foundation
 internal final class CloudKitVariableDependenciesFactory: VariableDependenciesFactory {
     private let configuration: CloudKitConfiguration
     private let notificationCenter: NotificationCenter
+
+    private let listsCache: CloudKitCache
     private let mapper: CloudKitMapper
 
     internal init(
         containerIdentifier: String,
+        listsCache: CloudKitCache,
         fileService: FileService,
         notificationCenter: NotificationCenter
     ) {
         self.notificationCenter = notificationCenter
+        self.listsCache = listsCache
         self.configuration = CloudKitConfiguration(containerIdentifier: containerIdentifier)
-        self.mapper = .init(fileService: fileService)
+        self.mapper = CloudKitMapper(fileService: fileService)
     }
 
     internal lazy var accountService: AccountService =
@@ -36,6 +40,7 @@ internal final class CloudKitVariableDependenciesFactory: VariableDependenciesFa
     internal lazy var listsRepository: ListsRepository =
         CloudKitListsRepository(
             configuration: configuration,
+            cache: InMemoryCloudKitCache(),
             mapper: mapper
         )
 

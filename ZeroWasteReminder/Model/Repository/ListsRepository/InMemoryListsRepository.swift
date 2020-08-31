@@ -25,7 +25,7 @@ public final class InMemoryListsRepository: ListsRepository {
 
     public func update(_ list: List) {
         internalUpdate([list])
-        eventsSubject.send(.updated(list))
+        eventsSubject.send(.updated([list]))
     }
 
     public func update(_ lists: [List]) {
