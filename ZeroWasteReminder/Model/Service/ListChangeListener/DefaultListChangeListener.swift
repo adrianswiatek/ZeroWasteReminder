@@ -1,6 +1,6 @@
 import Combine
 
-public final class DefaultlistsChangeListener: ListsChangeListener {
+public final class DefaultListsChangeListener: ListsChangeListener {
     private let itemsRepository: ItemsRepository
     private let moveItemService: MoveItemServiceProtocol
 
@@ -38,7 +38,7 @@ public final class DefaultlistsChangeListener: ListsChangeListener {
         switch event {
         case .added, .updated, .removed:
             setAsChanged(list.id)
-        case .error, .fetched:
+        case .error, .fetched, .noResult:
             break
         }
     }

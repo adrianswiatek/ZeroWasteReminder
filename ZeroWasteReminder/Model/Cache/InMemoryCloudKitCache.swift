@@ -27,6 +27,10 @@ public final class InMemoryCloudKitCache: CloudKitCache {
         cache.removeValue(forKey: id)
     }
 
+    public func removeByIds(_ ids: [CKRecord.ID]) {
+        ids.forEach(removeById)
+    }
+
     public func invalidate() {
         cache = [:]
     }

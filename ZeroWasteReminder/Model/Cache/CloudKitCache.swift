@@ -6,5 +6,6 @@ public protocol CloudKitCache {
     func set(_ record: CKRecord)
     func set(_ records: [CKRecord])
     func removeById(_ id: CKRecord.ID)
+    func removeByIds(_ ids: [CKRecord.ID])
     func invalidate()
 }
