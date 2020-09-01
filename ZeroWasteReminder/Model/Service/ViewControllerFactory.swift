@@ -8,6 +8,7 @@ public final class ViewControllerFactory {
     private let listsRepository: ListsRepository
     private let photosRepository: PhotosRepository
 
+    private let listsChangeListener: ListsChangeListener
     private let statusNotifier: StatusNotifier
     private let sharingControllerFactory: SharingControllerFactory
     private let notificationCenter: NotificationCenter
@@ -18,6 +19,7 @@ public final class ViewControllerFactory {
         itemsRepository: ItemsRepository,
         listsRepository: ListsRepository,
         photosRepository: PhotosRepository,
+        listsChangeListener: ListsChangeListener,
         statusNotifier: StatusNotifier,
         sharingControllerFactory: SharingControllerFactory,
         notificationCenter: NotificationCenter
@@ -29,17 +31,24 @@ public final class ViewControllerFactory {
         self.listsRepository = listsRepository
         self.photosRepository = photosRepository
 
+        self.listsChangeListener = listsChangeListener
         self.statusNotifier = statusNotifier
         self.sharingControllerFactory = sharingControllerFactory
         self.notificationCenter = notificationCenter
     }
 
     public var listsViewController: UIViewController {
-        ListsNavigationController(rootViewController: ListsViewController(
-            viewModel: .init(listsRepository: listsRepository, statusNotifier: statusNotifier),
+        let viewModel = ListsViewModel(
+            listsRepository: listsRepository,
+            listsChangeListener: listsChangeListener,
+            statusNotifier: statusNotifier
+        )
+        let viewController = ListsViewController(
+            viewModel: viewModel,
             factory: self,
             notificationCenter: notificationCenter
-        ))
+        )
+        return ListsNavigationController(rootViewController: viewController)
     }
 
     public func itemsViewController(for list: List) -> UIViewController {

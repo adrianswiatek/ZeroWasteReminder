@@ -24,7 +24,18 @@ public final class InMemoryListsRepository: ListsRepository {
     }
 
     public func update(_ list: List) {
-        lists.firstIndex { $0.id == list.id }.map { lists[$0] = list }
-        eventsSubject.send(.updated(list))
+        internalUpdate([list])
+        eventsSubject.send(.updated([list]))
+    }
+
+    public func update(_ lists: [List]) {
+        internalUpdate(lists)
+        eventsSubject.send(.updated(lists))
+    }
+
+    private func internalUpdate(_ listsToUpdate: [List]) {
+        listsToUpdate.forEach { list in
+            lists.firstIndex { $0.id == list.id }.map { lists[$0] = list }
+        }
     }
 }

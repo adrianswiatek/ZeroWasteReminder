@@ -2,7 +2,7 @@ import Combine
 
 public final class MoveItemService: MoveItemServiceProtocol {
     public var events: AnyPublisher<MoveItemEvent, Never> {
-        eventsSubject.eraseToAnyPublisher()
+        eventsSubject.share().eraseToAnyPublisher()
     }
 
     private let eventsSubject: PassthroughSubject<MoveItemEvent, Never>
@@ -13,7 +13,7 @@ public final class MoveItemService: MoveItemServiceProtocol {
     private let listsRepository: ListsRepository
     private let itemsRepository: ItemsRepository
 
-    public init(_ listsRepository: ListsRepository, _ itemsRepository: ItemsRepository) {
+    public init(listsRepository: ListsRepository, itemsRepository: ItemsRepository) {
         self.listsRepository = listsRepository
         self.itemsRepository = itemsRepository
         self.eventsSubject = .init()
@@ -42,7 +42,7 @@ public final class MoveItemService: MoveItemServiceProtocol {
             }
             .filter { $0.listId == list.id }
             .sink { [weak self] in
-                self?.eventsSubject.send(.moved($0))
+                self?.eventsSubject.send(.moved($0, targetList: list))
                 self?.moveItemSubscription = nil
             }
 

@@ -8,6 +8,10 @@ public struct List: Identifiable, Hashable {
     public func withName(_ name: String) -> List {
         .init(id: id, name: name, updateDate: Date())
     }
+
+    public func withDate(_ date: Date) -> List {
+        .init(id: id, name: name, updateDate: date)
+    }
 }
 
 extension List {

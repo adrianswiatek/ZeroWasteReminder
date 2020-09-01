@@ -37,6 +37,8 @@
 		A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */; };
 		A71B691E2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691D2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift */; };
 		A71B69212443D3EB00AF7CB3 /* ExpirationSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B69202443D3EB00AF7CB3 /* ExpirationSectionView.swift */; };
+		A71C718F24FD7C5C00973611 /* CloudKitCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71C718E24FD7C5C00973611 /* CloudKitCache.swift */; };
+		A71C719124FD7E4400973611 /* InMemoryCloudKitCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71C719024FD7E4400973611 /* InMemoryCloudKitCache.swift */; };
 		A71F636C24F860DE009BC4AE /* MoveItemListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71F636B24F860DE009BC4AE /* MoveItemListCell.swift */; };
 		A7203B8A24C3853B00C17F85 /* ListsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7203B8924C3853B00C17F85 /* ListsRepository.swift */; };
 		A7203B8C24C3867E00C17F85 /* InMemoryListsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7203B8B24C3867E00C17F85 /* InMemoryListsRepository.swift */; };
@@ -50,6 +52,7 @@
 		A731DBE024A935A600CE926A /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731DBDF24A935A600CE926A /* PhotosViewController.swift */; };
 		A731F89524BE439B007348A3 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731F89424BE439B007348A3 /* ListCell.swift */; };
 		A731F89724BE45D0007348A3 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731F89624BE45D0007348A3 /* List.swift */; };
+		A736B2FC24FAE577004C7EDE /* DefaultListChangeListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = A736B2FB24FAE577004C7EDE /* DefaultListChangeListener.swift */; };
 		A73ADDB924A90C8200D7E316 /* PhotoCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73ADDB824A90C8200D7E316 /* PhotoCaptureView.swift */; };
 		A73ADDBB24A91D2D00D7E316 /* PhotosEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73ADDBA24A91D2D00D7E316 /* PhotosEmptyView.swift */; };
 		A741613E2450D814001ED316 /* UIAlertActionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */; };
@@ -70,6 +73,7 @@
 		A7547EF124C3C02F00D82DE9 /* CloudKitVariableDependenciesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EF024C3C02F00D82DE9 /* CloudKitVariableDependenciesFactory.swift */; };
 		A757B2D224C3A3CD001A3268 /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757B2D124C3A3CD001A3268 /* DependencyContainer.swift */; };
 		A759430B24AFBF5A007A526B /* ListsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A759430A24AFBF5A007A526B /* ListsViewModel.swift */; };
+		A75DBFFF24F9A7FC00F658B6 /* ListsChangeListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75DBFFE24F9A7FC00F658B6 /* ListsChangeListener.swift */; };
 		A75E703B248DA01300F06E98 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75E703A248DA01300F06E98 /* Photo.swift */; };
 		A760CAD6248802CB00999C12 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A760CAD5248802CB00999C12 /* PhotosDataSource.swift */; };
 		A7636A672490499F00166631 /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7636A662490499F00166631 /* FileService.swift */; };
@@ -202,6 +206,8 @@
 		A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNavigationController.swift; sourceTree = "<group>"; };
 		A71B691D2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationPeriodTextField.swift; sourceTree = "<group>"; };
 		A71B69202443D3EB00AF7CB3 /* ExpirationSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationSectionView.swift; sourceTree = "<group>"; };
+		A71C718E24FD7C5C00973611 /* CloudKitCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitCache.swift; sourceTree = "<group>"; };
+		A71C719024FD7E4400973611 /* InMemoryCloudKitCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryCloudKitCache.swift; sourceTree = "<group>"; };
 		A71F636B24F860DE009BC4AE /* MoveItemListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemListCell.swift; sourceTree = "<group>"; };
 		A7203B8924C3853B00C17F85 /* ListsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsRepository.swift; sourceTree = "<group>"; };
 		A7203B8B24C3867E00C17F85 /* InMemoryListsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryListsRepository.swift; sourceTree = "<group>"; };
@@ -215,6 +221,7 @@
 		A731DBDF24A935A600CE926A /* PhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
 		A731F89424BE439B007348A3 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		A731F89624BE45D0007348A3 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
+		A736B2FB24FAE577004C7EDE /* DefaultListChangeListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultListChangeListener.swift; sourceTree = "<group>"; };
 		A73ADDB824A90C8200D7E316 /* PhotoCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureView.swift; sourceTree = "<group>"; };
 		A73ADDBA24A91D2D00D7E316 /* PhotosEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosEmptyView.swift; sourceTree = "<group>"; };
 		A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertActionExtensions.swift; sourceTree = "<group>"; };
@@ -236,6 +243,7 @@
 		A7547EF024C3C02F00D82DE9 /* CloudKitVariableDependenciesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitVariableDependenciesFactory.swift; sourceTree = "<group>"; };
 		A757B2D124C3A3CD001A3268 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
 		A759430A24AFBF5A007A526B /* ListsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsViewModel.swift; sourceTree = "<group>"; };
+		A75DBFFE24F9A7FC00F658B6 /* ListsChangeListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsChangeListener.swift; sourceTree = "<group>"; };
 		A75E703A248DA01300F06E98 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		A760CAD5248802CB00999C12 /* PhotosDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
 		A7636A662490499F00166631 /* FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
@@ -381,9 +389,11 @@
 		A70BCCD72447959C00CC49D0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A71C718D24FD7C4600973611 /* Cache */,
 				A70FA678244CEAF50045B545 /* Entity */,
 				A7C1A3EC24C4A86500978BC4 /* Event */,
 				A79B4A1E2479F6CD00ECE1B1 /* Mapper */,
+				A736B2FE24FAE5A3004C7EDE /* Repository */,
 				A70FA679244CEAFC0045B545 /* Service */,
 				A74C418924D4BCB800399918 /* ValueObject */,
 			);
@@ -415,10 +425,8 @@
 				A782FAD12475E0A000C69737 /* RemoteNotificationHandler.swift */,
 				A70FA676244CDEEA0045B545 /* ViewControllerFactory.swift */,
 				A7E530AB249BFD280020DB14 /* AccountService */,
-				A7C1A0BA249FFB7E0054BBAF /* ItemsRepository */,
-				A7203B8824C3852C00C17F85 /* ListsRepository */,
+				A736B2FD24FAE584004C7EDE /* ListChangeListener */,
 				A7A7495724F31E22009D6F25 /* MoveItemService */,
-				A7C1A0AF249FE8D30054BBAF /* PhotosRepository */,
 				A7ACC4BC247AFFE90098EDE0 /* RemotePersistenceFactory */,
 				A726F35924C3C22700BE0EC5 /* StatusNotifier */,
 				A79B4A1D2479F6B800ECE1B1 /* SubscriptionService */,
@@ -492,6 +500,15 @@
 				A77608B224BB8C7000BA0C66 /* Controls */,
 			);
 			path = EditList;
+			sourceTree = "<group>";
+		};
+		A71C718D24FD7C4600973611 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				A71C718E24FD7C5C00973611 /* CloudKitCache.swift */,
+				A71C719024FD7E4400973611 /* InMemoryCloudKitCache.swift */,
+			);
+			path = Cache;
 			sourceTree = "<group>";
 		};
 		A7203B8824C3852C00C17F85 /* ListsRepository */ = {
@@ -605,6 +622,25 @@
 				A760CAD5248802CB00999C12 /* PhotosDataSource.swift */,
 			);
 			path = PhotosCollection;
+			sourceTree = "<group>";
+		};
+		A736B2FD24FAE584004C7EDE /* ListChangeListener */ = {
+			isa = PBXGroup;
+			children = (
+				A736B2FB24FAE577004C7EDE /* DefaultListChangeListener.swift */,
+				A75DBFFE24F9A7FC00F658B6 /* ListsChangeListener.swift */,
+			);
+			path = ListChangeListener;
+			sourceTree = "<group>";
+		};
+		A736B2FE24FAE5A3004C7EDE /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				A7C1A0BA249FFB7E0054BBAF /* ItemsRepository */,
+				A7203B8824C3852C00C17F85 /* ListsRepository */,
+				A7C1A0AF249FE8D30054BBAF /* PhotosRepository */,
+			);
+			path = Repository;
 			sourceTree = "<group>";
 		};
 		A74161422450D989001ED316 /* Extension */ = {
@@ -1044,6 +1080,7 @@
 				A7C1A0B5249FEA630054BBAF /* CloudKitPhotosRepository.swift in Sources */,
 				A712ED632441172300B00791 /* ItemsViewController.swift in Sources */,
 				A78AC17C24F8362700B2A59D /* MoveItemHeaderView.swift in Sources */,
+				A71C718F24FD7C5C00973611 /* CloudKitCache.swift in Sources */,
 				A700C06924BB8EB500A9B00B /* EditListButtons.swift in Sources */,
 				A7ACC4C5247B12AB0098EDE0 /* SharingControllerFactory.swift in Sources */,
 				A7FFA97D244909B40061A3D6 /* DateExtensions.swift in Sources */,
@@ -1051,6 +1088,7 @@
 				A73ADDBB24A91D2D00D7E316 /* PhotosEmptyView.swift in Sources */,
 				A71388F524F5A6ED00EE5C68 /* MoveItemTableView.swift in Sources */,
 				A7C0680424D20642007556F5 /* CloudKitListsRepository.swift in Sources */,
+				A736B2FC24FAE577004C7EDE /* DefaultListChangeListener.swift in Sources */,
 				A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */,
 				A71F636C24F860DE009BC4AE /* MoveItemListCell.swift in Sources */,
 				A759430B24AFBF5A007A526B /* ListsViewModel.swift in Sources */,
@@ -1059,6 +1097,7 @@
 				A783EE2624674ECD008BCC17 /* AdaptiveScrollView.swift in Sources */,
 				A7636A672490499F00166631 /* FileService.swift in Sources */,
 				A725068D2457992F006C3A2F /* RemainingState.swift in Sources */,
+				A71C719124FD7E4400973611 /* InMemoryCloudKitCache.swift in Sources */,
 				A7FFA9792448F5C00061A3D6 /* ExpirationType.swift in Sources */,
 				A70FA677244CDEEA0045B545 /* ViewControllerFactory.swift in Sources */,
 				A7547EF124C3C02F00D82DE9 /* CloudKitVariableDependenciesFactory.swift in Sources */,
@@ -1161,6 +1200,7 @@
 				A700D6C92454D96800F16F2E /* ItemsFilterViewModel.swift in Sources */,
 				A72315AE244B0943008614B2 /* ValidationRules.swift in Sources */,
 				A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */,
+				A75DBFFF24F9A7FC00F658B6 /* ListsChangeListener.swift in Sources */,
 				A700D6C42454BEF400F16F2E /* ItemsFilterDataSource.swift in Sources */,
 				A71388FA24F5B41C00EE5C68 /* EmptyMoveItemView.swift in Sources */,
 				A7515DDF24E35A3700FB226E /* ItemsRepositoryStateDecorator.swift in Sources */,

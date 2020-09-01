@@ -33,6 +33,7 @@ public final class ItemsViewModel {
         let itemsRepositoryDecorator = ItemsRepositoryStateDecorator(itemsRepository)
         self.itemsRepository = itemsRepositoryDecorator
         self.isLoading = itemsRepositoryDecorator.isLoading
+
         self.statusNotifier = statusNotifier
 
         self.itemsFilterViewModel = .init()
