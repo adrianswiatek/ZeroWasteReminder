@@ -91,7 +91,7 @@ public final class CloudKitListsRepository: ListsRepository {
 
     public func update(_ lists: [List]) {
         let recordIds = lists.compactMap { mapper.map($0).toRecordIdInZone(zone) }
-        guard !recordIds.isEmpty else { return }
+        guard !recordIds.isEmpty else { return eventsSubject.send(.noResult) }
 
         updateSubscription = fetchRecords(with: recordIds)
             .flatMap { [weak self] records -> AnyPublisher<[CKRecord], Error> in
@@ -134,9 +134,9 @@ public final class CloudKitListsRepository: ListsRepository {
 
             operation.completionBlock = {
                 if let error = error {
-                    return promise(.failure(error))
+                    promise(.failure(error))
                 } else {
-                    return promise(.success(records))
+                    promise(.success(records))
                 }
             }
 
@@ -151,7 +151,7 @@ public final class CloudKitListsRepository: ListsRepository {
                 return self?.mapper.map(record).updatedBy(list).toRecord()
             }
 
-            let operation = CKModifyRecordsOperation(recordsToSave: updatedRecords, recordIDsToDelete: nil)
+            let operation = CKModifyRecordsOperation(recordsToSave: updatedRecords)
             operation.savePolicy = .changedKeys
 
             var records: [CKRecord] = []
