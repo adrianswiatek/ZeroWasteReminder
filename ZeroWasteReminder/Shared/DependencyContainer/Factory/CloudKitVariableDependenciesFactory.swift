@@ -34,6 +34,7 @@ internal final class CloudKitVariableDependenciesFactory: VariableDependenciesFa
     internal lazy var itemsRepository: ItemsRepository =
         CloudKitItemsRepository(
             configuration: configuration,
+            cache: InMemoryCloudKitCache(),
             mapper: mapper
         )
 

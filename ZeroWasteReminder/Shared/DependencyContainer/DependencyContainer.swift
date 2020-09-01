@@ -34,7 +34,7 @@ internal final class DependencyContainer {
             itemsRepository: variableDependenciesFactory.itemsRepository
         )
 
-        self.listsChangeListener = DefaultlistsChangeListener(
+        self.listsChangeListener = DefaultListsChangeListener(
             itemsRepository: variableDependenciesFactory.itemsRepository,
             moveItemService: moveItemService
         )

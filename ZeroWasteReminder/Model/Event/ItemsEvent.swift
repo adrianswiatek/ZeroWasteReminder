@@ -2,6 +2,7 @@ public enum ItemsEvent {
     case added(_ item: Item)
     case error(_ error: AppError)
     case fetched(_ items: [Item])
+    case noResult
     case removed(_ items: [Item])
     case updated(_ item: Item)
 

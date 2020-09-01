@@ -10,11 +10,13 @@ public final class CloudKitItemsRepository: ItemsRepository {
 
     private let database: CKDatabase
     private let zone: CKRecordZone
+    private let cache: CloudKitCache
     private let mapper: CloudKitMapper
 
-    public init(configuration: CloudKitConfiguration, mapper: CloudKitMapper) {
+    public init(configuration: CloudKitConfiguration, cache: CloudKitCache, mapper: CloudKitMapper) {
         self.database = configuration.container.database(with: .private)
         self.zone = configuration.appZone
+        self.cache = cache
         self.mapper = mapper
         self.eventsSubject = .init()
     }
@@ -33,6 +35,9 @@ public final class CloudKitItemsRepository: ItemsRepository {
         }
 
         operation.completionBlock = { [weak self] in
+            self?.cache.invalidate()
+            self?.cache.set(records)
+
             let items = records.compactMap { self?.mapper.map($0).toItem() }
             self?.eventsSubject.send(.fetched(items))
         }
@@ -50,16 +55,15 @@ public final class CloudKitItemsRepository: ItemsRepository {
             let itemRecord = mapper.map(itemToSave.item).toRecordInZone(zone, referencedBy: listRecord)
         else { return }
 
-        let operation = CKModifyRecordsOperation(
-            recordsToSave: [itemRecord],
-            recordIDsToDelete: nil
-        )
-
+        let operation = CKModifyRecordsOperation(recordsToSave: [itemRecord], recordIDsToDelete: nil)
         operation.modifyRecordsCompletionBlock = { [weak self] in
             if let error = $2 {
                 self?.eventsSubject.send(.error(.init(error)))
             } else if let item = self?.mapper.map($0?.first).toItem() {
+                $0?.first.map { self?.cache.set($0) }
                 self?.eventsSubject.send(.added(item))
+            } else {
+                self?.eventsSubject.send(.noResult)
             }
         }
 
@@ -69,17 +73,16 @@ public final class CloudKitItemsRepository: ItemsRepository {
     public func remove(_ item: Item) {
         guard let recordId = mapper.map(item).toRecordIdInZone(zone) else { return }
 
-        let operation = CKModifyRecordsOperation(
-            recordsToSave: nil,
-            recordIDsToDelete: [recordId]
-        )
-
+        let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: [recordId])
         operation.modifyRecordsCompletionBlock = { [weak self] in
             let id: Id<Item>? = $1?.first.map { .fromString($0.recordName) }
             if let error = $2 {
                 self?.eventsSubject.send(.error(.init(error)))
             } else if id == item.id {
+                $1?.first.map { self?.cache.removeById($0) }
                 self?.eventsSubject.send(.removed(item))
+            } else {
+                self?.eventsSubject.send(.noResult)
             }
         }
 
@@ -90,11 +93,7 @@ public final class CloudKitItemsRepository: ItemsRepository {
         let recordIds = items.compactMap { mapper.map($0).toRecordIdInZone(zone) }
         guard !recordIds.isEmpty else { return }
 
-        let operation = CKModifyRecordsOperation(
-            recordsToSave: nil,
-            recordIDsToDelete: recordIds
-        )
-
+        let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: recordIds)
         operation.modifyRecordsCompletionBlock = { [weak self] in
             let ids: [Id<Item>] = $1.map { $0.compactMap { .fromString($0.recordName) } } ?? []
             let removedItems = ids.compactMap { id in items.first { $0.id == id } }
@@ -102,7 +101,10 @@ public final class CloudKitItemsRepository: ItemsRepository {
             if let error = $2 {
                 self?.eventsSubject.send(.error(.init(error)))
             } else if !removedItems.isEmpty {
+                $1.map { self?.cache.removeByIds($0) }
                 self?.eventsSubject.send(.removed(removedItems))
+            } else {
+                self?.eventsSubject.send(.noResult)
             }
         }
 
@@ -110,13 +112,22 @@ public final class CloudKitItemsRepository: ItemsRepository {
     }
 
     public func update(_ item: Item) {
-        guard let recordId = mapper.map(item).toRecordIdInZone(zone) else { return }
+        guard let recordId = mapper.map(item).toRecordIdInZone(zone) else {
+            return eventsSubject.send(.noResult)
+        }
+
+        if let record = cache.findById(recordId) {
+            mapper.map(record).updatedBy(item).toRecord().map(saveUpdatedRecord)
+            return
+        }
 
         database.fetch(withRecordID: recordId) { [weak self] in
             if let error = $1 {
                 self?.eventsSubject.send(.error(.init(error)))
             } else if let updatedRecord = self?.mapper.map($0).updatedBy(item).toRecord() {
                 self?.saveUpdatedRecord(updatedRecord)
+            } else {
+                self?.eventsSubject.send(.noResult)
             }
         }
     }
@@ -127,6 +138,8 @@ public final class CloudKitItemsRepository: ItemsRepository {
                 self?.eventsSubject.send(.error(.init(error)))
             } else if let updatedItem = self?.mapper.map($0).toItem() {
                 self?.eventsSubject.send(.updated(updatedItem))
+            } else {
+                self?.eventsSubject.send(.noResult)
             }
         }
     }
