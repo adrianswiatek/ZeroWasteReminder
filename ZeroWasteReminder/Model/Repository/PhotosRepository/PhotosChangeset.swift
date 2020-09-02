@@ -22,7 +22,7 @@ public struct PhotosChangeset {
         return .init(photosToSave: photosToSave + [photo], idsToDelete: idsToDelete)
     }
 
-    public func withDeletedPhoto(id: Id<Photo>) -> PhotosChangeset {
+    public func withRemovedPhoto(id: Id<Photo>) -> PhotosChangeset {
         guard !idsToDelete.contains(id) else { return self }
 
         if photosToSave.map(\.id).contains(id) {

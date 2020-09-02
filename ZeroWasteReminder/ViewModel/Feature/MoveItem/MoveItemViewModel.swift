@@ -13,11 +13,11 @@ public final class MoveItemViewModel {
     }
 
     private let item: Item
-    private let moveItemService: MoveItemServiceProtocol
+    private let moveItemService: MoveItemService
 
     private var subscriptions: Set<AnyCancellable>
 
-    public init(item: Item, moveItemService: MoveItemServiceProtocol) {
+    public init(item: Item, moveItemService: MoveItemService) {
         self.item = item
 
         let moveItemService = MoveItemServiceStateDecorator(moveItemService)

@@ -12,10 +12,7 @@ public final class CloudKitAccountService: AccountService {
     private let isUserEligibleSubject: CurrentValueSubject<Bool, Never>
     private var subscriptions: Set<AnyCancellable>
 
-    public init(
-        configuration: CloudKitConfiguration,
-        notificationCenter: NotificationCenter
-    ) {
+    public init(configuration: CloudKitConfiguration, notificationCenter: NotificationCenter) {
         self.container = configuration.container
         self.notificationCenter = notificationCenter
 

@@ -100,14 +100,14 @@ public final class ItemsViewModel {
         itemsRepository.events
             .compactMap { [weak self] in self?.updatedWithEvent($0) }
             .combineLatest(itemsFilterViewModel.cellViewModels, $sortType)
-                .compactMap { items, cells, sortType in
-                    if cells.allSatisfy({ $0.isSelected == false }) {
-                        return items.sorted(by: sortType.action())
-                    }
-                    return cells.flatMap { $0.filter(items) }.sorted(by: sortType.action())
+            .compactMap { items, cells, sortType in
+                if cells.allSatisfy({ $0.isSelected == false }) {
+                    return items.sorted(by: sortType.action())
                 }
-                .sink { [weak self] in self?.items = $0 }
-                .store(in: &subscriptions)
+                return cells.flatMap { $0.filter(items) }.sorted(by: sortType.action())
+            }
+            .sink { [weak self] in self?.items = $0 }
+            .store(in: &subscriptions)
 
         $modeState
             .sink { [weak self] _ in self?.selectedItemIndices = [] }

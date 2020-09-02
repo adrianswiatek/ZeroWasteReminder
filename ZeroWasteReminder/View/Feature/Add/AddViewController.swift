@@ -14,12 +14,12 @@ public final class AddViewController: UIViewController {
     private let warningBarView: WarningBarView
 
     private let viewModel: AddViewModel
-    private let viewControllerFactory: ViewControllerFactory
+    private let coordinator: AddCoordinator
     private var subscriptions: Set<AnyCancellable>
 
-    public init(viewModel: AddViewModel, factory: ViewControllerFactory) {
+    public init(viewModel: AddViewModel, coordinator: AddCoordinator) {
         self.viewModel = viewModel
-        self.viewControllerFactory = factory
+        self.coordinator = coordinator
         self.subscriptions = []
 
         self.contentViewController = .init(viewModel: viewModel)
@@ -140,12 +140,10 @@ public final class AddViewController: UIViewController {
     private func handleRequest(_ request: PhotosViewModel.Request) {
         switch request {
         case .capturePhoto(let target):
-            viewControllerFactory.imagePickerController(for: target, with: self).map {
-                present($0, animated: true)
-            }
+            coordinator.navigateToImagePicker(for: target, with: self, in: self)
         case .removePhoto(let photo):
             UIAlertController.presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
-                .sink { [weak self] _ in self?.viewModel.photosViewModel.deletePhoto(photo) }
+                .sink { [weak self] _ in self?.viewModel.photosViewModel.removePhoto(photo) }
                 .store(in: &self.subscriptions)
         case .showPhoto(let photo):
             present(FullScreenPhotoViewController(image: photo.asImage), animated: true)

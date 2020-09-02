@@ -10,7 +10,7 @@ public final class ListsViewController: UIViewController {
     private let editListComponent: EditListComponent
 
     private let viewModel: ListsViewModel
-    private let factory: ViewControllerFactory
+    private let coordinator: ListsCoordinator
     private let notificationCenter: NotificationCenter
 
     private var removeListSubscription: AnyCancellable?
@@ -24,11 +24,11 @@ public final class ListsViewController: UIViewController {
 
     public init(
         viewModel: ListsViewModel,
-        factory: ViewControllerFactory,
+        coordinator: ListsCoordinator,
         notificationCenter: NotificationCenter
     ) {
         self.viewModel = viewModel
-        self.factory = factory
+        self.coordinator = coordinator
         self.notificationCenter = notificationCenter
 
         self.tableView = .init(viewModel: viewModel)
@@ -155,7 +155,7 @@ public final class ListsViewController: UIViewController {
         case .disableLoadingIndicatorOnce:
             loadingView.disableLoadingIndicatorOnce()
         case .openItems(let list):
-            present(factory.itemsViewController(for: list), animated: true)
+            coordinator.navigateToItems(with: list, in: self)
         case .remove(let list):
             removeListSubscription = UIAlertController.presentRemoveListConfirmationSheet(in: self).sink(
                 receiveCompletion: { [weak self] _ in self?.tableView.deselectList(list) },

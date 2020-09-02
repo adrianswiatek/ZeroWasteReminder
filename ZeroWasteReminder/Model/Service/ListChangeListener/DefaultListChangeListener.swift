@@ -2,12 +2,12 @@ import Combine
 
 public final class DefaultListsChangeListener: ListsChangeListener {
     private let itemsRepository: ItemsRepository
-    private let moveItemService: MoveItemServiceProtocol
+    private let moveItemService: MoveItemService
 
     private var listsIds: [Id<List>]
     private var subscriptions: Set<AnyCancellable>
 
-    public init(itemsRepository: ItemsRepository, moveItemService: MoveItemServiceProtocol) {
+    public init(itemsRepository: ItemsRepository, moveItemService: MoveItemService) {
         self.itemsRepository = itemsRepository
         self.moveItemService = moveItemService
 

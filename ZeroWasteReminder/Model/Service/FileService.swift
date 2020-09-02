@@ -4,7 +4,7 @@ import UIKit
 public final class FileService {
     private let fileManager: FileManager
 
-    public init(fileManager: FileManager = .default) {
+    public init(fileManager: FileManager) {
         self.fileManager = fileManager
     }
 

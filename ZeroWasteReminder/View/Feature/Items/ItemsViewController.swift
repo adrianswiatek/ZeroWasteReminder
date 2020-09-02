@@ -37,11 +37,11 @@ public final class ItemsViewController: UIViewController {
     private var actionsSubscription: AnyCancellable?
 
     private let viewModel: ItemsViewModel
-    private let viewControllerFactory: ViewControllerFactory
+    private let coordinator: ItemsCoordinator
 
-    public init(viewModel: ItemsViewModel, factory: ViewControllerFactory) {
+    public init(viewModel: ItemsViewModel, coordinator: ItemsCoordinator) {
         self.viewModel = viewModel
-        self.viewControllerFactory = factory
+        self.coordinator = coordinator
 
         self.itemsFilterViewController = .init(viewModel.itemsFilterViewModel)
 
@@ -123,17 +123,15 @@ public final class ItemsViewController: UIViewController {
 
     private func bind() {
         addButton.tap
-            .sink { [weak self] in self.map {
-                let viewController = $0.viewControllerFactory.addViewController(for: $0.viewModel.list)
-                $0.present(viewController, animated: true)
-            }}
+            .sink { [weak self] in
+                self.map { $0.coordinator.navigateToAdd(for: $0.viewModel.list, in: $0) }
+            }
             .store(in: &subscriptions)
 
         viewModel.selectedItem
-            .sink { [weak self] item in self.map {
-                let editViewController = $0.viewControllerFactory.editViewController(for: item)
-                $0.navigationController?.pushViewController(editViewController, animated: true)
-            }}
+            .sink { [weak self] item in
+                self.map { $0.coordinator.navigateToEdit(for: item, in: $0) }
+            }
             .store(in: &subscriptions)
 
         viewModel.$modeState
@@ -186,8 +184,7 @@ public final class ItemsViewController: UIViewController {
         case .disableLoadingIndicatorOnce:
             loadingView.disableLoadingIndicatorOnce()
         case .moveItem(let item):
-            let viewController = viewControllerFactory.moveItemViewController(item: item)
-            present(viewController, animated: true)
+            coordinator.navigateToMoveItem(with: item, in: self)
         case .removeItem(let item):
             askForDeleteConfirmation(whenConfirmed: { [weak viewModel] in viewModel?.removeItem(item) })
         case .showErrorMessage(let message):
@@ -311,7 +308,7 @@ public final class ItemsViewController: UIViewController {
         case .selectItems:
             viewModel.modeState.select(on: viewModel)
         case .shareList:
-            present(viewControllerFactory.sharingController, animated: true)
+            coordinator.navigateToSharing(in: self)
         default:
             break
         }

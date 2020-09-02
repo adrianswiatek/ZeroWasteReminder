@@ -4,7 +4,7 @@ import UIKit
 internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     internal var window: UIWindow?
 
-    private var dependencyContainer: DependencyContainer?
+    private var dependencyContainer: DependencyContainer!
 
     internal func scene(
         _ scene: UIScene,
@@ -13,12 +13,22 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let scene = scene as? UIWindowScene else { return }
 
-        dependencyContainer = DependencyContainer(
-            configuration: .cloudKit(containerIdentifier: "iCloud.pl.aswiatek.PushNotifications")
-        )
+        dependencyContainer = setupDependencyContainer()
+        initializeServices()
 
         window = UIWindow(windowScene: scene)
-        window?.rootViewController = dependencyContainer?.rootViewController
+        window?.rootViewController = dependencyContainer.rootViewController
         window?.makeKeyAndVisible()
+    }
+
+    private func setupDependencyContainer() -> DependencyContainer {
+        DependencyContainer(
+            configuration: .cloudKit(containerIdentifier: "iCloud.pl.aswiatek.PushNotifications")
+        )
+    }
+
+    private func initializeServices() {
+        dependencyContainer.accountService.refreshUserEligibility()
+        dependencyContainer.subscriptionService.registerItemsSubscriptionIfNeeded()
     }
 }

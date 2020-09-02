@@ -43,7 +43,7 @@ public final class PhotosViewModel {
 
         fetchPhotosSubscription = photosRepository.fetchThumbnails(for: item)
             .sink(
-                receiveCompletion: { [weak self] _ in self?.fetchPhotosSubscription?.cancel() },
+                receiveCompletion: { [weak self] _ in self?.fetchPhotosSubscription = nil },
                 receiveValue: { [weak self] in
                     self?.thumbnailsSubject.value = $0
                     self?.isLoadingOverlayVisibleSubject.value = false
@@ -63,15 +63,15 @@ public final class PhotosViewModel {
             .compactMap { [weak self] in self?.makePhotosToSave(at: $0) }
             .receive(on: DispatchQueue.main)
             .sink(
-                receiveCompletion: { _ in },
+                receiveCompletion: { [weak self] _ in self?.downsizeImageSubscription = nil },
                 receiveValue: { [weak self] in self?.addPhoto($0) }
             )
     }
 
-    public func deletePhoto(_ photo: Photo) {
+    public func removePhoto(_ photo: Photo) {
         thumbnailsSubject.value.firstIndex(of: photo).map {
             thumbnailsSubject.value.remove(at: $0)
-            photosChangeset = photosChangeset.withDeletedPhoto(id: photo.id)
+            photosChangeset = photosChangeset.withRemovedPhoto(id: photo.id)
         }
     }
 
@@ -79,11 +79,6 @@ public final class PhotosViewModel {
         precondition(0 ..< thumbnailsSubject.value.count ~= index, "Index out of bounds.")
         return thumbnailsSubject.value[index]
     }
-
-//    public func setNeedsRemoveImage(at index: Int) {
-//        precondition(0 ..< thumbnailsSubject.value.count ~= index, "Index out of bounds.")
-//        needsRemoveImageSubject.send(index)
-//    }
 
     private func bind() {
         requestSubject

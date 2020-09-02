@@ -11,13 +11,13 @@ public final class EditViewController: UIViewController {
     private let warningBarView: WarningBarView
 
     private let viewModel: EditViewModel
-    private let viewControllerFactory: ViewControllerFactory
+    private let coordinator: EditCoordinator
 
     private var subscriptions: Set<AnyCancellable>
 
-    public init(viewModel: EditViewModel, factory: ViewControllerFactory) {
+    public init(viewModel: EditViewModel, coordinator: EditCoordinator) {
         self.viewModel = viewModel
-        self.viewControllerFactory = factory
+        self.coordinator = coordinator
 
         self.scrollView = .init()
         self.contentViewController = .init(viewModel: viewModel)
@@ -121,7 +121,7 @@ public final class EditViewController: UIViewController {
         case .dismiss:
             navigationController?.popViewController(animated: true)
         case .moveCurrentItem:
-            present(viewControllerFactory.moveItemViewController(item: viewModel.originalItem), animated: true)
+            coordinator.navigateToMoveItem(with: viewModel.originalItem, in: self)
         case .removeCurrentItem:
             handleRemoveButtonTap()
         }
@@ -130,11 +130,9 @@ public final class EditViewController: UIViewController {
     private func handlePhotoRequest(_ request: PhotosViewModel.Request) {
         switch request {
         case .capturePhoto(let target):
-            viewControllerFactory.imagePickerController(for: target, with: self).map {
-                present($0, animated: true)
-            }
+            coordinator.navigateToImagePicker(for: target, with: self, in: self)
         case .removePhoto(let photo):
-            viewModel.photosViewModel.deletePhoto(photo)
+            viewModel.photosViewModel.removePhoto(photo)
         case .showPhoto(let photo):
             present(FullScreenPhotoViewController(image: photo.asImage), animated: true)
         case .showPhotoAt:

@@ -1,6 +1,6 @@
 import Combine
 
-public final class MoveItemServiceStateDecorator: MoveItemServiceProtocol {
+public final class MoveItemServiceStateDecorator: MoveItemService {
     public var events: AnyPublisher<MoveItemEvent, Never> {
         moveItemService.events
     }
@@ -9,11 +9,11 @@ public final class MoveItemServiceStateDecorator: MoveItemServiceProtocol {
         isLoadingSubject.eraseToAnyPublisher()
     }
 
-    private let moveItemService: MoveItemServiceProtocol
+    private let moveItemService: MoveItemService
     private let isLoadingSubject: PassthroughSubject<Bool, Never>
     private var subscriptions: Set<AnyCancellable>
 
-    public init(_ moveItemService: MoveItemServiceProtocol) {
+    public init(_ moveItemService: MoveItemService) {
         self.moveItemService = moveItemService
         self.isLoadingSubject = .init()
         self.subscriptions = []

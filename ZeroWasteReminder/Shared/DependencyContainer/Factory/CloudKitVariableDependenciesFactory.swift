@@ -8,14 +8,14 @@ internal final class CloudKitVariableDependenciesFactory: VariableDependenciesFa
     private let mapper: CloudKitMapper
 
     internal init(
-        containerIdentifier: String,
+        configuration: CloudKitConfiguration,
         listsCache: CloudKitCache,
         fileService: FileService,
         notificationCenter: NotificationCenter
     ) {
         self.notificationCenter = notificationCenter
         self.listsCache = listsCache
-        self.configuration = CloudKitConfiguration(containerIdentifier: containerIdentifier)
+        self.configuration = configuration
         self.mapper = CloudKitMapper(fileService: fileService)
     }
 

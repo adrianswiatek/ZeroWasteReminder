@@ -25,7 +25,7 @@ public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDa
         self.bind()
     }
 
-    public func apply(_ thumbnails: [Photo]) {
+    private func apply(_ thumbnails: [Photo]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, UIImage>()
         snapshot.appendSections([.main])
         snapshot.appendItems(thumbnails.map { $0.asImage })
