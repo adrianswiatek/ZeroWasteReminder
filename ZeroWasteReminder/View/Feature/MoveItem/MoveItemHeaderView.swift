@@ -6,7 +6,7 @@ public final class MoveItemHeaderView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .secondaryLabel
-        label.text = .localized(.itemToMove)
+        label.text = .localized(.item)
         label.font = .systemFont(ofSize: 14)
         return label
     }()
@@ -31,7 +31,7 @@ public final class MoveItemHeaderView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .secondaryLabel
-        label.text = .localized(.availableLists)
+        label.text = .localized(.moveTo)
         label.font = .systemFont(ofSize: 14)
         return label
     }()
