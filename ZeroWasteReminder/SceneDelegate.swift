@@ -14,7 +14,7 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = scene as? UIWindowScene else { return }
 
         dependencyContainer = setupDependencyContainer()
-        initializeServices()
+        dependencyContainer.initializeServices()
 
         window = UIWindow(windowScene: scene)
         window?.rootViewController = dependencyContainer.rootViewController
@@ -25,10 +25,5 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         DependencyContainer(
             configuration: .cloudKit(containerIdentifier: "iCloud.pl.aswiatek.PushNotifications")
         )
-    }
-
-    private func initializeServices() {
-        dependencyContainer.accountService.refreshUserEligibility()
-        dependencyContainer.subscriptionService.registerItemsSubscriptionIfNeeded()
     }
 }

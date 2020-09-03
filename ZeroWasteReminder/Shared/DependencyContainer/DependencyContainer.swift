@@ -1,133 +1,191 @@
 import UIKit
+import Swinject
 
 internal final class DependencyContainer {
-    internal let notificationCenter: NotificationCenter
-
-    internal let fileService: FileService
-    internal let moveItemService: DefaultMoveItemService
-    internal let accountService: AccountService
-    internal let subscriptionService: SubscriptionService
-
-    internal let listsChangeListener: ListsChangeListener
-    internal let statusNotifier: StatusNotifier
-
-    internal let sharingControllerFactory: SharingControllerFactory
-    internal let imagePickerControllerFactory: ImagePickerControllerFactory
-
-    internal let listsRepository: ListsRepository
-    internal let itemsRepository: ItemsRepository
-    internal let photosRepository: PhotosRepository
-
-    internal let listsViewModelFactory: ListsViewModelFactory
-    internal let itemsViewModelFactory: ItemsViewModelFactory
-    internal let moveItemViewModelFactory: MoveItemViewModelFactory
-    internal let addViewModelFactory: AddViewModelFactory
-    internal let editViewModelFactory: EditViewModelFactory
-
-    internal let addCoordinator: AddCoordinator
-    internal let editCoordinator: EditCoordinator
-    internal let itemsCoordinator: ItemsCoordinator
-    internal let listsCoordinator: ListsCoordinator
+    private let container: Container
 
     init(configuration: Configuration) {
-        self.notificationCenter = .default
-        self.fileService = FileService(fileManager: .default)
+        container = Container()
 
-        var variableDependenciesFactory: VariableDependenciesFactory
+        registerServices(in: container)
+        registerRepositories(in: container)
+        registerOtherObjects(in: container, with: configuration)
+        registerCoordinators(in: container)
+        registerViewModelFactories(in: container)
+        registerViewControllerFactories(in: container)
+    }
 
-        switch configuration {
-        case .inMemory:
-            variableDependenciesFactory = InMemoryVariableDependenciesFactory()
-        case .cloudKit(let containerIdentifier):
-            variableDependenciesFactory = CloudKitVariableDependenciesFactory(
-                configuration: CloudKitConfiguration(containerIdentifier: containerIdentifier),
-                listsCache: InMemoryCloudKitCache(),
-                fileService: fileService,
-                notificationCenter: notificationCenter
+    public var rootViewController: UIViewController {
+        container.resolve(ListsViewControllerFactory.self)!.create()
+    }
+
+    public func initializeServices() {
+        container.resolve(AccountService.self)!.refreshUserEligibility()
+        container.resolve(SubscriptionService.self)!.registerItemsSubscriptionIfNeeded()
+    }
+
+    private func registerServices(in container: Container) {
+        container.register(FileService.self) { _ in
+            FileService(fileManager: .default)
+        }.inObjectScope(.container)
+
+        container.register(AccountService.self) { resolver in
+            resolver.resolve(VariableDependenciesFactory.self)!.accountService
+        }
+
+        container.register(SubscriptionService.self) { resolver in
+            resolver.resolve(VariableDependenciesFactory.self)!.subscriptionService
+        }
+
+        container.register(MoveItemService.self) { resolver in
+            DefaultMoveItemService(
+                listsRepository: resolver.resolve(ListsRepository.self)!,
+                itemsRepository: resolver.resolve(ItemsRepository.self)!
+            )
+        }
+    }
+
+    private func registerRepositories(in container: Container) {
+        container.register(InMemoryCloudKitCache.self) { _ in
+            InMemoryCloudKitCache()
+        }.inObjectScope(.transient)
+
+        container.register(CloudKitMapper.self) { resolver in
+            CloudKitMapper(fileService: resolver.resolve(FileService.self)!)
+        }
+
+        container.register(ListsRepository.self) { resolver in
+            resolver.resolve(VariableDependenciesFactory.self)!.listsRepository
+        }
+
+        container.register(ItemsRepository.self) { resolver in
+            resolver.resolve(VariableDependenciesFactory.self)!.itemsRepository
+        }
+
+        container.register(PhotosRepository.self) { resolver in
+            resolver.resolve(VariableDependenciesFactory.self)!.photosRepository
+        }
+    }
+
+    private func registerOtherObjects(in container: Container, with configuration: Configuration) {
+        container.register(VariableDependenciesFactory.self) { resolver in
+            switch configuration {
+            case .inMemory:
+                return InMemoryVariableDependenciesFactory()
+            case .cloudKit(let containerIdentifier):
+                return CloudKitVariableDependenciesFactory(
+                    configuration: CloudKitConfiguration(containerIdentifier: containerIdentifier),
+                    itemsCache: resolver.resolve(InMemoryCloudKitCache.self)!,
+                    listsCache: resolver.resolve(InMemoryCloudKitCache.self)!,
+                    mapper: resolver.resolve(CloudKitMapper.self)!,
+                    notificationCenter: resolver.resolve(NotificationCenter.self)!
+                )
+            }
+        }.inObjectScope(.container)
+
+        container.register(NotificationCenter.self) { _ in
+            NotificationCenter.default
+        }
+
+        container.register(StatusNotifier.self) { resolver in
+            resolver.resolve(VariableDependenciesFactory.self)!.statusNotifier
+        }
+
+        container.register(ListsChangeListener.self) { resolver in
+            DefaultListsChangeListener(
+                itemsRepository: resolver.resolve(ItemsRepository.self)!,
+                moveItemService: resolver.resolve(MoveItemService.self)!
+            )
+        }
+    }
+
+    private func registerViewModelFactories(in container: Container) {
+        container.register(ListsViewModelFactory.self) { resolver in
+            ListsViewModelFactory(
+                listsRepository: resolver.resolve(ListsRepository.self)!,
+                listsChangeListener: resolver.resolve(ListsChangeListener.self)!,
+                statusNotifier: resolver.resolve(StatusNotifier.self)!
             )
         }
 
-        self.accountService = variableDependenciesFactory.accountService
-        self.subscriptionService = variableDependenciesFactory.subscriptionService
-        self.statusNotifier = variableDependenciesFactory.statusNotifier
+        container.register(ItemsViewModelFactory.self) { resolver in
+            ItemsViewModelFactory(
+                itemsRepository: resolver.resolve(ItemsRepository.self)!,
+                statusNotifier: resolver.resolve(StatusNotifier.self)!
+            )
+        }
 
-        self.sharingControllerFactory = variableDependenciesFactory.sharingControllerFactory
-        self.imagePickerControllerFactory = ImagePickerControllerFactory()
+        container.register(MoveItemViewModelFactory.self) { resolver in
+            MoveItemViewModelFactory(moveItemService: resolver.resolve(MoveItemService.self)!)
+        }
 
-        self.listsRepository = variableDependenciesFactory.listsRepository
-        self.itemsRepository = variableDependenciesFactory.itemsRepository
-        self.photosRepository = variableDependenciesFactory.photosRepository
+        container.register(AddViewModelFactory.self) { resolver in
+            AddViewModelFactory(
+                itemsRepository: resolver.resolve(ItemsRepository.self)!,
+                photosRepository: resolver.resolve(PhotosRepository.self)!,
+                fileService: resolver.resolve(FileService.self)!,
+                statusNotifier: resolver.resolve(StatusNotifier.self)!
+            )
+        }
 
-        self.moveItemService = DefaultMoveItemService(
-            listsRepository: listsRepository,
-            itemsRepository: itemsRepository
-        )
-
-        self.listsChangeListener = DefaultListsChangeListener(
-            itemsRepository: itemsRepository,
-            moveItemService: moveItemService
-        )
-
-        self.listsViewModelFactory = ListsViewModelFactory(
-            listsRepository: listsRepository,
-            listsChangeListener: listsChangeListener,
-            statusNotifier: statusNotifier
-        )
-
-        self.itemsViewModelFactory = ItemsViewModelFactory(
-            itemsRepository: itemsRepository,
-            statusNotifier: statusNotifier
-        )
-
-        self.moveItemViewModelFactory = MoveItemViewModelFactory(
-            moveItemService: moveItemService
-        )
-
-        self.addViewModelFactory = AddViewModelFactory(
-            itemsRepository: itemsRepository,
-            photosRepository: photosRepository,
-            fileService: fileService,
-            statusNotifier: statusNotifier
-        )
-
-        self.editViewModelFactory = EditViewModelFactory(
-            itemsRepository: itemsRepository,
-            photosRepository: photosRepository,
-            fileService: fileService,
-            statusNotifier: statusNotifier
-        )
-
-        self.addCoordinator = AddCoordinator(
-            imagePickerFactory: imagePickerControllerFactory
-        )
-
-        self.editCoordinator = EditCoordinator(
-            imagePickerFactory: imagePickerControllerFactory,
-            moveItemViewModelFactory: moveItemViewModelFactory
-        )
-
-        self.itemsCoordinator = ItemsCoordinator(
-            sharingControllerFactory: sharingControllerFactory,
-            addViewModelFactory: addViewModelFactory,
-            editViewModelFactory: editViewModelFactory,
-            moveItemViewModelFactory: moveItemViewModelFactory,
-            addCoordinator: addCoordinator,
-            editCoordinator: editCoordinator
-        )
-
-        self.listsCoordinator = ListsCoordinator(
-            itemsViewModelFactory: itemsViewModelFactory,
-            itemsCoordinator: itemsCoordinator
-        )
+        container.register(EditViewModelFactory.self) { resolver in
+            EditViewModelFactory(
+                itemsRepository: resolver.resolve(ItemsRepository.self)!,
+                photosRepository: resolver.resolve(PhotosRepository.self)!,
+                fileService: resolver.resolve(FileService.self)!,
+                statusNotifier: resolver.resolve(StatusNotifier.self)!
+            )
+        }
     }
 
-    public lazy var rootViewController: UIViewController = {
-        ListsViewControllerFactory(
-            viewModelFactory: listsViewModelFactory,
-            notificationCenter: notificationCenter,
-            listsCoordinator: listsCoordinator
-        ).create()
-    }()
+    private func registerCoordinators(in container: Container) {
+        container.register(AddCoordinator.self) { resolver in
+            AddCoordinator(imagePickerFactory: resolver.resolve(ImagePickerControllerFactory.self)!)
+        }
+
+        container.register(EditCoordinator.self) { resolver in
+            EditCoordinator(
+                imagePickerFactory: resolver.resolve(ImagePickerControllerFactory.self)!,
+                moveItemViewModelFactory: resolver.resolve(MoveItemViewModelFactory.self)!
+            )
+        }
+
+        container.register(ItemsCoordinator.self) { resolver in
+            ItemsCoordinator(
+                sharingControllerFactory: resolver.resolve(SharingControllerFactory.self)!,
+                addViewModelFactory: resolver.resolve(AddViewModelFactory.self)!,
+                editViewModelFactory: resolver.resolve(EditViewModelFactory.self)!,
+                moveItemViewModelFactory: resolver.resolve(MoveItemViewModelFactory.self)!,
+                addCoordinator: resolver.resolve(AddCoordinator.self)!,
+                editCoordinator: resolver.resolve(EditCoordinator.self)!
+            )
+        }
+
+        container.register(ListsCoordinator.self) { resolver in
+            ListsCoordinator(
+                itemsViewModelFactory: resolver.resolve(ItemsViewModelFactory.self)!,
+                itemsCoordinator: resolver.resolve(ItemsCoordinator.self)!
+            )
+        }
+    }
+
+    private func registerViewControllerFactories(in container: Container) {
+        container.register(ImagePickerControllerFactory.self) { _ in
+            ImagePickerControllerFactory()
+        }
+
+        container.register(SharingControllerFactory.self) { resolver in
+            resolver.resolve(VariableDependenciesFactory.self)!.sharingControllerFactory
+        }
+
+        container.register(ListsViewControllerFactory.self) { resolver in
+            ListsViewControllerFactory(
+                viewModelFactory: resolver.resolve(ListsViewModelFactory.self)!,
+                notificationCenter: resolver.resolve(NotificationCenter.self)!,
+                listsCoordinator: resolver.resolve(ListsCoordinator.self)!
+            )
+        }
+    }
 }
 
 internal extension DependencyContainer {
