@@ -14,7 +14,7 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = scene as? UIWindowScene else { return }
 
         dependencyContainer = setupDependencyContainer()
-        dependencyContainer.initializeServices()
+        dependencyContainer.initializeRemoteServices()
 
         window = UIWindow(windowScene: scene)
         window?.rootViewController = dependencyContainer.rootViewController
