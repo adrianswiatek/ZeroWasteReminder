@@ -1,6 +1,6 @@
 import Combine
 
-public final class InMemoryAccountService: AccountService {
+public final class AlwaysEligibleAccountService: AccountService {
     public var isUserEligible: AnyPublisher<Bool, Never> {
         Just(true).eraseToAnyPublisher()
     }

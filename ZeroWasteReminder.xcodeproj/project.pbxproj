@@ -57,7 +57,7 @@
 		A731DBE024A935A600CE926A /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731DBDF24A935A600CE926A /* PhotosViewController.swift */; };
 		A731F89524BE439B007348A3 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731F89424BE439B007348A3 /* ListCell.swift */; };
 		A731F89724BE45D0007348A3 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731F89624BE45D0007348A3 /* List.swift */; };
-		A736B2FC24FAE577004C7EDE /* ListChangeListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = A736B2FB24FAE577004C7EDE /* ListChangeListener.swift */; };
+		A736B2FC24FAE577004C7EDE /* DefaultListItemsChangeListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = A736B2FB24FAE577004C7EDE /* DefaultListItemsChangeListener.swift */; };
 		A73ADDB924A90C8200D7E316 /* PhotoCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73ADDB824A90C8200D7E316 /* PhotoCaptureView.swift */; };
 		A73ADDBB24A91D2D00D7E316 /* PhotosEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73ADDBA24A91D2D00D7E316 /* PhotosEmptyView.swift */; };
 		A741613E2450D814001ED316 /* UIAlertActionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */; };
@@ -70,7 +70,7 @@
 		A750434124707386009A1451 /* CloudKitItemsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434024707386009A1451 /* CloudKitItemsRepository.swift */; };
 		A750434524707517009A1451 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A750434424707517009A1451 /* CloudKit.framework */; };
 		A7515DDF24E35A3700FB226E /* ItemsRepositoryStateDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7515DDE24E35A3700FB226E /* ItemsRepositoryStateDecorator.swift */; };
-		A7547EDB24C3AF5100D82DE9 /* InMemoryAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EDA24C3AF5000D82DE9 /* InMemoryAccountService.swift */; };
+		A7547EDB24C3AF5100D82DE9 /* AlwaysEligibleAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EDA24C3AF5000D82DE9 /* AlwaysEligibleAccountService.swift */; };
 		A7547EE524C3B32000D82DE9 /* EmptySharingControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EE424C3B32000D82DE9 /* EmptySharingControllerFactory.swift */; };
 		A7547EE724C3B4BA00D82DE9 /* EmptySubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EE624C3B4BA00D82DE9 /* EmptySubscriptionService.swift */; };
 		A757B2D224C3A3CD001A3268 /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757B2D124C3A3CD001A3268 /* DependencyContainer.swift */; };
@@ -128,6 +128,8 @@
 		A7B2A4832469E58D00D9C0B1 /* RemoveExpirationDateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2A4822469E58D00D9C0B1 /* RemoveExpirationDateButton.swift */; };
 		A7B2E50B24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2E50A24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift */; };
 		A7B3BFD624F46C1C00B7F15B /* ItemToSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B3BFD524F46C1C00B7F15B /* ItemToSave.swift */; };
+		A7B6AECE250583AB005258D6 /* ListItemsChangeListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6AECD250583AB005258D6 /* ListItemsChangeListener.swift */; };
+		A7B6AED025058A0B005258D6 /* AutomaticListsUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6AECF25058A0B005258D6 /* AutomaticListsUpdater.swift */; };
 		A7BDE68324B5082B003215C0 /* ListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDE68224B5082B003215C0 /* ListsViewController.swift */; };
 		A7BDE68524B5095A003215C0 /* ListsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDE68424B5095A003215C0 /* ListsDataSource.swift */; };
 		A7BDE68724B50B73003215C0 /* ListsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDE68624B50B73003215C0 /* ListsTableView.swift */; };
@@ -230,7 +232,7 @@
 		A731DBDF24A935A600CE926A /* PhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
 		A731F89424BE439B007348A3 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		A731F89624BE45D0007348A3 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
-		A736B2FB24FAE577004C7EDE /* ListChangeListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListChangeListener.swift; sourceTree = "<group>"; };
+		A736B2FB24FAE577004C7EDE /* DefaultListItemsChangeListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultListItemsChangeListener.swift; sourceTree = "<group>"; };
 		A73ADDB824A90C8200D7E316 /* PhotoCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureView.swift; sourceTree = "<group>"; };
 		A73ADDBA24A91D2D00D7E316 /* PhotosEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosEmptyView.swift; sourceTree = "<group>"; };
 		A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertActionExtensions.swift; sourceTree = "<group>"; };
@@ -244,7 +246,7 @@
 		A750434224707513009A1451 /* ZeroWasteReminder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZeroWasteReminder.entitlements; sourceTree = "<group>"; };
 		A750434424707517009A1451 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		A7515DDE24E35A3700FB226E /* ItemsRepositoryStateDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsRepositoryStateDecorator.swift; sourceTree = "<group>"; };
-		A7547EDA24C3AF5000D82DE9 /* InMemoryAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryAccountService.swift; sourceTree = "<group>"; };
+		A7547EDA24C3AF5000D82DE9 /* AlwaysEligibleAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlwaysEligibleAccountService.swift; sourceTree = "<group>"; };
 		A7547EE424C3B32000D82DE9 /* EmptySharingControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySharingControllerFactory.swift; sourceTree = "<group>"; };
 		A7547EE624C3B4BA00D82DE9 /* EmptySubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySubscriptionService.swift; sourceTree = "<group>"; };
 		A757B2D124C3A3CD001A3268 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
@@ -302,6 +304,8 @@
 		A7B2A4822469E58D00D9C0B1 /* RemoveExpirationDateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveExpirationDateButton.swift; sourceTree = "<group>"; };
 		A7B2E50A24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImagePickerController.SourceTypeExtensions.swift; sourceTree = "<group>"; };
 		A7B3BFD524F46C1C00B7F15B /* ItemToSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToSave.swift; sourceTree = "<group>"; };
+		A7B6AECD250583AB005258D6 /* ListItemsChangeListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemsChangeListener.swift; sourceTree = "<group>"; };
+		A7B6AECF25058A0B005258D6 /* AutomaticListsUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomaticListsUpdater.swift; sourceTree = "<group>"; };
 		A7BDE68224B5082B003215C0 /* ListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsViewController.swift; sourceTree = "<group>"; };
 		A7BDE68424B5095A003215C0 /* ListsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsDataSource.swift; sourceTree = "<group>"; };
 		A7BDE68624B50B73003215C0 /* ListsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsTableView.swift; sourceTree = "<group>"; };
@@ -852,6 +856,7 @@
 			isa = PBXGroup;
 			children = (
 				A7E530AC249BFD330020DB14 /* AccountService.swift */,
+				A7B6AECD250583AB005258D6 /* ListItemsChangeListener.swift */,
 				A7E5B8B825044A72008E9523 /* MoveItemService.swift */,
 				A726F35A24C3C24800BE0EC5 /* StatusNotifier.swift */,
 				A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */,
@@ -862,11 +867,12 @@
 		A7E5B8B325043259008E9523 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				A7547EDA24C3AF5000D82DE9 /* AlwaysEligibleAccountService.swift */,
+				A7B6AECF25058A0B005258D6 /* AutomaticListsUpdater.swift */,
+				A736B2FB24FAE577004C7EDE /* DefaultListItemsChangeListener.swift */,
+				A7A7495824F321C4009D6F25 /* DefaultMoveItemService.swift */,
 				A726F35C24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift */,
 				A7547EE624C3B4BA00D82DE9 /* EmptySubscriptionService.swift */,
-				A7547EDA24C3AF5000D82DE9 /* InMemoryAccountService.swift */,
-				A736B2FB24FAE577004C7EDE /* ListChangeListener.swift */,
-				A7A7495824F321C4009D6F25 /* DefaultMoveItemService.swift */,
 				A782FAD12475E0A000C69737 /* RemoteNotificationHandler.swift */,
 			);
 			path = Services;
@@ -1092,8 +1098,9 @@
 				A73ADDBB24A91D2D00D7E316 /* PhotosEmptyView.swift in Sources */,
 				A71388F524F5A6ED00EE5C68 /* MoveItemTableView.swift in Sources */,
 				A7C0680424D20642007556F5 /* CloudKitListsRepository.swift in Sources */,
-				A736B2FC24FAE577004C7EDE /* ListChangeListener.swift in Sources */,
+				A736B2FC24FAE577004C7EDE /* DefaultListItemsChangeListener.swift in Sources */,
 				A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */,
+				A7B6AECE250583AB005258D6 /* ListItemsChangeListener.swift in Sources */,
 				A71F636C24F860DE009BC4AE /* MoveItemListCell.swift in Sources */,
 				A759430B24AFBF5A007A526B /* ListsViewModel.swift in Sources */,
 				A7547EE524C3B32000D82DE9 /* EmptySharingControllerFactory.swift in Sources */,
@@ -1114,6 +1121,7 @@
 				A7BDE68324B5082B003215C0 /* ListsViewController.swift in Sources */,
 				A7B2E50B24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift in Sources */,
 				A7E5B8B925044A72008E9523 /* MoveItemService.swift in Sources */,
+				A7B6AED025058A0B005258D6 /* AutomaticListsUpdater.swift in Sources */,
 				A7A8EF77247C7DF900FF1AC2 /* SharedTextViewDelegate.swift in Sources */,
 				A78172AE2494D05200F406EC /* CloudKitItemMapper.swift in Sources */,
 				A7E317992496EBB8006B9610 /* PhotosChangeset.swift in Sources */,
@@ -1183,7 +1191,7 @@
 				A749366C247346A4003DB46E /* LoadingView.swift in Sources */,
 				A77608B124BB8C5700BA0C66 /* EditListConfirmButton.swift in Sources */,
 				A731DBE024A935A600CE926A /* PhotosViewController.swift in Sources */,
-				A7547EDB24C3AF5100D82DE9 /* InMemoryAccountService.swift in Sources */,
+				A7547EDB24C3AF5100D82DE9 /* AlwaysEligibleAccountService.swift in Sources */,
 				A780EFD1245F7590002A8AD4 /* EditViewController.swift in Sources */,
 				A7AD372324C4E8A300C908DF /* ItemsRepository.swift in Sources */,
 				A7ADB60E244E47CB00694BA0 /* DateFormatterExtensions.swift in Sources */,
