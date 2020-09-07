@@ -66,6 +66,7 @@ public final class ListsViewModel {
     private func bind() {
         eventBus.events
             .sink { [weak self] in
+                print($0)
                 self?.handleEvent($0)
                 self?.isLoadingSubject.send(false)
             }
@@ -89,7 +90,7 @@ public final class ListsViewModel {
         case let event as ErrorEvent:
             requestsSubject.send(.showErrorMessage(event.error.localizedDescription))
         default:
-            break
+            return
         }
 
         lists = updatedLists.sorted { $0.updateDate > $1.updateDate }

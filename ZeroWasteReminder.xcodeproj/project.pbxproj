@@ -73,7 +73,7 @@
 		A75043522506EA8700DFB4EB /* ItemsFetchedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75043512506EA8700DFB4EB /* ItemsFetchedEvent.swift */; };
 		A75043542506EB0700DFB4EB /* ItemsRemovedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75043532506EB0700DFB4EB /* ItemsRemovedEvent.swift */; };
 		A75043562506EB1600DFB4EB /* ItemUpdatedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75043552506EB1600DFB4EB /* ItemUpdatedEvent.swift */; };
-		A7515DDF24E35A3700FB226E /* ItemsRepositoryStateDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7515DDE24E35A3700FB226E /* ItemsRepositoryStateDecorator.swift */; };
+		A75043582506F7CC00DFB4EB /* ItemMovedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75043572506F7CC00DFB4EB /* ItemMovedEvent.swift */; };
 		A7547EDB24C3AF5100D82DE9 /* AlwaysEligibleAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EDA24C3AF5000D82DE9 /* AlwaysEligibleAccountService.swift */; };
 		A7547EE524C3B32000D82DE9 /* EmptySharingControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EE424C3B32000D82DE9 /* EmptySharingControllerFactory.swift */; };
 		A7547EE724C3B4BA00D82DE9 /* EmptySubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EE624C3B4BA00D82DE9 /* EmptySubscriptionService.swift */; };
@@ -113,6 +113,7 @@
 		A783EE2624674ECD008BCC17 /* AdaptiveScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */; };
 		A783EE28246755E9008BCC17 /* AddContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE27246755E9008BCC17 /* AddContentViewController.swift */; };
 		A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */; };
+		A784EE4025081377006C3A68 /* ListsFetchedForItemToMoveEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A784EE3F25081377006C3A68 /* ListsFetchedForItemToMoveEvent.swift */; };
 		A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */; };
 		A78AC17C24F8362700B2A59D /* MoveItemHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78AC17B24F8362700B2A59D /* MoveItemHeaderView.swift */; };
 		A797433424A2ABA000A05EA2 /* ItemsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A798DF4724524B0900A84F79 /* ItemsDataSource.swift */; };
@@ -124,7 +125,6 @@
 		A7A7495424F30A0F009D6F25 /* MoveItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A7495324F30A0F009D6F25 /* MoveItemViewModel.swift */; };
 		A7A7495624F31404009D6F25 /* MoveItemNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A7495524F31404009D6F25 /* MoveItemNavigationController.swift */; };
 		A7A7495924F321C4009D6F25 /* DefaultMoveItemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A7495824F321C4009D6F25 /* DefaultMoveItemService.swift */; };
-		A7A7495B24F321D5009D6F25 /* MoveItemEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A7495A24F321D5009D6F25 /* MoveItemEvent.swift */; };
 		A7A7E96024BA621F003751B6 /* EditListOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A7E95F24BA621F003751B6 /* EditListOverlayView.swift */; };
 		A7A8EF73247C52E900FF1AC2 /* NameTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */; };
 		A7A8EF75247C771900FF1AC2 /* NotesTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF74247C771900FF1AC2 /* NotesTextView.swift */; };
@@ -132,7 +132,6 @@
 		A7ACC4C2247B00BF0098EDE0 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC4C1247B00BF0098EDE0 /* CloudKitConfiguration.swift */; };
 		A7ACC4C5247B12AB0098EDE0 /* SharingControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC4C4247B12AB0098EDE0 /* SharingControllerFactory.swift */; };
 		A7ACC4C7247B12E20098EDE0 /* CloudKitSharingControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC4C6247B12E20098EDE0 /* CloudKitSharingControllerFactory.swift */; };
-		A7AD372124C4E18600C908DF /* ItemsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AD372024C4E18600C908DF /* ItemsEvent.swift */; };
 		A7AD372324C4E8A300C908DF /* ItemsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AD372224C4E8A300C908DF /* ItemsRepository.swift */; };
 		A7AD76E62463661100220A94 /* StateIndicatorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AD76E52463661100220A94 /* StateIndicatorLabel.swift */; };
 		A7ADB60E244E47CB00694BA0 /* DateFormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ADB60D244E47CB00694BA0 /* DateFormatterExtensions.swift */; };
@@ -158,7 +157,6 @@
 		A7CAC7EA24F1BE480094FF15 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CAC7E924F1BE480094FF15 /* ActionButton.swift */; };
 		A7CD75C7248C53FC00FCD8DF /* PhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CD75C6248C53FC00FCD8DF /* PhotosViewModel.swift */; };
 		A7DAD1C224F70B0D0004529D /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DAD1C124F70B0D0004529D /* ArrayExtensions.swift */; };
-		A7DAD1C424F710060004529D /* MoveItemServiceStateDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DAD1C324F710060004529D /* MoveItemServiceStateDecorator.swift */; };
 		A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A34244285010035CF36 /* AddViewController.swift */; };
 		A7DB8A37244286440035CF36 /* ItemsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A36244286440035CF36 /* ItemsNavigationController.swift */; };
 		A7DD996A2484578D00B40141 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DD99692484578D00B40141 /* PhotoCell.swift */; };
@@ -259,7 +257,7 @@
 		A75043512506EA8700DFB4EB /* ItemsFetchedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsFetchedEvent.swift; sourceTree = "<group>"; };
 		A75043532506EB0700DFB4EB /* ItemsRemovedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsRemovedEvent.swift; sourceTree = "<group>"; };
 		A75043552506EB1600DFB4EB /* ItemUpdatedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemUpdatedEvent.swift; sourceTree = "<group>"; };
-		A7515DDE24E35A3700FB226E /* ItemsRepositoryStateDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsRepositoryStateDecorator.swift; sourceTree = "<group>"; };
+		A75043572506F7CC00DFB4EB /* ItemMovedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemMovedEvent.swift; sourceTree = "<group>"; };
 		A7547EDA24C3AF5000D82DE9 /* AlwaysEligibleAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlwaysEligibleAccountService.swift; sourceTree = "<group>"; };
 		A7547EE424C3B32000D82DE9 /* EmptySharingControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySharingControllerFactory.swift; sourceTree = "<group>"; };
 		A7547EE624C3B4BA00D82DE9 /* EmptySubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySubscriptionService.swift; sourceTree = "<group>"; };
@@ -299,6 +297,7 @@
 		A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveScrollView.swift; sourceTree = "<group>"; };
 		A783EE27246755E9008BCC17 /* AddContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentViewController.swift; sourceTree = "<group>"; };
 		A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenPhotoViewController.swift; sourceTree = "<group>"; };
+		A784EE3F25081377006C3A68 /* ListsFetchedForItemToMoveEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsFetchedForItemToMoveEvent.swift; sourceTree = "<group>"; };
 		A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateViewModel.swift; sourceTree = "<group>"; };
 		A78AC17B24F8362700B2A59D /* MoveItemHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemHeaderView.swift; sourceTree = "<group>"; };
 		A798DF4724524B0900A84F79 /* ItemsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsDataSource.swift; sourceTree = "<group>"; };
@@ -310,7 +309,6 @@
 		A7A7495324F30A0F009D6F25 /* MoveItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemViewModel.swift; sourceTree = "<group>"; };
 		A7A7495524F31404009D6F25 /* MoveItemNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemNavigationController.swift; sourceTree = "<group>"; };
 		A7A7495824F321C4009D6F25 /* DefaultMoveItemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMoveItemService.swift; sourceTree = "<group>"; };
-		A7A7495A24F321D5009D6F25 /* MoveItemEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemEvent.swift; sourceTree = "<group>"; };
 		A7A7E95F24BA621F003751B6 /* EditListOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListOverlayView.swift; sourceTree = "<group>"; };
 		A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTextView.swift; sourceTree = "<group>"; };
 		A7A8EF74247C771900FF1AC2 /* NotesTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextView.swift; sourceTree = "<group>"; };
@@ -318,7 +316,6 @@
 		A7ACC4C1247B00BF0098EDE0 /* CloudKitConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitConfiguration.swift; sourceTree = "<group>"; };
 		A7ACC4C4247B12AB0098EDE0 /* SharingControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingControllerFactory.swift; sourceTree = "<group>"; };
 		A7ACC4C6247B12E20098EDE0 /* CloudKitSharingControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitSharingControllerFactory.swift; sourceTree = "<group>"; };
-		A7AD372024C4E18600C908DF /* ItemsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsEvent.swift; sourceTree = "<group>"; };
 		A7AD372224C4E8A300C908DF /* ItemsRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemsRepository.swift; sourceTree = "<group>"; };
 		A7AD76E52463661100220A94 /* StateIndicatorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateIndicatorLabel.swift; sourceTree = "<group>"; };
 		A7ADB60D244E47CB00694BA0 /* DateFormatterExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtensions.swift; sourceTree = "<group>"; };
@@ -344,7 +341,6 @@
 		A7CAC7E924F1BE480094FF15 /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		A7CD75C6248C53FC00FCD8DF /* PhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewModel.swift; sourceTree = "<group>"; };
 		A7DAD1C124F70B0D0004529D /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
-		A7DAD1C324F710060004529D /* MoveItemServiceStateDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemServiceStateDecorator.swift; sourceTree = "<group>"; };
 		A7DB8A34244285010035CF36 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		A7DB8A36244286440035CF36 /* ItemsNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsNavigationController.swift; sourceTree = "<group>"; };
 		A7DD99692484578D00B40141 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
@@ -448,7 +444,6 @@
 			children = (
 				A716B8FC244E43BB00D2FC89 /* ItemsCellViewModel.swift */,
 				A70FA680244CF7190045B545 /* ItemsViewModel.swift */,
-				A7515DDE24E35A3700FB226E /* ItemsRepositoryStateDecorator.swift */,
 				A7E4C5FB25004D9800761601 /* ItemsViewModelFactory.swift */,
 				A716C9C0244FA07A004262AF /* RemainingViewModel.swift */,
 				A700D6CE2454ED9700F16F2E /* Filter */,
@@ -633,6 +628,7 @@
 			isa = PBXGroup;
 			children = (
 				A750434F2506EA7600DFB4EB /* ItemAddedEvent.swift */,
+				A75043572506F7CC00DFB4EB /* ItemMovedEvent.swift */,
 				A75043512506EA8700DFB4EB /* ItemsFetchedEvent.swift */,
 				A75043532506EB0700DFB4EB /* ItemsRemovedEvent.swift */,
 				A75043552506EB1600DFB4EB /* ItemUpdatedEvent.swift */,
@@ -681,6 +677,7 @@
 				A7597EA02506E3A000A53B7D /* ListAddedEvent.swift */,
 				A7597EA42506E3C000A53B7D /* ListRemovedEvent.swift */,
 				A7597EA22506E3AF00A53B7D /* ListsFetchedEvent.swift */,
+				A784EE3F25081377006C3A68 /* ListsFetchedForItemToMoveEvent.swift */,
 				A7597EA62506E3D200A53B7D /* ListsUpdatedEvent.swift */,
 			);
 			path = Lists;
@@ -769,7 +766,6 @@
 		A7A7495224F30A01009D6F25 /* MoveItem */ = {
 			isa = PBXGroup;
 			children = (
-				A7DAD1C324F710060004529D /* MoveItemServiceStateDecorator.swift */,
 				A7A7495324F30A0F009D6F25 /* MoveItemViewModel.swift */,
 				A7E4C5FD25004E4900761601 /* MoveItemViewModelFactory.swift */,
 			);
@@ -806,15 +802,6 @@
 				A7ACC4C4247B12AB0098EDE0 /* SharingControllerFactory.swift */,
 			);
 			path = SharingControllerFactory;
-			sourceTree = "<group>";
-		};
-		A7C1A3EC24C4A86500978BC4 /* Events */ = {
-			isa = PBXGroup;
-			children = (
-				A7AD372024C4E18600C908DF /* ItemsEvent.swift */,
-				A7A7495A24F321D5009D6F25 /* MoveItemEvent.swift */,
-			);
-			path = Events;
 			sourceTree = "<group>";
 		};
 		A7DB8A32244284020035CF36 /* Add */ = {
@@ -855,7 +842,6 @@
 			isa = PBXGroup;
 			children = (
 				A70FA678244CEAF50045B545 /* Entities */,
-				A7C1A3EC24C4A86500978BC4 /* Events */,
 				A74C418924D4BCB800399918 /* ValueObject */,
 			);
 			path = Domain;
@@ -1125,7 +1111,6 @@
 				A7A2DDA5249FD4FF0025B1B8 /* UUIDExtensions.swift in Sources */,
 				A7ACC4C7247B12E20098EDE0 /* CloudKitSharingControllerFactory.swift in Sources */,
 				A757B2D224C3A3CD001A3268 /* DependencyContainer.swift in Sources */,
-				A7AD372124C4E18600C908DF /* ItemsEvent.swift in Sources */,
 				A77608B424BB8CAB00BA0C66 /* EditListControl.swift in Sources */,
 				A74C418B24D4BCC500399918 /* Id.swift in Sources */,
 				A7F82BAA2458CB9C00970CFC /* SelectionModeState.swift in Sources */,
@@ -1168,7 +1153,6 @@
 				A725068D2457992F006C3A2F /* RemainingState.swift in Sources */,
 				A71C719124FD7E4400973611 /* CloudKitCache.swift in Sources */,
 				A7FFA9792448F5C00061A3D6 /* ExpirationType.swift in Sources */,
-				A7DAD1C424F710060004529D /* MoveItemServiceStateDecorator.swift in Sources */,
 				A716C9C1244FA07A004262AF /* RemainingViewModel.swift in Sources */,
 				A7BDE68924B513F5003215C0 /* ListsNavigationController.swift in Sources */,
 				A7A8EF75247C771900FF1AC2 /* NotesTextView.swift in Sources */,
@@ -1223,11 +1207,11 @@
 				A7E4C6002500506000761601 /* AddViewModelFactory.swift in Sources */,
 				A7159B642500442E00BC3532 /* AddCoordinator.swift in Sources */,
 				A74D1640249C2ED500FEB5CD /* RemoteStatusNotifier.swift in Sources */,
-				A7A7495B24F321D5009D6F25 /* MoveItemEvent.swift in Sources */,
 				A763AFFD2482E86000E93546 /* PhotosCollectionView.swift in Sources */,
 				A716B8FD244E43BB00D2FC89 /* ItemsCellViewModel.swift in Sources */,
 				A776FB4924B92A8400BBF468 /* EditListComponent.swift in Sources */,
 				A70FA681244CF7190045B545 /* ItemsViewModel.swift in Sources */,
+				A75043582506F7CC00DFB4EB /* ItemMovedEvent.swift in Sources */,
 				A7C1A0B3249FE9FE0054BBAF /* InMemoryPhotosRepository.swift in Sources */,
 				A7159B5F2500381C00BC3532 /* ListsViewControllerFactory.swift in Sources */,
 				A7DAD1C224F70B0D0004529D /* ArrayExtensions.swift in Sources */,
@@ -1281,12 +1265,12 @@
 				A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */,
 				A700D6C42454BEF400F16F2E /* ItemsFilterDataSource.swift in Sources */,
 				A71388FA24F5B41C00EE5C68 /* EmptyMoveItemView.swift in Sources */,
-				A7515DDF24E35A3700FB226E /* ItemsRepositoryStateDecorator.swift in Sources */,
 				A780EFD3245F786F002A8AD4 /* SortType.swift in Sources */,
 				A75043522506EA8700DFB4EB /* ItemsFetchedEvent.swift in Sources */,
 				A7CAC7EA24F1BE480094FF15 /* ActionButton.swift in Sources */,
 				A70BCCD9244795D700CC49D0 /* AddViewModel.swift in Sources */,
 				A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */,
+				A784EE4025081377006C3A68 /* ListsFetchedForItemToMoveEvent.swift in Sources */,
 				A75E703B248DA01300F06E98 /* Photo.swift in Sources */,
 				A763AFFA2482E2C500E93546 /* StringExtensions.swift in Sources */,
 				A7597EA12506E3A000A53B7D /* ListAddedEvent.swift in Sources */,

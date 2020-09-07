@@ -7,7 +7,10 @@ public final class ItemsViewModel {
     @Published public var sortType: SortType
     @Published public var selectedItemIndices: [Int]
 
-    public let isLoading: AnyPublisher<Bool, Never>
+    public var isLoading: AnyPublisher<Bool, Never> {
+        isLoadingSubject.eraseToAnyPublisher()
+    }
+
     public let requestsSubject: PassthroughSubject<Request, Never>
 
     public let list: List
@@ -21,11 +24,13 @@ public final class ItemsViewModel {
         statusNotifier.remoteStatus.map { $0 == .connected }.eraseToAnyPublisher()
     }
 
+    private let isLoadingSubject: CurrentValueSubject<Bool, Never>
     private let selectedItemSubject: PassthroughSubject<Item, Never>
 
     private let itemsRepository: ItemsRepository
     private let listItemsChangeListener: ListItemsChangeListener
     private let statusNotifier: StatusNotifier
+    private let eventBus: EventBus
 
     private var subscriptions: Set<AnyCancellable>
 
@@ -33,18 +38,18 @@ public final class ItemsViewModel {
         list: List,
         itemsRepository: ItemsRepository,
         listItemsChangeListener: ListItemsChangeListener,
-        statusNotifier: StatusNotifier
+        statusNotifier: StatusNotifier,
+        eventBus: EventBus
     ) {
         self.list = list
 
-        let itemsRepositoryDecorator = ItemsRepositoryStateDecorator(itemsRepository)
-        self.itemsRepository = itemsRepositoryDecorator
-        self.isLoading = itemsRepositoryDecorator.isLoading
+        self.itemsRepository = itemsRepository
 
         self.listItemsChangeListener = listItemsChangeListener
         self.listItemsChangeListener.startListeningForItemChange(in: list)
 
         self.statusNotifier = statusNotifier
+        self.eventBus = eventBus
 
         self.itemsFilterViewModel = .init()
 
@@ -54,6 +59,7 @@ public final class ItemsViewModel {
         self.selectedItemIndices = []
 
         self.requestsSubject = .init()
+        self.isLoadingSubject = .init(false)
         self.selectedItemSubject = .init()
 
         self.subscriptions = []
@@ -71,6 +77,7 @@ public final class ItemsViewModel {
 
     public func fetchItems() {
         itemsRepository.fetchAll(from: list)
+        isLoadingSubject.send(true)
     }
 
     public func deleteSelectedItems() {
@@ -78,16 +85,19 @@ public final class ItemsViewModel {
 
         let selectedItems = selectedItemIndices.map { items[$0] }
         itemsRepository.remove(selectedItems)
+        isLoadingSubject.send(true)
 
         modeState.done(on: self)
     }
 
     public func removeItem(_ item: Item) {
         itemsRepository.remove(item)
+        isLoadingSubject.send(true)
     }
 
     public func removeAll() {
         itemsRepository.remove(items)
+        isLoadingSubject.send(true)
     }
 
     public func filter() {
@@ -111,7 +121,7 @@ public final class ItemsViewModel {
     }
 
     private func bind() {
-        itemsRepository.events
+        eventBus.events
             .compactMap { [weak self] in self?.updatedWithEvent($0) }
             .combineLatest(itemsFilterViewModel.cellViewModels, $sortType)
             .compactMap { items, cells, sortType in
@@ -128,22 +138,26 @@ public final class ItemsViewModel {
             .store(in: &subscriptions)
     }
 
-    private func updatedWithEvent(_ event: ItemsEvent) -> [Item] {
+    private func updatedWithEvent(_ event: AppEvent) -> [Item]? {
+        isLoadingSubject.send(false)
+
         var updatedItems = items
 
         switch event {
-        case .added(let item):
-            updatedItems += [item]
-        case .error(let error):
-            requestsSubject.send(.showErrorMessage(error.localizedDescription))
-        case .fetched(let items):
-            updatedItems = items
-        case .noResult:
-            break
-        case .removed(let items):
-            items.forEach { item in updatedItems.removeAll { item.id == $0.id } }
-        case .updated(let item):
-            updatedItems.firstIndex { $0.id == item.id }.map { updatedItems[$0] = item }
+        case let event as ItemAddedEvent:
+            updatedItems += [event.item]
+        case let event as ItemsFetchedEvent:
+            updatedItems = event.items
+        case let event as ItemsRemovedEvent:
+            event.items.forEach { item in updatedItems.removeAll { item.id == $0.id } }
+        case let event as ItemUpdatedEvent:
+            updatedItems.firstIndex { $0.id == event.item.id }.map { updatedItems[$0] = event.item }
+        case let event as ItemMovedEvent:
+            updatedItems = updatedItems.removedAll { $0.id == event.item.id }
+        case let event as ErrorEvent:
+            requestsSubject.send(.showErrorMessage(event.error.localizedDescription))
+        default:
+            return nil
         }
 
         return updatedItems.removedAll { $0.listId != list.id }

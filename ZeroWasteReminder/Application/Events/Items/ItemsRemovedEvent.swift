@@ -1,4 +1,4 @@
-public struct ItemsRemovedEvent {
+public struct ItemsRemovedEvent: AppEvent {
     public let items: [Item]
 
     public init(_ items: [Item]) {

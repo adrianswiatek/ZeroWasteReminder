@@ -5,25 +5,32 @@ public final class MoveItemViewModel {
     @Published private var selectedList: List?
 
     public let itemName: String
-    public var isLoading: AnyPublisher<Bool, Never>
+
     public let requestsSubject: PassthroughSubject<Request, Never>
+
+    public var isLoading: AnyPublisher<Bool, Never> {
+        isLoadingSubject.eraseToAnyPublisher()
+    }
 
     public var canMoveItem: AnyPublisher<Bool, Never> {
         $selectedList.map { $0 != nil }.eraseToAnyPublisher()
     }
 
+    private let isLoadingSubject: CurrentValueSubject<Bool, Never>
+
     private let item: Item
     private let moveItemService: MoveItemService
+    private let eventBus: EventBus
 
     private var subscriptions: Set<AnyCancellable>
 
-    public init(item: Item, moveItemService: MoveItemService) {
+    public init(item: Item, moveItemService: MoveItemService, eventBus: EventBus) {
         self.item = item
-
-        let moveItemService = StatefulMoveItemService(moveItemService)
         self.moveItemService = moveItemService
-        self.isLoading = moveItemService.isLoading
+        self.eventBus = eventBus
+
         self.requestsSubject = .init()
+        self.isLoadingSubject = .init(false)
 
         self.itemName = item.name
         self.lists = []
@@ -34,6 +41,7 @@ public final class MoveItemViewModel {
 
     public func fetchLists() {
         moveItemService.fetchLists(for: item)
+        isLoadingSubject.send(true)
     }
 
     public func selectList(_ list: List) {
@@ -41,23 +49,31 @@ public final class MoveItemViewModel {
     }
 
     public func moveItem() {
-        selectedList.map { moveItemService.moveItem(item, toList: $0) }
+        guard let selectedList = selectedList else { return }
+
+        moveItemService.moveItem(item, to: selectedList)
+        isLoadingSubject.send(true)
     }
 
     private func bind() {
-        moveItemService.events
-            .sink { [weak self] in self?.handleEvent($0) }
+        eventBus.events
+            .sink { [weak self] in
+                self?.handleEvent($0)
+                self?.isLoadingSubject.send(false)
+            }
             .store(in: &subscriptions)
     }
 
-    private func handleEvent(_ event: MoveItemEvent) {
+    private func handleEvent(_ event: AppEvent) {
         switch event {
-        case .error(let error):
-            requestsSubject.send(.showErrorMessage(error.localizedDescription))
-        case .fetched(let lists):
-            self.lists = lists.sorted { $0.name < $1.name }
-        case .moved:
+        case is ItemMovedEvent:
             requestsSubject.send(.dismiss)
+        case let event as ListsFetchedForItemToMoveEvent:
+            lists = event.lists.sorted { $0.name < $1.name }
+        case let event as ErrorEvent:
+            requestsSubject.send(.showErrorMessage(event.error.localizedDescription))
+        default:
+            break
         }
     }
 }

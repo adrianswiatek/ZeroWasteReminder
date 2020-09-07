@@ -69,6 +69,7 @@ public final class EditViewModel {
     private let photosRepository: PhotosRepository
     private let fileService: FileService
     private let statusNotifier: StatusNotifier
+    private let eventBus: EventBus
     private let dateFormatter: DateFormatter
 
     private var subscriptions: Set<AnyCancellable>
@@ -78,7 +79,8 @@ public final class EditViewModel {
         itemsRepository: ItemsRepository,
         photosRepository: PhotosRepository,
         fileService: FileService,
-        statusNotifier: StatusNotifier
+        statusNotifier: StatusNotifier,
+        eventBus: EventBus
     ) {
         self.itemsRepository = itemsRepository
         self.originalItem = item
@@ -86,6 +88,7 @@ public final class EditViewModel {
         self.photosRepository = photosRepository
         self.fileService = fileService
         self.statusNotifier = statusNotifier
+        self.eventBus = eventBus
         self.dateFormatter = .fullDateFormatter
 
         self.name = item.name
@@ -142,26 +145,20 @@ public final class EditViewModel {
             .sink { [weak self] in self?.originalPhotoIds = $0.map { $0.id } }
             .store(in: &subscriptions)
 
-        itemsRepository.events
-            .compactMap { event -> Void? in
-                guard case .removed(_) = event else { return nil }
-                return ()
-            }
+        eventBus.events
+            .filter { $0 is ItemsRemovedEvent }
             .sink(
                 receiveCompletion: { [weak self] _ in self?.isLoadingSubject.send(false) },
-                receiveValue: { [weak self] in self?.requestSubject.send(.dismiss) }
+                receiveValue: { [weak self] _ in self?.requestSubject.send(.dismiss) }
             )
             .store(in: &subscriptions)
 
-        itemsRepository.events
-            .compactMap { event -> Item? in
-                guard case .updated(let item) = event else { return nil }
-                return item
-            }
-            .flatMap { [weak self] item -> AnyPublisher<Void, Never> in
+        eventBus.events
+            .compactMap { $0 as? ItemUpdatedEvent }
+            .flatMap { [weak self] event -> AnyPublisher<Void, Never> in
                 guard let self = self else { return Empty().eraseToAnyPublisher() }
                 let changeset = self.photosViewModel.photosChangeset
-                return self.photosRepository.update(changeset, for: item).eraseToAnyPublisher()
+                return self.photosRepository.update(changeset, for: event.item).eraseToAnyPublisher()
             }
             .sink(
                 receiveCompletion: { [weak self] _ in self?.isLoadingSubject.send(false) },

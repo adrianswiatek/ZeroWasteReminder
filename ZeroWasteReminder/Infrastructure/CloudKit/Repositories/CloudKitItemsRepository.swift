@@ -2,25 +2,26 @@ import CloudKit
 import Combine
 
 public final class CloudKitItemsRepository: ItemsRepository {
-    public var events: AnyPublisher<ItemsEvent, Never> {
-        eventsSubject.receive(on: DispatchQueue.main).share().eraseToAnyPublisher()
-    }
-
-    private let eventsSubject: PassthroughSubject<ItemsEvent, Never>
-
     private let database: CKDatabase
     private let zone: CKRecordZone
     private let cache: CloudKitCache
     private let mapper: CloudKitMapper
+    private let eventBus: EventBus
 
-    private var updateSubscription: AnyCancellable?
+    private var subscriptions: [String: AnyCancellable]
 
-    public init(configuration: CloudKitConfiguration, cache: CloudKitCache, mapper: CloudKitMapper) {
+    public init(
+        configuration: CloudKitConfiguration,
+        cache: CloudKitCache,
+        mapper: CloudKitMapper,
+        eventBus: EventBus
+    ) {
         self.database = configuration.container.database(with: .private)
         self.zone = configuration.appZone
         self.cache = cache
         self.mapper = mapper
-        self.eventsSubject = .init()
+        self.eventBus = eventBus
+        self.subscriptions = [:]
     }
 
     public func fetchAll(from list: List) {
@@ -41,11 +42,11 @@ public final class CloudKitItemsRepository: ItemsRepository {
             self?.cache.set(records)
 
             let items = records.compactMap { self?.mapper.map($0).toItem() }
-            self?.eventsSubject.send(.fetched(items))
+            self?.eventBus.send(ItemsFetchedEvent(items))
         }
 
         operation.queryCompletionBlock = { [weak self] in
-            $1.map { self?.eventsSubject.send(.error(.init($0))) }
+            $1.map { self?.eventBus.send(ErrorEvent(.init($0))) }
         }
 
         database.add(operation)
@@ -60,16 +61,40 @@ public final class CloudKitItemsRepository: ItemsRepository {
         let operation = CKModifyRecordsOperation(recordsToSave: [itemRecord], recordIDsToDelete: nil)
         operation.modifyRecordsCompletionBlock = { [weak self] in
             if let error = $2 {
-                self?.eventsSubject.send(.error(.init(error)))
+                self?.eventBus.send(ErrorEvent(.init(error)))
             } else if let item = self?.mapper.map($0?.first).toItem() {
                 $0?.first.map { self?.cache.set($0) }
-                self?.eventsSubject.send(.added(item))
+                self?.eventBus.send(ItemAddedEvent(item))
             } else {
-                self?.eventsSubject.send(.noResult)
+                self?.eventBus.send(EmptyEvent())
             }
         }
 
         database.add(operation)
+    }
+
+    public func update(_ item: Item) {
+        subscriptions["update"] = internalUpdate(item)
+            .sink(
+                receiveCompletion: { [weak self] _ in self?.subscriptions.removeValue(forKey: "update") },
+                receiveValue: { [weak self] in self?.eventBus.send($0) }
+            )
+    }
+
+    public func move(_ item: Item, to list: List) {
+        subscriptions["move"] = internalUpdate(item.withListId(list.id))
+            .sink(
+                receiveCompletion: { [weak self] _ in
+                    self?.subscriptions.removeValue(forKey: "move")
+                },
+                receiveValue: { [weak self] in
+                    if let event = $0 as? ItemUpdatedEvent {
+                        self?.eventBus.send(ItemMovedEvent(event.item, to: list))
+                    } else {
+                        self?.eventBus.send($0)
+                    }
+                }
+            )
     }
 
     public func remove(_ item: Item) {
@@ -79,12 +104,12 @@ public final class CloudKitItemsRepository: ItemsRepository {
         operation.modifyRecordsCompletionBlock = { [weak self] in
             let id: Id<Item>? = $1?.first.map { .fromString($0.recordName) }
             if let error = $2 {
-                self?.eventsSubject.send(.error(.init(error)))
+                self?.eventBus.send(ErrorEvent(.init(error)))
             } else if id == item.id {
                 $1?.first.map { self?.cache.removeById($0) }
-                self?.eventsSubject.send(.removed(item))
+                self?.eventBus.send(ItemsRemovedEvent(item))
             } else {
-                self?.eventsSubject.send(.noResult)
+                self?.eventBus.send(EmptyEvent())
             }
         }
 
@@ -101,44 +126,46 @@ public final class CloudKitItemsRepository: ItemsRepository {
             let removedItems = ids.compactMap { id in items.first { $0.id == id } }
 
             if let error = $2 {
-                self?.eventsSubject.send(.error(.init(error)))
+                self?.eventBus.send(ErrorEvent(.init(error)))
             } else if !removedItems.isEmpty {
                 $1.map { self?.cache.removeByIds($0) }
-                self?.eventsSubject.send(.removed(removedItems))
+                self?.eventBus.send(ItemsRemovedEvent(removedItems))
             } else {
-                self?.eventsSubject.send(.noResult)
+                self?.eventBus.send(EmptyEvent())
             }
         }
 
         database.add(operation)
     }
 
-    public func update(_ item: Item) {
-        guard let recordId = mapper.map(item).toRecordIdInZone(zone) else {
-            return eventsSubject.send(.noResult)
-        }
-
-        updateSubscription = fetchRecords(with: recordId)
-            .flatMap { [weak self] record -> AnyPublisher<CKRecord?, Error> in
-                guard let self = self, let record = record else { return Empty().eraseToAnyPublisher() }
-                return self.update(record, by: item).eraseToAnyPublisher()
+    private func internalUpdate(_ item: Item) -> Future<AppEvent, Never> {
+        Future { [weak self] promise in
+            guard let self = self, let recordId = self.mapper.map(item).toRecordIdInZone(self.zone) else {
+                return promise(.success(EmptyEvent()))
             }
-            .sink(
-                receiveCompletion: { [weak self] in
-                    if case .failure(let error) = $0 {
-                        self?.eventsSubject.send(.error(.init(error)))
-                    }
-                    self?.updateSubscription = nil
-                },
-                receiveValue: { [weak self] in
-                    if let record = $0, let updatedItem = self?.mapper.map(record).toItem() {
-                        self?.cache.set(record)
-                        self?.eventsSubject.send(.updated(updatedItem))
-                    } else {
-                        self?.eventsSubject.send(.noResult)
-                    }
+
+            self.subscriptions["internalUpdate"] = self.fetchRecords(with: recordId)
+                .flatMap { [weak self] record -> AnyPublisher<CKRecord?, Error> in
+                    guard let self = self, let record = record else { return Empty().eraseToAnyPublisher() }
+                    return self.update(record, by: item).eraseToAnyPublisher()
                 }
-            )
+                .sink(
+                    receiveCompletion: { [weak self] in
+                        if case .failure(let error) = $0 {
+                            promise(.success(ErrorEvent(.init(error))))
+                        }
+                        self?.subscriptions.removeValue(forKey: "internalUpdate")
+                    },
+                    receiveValue: { [weak self] in
+                        if let record = $0, let updatedItem = self?.mapper.map(record).toItem() {
+                            self?.cache.set(record)
+                            promise(.success(ItemUpdatedEvent(updatedItem)))
+                        } else {
+                            promise(.success(EmptyEvent()))
+                        }
+                    }
+                )
+        }
     }
 
     private func fetchRecords(with id: CKRecord.ID) -> Future<CKRecord?, Error> {

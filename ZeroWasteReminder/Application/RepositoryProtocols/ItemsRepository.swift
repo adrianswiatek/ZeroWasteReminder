@@ -2,13 +2,12 @@ import Combine
 import Foundation
 
 public protocol ItemsRepository {
-    var events: AnyPublisher<ItemsEvent, Never> { get }
-
     func fetchAll(from list: List)
     func add(_ itemToSave: ItemToSave)
+    func update(_ item: Item)
+    func move(_ item: Item, to list: List)
     func remove(_ item: Item)
     func remove(_ items: [Item])
-    func update(_ item: Item)
 }
 
 public extension ItemsRepository {
