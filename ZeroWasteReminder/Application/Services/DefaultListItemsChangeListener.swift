@@ -1,32 +1,32 @@
 import Combine
+import Foundation
 
-public final class ListsChangeListener {
+public final class DefaultListItemsChangeListener: ListItemsChangeListener {
+    public var updatedItemInList: AnyPublisher<List, Never> {
+        updatedItemInListSubject.eraseToAnyPublisher()
+    }
+
     private let itemsRepository: ItemsRepository
     private let moveItemService: MoveItemService
 
-    private var listsIds: [Id<List>]
+    private let updatedItemInListSubject: PassthroughSubject<List, Never>
     private var subscriptions: Set<AnyCancellable>
 
     public init(itemsRepository: ItemsRepository, moveItemService: MoveItemService) {
         self.itemsRepository = itemsRepository
         self.moveItemService = moveItemService
 
-        self.listsIds = []
+        self.updatedItemInListSubject = .init()
         self.subscriptions = []
     }
 
-    public func releaseChangedListIds() -> [Id<List>] {
-        defer { listsIds.removeAll() }
-        return listsIds
-    }
-
-    public func startListening(in list: List) {
+    public func startListeningForItemChange(in list: List) {
         itemsRepository.events
-            .sink { [weak self] in self?.updateChangedListsIfNeeded(list, basedOn: $0) }
+            .sink { [weak self] in self?.updateListIfNeeded(list, basedOn: $0) }
             .store(in: &subscriptions)
 
         moveItemService.events
-            .sink { [weak self] in self?.updateChangedListsIfNeeded(basedOn: $0) }
+            .sink { [weak self] in self?.updateListIfNeeded(basedOn: $0) }
             .store(in: &subscriptions)
     }
 
@@ -34,28 +34,21 @@ public final class ListsChangeListener {
         subscriptions = []
     }
 
-    private func updateChangedListsIfNeeded(_ list: List, basedOn event: ItemsEvent) {
+    private func updateListIfNeeded(_ list: List, basedOn event: ItemsEvent) {
         switch event {
         case .added, .updated, .removed:
-            setAsChanged(list.id)
+            updatedItemInListSubject.send(list)
         case .error, .fetched, .noResult:
             break
         }
     }
 
-    private func updateChangedListsIfNeeded(basedOn event: MoveItemEvent) {
+    private func updateListIfNeeded(basedOn event: MoveItemEvent) {
         switch event {
         case .moved(_, let list):
-            setAsChanged(list.id)
+            updatedItemInListSubject.send(list)
         case .error, .fetched:
             break
         }
-    }
-
-    private func setAsChanged(_ listId: Id<List>) {
-        guard !listsIds.contains(listId) else {
-            return
-        }
-        listsIds.append(listId)
     }
 }

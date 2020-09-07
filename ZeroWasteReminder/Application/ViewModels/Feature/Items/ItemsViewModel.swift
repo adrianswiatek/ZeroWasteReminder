@@ -24,15 +24,25 @@ public final class ItemsViewModel {
     private let selectedItemSubject: PassthroughSubject<Item, Never>
 
     private let itemsRepository: ItemsRepository
+    private let listItemsChangeListener: ListItemsChangeListener
     private let statusNotifier: StatusNotifier
+
     private var subscriptions: Set<AnyCancellable>
 
-    public init(list: List, itemsRepository: ItemsRepository, statusNotifier: StatusNotifier) {
+    public init(
+        list: List,
+        itemsRepository: ItemsRepository,
+        listItemsChangeListener: ListItemsChangeListener,
+        statusNotifier: StatusNotifier
+    ) {
         self.list = list
 
         let itemsRepositoryDecorator = ItemsRepositoryStateDecorator(itemsRepository)
         self.itemsRepository = itemsRepositoryDecorator
         self.isLoading = itemsRepositoryDecorator.isLoading
+
+        self.listItemsChangeListener = listItemsChangeListener
+        self.listItemsChangeListener.startListeningForItemChange(in: list)
 
         self.statusNotifier = statusNotifier
 
@@ -49,6 +59,10 @@ public final class ItemsViewModel {
         self.subscriptions = []
 
         self.bind()
+    }
+
+    deinit {
+        listItemsChangeListener.stopListening()
     }
 
     public func cellViewModel(for item: Item) -> ItemsCellViewModel {

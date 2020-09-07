@@ -19,9 +19,10 @@ internal final class DependencyContainer {
         container.resolve(ListsViewControllerFactory.self)!.create()
     }
 
-    public func initializeRemoteServices() {
+    public func initializeBackgroundServices() {
         container.resolve(AccountService.self)!.refreshUserEligibility()
         container.resolve(SubscriptionService.self)!.registerItemsSubscriptionIfNeeded()
+        container.resolve(AutomaticListUpdater.self)!.startUpdating()
     }
 
     private func registerServices(in container: Container, with configuration: Configuration) {
@@ -37,7 +38,7 @@ internal final class DependencyContainer {
                     notificationCenter: resolver.resolve(NotificationCenter.self)!
                 )
             case .inMemory:
-                return InMemoryAccountService()
+                return AlwaysEligibleAccountService()
             }
         }.inObjectScope(.container)
 
@@ -58,7 +59,7 @@ internal final class DependencyContainer {
                 listsRepository: resolver.resolve(ListsRepository.self)!,
                 itemsRepository: resolver.resolve(ItemsRepository.self)!
             )
-        }
+        }.inObjectScope(.container)
     }
 
     private func registerRepositories(in container: Container, with configuration: Configuration) {
@@ -81,7 +82,7 @@ internal final class DependencyContainer {
             case .inMemory:
                 return InMemoryListsRepository()
             }
-        }
+        }.inObjectScope(.container)
 
         container.register(ItemsRepository.self) { resolver in
             switch configuration {
@@ -94,7 +95,7 @@ internal final class DependencyContainer {
             case .inMemory:
                 return InMemoryItemsRepository()
             }
-        }
+        }.inObjectScope(.container)
 
         container.register(PhotosRepository.self) { resolver in
             switch configuration {
@@ -131,19 +132,25 @@ internal final class DependencyContainer {
             RemoteStatusNotifier(accountService: resolver.resolve(AccountService.self)!)
         }.inObjectScope(.container)
 
-        container.register(ListsChangeListener.self) { resolver in
-            ListsChangeListener(
+        container.register(ListItemsChangeListener.self) { resolver in
+            DefaultListItemsChangeListener(
                 itemsRepository: resolver.resolve(ItemsRepository.self)!,
                 moveItemService: resolver.resolve(MoveItemService.self)!
             )
-        }
+        }.inObjectScope(.container)
+
+        container.register(AutomaticListUpdater.self) { resolver in
+            AutomaticListUpdater(
+                resolver.resolve(ListsRepository.self)!,
+                resolver.resolve(ListItemsChangeListener.self)!
+            )
+        }.inObjectScope(.container)
     }
 
     private func registerViewModelFactories(in container: Container) {
         container.register(ListsViewModelFactory.self) { resolver in
             ListsViewModelFactory(
                 listsRepository: resolver.resolve(ListsRepository.self)!,
-                listsChangeListener: resolver.resolve(ListsChangeListener.self)!,
                 statusNotifier: resolver.resolve(StatusNotifier.self)!
             )
         }
@@ -151,6 +158,7 @@ internal final class DependencyContainer {
         container.register(ItemsViewModelFactory.self) { resolver in
             ItemsViewModelFactory(
                 itemsRepository: resolver.resolve(ItemsRepository.self)!,
+                listItemsChangeListener: resolver.resolve(ListItemsChangeListener.self)!,
                 statusNotifier: resolver.resolve(StatusNotifier.self)!
             )
         }
