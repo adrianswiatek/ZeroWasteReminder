@@ -77,12 +77,15 @@ internal final class DependencyContainer {
                 return CloudKitListsRepository(
                     configuration: resolver.resolve(CloudKitConfiguration.self)!,
                     cache: resolver.resolve(CloudKitCache.self)!,
-                    mapper: resolver.resolve(CloudKitMapper.self)!
+                    mapper: resolver.resolve(CloudKitMapper.self)!,
+                    eventBus: resolver.resolve(EventBus.self)!
                 )
             case .inMemory:
-                return InMemoryListsRepository()
+                return InMemoryListsRepository(
+                    eventBus: resolver.resolve(EventBus.self)!
+                )
             }
-        }.inObjectScope(.container)
+        }
 
         container.register(ItemsRepository.self) { resolver in
             switch configuration {
@@ -124,6 +127,10 @@ internal final class DependencyContainer {
             EmptySharingControllerFactory()
         }
 
+        container.register(EventBus.self) { resolver in
+            EventBus()
+        }.inObjectScope(.container)
+
         container.register(NotificationCenter.self) { _ in
             NotificationCenter.default
         }
@@ -151,7 +158,8 @@ internal final class DependencyContainer {
         container.register(ListsViewModelFactory.self) { resolver in
             ListsViewModelFactory(
                 listsRepository: resolver.resolve(ListsRepository.self)!,
-                statusNotifier: resolver.resolve(StatusNotifier.self)!
+                statusNotifier: resolver.resolve(StatusNotifier.self)!,
+                eventBus: resolver.resolve(EventBus.self)!
             )
         }
 

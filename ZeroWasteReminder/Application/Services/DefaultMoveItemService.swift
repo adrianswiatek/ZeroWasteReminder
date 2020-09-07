@@ -20,18 +20,18 @@ public final class DefaultMoveItemService: MoveItemService {
     }
 
     public func fetchLists(for item: Item) {
-        fetchListsSubscription = listsRepository.events
-            .compactMap { event -> [List]? in
-                guard case .fetched(let lists) = event else { return nil }
-                return lists
-            }
-            .sink { [weak self] in
-                let filteredLists = $0.filter { $0.id != item.listId }
-                self?.eventsSubject.send(.fetched(filteredLists))
-                self?.fetchListsSubscription = nil
-            }
-
-        listsRepository.fetchAll()
+//        fetchListsSubscription = listsRepository.events
+//            .compactMap { event -> [List]? in
+//                guard case .fetched(let lists) = event else { return nil }
+//                return lists
+//            }
+//            .sink { [weak self] in
+//                let filteredLists = $0.filter { $0.id != item.listId }
+//                self?.eventsSubject.send(.fetched(filteredLists))
+//                self?.fetchListsSubscription = nil
+//            }
+//
+//        listsRepository.fetchAll()
     }
 
     public func moveItem(_ item: Item, toList list: List) {

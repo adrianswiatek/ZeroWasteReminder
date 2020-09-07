@@ -2,25 +2,25 @@ import CloudKit
 import Combine
 
 public final class CloudKitListsRepository: ListsRepository {
-    public var events: AnyPublisher<ListsEvent, Never> {
-        eventsSubject.receive(on: DispatchQueue.main).eraseToAnyPublisher()
-    }
-
-    private let eventsSubject: PassthroughSubject<ListsEvent, Never>
-
     private let database: CKDatabase
     private let zone: CKRecordZone
     private let mapper: CloudKitMapper
     private let cache: CloudKitCache
+    private let eventBus: EventBus
 
     private var updateSubscription: AnyCancellable?
 
-    public init(configuration: CloudKitConfiguration, cache: CloudKitCache, mapper: CloudKitMapper) {
+    public init(
+        configuration: CloudKitConfiguration,
+        cache: CloudKitCache,
+        mapper: CloudKitMapper,
+        eventBus: EventBus
+    ) {
         self.database = configuration.container.database(with: .private)
         self.zone = configuration.appZone
         self.mapper = mapper
         self.cache = cache
-        self.eventsSubject = .init()
+        self.eventBus = eventBus
     }
 
     public func fetchAll() {
@@ -38,11 +38,11 @@ public final class CloudKitListsRepository: ListsRepository {
             self?.cache.set(records)
 
             let lists = records.compactMap { self?.mapper.map($0).toList() }
-            self?.eventsSubject.send(.fetched(lists))
+            self?.eventBus.send(ListsFetchedEvent(lists))
         }
 
         operation.queryCompletionBlock = { [weak self] in
-            $1.map { self?.eventsSubject.send(.error(.init($0))) }
+            $1.map { self?.eventBus.send(ErrorEvent(.init($0))) }
         }
 
         database.add(operation)
@@ -54,12 +54,12 @@ public final class CloudKitListsRepository: ListsRepository {
         let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
         operation.modifyRecordsCompletionBlock = { [weak self] in
             if let error = $2 {
-                self?.eventsSubject.send(.error(.init(error)))
+                self?.eventBus.send(ErrorEvent(.init(error)))
             } else if let list = self?.mapper.map($0?.first).toList() {
                 $0?.first.map { self?.cache.set($0) }
-                self?.eventsSubject.send(.added(list))
+                self?.eventBus.send(ListAddedEvent(list))
             } else {
-                self?.eventsSubject.send(.noResult)
+                self?.eventBus.send(EmptyEvent())
             }
         }
 
@@ -73,12 +73,12 @@ public final class CloudKitListsRepository: ListsRepository {
         operation.modifyRecordsCompletionBlock = { [weak self] in
             let id: Id<List>? = $1?.first.map { .fromString($0.recordName) }
             if let error = $2 {
-                self?.eventsSubject.send(.error(.init(error)))
+                self?.eventBus.send(ErrorEvent(.init(error)))
             } else if id == list.id {
                 $1?.first.map { self?.cache.removeById($0) }
-                self?.eventsSubject.send(.removed(list))
+                self?.eventBus.send(ListRemovedEvent(list))
             } else {
-                self?.eventsSubject.send(.noResult)
+                self?.eventBus.send(EmptyEvent())
             }
         }
 
@@ -91,7 +91,7 @@ public final class CloudKitListsRepository: ListsRepository {
 
     public func update(_ lists: [List]) {
         let recordIds = lists.compactMap { mapper.map($0).toRecordIdInZone(zone) }
-        guard !recordIds.isEmpty else { return eventsSubject.send(.noResult) }
+        guard !recordIds.isEmpty else { return eventBus.send(EmptyEvent()) }
 
         updateSubscription = fetchRecords(with: recordIds)
             .flatMap { [weak self] records -> AnyPublisher<[CKRecord], Error> in
@@ -101,17 +101,17 @@ public final class CloudKitListsRepository: ListsRepository {
             .sink(
                 receiveCompletion: { [weak self] in
                     if case .failure(let error) = $0 {
-                        self?.eventsSubject.send(.error(.init(error)))
+                        self?.eventBus.send(ErrorEvent(.init(error)))
                     }
                     self?.updateSubscription = nil
                 },
                 receiveValue: { [weak self] in
                     let lists = $0.compactMap { self?.mapper.map($0).toList() }
                     if lists.isEmpty {
-                        self?.eventsSubject.send(.noResult)
+                        self?.eventBus.send(EmptyEvent())
                     } else {
                         self?.cache.set($0)
-                        self?.eventsSubject.send(.updated(lists))
+                        self?.eventBus.send(ListsUpdatedEvent(lists))
                     }
                 }
             )
