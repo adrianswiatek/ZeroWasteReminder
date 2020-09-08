@@ -14,15 +14,18 @@ public final class ListsViewModel {
     private let isLoadingSubject: CurrentValueSubject<Bool, Never>
 
     private let listsRepository: ListsRepository
+    private let listUpdater: AutomaticListUpdater
     private let eventBus: EventBus
     private var subscriptions: Set<AnyCancellable>
 
     public init(
         listsRepository: ListsRepository,
+        listUpdater: AutomaticListUpdater,
         statusNotifier: StatusNotifier,
         eventBus: EventBus
     ) {
         self.listsRepository = listsRepository
+        self.listUpdater = listUpdater
         self.eventBus = eventBus
 
         self.canRemotelyConnect = statusNotifier.remoteStatus
@@ -66,9 +69,18 @@ public final class ListsViewModel {
     private func bind() {
         eventBus.events
             .sink { [weak self] in
-                print($0)
                 self?.handleEvent($0)
                 self?.isLoadingSubject.send(false)
+            }
+            .store(in: &subscriptions)
+
+        requestsSubject
+            .compactMap {
+                guard case .openItems(let list) = $0 else { return nil }
+                return list
+            }
+            .sink { [weak self] in
+                self?.listUpdater.startUpdating($0)
             }
             .store(in: &subscriptions)
     }

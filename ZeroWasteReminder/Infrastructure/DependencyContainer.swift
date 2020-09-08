@@ -4,7 +4,7 @@ import Swinject
 internal final class DependencyContainer {
     private let container: Container
 
-    init(configuration: Configuration) {
+    internal init(configuration: Configuration) {
         container = Container()
 
         registerServices(in: container, with: configuration)
@@ -15,20 +15,20 @@ internal final class DependencyContainer {
         registerCoordinators(in: container)
     }
 
-    public var rootViewController: UIViewController {
+    internal var rootViewController: UIViewController {
         container.resolve(ListsViewControllerFactory.self)!.create()
     }
 
-    public func initializeBackgroundServices() {
+    internal func initializeBackgroundServices() {
         container.resolve(AccountService.self)!.refreshUserEligibility()
         container.resolve(SubscriptionService.self)!.registerItemsSubscriptionIfNeeded()
-        container.resolve(AutomaticListUpdater.self)!.startUpdating()
+//        container.resolve(EventBusInterceptor.self)!.startIntercept()
     }
 
     private func registerServices(in container: Container, with configuration: Configuration) {
         container.register(FileService.self) { _ in
             FileService(fileManager: .default)
-        }.inObjectScope(.container)
+        }
 
         container.register(AccountService.self) { resolver in
             switch configuration {
@@ -60,7 +60,7 @@ internal final class DependencyContainer {
                 itemsRepository: resolver.resolve(ItemsRepository.self)!,
                 eventBus: resolver.resolve(EventBus.self)!
             )
-        }.inObjectScope(.container)
+        }
     }
 
     private func registerRepositories(in container: Container, with configuration: Configuration) {
@@ -102,7 +102,7 @@ internal final class DependencyContainer {
                     eventBus: resolver.resolve(EventBus.self)!
                 )
             }
-        }.inObjectScope(.container)
+        }
 
         container.register(PhotosRepository.self) { resolver in
             switch configuration {
@@ -131,7 +131,7 @@ internal final class DependencyContainer {
             EmptySharingControllerFactory()
         }
 
-        container.register(EventBus.self) { resolver in
+        container.register(EventBus.self) { _ in
             EventBus()
         }.inObjectScope(.container)
 
@@ -143,15 +143,15 @@ internal final class DependencyContainer {
             RemoteStatusNotifier(accountService: resolver.resolve(AccountService.self)!)
         }.inObjectScope(.container)
 
-        container.register(ListItemsChangeListener.self) { resolver in
-            DefaultListItemsChangeListener(eventBus: resolver.resolve(EventBus.self)!)
-        }.inObjectScope(.container)
-
         container.register(AutomaticListUpdater.self) { resolver in
-            AutomaticListUpdater(
+            DefaultAutomaticListUpdater(
                 resolver.resolve(ListsRepository.self)!,
-                resolver.resolve(ListItemsChangeListener.self)!
+                resolver.resolve(EventBus.self)!
             )
+        }
+
+        container.register(EventBusInterceptor.self) { resolver in
+            ConsoleEventBusInterceptor(resolver.resolve(EventBus.self)!)
         }.inObjectScope(.container)
     }
 
@@ -159,6 +159,7 @@ internal final class DependencyContainer {
         container.register(ListsViewModelFactory.self) { resolver in
             ListsViewModelFactory(
                 listsRepository: resolver.resolve(ListsRepository.self)!,
+                listUpdater: resolver.resolve(AutomaticListUpdater.self)!,
                 statusNotifier: resolver.resolve(StatusNotifier.self)!,
                 eventBus: resolver.resolve(EventBus.self)!
             )
@@ -167,7 +168,6 @@ internal final class DependencyContainer {
         container.register(ItemsViewModelFactory.self) { resolver in
             ItemsViewModelFactory(
                 itemsRepository: resolver.resolve(ItemsRepository.self)!,
-                listItemsChangeListener: resolver.resolve(ListItemsChangeListener.self)!,
                 statusNotifier: resolver.resolve(StatusNotifier.self)!,
                 eventBus: resolver.resolve(EventBus.self)!
             )

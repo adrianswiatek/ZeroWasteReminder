@@ -28,7 +28,6 @@ public final class ItemsViewModel {
     private let selectedItemSubject: PassthroughSubject<Item, Never>
 
     private let itemsRepository: ItemsRepository
-    private let listItemsChangeListener: ListItemsChangeListener
     private let statusNotifier: StatusNotifier
     private let eventBus: EventBus
 
@@ -37,16 +36,12 @@ public final class ItemsViewModel {
     public init(
         list: List,
         itemsRepository: ItemsRepository,
-        listItemsChangeListener: ListItemsChangeListener,
         statusNotifier: StatusNotifier,
         eventBus: EventBus
     ) {
         self.list = list
 
         self.itemsRepository = itemsRepository
-
-        self.listItemsChangeListener = listItemsChangeListener
-        self.listItemsChangeListener.startListeningForItemChange(in: list)
 
         self.statusNotifier = statusNotifier
         self.eventBus = eventBus
@@ -65,10 +60,6 @@ public final class ItemsViewModel {
         self.subscriptions = []
 
         self.bind()
-    }
-
-    deinit {
-        listItemsChangeListener.stopListening()
     }
 
     public func cellViewModel(for item: Item) -> ItemsCellViewModel {
@@ -138,7 +129,7 @@ public final class ItemsViewModel {
             .store(in: &subscriptions)
     }
 
-    private func updatedWithEvent(_ event: AppEvent) -> [Item]? {
+    private func updatedWithEvent(_ event: AppEvent) -> [Item] {
         isLoadingSubject.send(false)
 
         var updatedItems = items
@@ -157,7 +148,7 @@ public final class ItemsViewModel {
         case let event as ErrorEvent:
             requestsSubject.send(.showErrorMessage(event.error.localizedDescription))
         default:
-            return nil
+            return items
         }
 
         return updatedItems.removedAll { $0.listId != list.id }

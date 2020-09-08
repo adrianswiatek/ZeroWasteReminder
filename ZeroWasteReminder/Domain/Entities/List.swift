@@ -9,7 +9,7 @@ public struct List: Identifiable, Hashable {
         .init(id: id, name: name, updateDate: Date())
     }
 
-    public func withDate(_ date: Date) -> List {
+    public func withUpdateDate(_ date: Date) -> List {
         .init(id: id, name: name, updateDate: date)
     }
 }

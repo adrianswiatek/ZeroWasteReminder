@@ -1,27 +1,37 @@
 import Combine
 import Foundation
 
-public final class AutomaticListUpdater {
+public final class DefaultAutomaticListUpdater: AutomaticListUpdater {
     private let listsRepository: ListsRepository
-    private let listItemsChangeListener: ListItemsChangeListener
+    private let eventBus: EventBus
 
-    private var subscriptions: Set<AnyCancellable>
+    private var cancellable: AnyCancellable?
 
-    public init(
-        _ listsRepository: ListsRepository,
-        _ listItemsChangeListener: ListItemsChangeListener
-    ) {
+    public init(_ listsRepository: ListsRepository, _ eventBus: EventBus) {
         self.listsRepository = listsRepository
-        self.listItemsChangeListener = listItemsChangeListener
-        self.subscriptions = []
+        self.eventBus = eventBus
     }
 
-    public func startUpdating() {
-        listItemsChangeListener.updatedItemInList
-            .sink { [weak self] in
-                let lists = $0.map { $0.withDate(Date()) }
-                self?.listsRepository.update(lists)
-            }
-            .store(in: &subscriptions)
+    public func startUpdating(_ list: List) {
+        cancellable = eventBus.events.sink { [weak self] in
+            self?.handleEvent($0, with: list)
+        }
+    }
+
+    private func handleEvent(_ event: AppEvent, with list: List) {
+        switch event {
+        case is ItemAddedEvent, is ItemUpdatedEvent, is ItemsRemovedEvent:
+            update(list)
+        case let event as ItemMovedEvent:
+            update(list, event.targetList)
+        default:
+            break
+        }
+    }
+
+    private func update(_ lists: List...) {
+        listsRepository.update(lists.map {
+            $0.withUpdateDate(Date())
+        })
     }
 }
