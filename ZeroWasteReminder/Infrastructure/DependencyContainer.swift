@@ -57,7 +57,8 @@ internal final class DependencyContainer {
         container.register(MoveItemService.self) { resolver in
             DefaultMoveItemService(
                 listsRepository: resolver.resolve(ListsRepository.self)!,
-                itemsRepository: resolver.resolve(ItemsRepository.self)!
+                itemsRepository: resolver.resolve(ItemsRepository.self)!,
+                eventBus: resolver.resolve(EventBus.self)!
             )
         }.inObjectScope(.container)
     }
@@ -77,12 +78,15 @@ internal final class DependencyContainer {
                 return CloudKitListsRepository(
                     configuration: resolver.resolve(CloudKitConfiguration.self)!,
                     cache: resolver.resolve(CloudKitCache.self)!,
-                    mapper: resolver.resolve(CloudKitMapper.self)!
+                    mapper: resolver.resolve(CloudKitMapper.self)!,
+                    eventBus: resolver.resolve(EventBus.self)!
                 )
             case .inMemory:
-                return InMemoryListsRepository()
+                return InMemoryListsRepository(
+                    eventBus: resolver.resolve(EventBus.self)!
+                )
             }
-        }.inObjectScope(.container)
+        }
 
         container.register(ItemsRepository.self) { resolver in
             switch configuration {
@@ -90,10 +94,13 @@ internal final class DependencyContainer {
                 return CloudKitItemsRepository(
                     configuration: resolver.resolve(CloudKitConfiguration.self)!,
                     cache: resolver.resolve(CloudKitCache.self)!,
-                    mapper: resolver.resolve(CloudKitMapper.self)!
+                    mapper: resolver.resolve(CloudKitMapper.self)!,
+                    eventBus: resolver.resolve(EventBus.self)!
                 )
             case .inMemory:
-                return InMemoryItemsRepository()
+                return InMemoryItemsRepository(
+                    eventBus: resolver.resolve(EventBus.self)!
+                )
             }
         }.inObjectScope(.container)
 
@@ -124,6 +131,10 @@ internal final class DependencyContainer {
             EmptySharingControllerFactory()
         }
 
+        container.register(EventBus.self) { resolver in
+            EventBus()
+        }.inObjectScope(.container)
+
         container.register(NotificationCenter.self) { _ in
             NotificationCenter.default
         }
@@ -133,10 +144,7 @@ internal final class DependencyContainer {
         }.inObjectScope(.container)
 
         container.register(ListItemsChangeListener.self) { resolver in
-            DefaultListItemsChangeListener(
-                itemsRepository: resolver.resolve(ItemsRepository.self)!,
-                moveItemService: resolver.resolve(MoveItemService.self)!
-            )
+            DefaultListItemsChangeListener(eventBus: resolver.resolve(EventBus.self)!)
         }.inObjectScope(.container)
 
         container.register(AutomaticListUpdater.self) { resolver in
@@ -151,7 +159,8 @@ internal final class DependencyContainer {
         container.register(ListsViewModelFactory.self) { resolver in
             ListsViewModelFactory(
                 listsRepository: resolver.resolve(ListsRepository.self)!,
-                statusNotifier: resolver.resolve(StatusNotifier.self)!
+                statusNotifier: resolver.resolve(StatusNotifier.self)!,
+                eventBus: resolver.resolve(EventBus.self)!
             )
         }
 
@@ -159,12 +168,16 @@ internal final class DependencyContainer {
             ItemsViewModelFactory(
                 itemsRepository: resolver.resolve(ItemsRepository.self)!,
                 listItemsChangeListener: resolver.resolve(ListItemsChangeListener.self)!,
-                statusNotifier: resolver.resolve(StatusNotifier.self)!
+                statusNotifier: resolver.resolve(StatusNotifier.self)!,
+                eventBus: resolver.resolve(EventBus.self)!
             )
         }
 
         container.register(MoveItemViewModelFactory.self) { resolver in
-            MoveItemViewModelFactory(moveItemService: resolver.resolve(MoveItemService.self)!)
+            MoveItemViewModelFactory(
+                moveItemService: resolver.resolve(MoveItemService.self)!,
+                eventBus: resolver.resolve(EventBus.self)!
+            )
         }
 
         container.register(AddViewModelFactory.self) { resolver in
@@ -172,7 +185,8 @@ internal final class DependencyContainer {
                 itemsRepository: resolver.resolve(ItemsRepository.self)!,
                 photosRepository: resolver.resolve(PhotosRepository.self)!,
                 fileService: resolver.resolve(FileService.self)!,
-                statusNotifier: resolver.resolve(StatusNotifier.self)!
+                statusNotifier: resolver.resolve(StatusNotifier.self)!,
+                eventBus: resolver.resolve(EventBus.self)!
             )
         }
 
@@ -181,7 +195,8 @@ internal final class DependencyContainer {
                 itemsRepository: resolver.resolve(ItemsRepository.self)!,
                 photosRepository: resolver.resolve(PhotosRepository.self)!,
                 fileService: resolver.resolve(FileService.self)!,
-                statusNotifier: resolver.resolve(StatusNotifier.self)!
+                statusNotifier: resolver.resolve(StatusNotifier.self)!,
+                eventBus: resolver.resolve(EventBus.self)!
             )
         }
     }

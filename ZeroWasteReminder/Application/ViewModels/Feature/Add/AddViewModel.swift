@@ -55,6 +55,7 @@ public final class AddViewModel {
     private let photosRepository: PhotosRepository
     private let fileService: FileService
     private let statusNotifier: StatusNotifier
+    private let eventBus: EventBus
 
     private var subscriptions: Set<AnyCancellable>
 
@@ -63,13 +64,15 @@ public final class AddViewModel {
         itemsRepository: ItemsRepository,
         photosRepository: PhotosRepository,
         fileService: FileService,
-        statusNotifier: StatusNotifier
+        statusNotifier: StatusNotifier,
+        eventBus: EventBus
     ) {
         self.itemsRepository = itemsRepository
         self.list = list
         self.photosRepository = photosRepository
         self.fileService = fileService
         self.statusNotifier = statusNotifier
+        self.eventBus = eventBus
 
         self.name = ""
         self.notes = ""
@@ -108,15 +111,12 @@ public final class AddViewModel {
             .sink { [weak self] in self?.expirationTypeSubject.send($0) }
             .store(in: &subscriptions)
 
-        itemsRepository.events
-            .compactMap { event -> Item? in
-                guard case .added(let item) = event else { return nil }
-                return item
-            }
-            .flatMap { [weak self] item -> AnyPublisher<Void, Never> in
+        eventBus.events
+            .compactMap { $0 as? ItemAddedEvent }
+            .flatMap { [weak self] event -> AnyPublisher<Void, Never> in
                 guard let self = self else { return Empty().eraseToAnyPublisher() }
                 let changeset = self.photosViewModel.photosChangeset
-                return self.photosRepository.update(changeset, for: item).eraseToAnyPublisher()
+                return self.photosRepository.update(changeset, for: event.item).eraseToAnyPublisher()
             }
             .sink(
                 receiveCompletion: { [weak self] _ in self?.isLoadingSubject.send(false) },

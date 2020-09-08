@@ -2,35 +2,35 @@ import Combine
 import Foundation
 
 public final class InMemoryListsRepository: ListsRepository {
-    public var events: AnyPublisher<ListsEvent, Never> {
-        eventsSubject.eraseToAnyPublisher()
-    }
-
-    private let eventsSubject = PassthroughSubject<ListsEvent, Never>()
     private var lists = [List]()
+    private let eventBus: EventBus
+
+    public init(eventBus: EventBus) {
+        self.eventBus = eventBus
+    }
 
     public func add(_ list: List) {
         lists.append(list)
-        eventsSubject.send(.added(list))
+        eventBus.send(ListAddedEvent(list))
     }
 
     public func fetchAll() {
-        eventsSubject.send(.fetched(lists))
+        eventBus.send(ListsFetchedEvent(lists))
     }
 
     public func remove(_ list: List) {
         lists.removeAll { $0.id == list.id }
-        eventsSubject.send(.removed(list))
+        eventBus.send(ListRemovedEvent(list))
     }
 
     public func update(_ list: List) {
         internalUpdate([list])
-        eventsSubject.send(.updated([list]))
+        eventBus.send(ListsUpdatedEvent([list]))
     }
 
     public func update(_ lists: [List]) {
         internalUpdate(lists)
-        eventsSubject.send(.updated(lists))
+        eventBus.send(ListsUpdatedEvent(lists))
     }
 
     private func internalUpdate(_ listsToUpdate: [List]) {

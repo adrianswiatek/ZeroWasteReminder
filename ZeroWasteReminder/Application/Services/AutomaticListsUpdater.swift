@@ -18,7 +18,10 @@ public final class AutomaticListUpdater {
 
     public func startUpdating() {
         listItemsChangeListener.updatedItemInList
-            .sink { [weak self] in self?.listsRepository.update($0.withDate(.init())) }
+            .sink { [weak self] in
+                let lists = $0.map { $0.withDate(Date()) }
+                self?.listsRepository.update(lists)
+            }
             .store(in: &subscriptions)
     }
 }

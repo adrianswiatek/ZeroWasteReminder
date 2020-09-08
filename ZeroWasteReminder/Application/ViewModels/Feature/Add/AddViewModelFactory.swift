@@ -3,17 +3,20 @@ public final class AddViewModelFactory {
     private let photosRepository: PhotosRepository
     private let fileService: FileService
     private let statusNotifier: StatusNotifier
+    private let eventBus: EventBus
 
     public init(
         itemsRepository: ItemsRepository,
         photosRepository: PhotosRepository,
         fileService: FileService,
-        statusNotifier: StatusNotifier
+        statusNotifier: StatusNotifier,
+        eventBus: EventBus
     ) {
         self.itemsRepository = itemsRepository
         self.photosRepository = photosRepository
         self.fileService = fileService
         self.statusNotifier = statusNotifier
+        self.eventBus = eventBus
     }
 
     public func create(for list: List) -> AddViewModel {
@@ -22,7 +25,8 @@ public final class AddViewModelFactory {
             itemsRepository: itemsRepository,
             photosRepository: photosRepository,
             fileService: fileService,
-            statusNotifier: statusNotifier
+            statusNotifier: statusNotifier,
+            eventBus: eventBus
         )
     }
 }
