@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-public final class EventBus {
+public final class LocalEventBus: EventBus {
     public var events: AnyPublisher<AppEvent, Never> {
         eventsSubject.share().receive(on: DispatchQueue.main).eraseToAnyPublisher()
     }

@@ -27,7 +27,7 @@ internal final class DependencyContainer {
 
     internal func initializeBackgroundServices() {
         container.resolve(AccountService.self)!.refreshUserEligibility()
-        container.resolve(SubscriptionService.self)!.registerItemsSubscriptionIfNeeded()
+        container.resolve(SubscriptionService.self)!.registerListsSubscriptionIfNeeded()
 //        container.resolve(EventBusInterceptor.self)!.startIntercept()
     }
 

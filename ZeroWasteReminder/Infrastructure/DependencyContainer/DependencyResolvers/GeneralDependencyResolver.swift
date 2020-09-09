@@ -43,10 +43,6 @@ public final class GeneralDependencyResolver: DependencyResolver {
             NotificationCenter.default
         }
 
-        container.register(EventBus.self) { _ in
-            EventBus()
-        }.inObjectScope(.container)
-
         container.register(EventBusInterceptor.self) { resolver in
             ConsoleEventBusInterceptor(resolver.resolve(EventBus.self)!)
         }.inObjectScope(.container)

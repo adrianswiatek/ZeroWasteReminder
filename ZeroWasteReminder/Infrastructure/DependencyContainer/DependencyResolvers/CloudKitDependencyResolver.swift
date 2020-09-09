@@ -23,6 +23,10 @@ public final class CloudKitDependencyResolver: DependencyResolver {
         container.register(CloudKitConfiguration.self) { [weak self] _ in
             CloudKitConfiguration(containerIdentifier: self?.containerIdentifier ?? "")
         }
+
+        container.register(EventBus.self) { resolver in
+            RemoteEventBus(LocalEventBus(), notificationCenter: resolver.resolve(NotificationCenter.self)!)
+        }.inObjectScope(.container)
     }
 
     public func registerRepositories() {

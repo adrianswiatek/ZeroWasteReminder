@@ -8,7 +8,12 @@ public final class InMemoryDependencyResolver: DependencyResolver {
     }
 
     public func registerCoordinators() {}
-    public func registerOtherObjects() {}
+
+    public func registerOtherObjects() {
+        container.register(EventBus.self) { _ in
+            LocalEventBus()
+        }.inObjectScope(.container)
+    }
 
     public func registerRepositories() {
         container.register(ListsRepository.self) { resolver in

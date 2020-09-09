@@ -159,6 +159,9 @@
 		A7CFBBB2250962E50026D338 /* DependencyResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFBBB1250962E50026D338 /* DependencyResolver.swift */; };
 		A7CFBBB4250964FA0026D338 /* GeneralDependencyResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFBBB3250964FA0026D338 /* GeneralDependencyResolver.swift */; };
 		A7CFBBB6250969A80026D338 /* DependencyResolverComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFBBB5250969A80026D338 /* DependencyResolverComposite.swift */; };
+		A7CFBBB8250982560026D338 /* ListRemotelyUpdatedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFBBB7250982560026D338 /* ListRemotelyUpdatedEvent.swift */; };
+		A7CFBBBB250986200026D338 /* LocalEventBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFBBBA250986200026D338 /* LocalEventBus.swift */; };
+		A7CFBBBD2509864E0026D338 /* RemoteEventBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFBBBC2509864E0026D338 /* RemoteEventBus.swift */; };
 		A7DAD1C224F70B0D0004529D /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DAD1C124F70B0D0004529D /* ArrayExtensions.swift */; };
 		A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A34244285010035CF36 /* AddViewController.swift */; };
 		A7DB8A37244286440035CF36 /* ItemsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A36244286440035CF36 /* ItemsNavigationController.swift */; };
@@ -349,6 +352,9 @@
 		A7CFBBB1250962E50026D338 /* DependencyResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyResolver.swift; sourceTree = "<group>"; };
 		A7CFBBB3250964FA0026D338 /* GeneralDependencyResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralDependencyResolver.swift; sourceTree = "<group>"; };
 		A7CFBBB5250969A80026D338 /* DependencyResolverComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyResolverComposite.swift; sourceTree = "<group>"; };
+		A7CFBBB7250982560026D338 /* ListRemotelyUpdatedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRemotelyUpdatedEvent.swift; sourceTree = "<group>"; };
+		A7CFBBBA250986200026D338 /* LocalEventBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalEventBus.swift; sourceTree = "<group>"; };
+		A7CFBBBC2509864E0026D338 /* RemoteEventBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteEventBus.swift; sourceTree = "<group>"; };
 		A7DAD1C124F70B0D0004529D /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		A7DB8A34244285010035CF36 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		A7DB8A36244286440035CF36 /* ItemsNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsNavigationController.swift; sourceTree = "<group>"; };
@@ -674,6 +680,7 @@
 		A7597E9B2506E34A00A53B7D /* Events */ = {
 			isa = PBXGroup;
 			children = (
+				A7CFBBB9250986140026D338 /* EventBus */,
 				A7597E9E2506E38D00A53B7D /* AppEvent.swift */,
 				A7597E9C2506E35A00A53B7D /* EmptyEvent.swift */,
 				A7597EA82506E3DC00A53B7D /* ErrorEvent.swift */,
@@ -687,6 +694,7 @@
 			isa = PBXGroup;
 			children = (
 				A7597EA02506E3A000A53B7D /* ListAddedEvent.swift */,
+				A7CFBBB7250982560026D338 /* ListRemotelyUpdatedEvent.swift */,
 				A7597EA42506E3C000A53B7D /* ListRemovedEvent.swift */,
 				A7597EA22506E3AF00A53B7D /* ListsFetchedEvent.swift */,
 				A784EE3F25081377006C3A68 /* ListsFetchedForItemToMoveEvent.swift */,
@@ -760,7 +768,7 @@
 			path = FullScreenPhoto;
 			sourceTree = "<group>";
 		};
-		A79B4A1E2479F6CD00ECE1B1 /* CloudKitMappers */ = {
+		A79B4A1E2479F6CD00ECE1B1 /* Mappers */ = {
 			isa = PBXGroup;
 			children = (
 				A78172AD2494D05200F406EC /* CloudKitItemMapper.swift */,
@@ -770,7 +778,7 @@
 				A78172A92494CF7300F406EC /* CloudKitPhotoMapper.swift */,
 				A78172AF2494D24400F406EC /* CloudKitRecordMapper.swift */,
 			);
-			path = CloudKitMappers;
+			path = Mappers;
 			sourceTree = "<group>";
 		};
 		A79DDDA12461F99D008A3DFE /* Edit */ = {
@@ -837,6 +845,16 @@
 			path = SharingControllerFactory;
 			sourceTree = "<group>";
 		};
+		A7CFBBB9250986140026D338 /* EventBus */ = {
+			isa = PBXGroup;
+			children = (
+				A7597E992506D6F700A53B7D /* EventBus.swift */,
+				A7CFBBBA250986200026D338 /* LocalEventBus.swift */,
+				A7CFBBBC2509864E0026D338 /* RemoteEventBus.swift */,
+			);
+			path = EventBus;
+			sourceTree = "<group>";
+		};
 		A7DB8A32244284020035CF36 /* Add */ = {
 			isa = PBXGroup;
 			children = (
@@ -864,8 +882,9 @@
 		A7E5B8A925042E5D008E9523 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
-				A7760E54250960A100E51933 /* DependencyContainer */,
 				A7E5B8B52504387A008E9523 /* CloudKit */,
+				A7760E54250960A100E51933 /* DependencyContainer */,
+				A7E5B8AC25042FDC008E9523 /* Repositories */,
 				A7E5B8B625043962008E9523 /* Services */,
 			);
 			path = Infrastructure;
@@ -883,7 +902,6 @@
 		A7E5B8AB25042FBC008E9523 /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				A7597E992506D6F700A53B7D /* EventBus.swift */,
 				A7E317982496EBB8006B9610 /* PhotosChangeset.swift */,
 				A7597E9B2506E34A00A53B7D /* Events */,
 				A7E5B8B1250431E1008E9523 /* Repositories */,
@@ -951,23 +969,12 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		A7E5B8B425043277008E9523 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				A782FAD52475E83300C69737 /* CloudKitSubscriptionService.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		A7E5B8B52504387A008E9523 /* CloudKit */ = {
 			isa = PBXGroup;
 			children = (
-				A7E530AE249C02E40020DB14 /* CloudKitAccountService.swift */,
 				A71C719024FD7E4400973611 /* CloudKitCache.swift */,
 				A7ACC4C1247B00BF0098EDE0 /* CloudKitConfiguration.swift */,
-				A79B4A1E2479F6CD00ECE1B1 /* CloudKitMappers */,
-				A7E5B8AC25042FDC008E9523 /* Repositories */,
-				A7E5B8B425043277008E9523 /* Services */,
+				A79B4A1E2479F6CD00ECE1B1 /* Mappers */,
 			);
 			path = CloudKit;
 			sourceTree = "<group>";
@@ -975,6 +982,8 @@
 		A7E5B8B625043962008E9523 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				A7E530AE249C02E40020DB14 /* CloudKitAccountService.swift */,
+				A782FAD52475E83300C69737 /* CloudKitSubscriptionService.swift */,
 				A7FCD91825082F8A00F001C7 /* ConsoleEventBusInterceptor.swift */,
 				A7636A662490499F00166631 /* FileService.swift */,
 				A74D163F249C2ED500FEB5CD /* RemoteStatusNotifier.swift */,
@@ -1143,6 +1152,7 @@
 				A7AFA37124A53D5600BD5983 /* PhotoCaptureTarget.swift in Sources */,
 				A7F82BA82458CB8700970CFC /* ReadModeState.swift in Sources */,
 				A7A2DDA5249FD4FF0025B1B8 /* UUIDExtensions.swift in Sources */,
+				A7CFBBBB250986200026D338 /* LocalEventBus.swift in Sources */,
 				A7ACC4C7247B12E20098EDE0 /* CloudKitSharingControllerFactory.swift in Sources */,
 				A757B2D224C3A3CD001A3268 /* DependencyContainer.swift in Sources */,
 				A77608B424BB8CAB00BA0C66 /* EditListControl.swift in Sources */,
@@ -1223,6 +1233,7 @@
 				A79B4A202479F6FA00ECE1B1 /* SubscriptionService.swift in Sources */,
 				A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */,
 				A731F89524BE439B007348A3 /* ListCell.swift in Sources */,
+				A7CFBBB8250982560026D338 /* ListRemotelyUpdatedEvent.swift in Sources */,
 				A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */,
 				A7E4C6022500507400761601 /* EditViewModelFactory.swift in Sources */,
 				A70BCCDB2447960200CC49D0 /* Item.swift in Sources */,
@@ -1316,6 +1327,7 @@
 				A7597EA12506E3A000A53B7D /* ListAddedEvent.swift in Sources */,
 				A701536624773CC000CE9085 /* AppError.swift in Sources */,
 				A70BCCDD244796FB00CC49D0 /* PeriodType.swift in Sources */,
+				A7CFBBBD2509864E0026D338 /* RemoteEventBus.swift in Sources */,
 				A760CAD6248802CB00999C12 /* PhotosDataSource.swift in Sources */,
 				A741613E2450D814001ED316 /* UIAlertActionExtensions.swift in Sources */,
 			);

@@ -5,7 +5,8 @@ public final class DefaultAutomaticListUpdater: AutomaticListUpdater {
     private let listsRepository: ListsRepository
     private let eventBus: EventBus
 
-    private var cancellable: AnyCancellable?
+    private var onItemChangeSubscription: AnyCancellable?
+    private var onListChangeSubscription: AnyCancellable?
 
     public init(_ listsRepository: ListsRepository, _ eventBus: EventBus) {
         self.listsRepository = listsRepository
@@ -13,9 +14,14 @@ public final class DefaultAutomaticListUpdater: AutomaticListUpdater {
     }
 
     public func startUpdating(_ list: List) {
-        cancellable = eventBus.events.sink { [weak self] in
-            self?.handleEvent($0, with: list)
-        }
+        onItemChangeSubscription = eventBus.events
+            .sink { [weak self] in self?.handleEvent($0, with: list) }
+    }
+
+    public func startUpdatingAllLists() {
+        onListChangeSubscription = eventBus.events
+            .filter { $0 is ListRemotelyUpdatedEvent }
+            .sink { [weak self] _ in self?.listsRepository.fetchAll() }
     }
 
     private func handleEvent(_ event: AppEvent, with list: List) {
