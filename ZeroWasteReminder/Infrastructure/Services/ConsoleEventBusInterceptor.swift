@@ -1,15 +1,15 @@
 import Combine
 
-public final class ConsoleEventBusInterceptor: EventBusInterceptor {
-    private let eventBus: EventBus
+public final class ConsoleeventDispatcherInterceptor: eventDispatcherInterceptor {
+    private let eventDispatcher: EventDispatcher
     private var cancellable: AnyCancellable?
 
-    public required init(_ eventBus: EventBus) {
-        self.eventBus = eventBus
+    public required init(_ eventDispatcher: EventDispatcher) {
+        self.eventDispatcher = eventDispatcher
     }
 
     public func startIntercept() {
-        cancellable = eventBus.events.sink { print($0.name) }
+        cancellable = eventDispatcher.events.sink { print($0.name) }
     }
 
     public func stopIntercept() {

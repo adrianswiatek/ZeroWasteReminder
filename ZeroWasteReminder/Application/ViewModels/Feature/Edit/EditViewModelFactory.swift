@@ -3,20 +3,20 @@ public final class EditViewModelFactory {
     private let photosRepository: PhotosRepository
     private let fileService: FileService
     private let statusNotifier: StatusNotifier
-    private let eventBus: EventBus
+    private let eventDispatcher: EventDispatcher
 
     public init(
         itemsRepository: ItemsRepository,
         photosRepository: PhotosRepository,
         fileService: FileService,
         statusNotifier: StatusNotifier,
-        eventBus: EventBus
+        eventDispatcher: EventDispatcher
     ) {
         self.itemsRepository = itemsRepository
         self.photosRepository = photosRepository
         self.fileService = fileService
         self.statusNotifier = statusNotifier
-        self.eventBus = eventBus
+        self.eventDispatcher = eventDispatcher
     }
 
     public func create(for item: Item) -> EditViewModel {
@@ -26,7 +26,7 @@ public final class EditViewModelFactory {
             photosRepository: photosRepository,
             fileService: fileService,
             statusNotifier: statusNotifier,
-            eventBus: eventBus
+            eventDispatcher: eventDispatcher
         )
     }
 }

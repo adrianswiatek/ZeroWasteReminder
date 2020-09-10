@@ -38,25 +38,38 @@ public final class GeneralDependencyResolver: DependencyResolver {
         }
     }
 
+    public func registerEventListeners() {
+        container.register(ListsChangeListener.self) { resolver in
+            ListsChangeListener(
+                resolver.resolve(ListsRepository.self)!,
+                resolver.resolve(EventDispatcher.self)!
+            )
+        }
+
+        container.register(ItemsChangeListener.self) { resolver in
+            ItemsChangeListener(
+                resolver.resolve(ListsRepository.self)!,
+                resolver.resolve(EventDispatcher.self)!
+            )
+        }
+    }
+
     public func registerOtherObjects() {
         container.register(NotificationCenter.self) { _ in
             NotificationCenter.default
         }
 
-        container.register(EventBusInterceptor.self) { resolver in
-            ConsoleEventBusInterceptor(resolver.resolve(EventBus.self)!)
+        container.register(EventDispatcher.self) { resolver in
+            EventDispatcher(resolver.resolve(NotificationCenter.self)!)
+        }.inObjectScope(.container)
+
+        container.register(eventDispatcherInterceptor.self) { resolver in
+            ConsoleeventDispatcherInterceptor(resolver.resolve(EventDispatcher.self)!)
         }.inObjectScope(.container)
 
         container.register(StatusNotifier.self) { resolver in
             RemoteStatusNotifier(accountService: resolver.resolve(AccountService.self)!)
         }.inObjectScope(.container)
-
-        container.register(AutomaticListUpdater.self) { resolver in
-            DefaultAutomaticListUpdater(
-                resolver.resolve(ListsRepository.self)!,
-                resolver.resolve(EventBus.self)!
-            )
-        }
     }
 
     public func registerRepositories() {}
@@ -70,7 +83,7 @@ public final class GeneralDependencyResolver: DependencyResolver {
             DefaultMoveItemService(
                 listsRepository: resolver.resolve(ListsRepository.self)!,
                 itemsRepository: resolver.resolve(ItemsRepository.self)!,
-                eventBus: resolver.resolve(EventBus.self)!
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }
     }
@@ -97,9 +110,8 @@ public final class GeneralDependencyResolver: DependencyResolver {
         container.register(ListsViewModelFactory.self) { resolver in
             ListsViewModelFactory(
                 listsRepository: resolver.resolve(ListsRepository.self)!,
-                listUpdater: resolver.resolve(AutomaticListUpdater.self)!,
                 statusNotifier: resolver.resolve(StatusNotifier.self)!,
-                eventBus: resolver.resolve(EventBus.self)!
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }
 
@@ -107,14 +119,15 @@ public final class GeneralDependencyResolver: DependencyResolver {
             ItemsViewModelFactory(
                 itemsRepository: resolver.resolve(ItemsRepository.self)!,
                 statusNotifier: resolver.resolve(StatusNotifier.self)!,
-                eventBus: resolver.resolve(EventBus.self)!
+                itemsChangeListener: resolver.resolve(ItemsChangeListener.self)!,
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }
 
         container.register(MoveItemViewModelFactory.self) { resolver in
             MoveItemViewModelFactory(
                 moveItemService: resolver.resolve(MoveItemService.self)!,
-                eventBus: resolver.resolve(EventBus.self)!
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }
 
@@ -124,7 +137,7 @@ public final class GeneralDependencyResolver: DependencyResolver {
                 photosRepository: resolver.resolve(PhotosRepository.self)!,
                 fileService: resolver.resolve(FileService.self)!,
                 statusNotifier: resolver.resolve(StatusNotifier.self)!,
-                eventBus: resolver.resolve(EventBus.self)!
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }
 
@@ -134,7 +147,7 @@ public final class GeneralDependencyResolver: DependencyResolver {
                 photosRepository: resolver.resolve(PhotosRepository.self)!,
                 fileService: resolver.resolve(FileService.self)!,
                 statusNotifier: resolver.resolve(StatusNotifier.self)!,
-                eventBus: resolver.resolve(EventBus.self)!
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }
     }

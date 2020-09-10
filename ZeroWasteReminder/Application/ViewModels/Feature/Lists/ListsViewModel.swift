@@ -14,19 +14,16 @@ public final class ListsViewModel {
     private let isLoadingSubject: CurrentValueSubject<Bool, Never>
 
     private let listsRepository: ListsRepository
-    private let listUpdater: AutomaticListUpdater
-    private let eventBus: EventBus
+    private let eventDispatcher: EventDispatcher
     private var subscriptions: Set<AnyCancellable>
 
     public init(
         listsRepository: ListsRepository,
-        listUpdater: AutomaticListUpdater,
         statusNotifier: StatusNotifier,
-        eventBus: EventBus
+        eventDispatcher: EventDispatcher
     ) {
         self.listsRepository = listsRepository
-        self.listUpdater = listUpdater
-        self.eventBus = eventBus
+        self.eventDispatcher = eventDispatcher
 
         self.canRemotelyConnect = statusNotifier.remoteStatus
             .map { $0 == .connected }
@@ -67,20 +64,10 @@ public final class ListsViewModel {
     }
 
     private func bind() {
-        eventBus.events
+        eventDispatcher.events
             .sink { [weak self] in
                 self?.handleEvent($0)
                 self?.isLoadingSubject.send(false)
-            }
-            .store(in: &subscriptions)
-
-        requestsSubject
-            .compactMap {
-                guard case .openItems(let list) = $0 else { return nil }
-                return list
-            }
-            .sink { [weak self] in
-                self?.listUpdater.startUpdating($0)
             }
             .store(in: &subscriptions)
     }
@@ -89,17 +76,17 @@ public final class ListsViewModel {
         var updatedLists = lists
 
         switch event {
-        case let event as ListAddedEvent:
+        case let event as ListAdded:
             updatedLists.insert(event.list, at: 0)
-        case let event as ListsFetchedEvent:
+        case let event as ListsFetched:
             updatedLists = event.lists
-        case let event as ListRemovedEvent:
+        case let event as ListRemoved:
             updatedLists.removeAll { $0.id == event.list.id }
-        case let event as ListsUpdatedEvent:
+        case let event as ListsUpdated:
             event.lists.forEach { list in
                 updatedLists.firstIndex { $0.id == list.id }.map { updatedLists[$0] = list }
             }
-        case let event as ErrorEvent:
+        case let event as ErrorOccured:
             requestsSubject.send(.showErrorMessage(event.error.localizedDescription))
         default:
             return

@@ -1,13 +1,13 @@
 public final class MoveItemViewModelFactory {
     private let moveItemService: MoveItemService
-    private let eventBus: EventBus
+    private let eventDispatcher: EventDispatcher
 
-    public init(moveItemService: MoveItemService, eventBus: EventBus) {
+    public init(moveItemService: MoveItemService, eventDispatcher: EventDispatcher) {
         self.moveItemService = moveItemService
-        self.eventBus = eventBus
+        self.eventDispatcher = eventDispatcher
     }
 
     public func create(for item: Item) -> MoveItemViewModel {
-        .init(item: item, moveItemService: moveItemService, eventBus: eventBus)
+        .init(item: item, moveItemService: moveItemService, eventDispatcher: eventDispatcher)
     }
 }

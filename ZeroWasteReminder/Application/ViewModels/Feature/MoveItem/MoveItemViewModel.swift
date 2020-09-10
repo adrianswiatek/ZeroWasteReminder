@@ -20,14 +20,14 @@ public final class MoveItemViewModel {
 
     private let item: Item
     private let moveItemService: MoveItemService
-    private let eventBus: EventBus
+    private let eventDispatcher: EventDispatcher
 
     private var subscriptions: Set<AnyCancellable>
 
-    public init(item: Item, moveItemService: MoveItemService, eventBus: EventBus) {
+    public init(item: Item, moveItemService: MoveItemService, eventDispatcher: EventDispatcher) {
         self.item = item
         self.moveItemService = moveItemService
-        self.eventBus = eventBus
+        self.eventDispatcher = eventDispatcher
 
         self.requestsSubject = .init()
         self.isLoadingSubject = .init(false)
@@ -56,7 +56,7 @@ public final class MoveItemViewModel {
     }
 
     private func bind() {
-        eventBus.events
+        eventDispatcher.events
             .sink { [weak self] in
                 self?.handleEvent($0)
                 self?.isLoadingSubject.send(false)
@@ -66,11 +66,11 @@ public final class MoveItemViewModel {
 
     private func handleEvent(_ event: AppEvent) {
         switch event {
-        case is ItemMovedEvent:
+        case is ItemMoved:
             requestsSubject.send(.dismiss)
-        case let event as ListsFetchedForItemToMoveEvent:
+        case let event as ListsFetchedForItemToMove:
             lists = event.lists.sorted { $0.name < $1.name }
-        case let event as ErrorEvent:
+        case let event as ErrorOccured:
             requestsSubject.send(.showErrorMessage(event.error.localizedDescription))
         default:
             break

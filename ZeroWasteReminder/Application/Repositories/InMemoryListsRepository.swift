@@ -3,34 +3,34 @@ import Foundation
 
 public final class InMemoryListsRepository: ListsRepository {
     private var lists = [List]()
-    private let eventBus: EventBus
+    private let eventDispatcher: EventDispatcher
 
-    public init(eventBus: EventBus) {
-        self.eventBus = eventBus
+    public init(eventDispatcher: EventDispatcher) {
+        self.eventDispatcher = eventDispatcher
     }
 
     public func add(_ list: List) {
         lists.append(list)
-        eventBus.send(ListAddedEvent(list))
+        eventDispatcher.dispatch(ListAdded(list))
     }
 
     public func fetchAll() {
-        eventBus.send(ListsFetchedEvent(lists))
+        eventDispatcher.dispatch(ListsFetched(lists))
     }
 
     public func remove(_ list: List) {
         lists.removeAll { $0.id == list.id }
-        eventBus.send(ListRemovedEvent(list))
+        eventDispatcher.dispatch(ListRemoved(list))
     }
 
     public func update(_ list: List) {
         internalUpdate([list])
-        eventBus.send(ListsUpdatedEvent([list]))
+        eventDispatcher.dispatch(ListsUpdated([list]))
     }
 
     public func update(_ lists: [List]) {
         internalUpdate(lists)
-        eventBus.send(ListsUpdatedEvent(lists))
+        eventDispatcher.dispatch(ListsUpdated(lists))
     }
 
     private func internalUpdate(_ listsToUpdate: [List]) {

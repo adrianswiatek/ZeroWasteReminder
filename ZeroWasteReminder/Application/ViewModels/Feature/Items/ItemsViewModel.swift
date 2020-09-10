@@ -29,7 +29,8 @@ public final class ItemsViewModel {
 
     private let itemsRepository: ItemsRepository
     private let statusNotifier: StatusNotifier
-    private let eventBus: EventBus
+    private let itemsChangeListener: ItemsChangeListener
+    private let eventDispatcher: EventDispatcher
 
     private var subscriptions: Set<AnyCancellable>
 
@@ -37,14 +38,15 @@ public final class ItemsViewModel {
         list: List,
         itemsRepository: ItemsRepository,
         statusNotifier: StatusNotifier,
-        eventBus: EventBus
+        itemsChangeListener: ItemsChangeListener,
+        eventDispatcher: EventDispatcher
     ) {
         self.list = list
 
         self.itemsRepository = itemsRepository
-
         self.statusNotifier = statusNotifier
-        self.eventBus = eventBus
+        self.itemsChangeListener = itemsChangeListener
+        self.eventDispatcher = eventDispatcher
 
         self.itemsFilterViewModel = .init()
 
@@ -59,7 +61,12 @@ public final class ItemsViewModel {
 
         self.subscriptions = []
 
+        self.itemsChangeListener.listen(in: list)
         self.bind()
+    }
+
+    deinit {
+        itemsChangeListener.stopListening()
     }
 
     public func cellViewModel(for item: Item) -> ItemsCellViewModel {
@@ -112,7 +119,7 @@ public final class ItemsViewModel {
     }
 
     private func bind() {
-        eventBus.events
+        eventDispatcher.events
             .compactMap { [weak self] in self?.updatedWithEvent($0) }
             .combineLatest(itemsFilterViewModel.cellViewModels, $sortType)
             .compactMap { items, cells, sortType in
@@ -135,17 +142,17 @@ public final class ItemsViewModel {
         var updatedItems = items
 
         switch event {
-        case let event as ItemAddedEvent:
+        case let event as ItemAdded:
             updatedItems += [event.item]
-        case let event as ItemsFetchedEvent:
+        case let event as ItemsFetched:
             updatedItems = event.items
-        case let event as ItemsRemovedEvent:
+        case let event as ItemsRemoved:
             event.items.forEach { item in updatedItems.removeAll { item.id == $0.id } }
-        case let event as ItemUpdatedEvent:
+        case let event as ItemUpdated:
             updatedItems.firstIndex { $0.id == event.item.id }.map { updatedItems[$0] = event.item }
-        case let event as ItemMovedEvent:
+        case let event as ItemMoved:
             updatedItems = updatedItems.removedAll { $0.id == event.item.id }
-        case let event as ErrorEvent:
+        case let event as ErrorOccured:
             requestsSubject.send(.showErrorMessage(event.error.localizedDescription))
         default:
             return items

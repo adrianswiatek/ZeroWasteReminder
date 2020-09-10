@@ -1,16 +1,19 @@
 public final class ItemsViewModelFactory {
     private let itemsRepository: ItemsRepository
     private let statusNotifier: StatusNotifier
-    private let eventBus: EventBus
+    private let itemsChangeListener: ItemsChangeListener
+    private let eventDispatcher: EventDispatcher
 
     public init(
         itemsRepository: ItemsRepository,
         statusNotifier: StatusNotifier,
-        eventBus: EventBus
+        itemsChangeListener: ItemsChangeListener,
+        eventDispatcher: EventDispatcher
     ) {
         self.itemsRepository = itemsRepository
         self.statusNotifier = statusNotifier
-        self.eventBus = eventBus
+        self.itemsChangeListener = itemsChangeListener
+        self.eventDispatcher = eventDispatcher
     }
 
     public func create(for list: List) -> ItemsViewModel {
@@ -18,7 +21,8 @@ public final class ItemsViewModelFactory {
             list: list,
             itemsRepository: itemsRepository,
             statusNotifier: statusNotifier,
-            eventBus: eventBus
+            itemsChangeListener: itemsChangeListener,
+            eventDispatcher: eventDispatcher
         )
     }
 }

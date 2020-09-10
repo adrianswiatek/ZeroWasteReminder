@@ -1,4 +1,4 @@
-public struct ItemMovedEvent: AppEvent {
+public struct ItemMoved: AppEvent {
     public let item: Item
     public let targetList: List
 

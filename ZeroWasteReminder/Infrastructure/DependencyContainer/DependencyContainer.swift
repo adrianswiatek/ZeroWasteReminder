@@ -14,6 +14,7 @@ internal final class DependencyContainer {
         ])
 
         resolver.registerCoordinators()
+        resolver.registerEventListeners()
         resolver.registerOtherObjects()
         resolver.registerRepositories()
         resolver.registerServices()
@@ -28,7 +29,7 @@ internal final class DependencyContainer {
     internal func initializeBackgroundServices() {
         container.resolve(AccountService.self)!.refreshUserEligibility()
         container.resolve(SubscriptionService.self)!.registerListsSubscriptionIfNeeded()
-//        container.resolve(EventBusInterceptor.self)!.startIntercept()
+//        container.resolve(eventDispatcherInterceptor.self)!.startIntercept()
     }
 
     private func infrastructureDependencyResolver(
