@@ -6,20 +6,20 @@ public final class DefaultMoveItemService: MoveItemService {
 
     private let listsRepository: ListsRepository
     private let itemsRepository: ItemsRepository
-    private let eventBus: EventBus
+    private let eventDispatcher: EventDispatcher
 
-    public init(listsRepository: ListsRepository, itemsRepository: ItemsRepository, eventBus: EventBus) {
+    public init(listsRepository: ListsRepository, itemsRepository: ItemsRepository, eventDispatcher: EventDispatcher) {
         self.listsRepository = listsRepository
         self.itemsRepository = itemsRepository
-        self.eventBus = eventBus
+        self.eventDispatcher = eventDispatcher
     }
 
     public func fetchLists(for item: Item) {
-        fetchListsSubscription = eventBus.events
-            .compactMap { $0 as? ListsFetchedEvent }
+        fetchListsSubscription = eventDispatcher.events
+            .compactMap { $0 as? ListsFetched }
             .sink { [weak self] in
                 let filteredLists = $0.lists.filter { $0.id != item.listId }
-                self?.eventBus.send(ListsFetchedForItemToMoveEvent(filteredLists, item))
+                self?.eventDispatcher.dispatch(ListsFetchedForItemToMove(filteredLists, item))
                 self?.fetchListsSubscription = nil
             }
 

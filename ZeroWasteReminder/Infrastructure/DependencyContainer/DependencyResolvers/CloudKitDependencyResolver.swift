@@ -10,6 +10,7 @@ public final class CloudKitDependencyResolver: DependencyResolver {
     }
 
     public func registerCoordinators() {}
+    public func registerEventListeners() {}
 
     public func registerOtherObjects() {
         container.register(CloudKitCache.self) { _ in
@@ -31,7 +32,7 @@ public final class CloudKitDependencyResolver: DependencyResolver {
                 configuration: resolver.resolve(CloudKitConfiguration.self)!,
                 cache: resolver.resolve(CloudKitCache.self)!,
                 mapper: resolver.resolve(CloudKitMapper.self)!,
-                eventBus: resolver.resolve(EventBus.self)!
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }
 
@@ -40,7 +41,7 @@ public final class CloudKitDependencyResolver: DependencyResolver {
                 configuration: resolver.resolve(CloudKitConfiguration.self)!,
                 cache: resolver.resolve(CloudKitCache.self)!,
                 mapper: resolver.resolve(CloudKitMapper.self)!,
-                eventBus: resolver.resolve(EventBus.self)!
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }
 

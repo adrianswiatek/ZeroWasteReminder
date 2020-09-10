@@ -55,7 +55,7 @@ public final class AddViewModel {
     private let photosRepository: PhotosRepository
     private let fileService: FileService
     private let statusNotifier: StatusNotifier
-    private let eventBus: EventBus
+    private let eventDispatcher: EventDispatcher
 
     private var subscriptions: Set<AnyCancellable>
 
@@ -65,14 +65,14 @@ public final class AddViewModel {
         photosRepository: PhotosRepository,
         fileService: FileService,
         statusNotifier: StatusNotifier,
-        eventBus: EventBus
+        eventDispatcher: EventDispatcher
     ) {
         self.itemsRepository = itemsRepository
         self.list = list
         self.photosRepository = photosRepository
         self.fileService = fileService
         self.statusNotifier = statusNotifier
-        self.eventBus = eventBus
+        self.eventDispatcher = eventDispatcher
 
         self.name = ""
         self.notes = ""
@@ -111,8 +111,8 @@ public final class AddViewModel {
             .sink { [weak self] in self?.expirationTypeSubject.send($0) }
             .store(in: &subscriptions)
 
-        eventBus.events
-            .compactMap { $0 as? ItemAddedEvent }
+        eventDispatcher.events
+            .compactMap { $0 as? ItemAdded }
             .flatMap { [weak self] event -> AnyPublisher<Void, Never> in
                 guard let self = self else { return Empty().eraseToAnyPublisher() }
                 let changeset = self.photosViewModel.photosChangeset

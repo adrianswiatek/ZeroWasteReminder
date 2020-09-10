@@ -3,10 +3,10 @@ import Foundation
 
 public final class InMemoryItemsRepository: ItemsRepository {
     private var items = [Item]()
-    private let eventBus: EventBus
+    private let eventDispatcher: EventDispatcher
 
-    public init(eventBus: EventBus) {
-        self.eventBus = eventBus
+    public init(eventDispatcher: EventDispatcher) {
+        self.eventDispatcher = eventDispatcher
     }
 
     public func fetchAll(from list: List) {
@@ -14,32 +14,32 @@ public final class InMemoryItemsRepository: ItemsRepository {
             .filter { $0.listId == list.id }
             .map { $0 }
 
-        eventBus.send(ItemsFetchedEvent(items))
+        eventDispatcher.dispatch(ItemsFetched(items))
     }
 
     public func add(_ itemToSave: ItemToSave) {
         items.append(itemToSave.item)
-        eventBus.send(ItemAddedEvent(itemToSave.item))
+        eventDispatcher.dispatch(ItemAdded(itemToSave.item))
     }
 
     public func update(_ item: Item) {
         internalUpdate(item)
-        eventBus.send(ItemUpdatedEvent(item))
+        eventDispatcher.dispatch(ItemUpdated(item))
     }
 
     public func move(_ item: Item, to list: List) {
         internalUpdate(item.withListId(list.id))
-        eventBus.send(ItemMovedEvent(item, to: list))
+        eventDispatcher.dispatch(ItemMoved(item, to: list))
     }
 
     public func remove(_ item: Item) {
         internalRemove(item)
-        eventBus.send(ItemsRemovedEvent(item))
+        eventDispatcher.dispatch(ItemsRemoved(item))
     }
 
     public func remove(_ items: [Item]) {
         items.forEach { internalRemove($0) }
-        eventBus.send(ItemsRemovedEvent(items))
+        eventDispatcher.dispatch(ItemsRemoved(items))
     }
 
     private func internalUpdate(_ item: Item) {

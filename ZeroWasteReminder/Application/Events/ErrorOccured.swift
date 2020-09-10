@@ -1,4 +1,4 @@
-public struct ErrorEvent: AppEvent {
+public struct ErrorOccured: AppEvent {
     public let error: AppError
 
     public init(_ error: AppError) {

@@ -1,5 +1,5 @@
-public protocol EventBusInterceptor {
-    init(_ eventBus: EventBus)
+public protocol eventDispatcherInterceptor {
+    init(_ eventDispatcher: EventDispatcher)
 
     func startIntercept()
     func stopIntercept()

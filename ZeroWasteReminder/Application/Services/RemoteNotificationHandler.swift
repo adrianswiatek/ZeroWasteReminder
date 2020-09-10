@@ -9,8 +9,8 @@ public final class RemoteNotificationHandler {
     }
 
     public func received(with userInfo: [AnyHashable: Any]) {
-        guard Aps(userInfo)?.category == "Item" else { return }
-        NotificationCenter.default.post(.init(name: .itemUpdateReceived))
+        guard Aps(userInfo)?.category == "List" else { return }
+        NotificationCenter.default.post(.init(name: .listUpdateReceived))
     }
 }
 

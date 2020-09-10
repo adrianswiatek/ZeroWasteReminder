@@ -1,27 +1,23 @@
 public final class ListsViewModelFactory {
     private let listsRepository: ListsRepository
-    private let listUpdater: AutomaticListUpdater
+    private let eventDispatcher: EventDispatcher
     private let statusNotifier: StatusNotifier
-    private let eventBus: EventBus
 
     public init(
         listsRepository: ListsRepository,
-        listUpdater: AutomaticListUpdater,
         statusNotifier: StatusNotifier,
-        eventBus: EventBus
+        eventDispatcher: EventDispatcher
     ) {
         self.listsRepository = listsRepository
-        self.listUpdater = listUpdater
         self.statusNotifier = statusNotifier
-        self.eventBus = eventBus
+        self.eventDispatcher = eventDispatcher
     }
 
     public func create() -> ListsViewModel {
         .init(
             listsRepository: listsRepository,
-            listUpdater: listUpdater,
             statusNotifier: statusNotifier,
-            eventBus: eventBus
+            eventDispatcher: eventDispatcher
         )
     }
 }

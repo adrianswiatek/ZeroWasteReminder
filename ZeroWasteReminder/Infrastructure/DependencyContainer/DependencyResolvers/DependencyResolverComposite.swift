@@ -9,6 +9,10 @@ public final class DependencyResolverComposite: DependencyResolver {
         resolvers.forEach { $0.registerCoordinators() }
     }
 
+    public func registerEventListeners() {
+        resolvers.forEach { $0.registerEventListeners() }
+    }
+
     public func registerOtherObjects() {
         resolvers.forEach { $0.registerOtherObjects() }
     }

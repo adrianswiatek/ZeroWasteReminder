@@ -1,4 +1,4 @@
-public struct ListRemovedEvent: AppEvent {
+public struct ListAdded: AppEvent {
     public let list: List
 
     public init(_ list: List) {
