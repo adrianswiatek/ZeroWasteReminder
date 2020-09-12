@@ -1,4 +1,4 @@
-public protocol eventDispatcherInterceptor {
+public protocol EventDispatcherInterceptor {
     init(_ eventDispatcher: EventDispatcher)
 
     func startIntercept()

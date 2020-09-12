@@ -44,14 +44,14 @@ public final class GeneralDependencyResolver: DependencyResolver {
                 resolver.resolve(ListsRepository.self)!,
                 resolver.resolve(EventDispatcher.self)!
             )
-        }
+        }.inObjectScope(.container)
 
         container.register(ItemsChangeListener.self) { resolver in
             ItemsChangeListener(
                 resolver.resolve(ListsRepository.self)!,
                 resolver.resolve(EventDispatcher.self)!
             )
-        }
+        }.inObjectScope(.container)
     }
 
     public func registerOtherObjects() {
@@ -63,7 +63,7 @@ public final class GeneralDependencyResolver: DependencyResolver {
             EventDispatcher(resolver.resolve(NotificationCenter.self)!)
         }.inObjectScope(.container)
 
-        container.register(eventDispatcherInterceptor.self) { resolver in
+        container.register(EventDispatcherInterceptor.self) { resolver in
             ConsoleeventDispatcherInterceptor(resolver.resolve(EventDispatcher.self)!)
         }.inObjectScope(.container)
 

@@ -8,7 +8,11 @@ public final class DefaultMoveItemService: MoveItemService {
     private let itemsRepository: ItemsRepository
     private let eventDispatcher: EventDispatcher
 
-    public init(listsRepository: ListsRepository, itemsRepository: ItemsRepository, eventDispatcher: EventDispatcher) {
+    public init(
+        listsRepository: ListsRepository,
+        itemsRepository: ItemsRepository,
+        eventDispatcher: EventDispatcher
+    ) {
         self.listsRepository = listsRepository
         self.itemsRepository = itemsRepository
         self.eventDispatcher = eventDispatcher

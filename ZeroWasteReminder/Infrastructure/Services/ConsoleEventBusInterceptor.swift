@@ -1,6 +1,6 @@
 import Combine
 
-public final class ConsoleeventDispatcherInterceptor: eventDispatcherInterceptor {
+public final class ConsoleeventDispatcherInterceptor: EventDispatcherInterceptor {
     private let eventDispatcher: EventDispatcher
     private var cancellable: AnyCancellable?
 

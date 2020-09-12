@@ -59,6 +59,8 @@
 		A731F89724BE45D0007348A3 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731F89624BE45D0007348A3 /* List.swift */; };
 		A73ADDB924A90C8200D7E316 /* PhotoCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73ADDB824A90C8200D7E316 /* PhotoCaptureView.swift */; };
 		A73ADDBB24A91D2D00D7E316 /* PhotosEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73ADDBA24A91D2D00D7E316 /* PhotosEmptyView.swift */; };
+		A73CB9A8250D839D0069E4F0 /* ListRemotelyCreated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73CB9A7250D839D0069E4F0 /* ListRemotelyCreated.swift */; };
+		A73CB9AA250D83B10069E4F0 /* ListRemotelyRemoved.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73CB9A9250D83B10069E4F0 /* ListRemotelyRemoved.swift */; };
 		A741613E2450D814001ED316 /* UIAlertActionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */; };
 		A74161412450D83B001ED316 /* UIAlertControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74161402450D83B001ED316 /* UIAlertControllerExtensions.swift */; };
 		A74774CC2475CD7800E41992 /* NotificationNameExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74774CB2475CD7800E41992 /* NotificationNameExtensions.swift */; };
@@ -187,7 +189,7 @@
 		A7F82BA82458CB8700970CFC /* ReadModeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F82BA72458CB8700970CFC /* ReadModeState.swift */; };
 		A7F82BAA2458CB9C00970CFC /* SelectionModeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F82BA92458CB9C00970CFC /* SelectionModeState.swift */; };
 		A7F82BAC2458CBA800970CFC /* FilteringModeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F82BAB2458CBA800970CFC /* FilteringModeState.swift */; };
-		A7FCD91725082F5E00F001C7 /* EventBusInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FCD91625082F5E00F001C7 /* EventBusInterceptor.swift */; };
+		A7FCD91725082F5E00F001C7 /* EventDispatcherInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FCD91625082F5E00F001C7 /* EventDispatcherInterceptor.swift */; };
 		A7FCD91925082F8A00F001C7 /* ConsoleEventBusInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FCD91825082F8A00F001C7 /* ConsoleEventBusInterceptor.swift */; };
 		A7FFA9772448F3FF0061A3D6 /* Expiration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA9762448F3FF0061A3D6 /* Expiration.swift */; };
 		A7FFA9792448F5C00061A3D6 /* ExpirationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA9782448F5C00061A3D6 /* ExpirationType.swift */; };
@@ -249,6 +251,8 @@
 		A731F89624BE45D0007348A3 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		A73ADDB824A90C8200D7E316 /* PhotoCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureView.swift; sourceTree = "<group>"; };
 		A73ADDBA24A91D2D00D7E316 /* PhotosEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosEmptyView.swift; sourceTree = "<group>"; };
+		A73CB9A7250D839D0069E4F0 /* ListRemotelyCreated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRemotelyCreated.swift; sourceTree = "<group>"; };
+		A73CB9A9250D83B10069E4F0 /* ListRemotelyRemoved.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRemotelyRemoved.swift; sourceTree = "<group>"; };
 		A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertActionExtensions.swift; sourceTree = "<group>"; };
 		A74161402450D83B001ED316 /* UIAlertControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExtensions.swift; sourceTree = "<group>"; };
 		A74774CB2475CD7800E41992 /* NotificationNameExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtensions.swift; sourceTree = "<group>"; };
@@ -378,7 +382,7 @@
 		A7F82BA72458CB8700970CFC /* ReadModeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadModeState.swift; sourceTree = "<group>"; };
 		A7F82BA92458CB9C00970CFC /* SelectionModeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionModeState.swift; sourceTree = "<group>"; };
 		A7F82BAB2458CBA800970CFC /* FilteringModeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteringModeState.swift; sourceTree = "<group>"; };
-		A7FCD91625082F5E00F001C7 /* EventBusInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBusInterceptor.swift; sourceTree = "<group>"; };
+		A7FCD91625082F5E00F001C7 /* EventDispatcherInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDispatcherInterceptor.swift; sourceTree = "<group>"; };
 		A7FCD91825082F8A00F001C7 /* ConsoleEventBusInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleEventBusInterceptor.swift; sourceTree = "<group>"; };
 		A7FFA9762448F3FF0061A3D6 /* Expiration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expiration.swift; sourceTree = "<group>"; };
 		A7FFA9782448F5C00061A3D6 /* ExpirationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationType.swift; sourceTree = "<group>"; };
@@ -689,6 +693,8 @@
 			isa = PBXGroup;
 			children = (
 				A7597EA02506E3A000A53B7D /* ListAdded.swift */,
+				A73CB9A7250D839D0069E4F0 /* ListRemotelyCreated.swift */,
+				A73CB9A9250D83B10069E4F0 /* ListRemotelyRemoved.swift */,
 				A7CFBBB7250982560026D338 /* ListRemotelyUpdated.swift */,
 				A7597EA42506E3C000A53B7D /* ListRemoved.swift */,
 				A7597EA22506E3AF00A53B7D /* ListsFetched.swift */,
@@ -943,7 +949,7 @@
 			isa = PBXGroup;
 			children = (
 				A7E530AC249BFD330020DB14 /* AccountService.swift */,
-				A7FCD91625082F5E00F001C7 /* EventBusInterceptor.swift */,
+				A7FCD91625082F5E00F001C7 /* EventDispatcherInterceptor.swift */,
 				A7E5B8B825044A72008E9523 /* MoveItemService.swift */,
 				A726F35A24C3C24800BE0EC5 /* StatusNotifier.swift */,
 				A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */,
@@ -1156,7 +1162,7 @@
 				A7C1A0B9249FFB540054BBAF /* InMemoryItemsRepository.swift in Sources */,
 				A7EC2D622445127200993F53 /* PeriodTypeExtensions.swift in Sources */,
 				A7159B6C25004BCF00BC3532 /* ListsViewModelFactory.swift in Sources */,
-				A7FCD91725082F5E00F001C7 /* EventBusInterceptor.swift in Sources */,
+				A7FCD91725082F5E00F001C7 /* EventDispatcherInterceptor.swift in Sources */,
 				A726F35D24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift in Sources */,
 				A7BDE68B24B51C61003215C0 /* EditListMixedButton.swift in Sources */,
 				A7597EA32506E3AF00A53B7D /* ListsFetched.swift in Sources */,
@@ -1194,6 +1200,7 @@
 				A7BDE68924B513F5003215C0 /* ListsNavigationController.swift in Sources */,
 				A7A8EF75247C771900FF1AC2 /* NotesTextView.swift in Sources */,
 				A726F35B24C3C24800BE0EC5 /* StatusNotifier.swift in Sources */,
+				A73CB9A8250D839D0069E4F0 /* ListRemotelyCreated.swift in Sources */,
 				A7DD996E248463B500B40141 /* ReuseIdentifiable.swift in Sources */,
 				A7159B6A250049D000BC3532 /* ImagePickerControllerFactory.swift in Sources */,
 				A7EC2D5C2444F66800993F53 /* ExpirationDateView.swift in Sources */,
@@ -1314,6 +1321,7 @@
 				A70BCCD9244795D700CC49D0 /* AddViewModel.swift in Sources */,
 				A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */,
 				A784EE4025081377006C3A68 /* ListsFetchedForItemToMove.swift in Sources */,
+				A73CB9AA250D83B10069E4F0 /* ListRemotelyRemoved.swift in Sources */,
 				A75E703B248DA01300F06E98 /* Photo.swift in Sources */,
 				A7FCD91925082F8A00F001C7 /* ConsoleEventBusInterceptor.swift in Sources */,
 				A763AFFA2482E2C500E93546 /* StringExtensions.swift in Sources */,

@@ -11,11 +11,9 @@ public final class ListsChangeListener {
         self.listsRepository = listsRepository
         self.eventDispatcher = eventDispatcher
         self.subscriptions = []
-
-        self.bind()
     }
 
-    private func bind() {
+    public func startListening() {
         eventDispatcher.events
             .sink { [weak self] in self?.handleEvent($0) }
             .store(in: &subscriptions)
@@ -23,7 +21,11 @@ public final class ListsChangeListener {
 
     private func handleEvent(_ event: AppEvent) {
         switch event {
-        case is ListRemotelyUpdated:
+        case is ListRemotelyCreated:
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
+                self.listsRepository.fetchAll()
+            }
+        case is ListRemotelyRemoved, is ListRemotelyUpdated:
             listsRepository.fetchAll()
         default:
             break
