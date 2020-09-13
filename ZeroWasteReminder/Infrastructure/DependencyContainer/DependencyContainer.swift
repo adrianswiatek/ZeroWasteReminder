@@ -26,6 +26,10 @@ internal final class DependencyContainer {
         container.resolve(ListsViewControllerFactory.self)!.create()
     }
 
+    internal var remoteNotificationHandler: RemoteNotificationHandler {
+        container.resolve(RemoteNotificationHandler.self)!
+    }
+
     internal func startBackgroundServices() {
         container.resolve(AccountService.self)!.refreshUserEligibility()
         container.resolve(SubscriptionService.self)!.registerListsSubscriptionIfNeeded()

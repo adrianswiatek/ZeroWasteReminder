@@ -2,42 +2,36 @@ import Combine
 import UIKit
 
 public final class RemoteNotificationHandler {
-    private let notificationCenter: NotificationCenter
+    private let eventDispatcher: EventDispatcher
 
-    private let mappedItemNotifications: [Action: Notification.Name]
-    private let mappedListNotifications: [Action: Notification.Name]
-
-    public init(notificationCenter: NotificationCenter) {
-        self.notificationCenter = notificationCenter
-
-        self.mappedItemNotifications = [
-            .add: .itemAddReceived,
-            .remove: .itemRemoveReceived,
-            .update: .itemUpdateReceived
-        ]
-
-        self.mappedListNotifications = [
-            .add: .listAddReceived,
-            .remove: .listRemoveReceived,
-            .update: .listUpdateReceived
-        ]
+    public init(eventDispatcher: EventDispatcher) {
+        self.eventDispatcher = eventDispatcher
     }
 
     public func received(with userInfo: [AnyHashable: Any]) {
-        guard let payload = Payload(userInfo) else {
-            assertionFailure("Payload is expected to be initialized.")
-            return
-        }
+        Payload(userInfo).map { dispatchEvent(from: $0) }
+    }
 
-        notificationName(from: payload).map {
-            notificationCenter.post(name: $0, object: nil, userInfo: ["id": payload.recordId])
+    private func dispatchEvent(from payload: Payload) {
+        switch payload.category {
+        case .item: dispatchItemEvent(from: payload)
+        case .list: dispatchListEvent(from: payload)
         }
     }
 
-    private func notificationName(from payload: Payload) -> Notification.Name? {
-        switch payload.category {
-        case .item: return mappedItemNotifications[payload.action]
-        case .list: return mappedListNotifications[payload.action]
+    private func dispatchItemEvent(from payload: Payload) {
+        switch payload.action {
+        case .add: eventDispatcher.dispatch(ItemRemotelyAdded(.fromUuid(payload.uuid)))
+        case .remove: eventDispatcher.dispatch(ItemRemotelyRemoved(.fromUuid(payload.uuid)))
+        case .update: eventDispatcher.dispatch(ItemRemotelyUpdated(.fromUuid(payload.uuid)))
+        }
+    }
+
+    private func dispatchListEvent(from payload: Payload) {
+        switch payload.action {
+        case .add: eventDispatcher.dispatch(ListRemotelyAdded(.fromUuid(payload.uuid)))
+        case .remove: eventDispatcher.dispatch(ListRemotelyRemoved(.fromUuid(payload.uuid)))
+        case .update: eventDispatcher.dispatch(ListRemotelyUpdated(.fromUuid(payload.uuid)))
         }
     }
 }
@@ -46,7 +40,7 @@ private extension RemoteNotificationHandler {
     struct Payload {
         let category: Category
         let action: Action
-        let recordId: UUID
+        let uuid: UUID
 
         init?(_ userInfo: [AnyHashable: Any]) {
             let aps = userInfo["aps"] as? [AnyHashable: Any]
@@ -61,8 +55,8 @@ private extension RemoteNotificationHandler {
             self.action = action
 
             let rid = qry?["rid"] as? String
-            guard let recordId = rid.flatMap({ UUID(uuidString: $0) }) else { return nil }
-            self.recordId = recordId
+            guard let uuid = rid.flatMap({ UUID(uuidString: $0) }) else { return nil }
+            self.uuid = uuid
         }
     }
 

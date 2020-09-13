@@ -60,12 +60,16 @@ public final class GeneralDependencyResolver: DependencyResolver {
         }
 
         container.register(EventDispatcher.self) { resolver in
-            EventDispatcher(resolver.resolve(NotificationCenter.self)!)
+            EventDispatcher()
         }.inObjectScope(.container)
 
         container.register(EventDispatcherInterceptor.self) { resolver in
             ConsoleeventDispatcherInterceptor(resolver.resolve(EventDispatcher.self)!)
         }.inObjectScope(.container)
+
+        container.register(RemoteNotificationHandler.self) { resolver in
+            RemoteNotificationHandler(eventDispatcher: resolver.resolve(EventDispatcher.self)!)
+        }
 
         container.register(StatusNotifier.self) { resolver in
             RemoteStatusNotifier(accountService: resolver.resolve(AccountService.self)!)
