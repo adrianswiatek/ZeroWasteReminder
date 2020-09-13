@@ -7,3 +7,9 @@ public struct ListsFetchedForItemToMove: AppEvent {
         self.item = item
     }
 }
+
+extension ListsFetchedForItemToMove {
+    public var description: String {
+        "\(name)(itemId: \(item.id.asString), listIds: \(lists.map(\.id.asString).joined(separator: ", ")))"
+    }
+}

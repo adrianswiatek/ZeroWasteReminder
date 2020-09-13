@@ -5,3 +5,9 @@ public struct ListAdded: AppEvent {
         self.list = list
     }
 }
+
+extension ListAdded {
+    public var description: String {
+        "\(name)(id: \(list.id.asString))"
+    }
+}

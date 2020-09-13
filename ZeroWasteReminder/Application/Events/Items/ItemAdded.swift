@@ -5,3 +5,9 @@ public struct ItemAdded: AppEvent {
         self.item = item
     }
 }
+
+extension ItemAdded {
+    public var description: String {
+        "\(name)(id: \(item.id.asString))"
+    }
+}
