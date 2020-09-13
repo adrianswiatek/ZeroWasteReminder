@@ -21,7 +21,7 @@ public final class ListsChangeListener {
 
     private func handleEvent(_ event: AppEvent) {
         switch event {
-        case is ListRemotelyCreated:
+        case is ListRemotelyAdded:
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
                 self.listsRepository.fetchAll()
             }

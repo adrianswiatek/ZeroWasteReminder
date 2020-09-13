@@ -23,35 +23,46 @@ public final class CloudKitSubscriptionService: SubscriptionService {
                 guard let self = self else {
                     return Empty<Bool, CKError>().eraseToAnyPublisher()
                 }
-                return self.hasListSubscription().eraseToAnyPublisher()
+                return self.hasSubscription(with: "Item").eraseToAnyPublisher()
             }
-            .filter { $0 == false }
-            .flatMap { [weak self] _ -> AnyPublisher<Void, CKError> in
-                guard let self = self else {
+            .flatMap { [weak self] hasSubscription -> AnyPublisher<Void, CKError> in
+                guard let self = self, !hasSubscription else {
                     return Empty<Void, CKError>().eraseToAnyPublisher()
                 }
-                return self.saveListSubscription().eraseToAnyPublisher()
+                return self.saveSubscription(CKQuerySubscription.itemSubscription).eraseToAnyPublisher()
+            }
+            .flatMap { [weak self] _ -> AnyPublisher<Bool, CKError> in
+                guard let self = self else {
+                    return Empty<Bool, CKError>().eraseToAnyPublisher()
+                }
+                return self.hasSubscription(with: "List").eraseToAnyPublisher()
+            }
+            .flatMap { [weak self] hasSubscription -> AnyPublisher<Void, CKError> in
+                guard let self = self, !hasSubscription else {
+                    return Empty<Void, CKError>().eraseToAnyPublisher()
+                }
+                return self.saveSubscription(CKQuerySubscription.listSubscription).eraseToAnyPublisher()
             }
             .subscribe(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in }, receiveValue: { })
             .cancel()
     }
 
-    private func hasListSubscription() -> Future<Bool, CKError> {
+    private func hasSubscription(with category: String) -> Future<Bool, CKError> {
         Future { [weak self] promise in
             self?.database.fetchAllSubscriptions(completionHandler: { subscriptions, error in
                 if let error = error as? CKError {
                     promise(.failure(error))
                 } else {
-                    promise(.success(subscriptions?.first { $0.notificationInfo?.category == "List" } != nil))
+                    promise(.success(subscriptions?.first { $0.notificationInfo?.category == category } != nil))
                 }
             })
         }
     }
 
-    private func saveListSubscription() -> Future<Void, CKError> {
+    private func saveSubscription(_ subscription: CKQuerySubscription) -> Future<Void, CKError> {
         Future { [weak self] promise in
-            self?.database.save(CKQuerySubscription.listSubscription) { _, error in
+            self?.database.save(subscription) { _, error in
                 if let error = error as? CKError {
                     promise(.failure(error))
                 } else {
@@ -63,16 +74,24 @@ public final class CloudKitSubscriptionService: SubscriptionService {
 }
 
 private extension CKQuerySubscription {
+    static var itemSubscription: CKQuerySubscription {
+        subscription(recordType: "Item")
+    }
+
     static var listSubscription: CKQuerySubscription {
+        subscription(recordType: "List")
+    }
+
+    static func subscription(recordType: String) -> CKQuerySubscription {
         let subscription = CKQuerySubscription(
-            recordType: "List",
+            recordType: recordType,
             predicate: .init(value: true),
             options: [.firesOnRecordCreation, .firesOnRecordUpdate, .firesOnRecordDeletion]
         )
 
         let notificationInfo = CKQuerySubscription.NotificationInfo()
         notificationInfo.shouldSendContentAvailable = true
-        notificationInfo.category = "List"
+        notificationInfo.category = recordType
 
         subscription.notificationInfo = notificationInfo
         return subscription

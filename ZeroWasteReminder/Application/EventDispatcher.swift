@@ -23,29 +23,44 @@ public final class EventDispatcher {
     }
 
     private func bind() {
-        notificationCenter.publisher(for: .listCreateReceived)
-            .sink { [weak self] in
-                guard let listId = self?.listId(from: $0) else { return }
-                self?.dispatch(ListRemotelyCreated(listId))
-            }
+        notificationCenter
+            .publisher(for: .listAddReceived)
+            .merge(with: notificationCenter.publisher(for: .listRemoveReceived))
+            .merge(with: notificationCenter.publisher(for: .listUpdateReceived))
+            .sink { [weak self] in self?.handleListEvent($0) }
             .store(in: &subscriptions)
 
-        notificationCenter.publisher(for: .listUpdateReceived)
-            .sink { [weak self] in
-                guard let listId = self?.listId(from: $0) else { return }
-                self?.dispatch(ListRemotelyUpdated(listId))
-            }
-            .store(in: &subscriptions)
-
-        notificationCenter.publisher(for: .listRemoveReceived)
-            .sink { [weak self] in
-                guard let listId = self?.listId(from: $0) else { return }
-                self?.dispatch(ListRemotelyRemoved(listId))
-            }
+        notificationCenter
+            .publisher(for: .itemAddReceived)
+            .merge(with: notificationCenter.publisher(for: .itemRemoveReceived))
+            .merge(with: notificationCenter.publisher(for: .itemUpdateReceived))
+            .sink { [weak self] in self?.handleItemEvent($0) }
             .store(in: &subscriptions)
     }
 
-    private func listId(from notification: Notification) -> Id<List>? {
-        notification.userInfo?["id"].flatMap { $0 as? UUID }.map { Id<List>.fromUuid($0) }
+    private func handleListEvent(_ notification: Notification) {
+        guard let uuid = notification.userInfo?["id"] as? UUID else {
+            preconditionFailure("Missing value for expected key 'id'.")
+        }
+
+        switch notification.name {
+        case .listAddReceived: eventsSubject.send(ListRemotelyAdded(.fromUuid(uuid)))
+        case .listRemoveReceived: eventsSubject.send(ListRemotelyRemoved(.fromUuid(uuid)))
+        case .listUpdateReceived: eventsSubject.send(ListRemotelyUpdated(.fromUuid(uuid)))
+        default: break
+        }
+    }
+
+    private func handleItemEvent(_ notification: Notification) {
+        guard let uuid = notification.userInfo?["id"] as? UUID else {
+            preconditionFailure("Missing value for expected key 'id'.")
+        }
+
+        switch notification.name {
+        case .itemAddReceived: eventsSubject.send(ItemRemotelyAdded(.fromUuid(uuid)))
+        case .itemRemoveReceived: eventsSubject.send(ItemRemotelyRemoved(.fromUuid(uuid)))
+        case .itemUpdateReceived: eventsSubject.send(ItemRemotelyUpdated(.fromUuid(uuid)))
+        default: break
+        }
     }
 }

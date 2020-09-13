@@ -11,72 +11,79 @@ public final class RemoteNotificationHandler {
         self.notificationCenter = notificationCenter
 
         self.mappedItemNotifications = [
-            .create: .listCreateReceived,
-            .remove: .listRemoveReceived,
-            .update: .listUpdateReceived
+            .add: .itemAddReceived,
+            .remove: .itemRemoveReceived,
+            .update: .itemUpdateReceived
         ]
 
         self.mappedListNotifications = [
-            .create: .listCreateReceived,
+            .add: .listAddReceived,
             .remove: .listRemoveReceived,
             .update: .listUpdateReceived
         ]
     }
 
     public func received(with userInfo: [AnyHashable: Any]) {
-        let payload = Payload(userInfo)
-
-        guard let name = notificationName(from: payload) else {
-            preconditionFailure("Unknown notification name.")
+        guard let payload = Payload(userInfo) else {
+            assertionFailure("Payload is expected to be initialized.")
+            return
         }
 
-        guard let id = payload.recordId else {
-            preconditionFailure("Unknown recordId.")
+        notificationName(from: payload).map {
+            notificationCenter.post(name: $0, object: nil, userInfo: ["id": payload.recordId])
         }
-
-        notificationCenter.post(name: name, object: nil, userInfo: ["id": id])
     }
 
     private func notificationName(from payload: Payload) -> Notification.Name? {
-        guard let action = payload.action else {
-            preconditionFailure("Unknown action.")
-        }
-
         switch payload.category {
-        case "Item": return mappedItemNotifications[action]
-        case "List": return mappedListNotifications[action]
-        default: preconditionFailure("Unknown category.")
+        case .item: return mappedItemNotifications[payload.action]
+        case .list: return mappedListNotifications[payload.action]
         }
     }
 }
 
 private extension RemoteNotificationHandler {
     struct Payload {
-        let category: String?
-        let action: Action?
-        let recordId: UUID?
+        let category: Category
+        let action: Action
+        let recordId: UUID
 
-        init(_ userInfo: [AnyHashable: Any]) {
+        init?(_ userInfo: [AnyHashable: Any]) {
             let aps = userInfo["aps"] as? [AnyHashable: Any]
-            category = aps?["category"] as? String
+            guard let category = (aps?["category"] as? String).flatMap({ Category($0) }) else { return nil }
+            self.category = category
 
             let ck = userInfo["ck"] as? [AnyHashable: Any]
             let qry = ck?["qry"] as? [AnyHashable: Any]
 
             let fo = qry?["fo"] as? Int
-            action = fo.flatMap { Action($0) }
+            guard let action = fo.flatMap({ Action($0) }) else { return nil }
+            self.action = action
 
             let rid = qry?["rid"] as? String
-            recordId = rid.flatMap { UUID(uuidString: $0) }
+            guard let recordId = rid.flatMap({ UUID(uuidString: $0) }) else { return nil }
+            self.recordId = recordId
+        }
+    }
+
+    enum Category {
+        case item, list
+
+        public init?(_ value: String) {
+            switch value {
+            case "Item": self = .item
+            case "List": self = .list
+            default: return nil
+            }
         }
     }
 
     enum Action {
-        case create, update, remove
+        case add, update, remove
 
         public init?(_ value: Int) {
             switch value {
-            case 1: self = .create
+            case 1: self = .add
             case 2: self = .update
             case 3: self = .remove
             default: return nil
