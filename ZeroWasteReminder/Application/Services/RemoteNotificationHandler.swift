@@ -4,33 +4,48 @@ import UIKit
 public final class RemoteNotificationHandler {
     private let notificationCenter: NotificationCenter
 
+    private let mappedItemNotifications: [Action: Notification.Name]
+    private let mappedListNotifications: [Action: Notification.Name]
+
     public init(notificationCenter: NotificationCenter) {
         self.notificationCenter = notificationCenter
+
+        self.mappedItemNotifications = [
+            .create: .listCreateReceived,
+            .remove: .listRemoveReceived,
+            .update: .listUpdateReceived
+        ]
+
+        self.mappedListNotifications = [
+            .create: .listCreateReceived,
+            .remove: .listRemoveReceived,
+            .update: .listUpdateReceived
+        ]
     }
 
     public func received(with userInfo: [AnyHashable: Any]) {
         let payload = Payload(userInfo)
 
-        switch payload.category {
-        case "List":
-            sendListNotification(from: payload)
-        default:
-            break
+        guard let name = notificationName(from: payload) else {
+            preconditionFailure("Unknown notification name.")
         }
+
+        guard let id = payload.recordId else {
+            preconditionFailure("Unknown recordId.")
+        }
+
+        notificationCenter.post(name: name, object: nil, userInfo: ["id": id])
     }
 
-    private func sendListNotification(from payload: Payload) {
-        guard let action = payload.action, let id = payload.recordId else {
-            preconditionFailure("Unknown action or recordId.")
+    private func notificationName(from payload: Payload) -> Notification.Name? {
+        guard let action = payload.action else {
+            preconditionFailure("Unknown action.")
         }
 
-        switch action {
-        case .create:
-            notificationCenter.post(name: .listCreateReceived, object: nil, userInfo: ["id": id])
-        case .update:
-            notificationCenter.post(name: .listUpdateReceived, object: nil, userInfo: ["id": id])
-        case .remove:
-            notificationCenter.post(name: .listRemoveReceived, object: nil, userInfo: ["id": id])
+        switch payload.category {
+        case "Item": return mappedItemNotifications[action]
+        case "List": return mappedListNotifications[action]
+        default: preconditionFailure("Unknown category.")
         }
     }
 }
