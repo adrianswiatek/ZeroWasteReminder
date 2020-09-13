@@ -152,6 +152,8 @@ public final class ItemsViewModel {
             updatedItems.firstIndex { $0.id == event.item.id }.map { updatedItems[$0] = event.item }
         case let event as ItemMoved:
             updatedItems = updatedItems.removedAll { $0.id == event.item.id }
+        case let event as ListRemotelyRemoved where event.listId == list.id:
+            requestsSubject.send(.dismiss)
         case let event as ErrorOccured:
             requestsSubject.send(.showErrorMessage(event.error.localizedDescription))
         default:
@@ -165,6 +167,7 @@ public final class ItemsViewModel {
 public extension ItemsViewModel {
     enum Request: Equatable {
         case disableLoadingIndicatorOnce
+        case dismiss
         case moveItem(_ item: Item)
         case removeItem(_ item: Item)
         case showErrorMessage(_ message: String)

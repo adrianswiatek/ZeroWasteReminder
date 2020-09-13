@@ -183,6 +183,8 @@ public final class ItemsViewController: UIViewController {
         switch request {
         case .disableLoadingIndicatorOnce:
             loadingView.disableLoadingIndicatorOnce()
+        case .dismiss:
+            dismissViewControllers()
         case .moveItem(let item):
             coordinator.navigateToMoveItem(with: item, in: self)
         case .removeItem(let item):
@@ -232,6 +234,11 @@ public final class ItemsViewController: UIViewController {
 
     @objc
     private func handleDismissButtonTap(_ sender: UIBarButtonItem) {
+        dismiss(animated: true)
+    }
+
+    private func dismissViewControllers() {
+        presentedViewController.map { $0.dismiss(animated: false) }
         dismiss(animated: true)
     }
 

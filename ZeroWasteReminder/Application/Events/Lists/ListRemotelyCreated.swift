@@ -1,4 +1,4 @@
-public struct ListRemotelyUpdated: AppEvent {
+public struct ListRemotelyCreated: AppEvent {
     public let listId: Id<List>
 
     public init(_ listId: Id<List>) {

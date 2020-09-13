@@ -26,10 +26,11 @@ internal final class DependencyContainer {
         container.resolve(ListsViewControllerFactory.self)!.create()
     }
 
-    internal func initializeBackgroundServices() {
+    internal func startBackgroundServices() {
         container.resolve(AccountService.self)!.refreshUserEligibility()
         container.resolve(SubscriptionService.self)!.registerListsSubscriptionIfNeeded()
-//        container.resolve(eventDispatcherInterceptor.self)!.startIntercept()
+        container.resolve(ListsChangeListener.self)!.startListening()
+        container.resolve(EventDispatcherInterceptor.self)!.startIntercept()
     }
 
     private func infrastructureDependencyResolver(

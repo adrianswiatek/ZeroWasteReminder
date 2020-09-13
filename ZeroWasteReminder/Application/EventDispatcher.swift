@@ -23,8 +23,29 @@ public final class EventDispatcher {
     }
 
     private func bind() {
-        notificationCenter.publisher(for: .listUpdateReceived)
-            .sink { [weak self] _ in self?.dispatch(ListRemotelyUpdated()) }
+        notificationCenter.publisher(for: .listCreateReceived)
+            .sink { [weak self] in
+                guard let listId = self?.listId(from: $0) else { return }
+                self?.dispatch(ListRemotelyCreated(listId))
+            }
             .store(in: &subscriptions)
+
+        notificationCenter.publisher(for: .listUpdateReceived)
+            .sink { [weak self] in
+                guard let listId = self?.listId(from: $0) else { return }
+                self?.dispatch(ListRemotelyUpdated(listId))
+            }
+            .store(in: &subscriptions)
+
+        notificationCenter.publisher(for: .listRemoveReceived)
+            .sink { [weak self] in
+                guard let listId = self?.listId(from: $0) else { return }
+                self?.dispatch(ListRemotelyRemoved(listId))
+            }
+            .store(in: &subscriptions)
+    }
+
+    private func listId(from notification: Notification) -> Id<List>? {
+        notification.userInfo?["id"].flatMap { $0 as? UUID }.map { Id<List>.fromUuid($0) }
     }
 }
