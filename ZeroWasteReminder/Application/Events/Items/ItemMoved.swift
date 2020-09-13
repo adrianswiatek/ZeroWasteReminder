@@ -7,3 +7,9 @@ public struct ItemMoved: AppEvent {
         self.targetList = list
     }
 }
+
+extension ItemMoved {
+    public var description: String {
+        "\(name)(id: \(item.id.asString), targetListId: \(targetList.id.asString))"
+    }
+}

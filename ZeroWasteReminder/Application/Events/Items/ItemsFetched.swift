@@ -9,3 +9,9 @@ public struct ItemsFetched: AppEvent {
         self.items = [item]
     }
 }
+
+extension ItemsFetched {
+    public var description: String {
+        "\(name)(ids: [\(items.map { $0.id.asString }.joined(separator: ", "))])"
+    }
+}

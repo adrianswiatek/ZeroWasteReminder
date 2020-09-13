@@ -9,3 +9,9 @@ public struct ItemsRemoved: AppEvent {
         self.items = [item]
     }
 }
+
+extension ItemsRemoved {
+    public var description: String {
+        "\(name)(ids: [\(items.map { $0.id.asString }.joined(separator: ", "))])"
+    }
+}
