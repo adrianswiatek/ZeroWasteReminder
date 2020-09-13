@@ -5,3 +5,9 @@ public struct ListRemoved: AppEvent {
         self.list = list
     }
 }
+
+extension ListRemoved {
+    public var description: String {
+        "\(name)(id: \(list.id.asString))"
+    }
+}

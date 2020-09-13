@@ -5,3 +5,9 @@ public struct ListRemotelyRemoved: AppEvent {
         self.listId = listId
     }
 }
+
+extension ListRemotelyRemoved {
+    public var description: String {
+        "\(name)(id: \(listId.asString))"
+    }
+}

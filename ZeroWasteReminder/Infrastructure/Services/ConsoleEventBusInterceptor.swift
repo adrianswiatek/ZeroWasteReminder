@@ -10,7 +10,7 @@ public final class ConsoleeventDispatcherInterceptor: EventDispatcherInterceptor
 
     public func startIntercept() {
         cancellable = eventDispatcher.events.sink {
-            print("Event sent:", $0.name)
+            print("Event sent:", $0.description)
         }
     }
 

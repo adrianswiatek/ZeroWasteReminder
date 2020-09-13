@@ -5,3 +5,9 @@ public struct ListsUpdated: AppEvent {
         self.lists = lists
     }
 }
+
+extension ListsUpdated {
+    public var description: String {
+        "\(name)(ids: [\(lists.map { $0.id.asString }.joined(separator: ", "))])"
+    }
+}

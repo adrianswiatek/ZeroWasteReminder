@@ -5,3 +5,9 @@ public struct ErrorOccured: AppEvent {
         self.error = error
     }
 }
+
+extension ErrorOccured {
+    public var description: String {
+        "\(name)(message: \(error.localizedDescription)"
+    }
+}

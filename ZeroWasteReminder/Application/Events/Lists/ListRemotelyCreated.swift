@@ -5,3 +5,9 @@ public struct ListRemotelyCreated: AppEvent {
         self.listId = listId
     }
 }
+
+extension ListRemotelyCreated {
+    public var description: String {
+        "\(name)(id: \(listId.asString))"
+    }
+}
