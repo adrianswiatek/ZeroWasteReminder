@@ -4,7 +4,6 @@ import Foundation
 public final class EventDispatcher {
     public var events: AnyPublisher<AppEvent, Never> {
         eventsSubject.share()
-            .removeDuplicates { $0.description == $1.description }
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }

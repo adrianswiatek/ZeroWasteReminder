@@ -53,6 +53,11 @@ public final class ListsViewController: UIViewController {
         fatalError("Not supported.")
     }
 
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.viewModel.isViewOnTop = true
+    }
+
     private func setupView() {
         title = .localized(.allLists)
         view.backgroundColor = .accent
@@ -151,6 +156,7 @@ public final class ListsViewController: UIViewController {
             loadingView.disableLoadingIndicatorOnce()
         case .openItems(let list):
             coordinator.navigateToItems(with: list, in: self)
+            viewModel.isViewOnTop = false
         case .remove(let list):
             removeListSubscription = UIAlertController.presentRemoveListConfirmationSheet(in: self).sink(
                 receiveCompletion: { [weak self] _ in self?.tableView.deselectList(list) },

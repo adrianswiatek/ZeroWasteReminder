@@ -33,7 +33,6 @@ internal final class DependencyContainer {
     internal func startBackgroundServices() {
         container.resolve(AccountService.self)!.refreshUserEligibility()
         container.resolve(SubscriptionService.self)!.registerListsSubscriptionIfNeeded()
-        container.resolve(ListsChangeListener.self)!.startListening()
         container.resolve(EventDispatcherInterceptor.self)!.startIntercept()
     }
 
