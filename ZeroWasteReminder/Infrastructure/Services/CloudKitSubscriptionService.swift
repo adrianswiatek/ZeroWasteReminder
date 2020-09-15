@@ -75,14 +75,14 @@ public final class CloudKitSubscriptionService: SubscriptionService {
 
 private extension CKQuerySubscription {
     static var itemSubscription: CKQuerySubscription {
-        subscription(recordType: "Item")
+        subscription(recordType: "Item", desiredKeys: [CloudKitKey.Item.listReference])
     }
 
     static var listSubscription: CKQuerySubscription {
         subscription(recordType: "List")
     }
 
-    static func subscription(recordType: String) -> CKQuerySubscription {
+    static func subscription(recordType: String, desiredKeys: [CKRecord.FieldKey] = []) -> CKQuerySubscription {
         let subscription = CKQuerySubscription(
             recordType: recordType,
             predicate: .init(value: true),
@@ -92,6 +92,7 @@ private extension CKQuerySubscription {
         let notificationInfo = CKQuerySubscription.NotificationInfo()
         notificationInfo.shouldSendContentAvailable = true
         notificationInfo.category = recordType
+        notificationInfo.desiredKeys = desiredKeys
 
         subscription.notificationInfo = notificationInfo
         return subscription

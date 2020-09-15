@@ -3,85 +3,122 @@ import UIKit
 
 public final class RemoteNotificationHandler {
     private let eventDispatcher: EventDispatcher
+    private let eventBuilders: [Category: ([AnyHashable: Any]) -> AppEventBuilder]
 
     public init(eventDispatcher: EventDispatcher) {
         self.eventDispatcher = eventDispatcher
+        self.eventBuilders = [.item: ItemAppEventBuilder.init, .list: ListAppEventBuilder.init]
     }
 
     public func received(with userInfo: [AnyHashable: Any]) {
-        Payload(userInfo).map { dispatchEvent(from: $0) }
-    }
+        guard let category = Category(from: userInfo) else { return }
 
-    private func dispatchEvent(from payload: Payload) {
-        switch payload.category {
-        case .item: dispatchItemEvent(from: payload)
-        case .list: dispatchListEvent(from: payload)
-        }
-    }
-
-    private func dispatchItemEvent(from payload: Payload) {
-        switch payload.action {
-        case .add: eventDispatcher.dispatch(ItemRemotelyAdded(.fromUuid(payload.uuid)))
-        case .remove: eventDispatcher.dispatch(ItemRemotelyRemoved(.fromUuid(payload.uuid)))
-        case .update: eventDispatcher.dispatch(ItemRemotelyUpdated(.fromUuid(payload.uuid)))
-        }
-    }
-
-    private func dispatchListEvent(from payload: Payload) {
-        switch payload.action {
-        case .add: eventDispatcher.dispatch(ListRemotelyAdded(.fromUuid(payload.uuid)))
-        case .remove: eventDispatcher.dispatch(ListRemotelyRemoved(.fromUuid(payload.uuid)))
-        case .update: eventDispatcher.dispatch(ListRemotelyUpdated(.fromUuid(payload.uuid)))
+        eventBuilders[category]?(userInfo).build().map {
+            eventDispatcher.dispatch($0)
         }
     }
 }
 
-private extension RemoteNotificationHandler {
-    struct Payload {
-        let category: Category
-        let action: Action
-        let uuid: UUID
+private protocol AppEventBuilder {
+    func build() -> AppEvent?
+}
 
-        init?(_ userInfo: [AnyHashable: Any]) {
-            let aps = userInfo["aps"] as? [AnyHashable: Any]
-            guard let category = (aps?["category"] as? String).flatMap({ Category($0) }) else { return nil }
-            self.category = category
+private struct ListAppEventBuilder: AppEventBuilder {
+    private let userInfo: [AnyHashable: Any]
+    private let eventBuilders: [Action: (Id<List>) -> AppEvent]
 
-            let ck = userInfo["ck"] as? [AnyHashable: Any]
-            let qry = ck?["qry"] as? [AnyHashable: Any]
+    internal init(from userInfo: [AnyHashable: Any]) {
+        self.userInfo = userInfo
+        self.eventBuilders = [
+            .add: ListRemotelyAdded.init,
+            .remove: ListRemotelyRemoved.init,
+            .update: ListRemotelyUpdated.init
+        ]
+    }
 
-            let fo = qry?["fo"] as? Int
-            guard let action = fo.flatMap({ Action($0) }) else { return nil }
-            self.action = action
+    internal func build() -> AppEvent? {
+        guard let action = Action(from: userInfo) else { return nil }
+        guard let buildEvent = eventBuilders[action] else { return nil }
 
-            let rid = qry?["rid"] as? String
-            guard let uuid = rid.flatMap({ UUID(uuidString: $0) }) else { return nil }
-            self.uuid = uuid
+        let ck = userInfo["ck"] as? [AnyHashable: Any]
+        let qry = ck?["qry"] as? [AnyHashable: Any]
+        let rid = qry?["rid"] as? String
+
+        return rid.map { Id<List>.fromString($0) }.map { buildEvent($0) }
+    }
+}
+
+private struct ItemAppEventBuilder: AppEventBuilder {
+    private let userInfo: [AnyHashable: Any]
+    private let eventBuilders: [Action: (Id<Item>, Id<List>) -> AppEvent]
+
+    internal init(from userInfo: [AnyHashable: Any]) {
+        self.userInfo = userInfo
+        self.eventBuilders = [
+            .add: ItemRemotelyAdded.init,
+            .remove: ItemRemotelyRemoved.init,
+            .update: ItemRemotelyUpdated.init
+        ]
+    }
+
+    internal func build() -> AppEvent? {
+        guard let action = Action(from: userInfo) else { return nil }
+        guard let buildEvent = eventBuilders[action] else { return nil }
+
+        let ck = userInfo["ck"] as? [AnyHashable: Any]
+        let qry = ck?["qry"] as? [AnyHashable: Any]
+
+        let rid = qry?["rid"] as? String
+        guard let itemId: Id<Item> = rid.flatMap({ .fromString($0) }) else { return nil }
+
+        let listId: Id<List> = .fromUuid(.empty)
+
+        return buildEvent(itemId, listId)
+    }
+}
+
+private enum Category {
+    case item, list
+
+    internal init?(from value: String) {
+        switch value {
+        case "Item": self = .item
+        case "List": self = .list
+        default: return nil
         }
     }
 
-    enum Category {
-        case item, list
+    internal init?(from userInfo: [AnyHashable: Any]) {
+        let aps = userInfo["aps"] as? [AnyHashable: Any]
 
-        public init?(_ value: String) {
-            switch value {
-            case "Item": self = .item
-            case "List": self = .list
-            default: return nil
-            }
+        guard let category = aps?["category"] as? String else {
+            return nil
+        }
+
+        self.init(from: category)
+    }
+}
+
+private enum Action {
+    case add, update, remove
+
+    internal init?(from value: Int) {
+        switch value {
+        case 1: self = .add
+        case 2: self = .update
+        case 3: self = .remove
+        default: return nil
         }
     }
 
-    enum Action {
-        case add, update, remove
+    internal init?(from userInfo: [AnyHashable: Any]) {
+        let ck = userInfo["ck"] as? [AnyHashable: Any]
+        let qry = ck?["qry"] as? [AnyHashable: Any]
 
-        public init?(_ value: Int) {
-            switch value {
-            case 1: self = .add
-            case 2: self = .update
-            case 3: self = .remove
-            default: return nil
-            }
+        guard let fo = qry?["fo"] as? Int else {
+            return nil
         }
+
+        self.init(from: fo)
     }
 }
