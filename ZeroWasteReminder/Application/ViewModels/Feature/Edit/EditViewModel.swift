@@ -165,6 +165,21 @@ public final class EditViewModel {
                 receiveValue: { [weak self] in self?.requestSubject.send(.dismiss) }
             )
             .store(in: &subscriptions)
+
+        eventDispatcher.events
+            .sink { [weak self] in self?.handleRemoteEvent($0) }
+            .store(in: &subscriptions)
+    }
+
+    private func handleRemoteEvent(_ appEvent: AppEvent) {
+        switch appEvent {
+        case let event as ItemRemotelyRemoved where event.itemId == originalItem.id:
+            requestSubject.send(.dismiss)
+        case let event as ItemRemotelyUpdated where event.itemId == originalItem.id:
+            break
+        default:
+            return
+        }
     }
 
     private func formattedDate(_ date: Date?) -> String? {
