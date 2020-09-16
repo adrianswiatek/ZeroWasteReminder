@@ -10,6 +10,6 @@ public struct ItemRemotelyUpdated: AppEvent {
 
 extension ItemRemotelyUpdated {
     public var description: String {
-        "\(name)(id: \(itemId.asString))"
+        "\(name)(id: \(itemId.asString), parentListId: \(listId.asString)"
     }
 }
