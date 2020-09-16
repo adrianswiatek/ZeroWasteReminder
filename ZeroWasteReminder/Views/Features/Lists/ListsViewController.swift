@@ -58,6 +58,11 @@ public final class ListsViewController: UIViewController {
         self.viewModel.isViewOnTop = true
     }
 
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.viewModel.isViewOnTop = false
+    }
+
     private func setupView() {
         title = .localized(.allLists)
         view.backgroundColor = .accent
@@ -156,7 +161,6 @@ public final class ListsViewController: UIViewController {
             loadingView.disableLoadingIndicatorOnce()
         case .openItems(let list):
             coordinator.navigateToItems(with: list, in: self)
-            viewModel.isViewOnTop = false
         case .remove(let list):
             removeListSubscription = UIAlertController.presentRemoveListConfirmationSheet(in: self).sink(
                 receiveCompletion: { [weak self] _ in self?.tableView.deselectList(list) },

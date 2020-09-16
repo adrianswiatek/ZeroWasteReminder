@@ -101,7 +101,9 @@ public final class ListsViewModel {
             }
         case let event as ErrorOccured:
             requestsSubject.send(.showErrorMessage(event.error.localizedDescription))
-        case is ListRemotelyAdded, is ListRemotelyRemoved, is ListRemotelyUpdated:
+        case is ListRemotelyAdded:
+            return fetchOrSchedule(delayInSeconds: 3)
+        case is ListRemotelyRemoved, is ListRemotelyUpdated:
             return fetchOrSchedule()
         default:
             return
@@ -110,9 +112,9 @@ public final class ListsViewModel {
         lists = updatedLists.sorted { $0.updateDate > $1.updateDate }
     }
 
-    private func fetchOrSchedule() {
+    private func fetchOrSchedule(delayInSeconds: Int = 0) {
         if isViewOnTop {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(delayInSeconds)) {
                 self.fetchLists()
             }
         } else {

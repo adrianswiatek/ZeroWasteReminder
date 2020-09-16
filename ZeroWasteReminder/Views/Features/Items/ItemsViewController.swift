@@ -69,6 +69,16 @@ public final class ItemsViewController: UIViewController {
         self.setupNavigationControllerIfNeeded()
     }
 
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.viewModel.isViewOnTop = true
+    }
+
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.viewModel.isViewOnTop = false
+    }
+
     private func setupNavigationControllerIfNeeded() {
         let navigationController: UINavigationController! = self.navigationController
         assert(navigationController != nil)
