@@ -4,10 +4,6 @@ public struct ItemsFetched: AppEvent {
     public init(_ items: [Item]) {
         self.items = items
     }
-
-    public init(_ item: Item) {
-        self.items = [item]
-    }
 }
 
 extension ItemsFetched {

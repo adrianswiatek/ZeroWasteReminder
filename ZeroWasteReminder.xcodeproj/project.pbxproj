@@ -68,6 +68,8 @@
 		A749366C247346A4003DB46E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749366B247346A4003DB46E /* LoadingView.swift */; };
 		A74C418B24D4BCC500399918 /* Id.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74C418A24D4BCC500399918 /* Id.swift */; };
 		A74D1640249C2ED500FEB5CD /* RemoteStatusNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74D163F249C2ED500FEB5CD /* RemoteStatusNotifier.swift */; };
+		A74ECE5C2513F57100A5FB47 /* Swinject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7EADDD02501861F00249D1F /* Swinject.framework */; };
+		A74ECE612514053A00A5FB47 /* ItemFetched.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74ECE602514053A00A5FB47 /* ItemFetched.swift */; };
 		A750434124707386009A1451 /* CloudKitItemsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434024707386009A1451 /* CloudKitItemsRepository.swift */; };
 		A750434524707517009A1451 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A750434424707517009A1451 /* CloudKit.framework */; };
 		A75043502506EA7600DFB4EB /* ItemAdded.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434F2506EA7600DFB4EB /* ItemAdded.swift */; };
@@ -181,7 +183,6 @@
 		A7E530AD249BFD330020DB14 /* AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E530AC249BFD330020DB14 /* AccountService.swift */; };
 		A7E530AF249C02E40020DB14 /* CloudKitAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E530AE249C02E40020DB14 /* CloudKitAccountService.swift */; };
 		A7E5B8B925044A72008E9523 /* MoveItemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E5B8B825044A72008E9523 /* MoveItemService.swift */; };
-		A7EADDD12501861F00249D1F /* Swinject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7EADDD02501861F00249D1F /* Swinject.framework */; };
 		A7EC2D5C2444F66800993F53 /* ExpirationDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC2D5B2444F66800993F53 /* ExpirationDateView.swift */; };
 		A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC2D5D2445004D00993F53 /* ExpirationPeriodView.swift */; };
 		A7EC2D622445127200993F53 /* PeriodTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC2D612445127200993F53 /* PeriodTypeExtensions.swift */; };
@@ -263,6 +264,7 @@
 		A749366B247346A4003DB46E /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		A74C418A24D4BCC500399918 /* Id.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Id.swift; sourceTree = "<group>"; };
 		A74D163F249C2ED500FEB5CD /* RemoteStatusNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStatusNotifier.swift; sourceTree = "<group>"; };
+		A74ECE602514053A00A5FB47 /* ItemFetched.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemFetched.swift; sourceTree = "<group>"; };
 		A750434024707386009A1451 /* CloudKitItemsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitItemsRepository.swift; sourceTree = "<group>"; };
 		A750434224707513009A1451 /* ZeroWasteReminder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZeroWasteReminder.entitlements; sourceTree = "<group>"; };
 		A750434424707517009A1451 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -401,7 +403,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A750434524707517009A1451 /* CloudKit.framework in Frameworks */,
-				A7EADDD12501861F00249D1F /* Swinject.framework in Frameworks */,
+				A74ECE5C2513F57100A5FB47 /* Swinject.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -659,6 +661,7 @@
 				A75043512506EA8700DFB4EB /* ItemsFetched.swift */,
 				A75043532506EB0700DFB4EB /* ItemsRemoved.swift */,
 				A75043552506EB1600DFB4EB /* ItemUpdated.swift */,
+				A74ECE602514053A00A5FB47 /* ItemFetched.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -1195,6 +1198,7 @@
 				A7576897250EC32300F97388 /* ItemRemotelyAdded.swift in Sources */,
 				A757689B250EC42600F97388 /* ItemRemotelyUpdated.swift in Sources */,
 				A7597EA52506E3C000A53B7D /* ListRemoved.swift in Sources */,
+				A74ECE612514053A00A5FB47 /* ItemFetched.swift in Sources */,
 				A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */,
 				A7760E58250960BC00E51933 /* CloudKitDependencyResolver.swift in Sources */,
 				A71F636C24F860DE009BC4AE /* MoveItemListCell.swift in Sources */,

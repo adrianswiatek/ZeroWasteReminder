@@ -121,7 +121,7 @@ public final class EditViewController: UIViewController {
         case .dismiss:
             navigationController?.popViewController(animated: true)
         case .moveCurrentItem:
-            coordinator.navigateToMoveItem(with: viewModel.originalItem, in: self)
+            coordinator.navigateToMoveItem(with: viewModel.item, in: self)
         case .removeCurrentItem:
             handleRemoveButtonTap()
         }
