@@ -52,6 +52,34 @@ public final class CloudKitItemsRepository: ItemsRepository {
         database.add(operation)
     }
 
+    public func fetch(by id: Id<Item>) {
+        let recordId = CKRecord.ID(recordName: id.asString, zoneID: zone.zoneID)
+        let query = CKQuery(recordType: "Item", predicate: .init(format: "%K == %@", "recordID", recordId))
+        let operation = CKQueryOperation(query: query)
+
+        var record: CKRecord?
+
+        operation.recordFetchedBlock = {
+            record = $0
+        }
+
+        operation.completionBlock = { [weak self] in
+            guard let record = record, let item = self?.mapper.map(record).toItem() else {
+                return
+            }
+
+            self?.cache.invalidate()
+            self?.cache.set(.just(record))
+            self?.eventDispatcher.dispatch(ItemFetched(item))
+        }
+
+        operation.queryCompletionBlock = { [weak self] in
+            $1.map { self?.eventDispatcher.dispatch(ErrorOccured(.init($0))) }
+        }
+
+        database.add(operation)
+    }
+
     public func add(_ itemToSave: ItemToSave) {
         guard
             let listRecord = mapper.map(itemToSave.list).toRecordInZone(zone),

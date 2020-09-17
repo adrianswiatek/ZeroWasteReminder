@@ -3,10 +3,15 @@ import UIKit
 
 @UIApplicationMain
 internal class AppDelegate: UIResponder, UIApplicationDelegate {
+    internal let dependencyContainer: DependencyContainer
     private let remoteNotificationHandler: RemoteNotificationHandler
 
     internal override init() {
-        self.remoteNotificationHandler = .init(notificationCenter: .default)
+        dependencyContainer = .init(
+            configuration: .cloudKit(containerIdentifier: "iCloud.pl.aswiatek.PushNotifications")
+        )
+        dependencyContainer.startBackgroundServices()
+        remoteNotificationHandler = dependencyContainer.remoteNotificationHandler
         super.init()
     }
 

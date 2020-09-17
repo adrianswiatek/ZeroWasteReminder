@@ -79,6 +79,15 @@ extension ItemsTableView: UITableViewDelegate {
         contextMenuConfigurationForRowAt indexPath: IndexPath,
         point: CGPoint
     ) -> UIContextMenuConfiguration? {
+        let editAction = UIAction(
+            title: .localized(.editItem),
+            image: .fromSymbol(.pencil),
+            attributes: [],
+            handler: { [weak viewModel] _ in
+                viewModel.map { $0.selectItem(at: indexPath.row) }
+            }
+       )
+
         let moveAction = UIAction(
             title: .localized(.moveItem),
             image: .fromSymbol(.arrowRightArrowLeft),
@@ -98,7 +107,7 @@ extension ItemsTableView: UITableViewDelegate {
         )
 
         return UIContextMenuConfiguration(identifier: "ItemsContextMenu" as NSCopying, previewProvider: nil) { _ in
-            UIMenu(title: "", children: [moveAction, deleteAction])
+            UIMenu(title: "", children: [editAction, moveAction, deleteAction])
         }
     }
 }

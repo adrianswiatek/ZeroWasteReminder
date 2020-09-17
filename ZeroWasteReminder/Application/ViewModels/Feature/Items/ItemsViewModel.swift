@@ -6,6 +6,7 @@ public final class ItemsViewModel {
     @Published public var modeState: ModeState
     @Published public var sortType: SortType
     @Published public var selectedItemIndices: [Int]
+    @Published public var isViewOnTop: Bool
 
     public var isLoading: AnyPublisher<Bool, Never> {
         isLoadingSubject.eraseToAnyPublisher()
@@ -26,6 +27,7 @@ public final class ItemsViewModel {
 
     private let isLoadingSubject: CurrentValueSubject<Bool, Never>
     private let selectedItemSubject: PassthroughSubject<Item, Never>
+    private let needsToFetchSubject: PassthroughSubject<Bool, Never>
 
     private let itemsRepository: ItemsRepository
     private let statusNotifier: StatusNotifier
@@ -54,10 +56,12 @@ public final class ItemsViewModel {
         self.modeState = ReadModeState()
         self.sortType = .ascending
         self.selectedItemIndices = []
+        self.isViewOnTop = false
 
         self.requestsSubject = .init()
         self.isLoadingSubject = .init(false)
         self.selectedItemSubject = .init()
+        self.needsToFetchSubject = .init()
 
         self.subscriptions = []
 
@@ -122,23 +126,36 @@ public final class ItemsViewModel {
         eventDispatcher.events
             .compactMap { [weak self] in self?.updatedWithEvent($0) }
             .combineLatest(itemsFilterViewModel.cellViewModels, $sortType)
-            .compactMap { items, cells, sortType in
+            .compactMap { items, cells, sortType -> [Item] in
                 if cells.allSatisfy({ $0.isSelected == false }) {
                     return items.sorted(by: sortType.action())
                 }
                 return cells.flatMap { $0.filter(items) }.sorted(by: sortType.action())
             }
-            .sink { [weak self] in self?.items = $0 }
+            .sink { [weak self] in
+                self?.items = $0
+                self?.isLoadingSubject.send(false);
+            }
+            .store(in: &subscriptions)
+
+        eventDispatcher.events
+            .sink { [weak self] in self?.handleRemoteEvent($0) }
             .store(in: &subscriptions)
 
         $modeState
             .sink { [weak self] _ in self?.selectedItemIndices = [] }
             .store(in: &subscriptions)
+
+        Publishers.CombineLatest($isViewOnTop, needsToFetchSubject)
+            .filter { $0.0 && $0.1 }
+            .sink { [weak self] _ in
+                self?.needsToFetchSubject.send(false)
+                self?.fetchItems()
+            }
+            .store(in: &subscriptions)
     }
 
     private func updatedWithEvent(_ event: AppEvent) -> [Item] {
-        isLoadingSubject.send(false)
-
         var updatedItems = items
 
         switch event {
@@ -161,6 +178,25 @@ public final class ItemsViewModel {
         }
 
         return updatedItems.removedAll { $0.listId != list.id }
+    }
+
+    private func handleRemoteEvent(_ event: AppEvent) {
+        switch event {
+        case let event as ItemRemotelyAdded where event.listId == list.id: fetchOrSchedule(delayInSeconds: 3)
+        case let event as ItemRemotelyRemoved where event.listId == list.id: fetchOrSchedule()
+        case let event as ItemRemotelyUpdated where event.listId == list.id: fetchOrSchedule()
+        default: return
+        }
+    }
+
+    private func fetchOrSchedule(delayInSeconds: Int = 0) {
+        if isViewOnTop {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(delayInSeconds)) {
+                self.fetchItems()
+            }
+        } else {
+            needsToFetchSubject.send(true)
+        }
     }
 }
 

@@ -17,6 +17,12 @@ public final class InMemoryItemsRepository: ItemsRepository {
         eventDispatcher.dispatch(ItemsFetched(items))
     }
 
+    public func fetch(by id: Id<Item>) {
+        items.first { $0.id == id }.map {
+            eventDispatcher.dispatch(ItemFetched($0))
+        }
+    }
+
     public func add(_ itemToSave: ItemToSave) {
         items.append(itemToSave.item)
         eventDispatcher.dispatch(ItemAdded(itemToSave.item))

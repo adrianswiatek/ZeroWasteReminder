@@ -53,6 +53,16 @@ public final class ListsViewController: UIViewController {
         fatalError("Not supported.")
     }
 
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.viewModel.isViewOnTop = true
+    }
+
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.viewModel.isViewOnTop = false
+    }
+
     private func setupView() {
         title = .localized(.allLists)
         view.backgroundColor = .accent

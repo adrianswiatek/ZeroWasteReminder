@@ -5,6 +5,7 @@ public enum LocalizedText: String {
     case capture = "Capture"
     case changeName = "Change name"
     case clear = "Clear"
+    case editItem = "Edit item"
     case expiration = "Expiration"
     case fullScreen = "Full Screen"
     case item = "Item"

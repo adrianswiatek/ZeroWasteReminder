@@ -2,10 +2,9 @@ import Combine
 import UIKit
 
 public final class EditViewModel {
-    @Published var name: String
-    @Published var notes: String
-
-    public let originalItem: Item
+    @Published public var name: String
+    @Published public var notes: String
+    @Published public var item: Item
 
     public let requestSubject: PassthroughSubject<Request, Never>
 
@@ -48,7 +47,7 @@ public final class EditViewModel {
 
     private var itemHasChanged: AnyPublisher<Bool, Never> {
         Publishers.CombineLatest3($name, $notes, expirationDateSubject)
-            .map { [weak self] in (self?.originalItem, $0, $1, $2) }
+            .map { [weak self] in (self?.item, $0, $1, $2) }
             .map { !$1.isEmpty && $0 != $0?.withName($1).withNotes($2).withExpirationDate($3) }
             .eraseToAnyPublisher()
     }
@@ -83,7 +82,7 @@ public final class EditViewModel {
         eventDispatcher: EventDispatcher
     ) {
         self.itemsRepository = itemsRepository
-        self.originalItem = item
+        self.item = item
         self.originalPhotoIds = []
         self.photosRepository = photosRepository
         self.fileService = fileService
@@ -91,14 +90,9 @@ public final class EditViewModel {
         self.eventDispatcher = eventDispatcher
         self.dateFormatter = .fullDateFormatter
 
-        self.name = item.name
-        self.notes = item.notes
-
-        if case .date(let date) = item.expiration {
-            self.expirationDateSubject = .init(date)
-        } else {
-            self.expirationDateSubject = .init(nil)
-        }
+        self.name = ""
+        self.notes = ""
+        self.expirationDateSubject = .init(nil)
 
         self.requestSubject = .init()
         self.isLoadingSubject = .init()
@@ -109,7 +103,7 @@ public final class EditViewModel {
         self.subscriptions = []
 
         self.bind()
-        self.photosViewModel.fetchThumbnails(for: originalItem)
+        self.photosViewModel.fetchThumbnails(for: item)
     }
 
     public func toggleExpirationDatePicker() {
@@ -131,7 +125,7 @@ public final class EditViewModel {
 
     public func remove() {
         isLoadingSubject.send(true)
-        itemsRepository.remove(originalItem)
+        itemsRepository.remove(item)
     }
 
     public func cleanUp() {
@@ -140,17 +134,13 @@ public final class EditViewModel {
     }
 
     private func bind() {
+        $item
+            .sink { [weak self] in self?.updateItem(with: $0) }
+            .store(in: &subscriptions)
+
         photosViewModel.thumbnails
             .prefix(2)
             .sink { [weak self] in self?.originalPhotoIds = $0.map { $0.id } }
-            .store(in: &subscriptions)
-
-        eventDispatcher.events
-            .filter { $0 is ItemsRemoved }
-            .sink(
-                receiveCompletion: { [weak self] _ in self?.isLoadingSubject.send(false) },
-                receiveValue: { [weak self] _ in self?.requestSubject.send(.dismiss) }
-            )
             .store(in: &subscriptions)
 
         eventDispatcher.events
@@ -165,6 +155,44 @@ public final class EditViewModel {
                 receiveValue: { [weak self] in self?.requestSubject.send(.dismiss) }
             )
             .store(in: &subscriptions)
+
+        eventDispatcher.events
+            .sink { [weak self] in
+                self?.handleEvent($0)
+                self?.isLoadingSubject.send(false)
+            }
+            .store(in: &subscriptions)
+    }
+
+    private func handleEvent(_ appEvent: AppEvent) {
+        switch appEvent {
+        case let event as ItemFetched where event.item.id == item.id:
+            item = event.item
+        case is ItemsRemoved:
+            requestSubject.send(.dismiss)
+        case let event as ItemRemotelyRemoved where event.itemId == item.id:
+            requestSubject.send(.dismiss)
+        case let event as ItemRemotelyUpdated where event.itemId == item.id:
+            refreshItem()
+        default:
+            return
+        }
+    }
+
+    private func refreshItem() {
+        isLoadingSubject.send(true)
+        itemsRepository.fetch(by: item.id)
+    }
+
+    private func updateItem(with item: Item) {
+        name = item.name
+        notes = item.notes
+
+        if case .date(let date) = item.expiration {
+            expirationDateSubject.send(date)
+        } else {
+            expirationDateSubject.send(nil)
+        }
     }
 
     private func formattedDate(_ date: Date?) -> String? {
@@ -174,7 +202,7 @@ public final class EditViewModel {
 
     private func tryCreateItem(_ name: String, _ notes: String, _ expirationDate: Date?) -> Item? {
         guard !name.isEmpty else { return nil }
-        return originalItem.withName(name).withNotes(notes).withExpirationDate(expirationDate)
+        return item.withName(name).withNotes(notes).withExpirationDate(expirationDate)
     }
 }
 

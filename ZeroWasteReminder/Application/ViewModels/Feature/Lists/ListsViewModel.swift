@@ -3,6 +3,7 @@ import Foundation
 
 public final class ListsViewModel {
     @Published public private(set) var lists: [List]
+    @Published public var isViewOnTop: Bool
 
     public var isLoading: AnyPublisher<Bool, Never> {
         isLoadingSubject.eraseToAnyPublisher()
@@ -12,6 +13,7 @@ public final class ListsViewModel {
     public let requestsSubject: PassthroughSubject<Request, Never>
 
     private let isLoadingSubject: CurrentValueSubject<Bool, Never>
+    private let needsToFetchSubject: PassthroughSubject<Bool, Never>
 
     private let listsRepository: ListsRepository
     private let eventDispatcher: EventDispatcher
@@ -30,7 +32,10 @@ public final class ListsViewModel {
             .eraseToAnyPublisher()
 
         self.lists = []
+        self.isViewOnTop = false
+
         self.isLoadingSubject = .init(false)
+        self.needsToFetchSubject = .init()
         self.requestsSubject = .init()
         self.subscriptions = []
 
@@ -70,6 +75,14 @@ public final class ListsViewModel {
                 self?.isLoadingSubject.send(false)
             }
             .store(in: &subscriptions)
+
+        Publishers.CombineLatest($isViewOnTop, needsToFetchSubject)
+            .filter { $0.0 && $0.1 }
+            .sink { [weak self] _ in
+                self?.needsToFetchSubject.send(false)
+                self?.fetchLists()
+            }
+            .store(in: &subscriptions)
     }
 
     private func handleEvent(_ event: AppEvent) {
@@ -88,11 +101,25 @@ public final class ListsViewModel {
             }
         case let event as ErrorOccured:
             requestsSubject.send(.showErrorMessage(event.error.localizedDescription))
+        case is ListRemotelyAdded:
+            return fetchOrSchedule(delayInSeconds: 3)
+        case is ListRemotelyRemoved, is ListRemotelyUpdated:
+            return fetchOrSchedule()
         default:
             return
         }
 
         lists = updatedLists.sorted { $0.updateDate > $1.updateDate }
+    }
+
+    private func fetchOrSchedule(delayInSeconds: Int = 0) {
+        if isViewOnTop {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(delayInSeconds)) {
+                self.fetchLists()
+            }
+        } else {
+            needsToFetchSubject.send(true)
+        }
     }
 }
 
