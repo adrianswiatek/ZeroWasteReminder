@@ -42,6 +42,10 @@ public final class ExpirationDatePicker: UIDatePicker {
         translatesAutoresizingMaskIntoConstraints = false
         heightConstraint.isActive = true
         datePickerMode = .date
+
+        if #available(iOS 13.4, *) {
+            preferredDatePickerStyle = .wheels
+        }
     }
 
     private func setupTarget() {
