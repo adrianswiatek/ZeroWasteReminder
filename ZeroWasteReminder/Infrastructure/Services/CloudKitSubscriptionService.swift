@@ -9,7 +9,6 @@ public final class CloudKitSubscriptionService: SubscriptionService {
     private let configuration: CloudKitConfiguration
     private let statusNotifier: StatusNotifier
 
-
     public init(configuration: CloudKitConfiguration, statusNotifier: StatusNotifier) {
         self.configuration = configuration
         self.statusNotifier = statusNotifier
@@ -19,12 +18,12 @@ public final class CloudKitSubscriptionService: SubscriptionService {
         statusNotifier.remoteStatus
             .filter { $0 == .connected }
             .first()
-            .setFailureType(to: CKError.self)
-            .flatMap { [weak self] _ -> AnyPublisher<[CKSubscription], CKError> in
+            .setFailureType(to: Error.self)
+            .flatMap { [weak self] _ -> AnyPublisher<[CKSubscription], Error> in
                 guard let self = self else { return Empty().eraseToAnyPublisher() }
                 return self.fetchAllSubscriptions().eraseToAnyPublisher()
             }
-            .flatMap { [weak self] subscriptions -> AnyPublisher<Void, CKError> in
+            .flatMap { [weak self] subscriptions -> AnyPublisher<Void, Error> in
                 guard let self = self else { return Empty().eraseToAnyPublisher() }
                 let querySubscriptionsToSave = self.determineQuerySubscriptionsToSave(from: subscriptions)
                 return self.saveSubscriptions(querySubscriptionsToSave).eraseToAnyPublisher()
@@ -34,10 +33,10 @@ public final class CloudKitSubscriptionService: SubscriptionService {
             .cancel()
     }
 
-    private func fetchAllSubscriptions() -> Future<[CKSubscription], CKError> {
+    private func fetchAllSubscriptions() -> Future<[CKSubscription], Error> {
         Future { [weak self] promise in
             self?.database.fetchAllSubscriptions(completionHandler: { subscriptions, error in
-                if let error = error as? CKError {
+                if let error = error {
                     promise(.failure(error))
                 } else {
                     promise(.success(subscriptions ?? []))
@@ -47,21 +46,15 @@ public final class CloudKitSubscriptionService: SubscriptionService {
     }
 
     private func determineQuerySubscriptionsToSave(from subscriptions: [CKSubscription]) -> [CKQuerySubscription] {
-        let categories = subscriptions.compactMap { $0.notificationInfo?.category }
-        var result = [CKQuerySubscription]()
+        let categories = subscriptions
+            .compactMap { $0.notificationInfo?.category }
 
-        if !categories.contains("List") {
-            result.append(.listSubscription)
-        }
-
-        if !categories.contains("Item") {
-            result.append(.itemSubscription)
-        }
-
-        return result
+        return Subscription.allCases
+            .filter { !categories.contains($0.rawValue) }
+            .map { $0.asCKQuerySubscription() }
     }
 
-    private func saveSubscriptions(_ subscriptions: [CKQuerySubscription]) -> Future<Void, CKError> {
+    private func saveSubscriptions(_ subscriptions: [CKQuerySubscription]) -> Future<Void, Error> {
         Future { [weak self] promise in
             let operation = CKModifySubscriptionsOperation(
                 subscriptionsToSave: subscriptions,
@@ -69,11 +62,7 @@ public final class CloudKitSubscriptionService: SubscriptionService {
             )
 
             operation.modifySubscriptionsCompletionBlock = {
-                if let error = $2 as? CKError {
-                    promise(.failure(error))
-                } else {
-                    promise(.success(()))
-                }
+                promise($2 != nil ? .failure($2!) : .success(()))
             }
 
             self?.database.add(operation)
@@ -81,28 +70,35 @@ public final class CloudKitSubscriptionService: SubscriptionService {
     }
 }
 
-private extension CKQuerySubscription {
-    static var itemSubscription: CKQuerySubscription {
-        subscription(recordType: "Item", desiredKeys: [CloudKitKey.Item.listReference])
-    }
+private extension CloudKitSubscriptionService {
+    enum Subscription: String, CaseIterable {
+        case item = "Item"
+        case list = "List"
 
-    static var listSubscription: CKQuerySubscription {
-        subscription(recordType: "List")
-    }
+        func asCKQuerySubscription() -> CKQuerySubscription {
+            switch self {
+            case .item: return subscription(recordType: rawValue, desiredKeys: [CloudKitKey.Item.listReference])
+            case .list: return subscription(recordType: rawValue)
+            }
+        }
 
-    static func subscription(recordType: String, desiredKeys: [CKRecord.FieldKey] = []) -> CKQuerySubscription {
-        let subscription = CKQuerySubscription(
-            recordType: recordType,
-            predicate: .init(value: true),
-            options: [.firesOnRecordCreation, .firesOnRecordUpdate, .firesOnRecordDeletion]
-        )
+        private func subscription(
+            recordType: String,
+            desiredKeys: [CKRecord.FieldKey] = []
+        ) -> CKQuerySubscription {
+            let subscription = CKQuerySubscription(
+                recordType: recordType,
+                predicate: .init(value: true),
+                options: [.firesOnRecordCreation, .firesOnRecordUpdate, .firesOnRecordDeletion]
+            )
 
-        let notificationInfo = CKQuerySubscription.NotificationInfo()
-        notificationInfo.shouldSendContentAvailable = true
-        notificationInfo.category = recordType
-        notificationInfo.desiredKeys = desiredKeys
+            let notificationInfo = CKQuerySubscription.NotificationInfo()
+            notificationInfo.shouldSendContentAvailable = true
+            notificationInfo.category = recordType
+            notificationInfo.desiredKeys = desiredKeys
 
-        subscription.notificationInfo = notificationInfo
-        return subscription
+            subscription.notificationInfo = notificationInfo
+            return subscription
+        }
     }
 }
