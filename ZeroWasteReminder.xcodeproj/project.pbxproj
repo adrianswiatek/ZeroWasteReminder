@@ -72,7 +72,6 @@
 		A750434124707386009A1451 /* CloudKitItemsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434024707386009A1451 /* CloudKitItemsRepository.swift */; };
 		A750434524707517009A1451 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A750434424707517009A1451 /* CloudKit.framework */; };
 		A75043502506EA7600DFB4EB /* ItemAdded.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434F2506EA7600DFB4EB /* ItemAdded.swift */; };
-		A75043522506EA8700DFB4EB /* ItemsFetched.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75043512506EA8700DFB4EB /* ItemsFetched.swift */; };
 		A75043542506EB0700DFB4EB /* ItemsRemoved.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75043532506EB0700DFB4EB /* ItemsRemoved.swift */; };
 		A75043562506EB1600DFB4EB /* ItemUpdated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75043552506EB1600DFB4EB /* ItemUpdated.swift */; };
 		A75043582506F7CC00DFB4EB /* ItemMoved.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75043572506F7CC00DFB4EB /* ItemMoved.swift */; };
@@ -265,7 +264,6 @@
 		A750434224707513009A1451 /* ZeroWasteReminder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZeroWasteReminder.entitlements; sourceTree = "<group>"; };
 		A750434424707517009A1451 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		A750434F2506EA7600DFB4EB /* ItemAdded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAdded.swift; sourceTree = "<group>"; };
-		A75043512506EA8700DFB4EB /* ItemsFetched.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsFetched.swift; sourceTree = "<group>"; };
 		A75043532506EB0700DFB4EB /* ItemsRemoved.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsRemoved.swift; sourceTree = "<group>"; };
 		A75043552506EB1600DFB4EB /* ItemUpdated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemUpdated.swift; sourceTree = "<group>"; };
 		A75043572506F7CC00DFB4EB /* ItemMoved.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemMoved.swift; sourceTree = "<group>"; };
@@ -651,7 +649,6 @@
 				A7576896250EC32300F97388 /* ItemAddedReceived.swift */,
 				A75043572506F7CC00DFB4EB /* ItemMoved.swift */,
 				A7576898250EC3EA00F97388 /* ItemRemovedReceived.swift */,
-				A75043512506EA8700DFB4EB /* ItemsFetched.swift */,
 				A75043532506EB0700DFB4EB /* ItemsRemoved.swift */,
 				A75043552506EB1600DFB4EB /* ItemUpdated.swift */,
 				A757689A250EC42600F97388 /* ItemUpdatedReceived.swift */,
@@ -1321,7 +1318,6 @@
 				A700D6C42454BEF400F16F2E /* ItemsFilterDataSource.swift in Sources */,
 				A71388FA24F5B41C00EE5C68 /* EmptyMoveItemView.swift in Sources */,
 				A780EFD3245F786F002A8AD4 /* SortType.swift in Sources */,
-				A75043522506EA8700DFB4EB /* ItemsFetched.swift in Sources */,
 				A7CAC7EA24F1BE480094FF15 /* ActionButton.swift in Sources */,
 				A70BCCD9244795D700CC49D0 /* AddItemViewModel.swift in Sources */,
 				A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */,

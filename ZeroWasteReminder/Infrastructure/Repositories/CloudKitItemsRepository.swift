@@ -24,32 +24,37 @@ public final class CloudKitItemsRepository: ItemsRepository {
         self.subscriptions = [:]
     }
 
-    public func fetchAll(from list: List) {
-        let recordId = CKRecord.ID(recordName: list.id.asString, zoneID: zone.zoneID)
-        let listReference = CKRecord.Reference(recordID: recordId, action: .none)
-        let predicate = NSPredicate(format: "%K = %@", CloudKitKey.Item.listReference, listReference)
-        let query = CKQuery(recordType: "Item", predicate: predicate)
-        let operation = CKQueryOperation(query: query)
+    public func fetchAll(from list: List) -> Future<[Item], Never> {
+        Future { [weak self] promise in
+            guard let self = self else { return promise(.success([])) }
 
-        var records = [CKRecord]()
+            let recordId = CKRecord.ID(recordName: list.id.asString, zoneID: self.zone.zoneID)
+            let listReference = CKRecord.Reference(recordID: recordId, action: .none)
+            let predicate = NSPredicate(format: "%K = %@", CloudKitKey.Item.listReference, listReference)
+            let query = CKQuery(recordType: "Item", predicate: predicate)
+            let operation = CKQueryOperation(query: query)
 
-        operation.recordFetchedBlock = {
-            records.append($0)
+            var records = [CKRecord]()
+
+            operation.recordFetchedBlock = {
+                records.append($0)
+            }
+
+            operation.completionBlock = { [weak self] in
+                self?.cache.invalidate()
+                self?.cache.set(records)
+
+                DispatchQueue.main.async {
+                    promise(.success(records.compactMap { self?.mapper.map($0).toItem() }))
+                }
+            }
+
+            operation.queryCompletionBlock = { [weak self] in
+                $1.map { self?.eventDispatcher.dispatch(ErrorOccured(.init($0))) }
+            }
+
+            self.database.add(operation)
         }
-
-        operation.completionBlock = { [weak self] in
-            self?.cache.invalidate()
-            self?.cache.set(records)
-
-            let items = records.compactMap { self?.mapper.map($0).toItem() }
-            self?.eventDispatcher.dispatch(ItemsFetched(items))
-        }
-
-        operation.queryCompletionBlock = { [weak self] in
-            $1.map { self?.eventDispatcher.dispatch(ErrorOccured(.init($0))) }
-        }
-
-        database.add(operation)
     }
 
     public func fetch(by id: Id<Item>) -> Future<Item?, Never> {
@@ -69,7 +74,6 @@ public final class CloudKitItemsRepository: ItemsRepository {
             operation.completionBlock = { [weak self] in
                 guard let record = record else { return }
 
-                self?.cache.invalidate()
                 self?.cache.set(.just(record))
 
                 DispatchQueue.main.async {
