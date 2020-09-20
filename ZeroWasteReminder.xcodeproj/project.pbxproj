@@ -89,7 +89,6 @@
 		A7597E9D2506E35A00A53B7D /* NoResultOccured.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597E9C2506E35A00A53B7D /* NoResultOccured.swift */; };
 		A7597E9F2506E38D00A53B7D /* AppEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597E9E2506E38D00A53B7D /* AppEvent.swift */; };
 		A7597EA12506E3A000A53B7D /* ListAdded.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597EA02506E3A000A53B7D /* ListAdded.swift */; };
-		A7597EA32506E3AF00A53B7D /* ListsFetched.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597EA22506E3AF00A53B7D /* ListsFetched.swift */; };
 		A7597EA52506E3C000A53B7D /* ListRemoved.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597EA42506E3C000A53B7D /* ListRemoved.swift */; };
 		A7597EA72506E3D200A53B7D /* ListsUpdated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597EA62506E3D200A53B7D /* ListsUpdated.swift */; };
 		A7597EA92506E3DC00A53B7D /* ErrorOccured.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597EA82506E3DC00A53B7D /* ErrorOccured.swift */; };
@@ -121,7 +120,6 @@
 		A783EE2624674ECD008BCC17 /* AdaptiveScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */; };
 		A783EE28246755E9008BCC17 /* AddContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE27246755E9008BCC17 /* AddContentViewController.swift */; };
 		A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */; };
-		A784EE4025081377006C3A68 /* ListsFetchedForItemToMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = A784EE3F25081377006C3A68 /* ListsFetchedForItemToMove.swift */; };
 		A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */; };
 		A78AC17C24F8362700B2A59D /* MoveItemHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78AC17B24F8362700B2A59D /* MoveItemHeaderView.swift */; };
 		A797433424A2ABA000A05EA2 /* ItemsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A798DF4724524B0900A84F79 /* ItemsDataSource.swift */; };
@@ -285,7 +283,6 @@
 		A7597E9C2506E35A00A53B7D /* NoResultOccured.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoResultOccured.swift; sourceTree = "<group>"; };
 		A7597E9E2506E38D00A53B7D /* AppEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEvent.swift; sourceTree = "<group>"; };
 		A7597EA02506E3A000A53B7D /* ListAdded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAdded.swift; sourceTree = "<group>"; };
-		A7597EA22506E3AF00A53B7D /* ListsFetched.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsFetched.swift; sourceTree = "<group>"; };
 		A7597EA42506E3C000A53B7D /* ListRemoved.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRemoved.swift; sourceTree = "<group>"; };
 		A7597EA62506E3D200A53B7D /* ListsUpdated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsUpdated.swift; sourceTree = "<group>"; };
 		A7597EA82506E3DC00A53B7D /* ErrorOccured.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorOccured.swift; sourceTree = "<group>"; };
@@ -317,7 +314,6 @@
 		A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveScrollView.swift; sourceTree = "<group>"; };
 		A783EE27246755E9008BCC17 /* AddContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentViewController.swift; sourceTree = "<group>"; };
 		A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenPhotoViewController.swift; sourceTree = "<group>"; };
-		A784EE3F25081377006C3A68 /* ListsFetchedForItemToMove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsFetchedForItemToMove.swift; sourceTree = "<group>"; };
 		A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateViewModel.swift; sourceTree = "<group>"; };
 		A78AC17B24F8362700B2A59D /* MoveItemHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemHeaderView.swift; sourceTree = "<group>"; };
 		A798DF4724524B0900A84F79 /* ItemsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsDataSource.swift; sourceTree = "<group>"; };
@@ -709,8 +705,6 @@
 				A73CB9A9250D83B10069E4F0 /* ListRemotelyRemoved.swift */,
 				A7CFBBB7250982560026D338 /* ListRemotelyUpdated.swift */,
 				A7597EA42506E3C000A53B7D /* ListRemoved.swift */,
-				A7597EA22506E3AF00A53B7D /* ListsFetched.swift */,
-				A784EE3F25081377006C3A68 /* ListsFetchedForItemToMove.swift */,
 				A7597EA62506E3D200A53B7D /* ListsUpdated.swift */,
 			);
 			path = Lists;
@@ -1177,7 +1171,6 @@
 				A7FCD91725082F5E00F001C7 /* EventDispatcherInterceptor.swift in Sources */,
 				A726F35D24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift in Sources */,
 				A7BDE68B24B51C61003215C0 /* EditListMixedButton.swift in Sources */,
-				A7597EA32506E3AF00A53B7D /* ListsFetched.swift in Sources */,
 				A71B69212443D3EB00AF7CB3 /* ExpirationSectionView.swift in Sources */,
 				A78172B02494D24400F406EC /* CloudKitRecordMapper.swift in Sources */,
 				A731F89724BE45D0007348A3 /* List.swift in Sources */,
@@ -1336,7 +1329,6 @@
 				A7CAC7EA24F1BE480094FF15 /* ActionButton.swift in Sources */,
 				A70BCCD9244795D700CC49D0 /* AddViewModel.swift in Sources */,
 				A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */,
-				A784EE4025081377006C3A68 /* ListsFetchedForItemToMove.swift in Sources */,
 				A73CB9AA250D83B10069E4F0 /* ListRemotelyRemoved.swift in Sources */,
 				A75E703B248DA01300F06E98 /* Photo.swift in Sources */,
 				A7FCD91925082F8A00F001C7 /* ConsoleEventBusInterceptor.swift in Sources */,
