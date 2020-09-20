@@ -170,9 +170,9 @@ public final class EditViewModel {
             item = event.item
         case is ItemsRemoved:
             requestSubject.send(.dismiss)
-        case let event as ItemRemotelyRemoved where event.itemId == item.id:
+        case let event as ItemRemovedReceived where event.itemId == item.id:
             requestSubject.send(.dismiss)
-        case let event as ItemRemotelyUpdated where event.itemId == item.id:
+        case let event as ItemUpdatedReceived where event.itemId == item.id:
             refreshItem()
         default:
             return

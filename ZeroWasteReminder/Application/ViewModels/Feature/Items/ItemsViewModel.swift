@@ -169,7 +169,7 @@ public final class ItemsViewModel {
             updatedItems.firstIndex { $0.id == event.item.id }.map { updatedItems[$0] = event.item }
         case let event as ItemMoved:
             updatedItems = updatedItems.removedAll { $0.id == event.item.id }
-        case let event as ListRemotelyRemoved where event.listId == list.id:
+        case let event as ListRemovedReceived where event.listId == list.id:
             requestsSubject.send(.dismiss)
         case let event as ErrorOccured:
             requestsSubject.send(.showErrorMessage(event.error.localizedDescription))
@@ -182,9 +182,9 @@ public final class ItemsViewModel {
 
     private func handleRemoteEvent(_ event: AppEvent) {
         switch event {
-        case let event as ItemRemotelyAdded where event.listId == list.id: fetchOrSchedule(delayInSeconds: 3)
-        case let event as ItemRemotelyRemoved where event.listId == list.id: fetchOrSchedule()
-        case let event as ItemRemotelyUpdated where event.listId == list.id: fetchOrSchedule()
+        case let event as ItemAddedReceived where event.listId == list.id: fetchOrSchedule(delayInSeconds: 3)
+        case let event as ItemRemovedReceived where event.listId == list.id: fetchOrSchedule()
+        case let event as ItemUpdatedReceived where event.listId == list.id: fetchOrSchedule()
         default: return
         }
     }

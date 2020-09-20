@@ -105,9 +105,9 @@ public final class ListsViewModel {
             }
         case let event as ErrorOccured:
             requestsSubject.send(.showErrorMessage(event.error.localizedDescription))
-        case is ListRemotelyAdded:
+        case is ListAddedReceived:
             return fetchOrSchedule(delayInSeconds: 3)
-        case is ListRemotelyRemoved, is ListRemotelyUpdated:
+        case is ListRemovedReceived, is ListUpdatedReceived:
             return fetchOrSchedule()
         default:
             return
