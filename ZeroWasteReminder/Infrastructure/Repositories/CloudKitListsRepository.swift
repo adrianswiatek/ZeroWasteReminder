@@ -92,10 +92,6 @@ public final class CloudKitListsRepository: ListsRepository {
         database.add(operation)
     }
 
-    public func update(_ list: List) {
-        update([list])
-    }
-
     public func update(_ lists: [List]) {
         let recordIds = lists.compactMap { mapper.map($0).toRecordIdInZone(zone) }
         guard !recordIds.isEmpty else { return eventDispatcher.dispatch(NoResultOccured()) }

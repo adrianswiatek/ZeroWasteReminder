@@ -23,11 +23,6 @@ public final class InMemoryListsRepository: ListsRepository {
         eventDispatcher.dispatch(ListRemoved(list))
     }
 
-    public func update(_ list: List) {
-        internalUpdate([list])
-        eventDispatcher.dispatch(ListsUpdated([list]))
-    }
-
     public func update(_ lists: [List]) {
         internalUpdate(lists)
         eventDispatcher.dispatch(ListsUpdated(lists))

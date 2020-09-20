@@ -65,7 +65,7 @@ public final class ListsViewModel {
     }
 
     public func updateList(_ list: List) {
-        listsRepository.update(list)
+        listsRepository.update(.just(list))
         isLoadingSubject.send(true)
     }
 
