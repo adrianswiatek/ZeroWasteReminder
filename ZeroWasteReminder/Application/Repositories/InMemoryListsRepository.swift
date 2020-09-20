@@ -14,18 +14,13 @@ public final class InMemoryListsRepository: ListsRepository {
         eventDispatcher.dispatch(ListAdded(list))
     }
 
-    public func fetchAll() {
-        eventDispatcher.dispatch(ListsFetched(lists))
+    public func fetchAll() -> Future<[List], Never> {
+        Future { [weak self] in $0(.success(self?.lists ?? [])) }
     }
 
     public func remove(_ list: List) {
         lists.removeAll { $0.id == list.id }
         eventDispatcher.dispatch(ListRemoved(list))
-    }
-
-    public func update(_ list: List) {
-        internalUpdate([list])
-        eventDispatcher.dispatch(ListsUpdated([list]))
     }
 
     public func update(_ lists: [List]) {

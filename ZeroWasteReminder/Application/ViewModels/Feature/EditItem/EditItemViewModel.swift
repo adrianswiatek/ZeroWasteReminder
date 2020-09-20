@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public final class EditViewModel {
+public final class EditItemViewModel {
     @Published public var name: String
     @Published public var notes: String
     @Published public var item: Item
@@ -166,13 +166,11 @@ public final class EditViewModel {
 
     private func handleEvent(_ appEvent: AppEvent) {
         switch appEvent {
-        case let event as ItemFetched where event.item.id == item.id:
-            item = event.item
         case is ItemsRemoved:
             requestSubject.send(.dismiss)
-        case let event as ItemRemotelyRemoved where event.itemId == item.id:
+        case let event as ItemRemovedReceived where event.itemId == item.id:
             requestSubject.send(.dismiss)
-        case let event as ItemRemotelyUpdated where event.itemId == item.id:
+        case let event as ItemUpdatedReceived where event.itemId == item.id:
             refreshItem()
         default:
             return
@@ -182,6 +180,11 @@ public final class EditViewModel {
     private func refreshItem() {
         isLoadingSubject.send(true)
         itemsRepository.fetch(by: item.id)
+            .sink { [weak self] in
+                $0.map { self?.item = $0 }
+                self?.isLoadingSubject.send(false)
+            }
+            .store(in: &subscriptions)
     }
 
     private func updateItem(with item: Item) {
@@ -206,7 +209,7 @@ public final class EditViewModel {
     }
 }
 
-public extension EditViewModel {
+public extension EditItemViewModel {
     enum Request: Equatable {
         case dismiss
         case moveCurrentItem

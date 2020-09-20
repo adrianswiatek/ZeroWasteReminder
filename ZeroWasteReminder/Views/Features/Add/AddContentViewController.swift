@@ -19,10 +19,10 @@ public final class AddContentViewController: UIViewController {
     private let photosLabel: UILabel = .defaultWithText(.localized(.photos))
     private let photosViewController: PhotosViewController
 
-    private let viewModel: AddViewModel
+    private let viewModel: AddItemViewModel
     private var subscriptions: Set<AnyCancellable>
 
-    public init(viewModel: AddViewModel) {
+    public init(viewModel: AddItemViewModel) {
         self.viewModel = viewModel
         self.subscriptions = []
 

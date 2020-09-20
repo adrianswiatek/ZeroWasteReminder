@@ -24,60 +24,69 @@ public final class CloudKitItemsRepository: ItemsRepository {
         self.subscriptions = [:]
     }
 
-    public func fetchAll(from list: List) {
-        let recordId = CKRecord.ID(recordName: list.id.asString, zoneID: zone.zoneID)
-        let listReference = CKRecord.Reference(recordID: recordId, action: .none)
-        let predicate = NSPredicate(format: "%K = %@", CloudKitKey.Item.listReference, listReference)
-        let query = CKQuery(recordType: "Item", predicate: predicate)
-        let operation = CKQueryOperation(query: query)
+    public func fetchAll(from list: List) -> Future<[Item], Never> {
+        Future { [weak self] promise in
+            guard let self = self else { return promise(.success([])) }
 
-        var records = [CKRecord]()
+            let recordId = CKRecord.ID(recordName: list.id.asString, zoneID: self.zone.zoneID)
+            let listReference = CKRecord.Reference(recordID: recordId, action: .none)
+            let predicate = NSPredicate(format: "%K = %@", CloudKitKey.Item.listReference, listReference)
+            let query = CKQuery(recordType: "Item", predicate: predicate)
+            let operation = CKQueryOperation(query: query)
 
-        operation.recordFetchedBlock = {
-            records.append($0)
-        }
+            var records = [CKRecord]()
 
-        operation.completionBlock = { [weak self] in
-            self?.cache.invalidate()
-            self?.cache.set(records)
-
-            let items = records.compactMap { self?.mapper.map($0).toItem() }
-            self?.eventDispatcher.dispatch(ItemsFetched(items))
-        }
-
-        operation.queryCompletionBlock = { [weak self] in
-            $1.map { self?.eventDispatcher.dispatch(ErrorOccured(.init($0))) }
-        }
-
-        database.add(operation)
-    }
-
-    public func fetch(by id: Id<Item>) {
-        let recordId = CKRecord.ID(recordName: id.asString, zoneID: zone.zoneID)
-        let query = CKQuery(recordType: "Item", predicate: .init(format: "%K == %@", "recordID", recordId))
-        let operation = CKQueryOperation(query: query)
-
-        var record: CKRecord?
-
-        operation.recordFetchedBlock = {
-            record = $0
-        }
-
-        operation.completionBlock = { [weak self] in
-            guard let record = record, let item = self?.mapper.map(record).toItem() else {
-                return
+            operation.recordFetchedBlock = {
+                records.append($0)
             }
 
-            self?.cache.invalidate()
-            self?.cache.set(.just(record))
-            self?.eventDispatcher.dispatch(ItemFetched(item))
-        }
+            operation.completionBlock = { [weak self] in
+                self?.cache.invalidate()
+                self?.cache.set(records)
 
-        operation.queryCompletionBlock = { [weak self] in
-            $1.map { self?.eventDispatcher.dispatch(ErrorOccured(.init($0))) }
-        }
+                DispatchQueue.main.async {
+                    promise(.success(records.compactMap { self?.mapper.map($0).toItem() }))
+                }
+            }
 
-        database.add(operation)
+            operation.queryCompletionBlock = { [weak self] in
+                $1.map { self?.eventDispatcher.dispatch(ErrorOccured(.init($0))) }
+            }
+
+            self.database.add(operation)
+        }
+    }
+
+    public func fetch(by id: Id<Item>) -> Future<Item?, Never> {
+        Future { [weak self] promise in
+            guard let self = self else { return promise(.success(nil)) }
+
+            let recordId = CKRecord.ID(recordName: id.asString, zoneID: self.zone.zoneID)
+            let query = CKQuery(recordType: "Item", predicate: .init(format: "%K == %@", "recordID", recordId))
+            let operation = CKQueryOperation(query: query)
+
+            var record: CKRecord?
+
+            operation.recordFetchedBlock = {
+                record = $0
+            }
+
+            operation.completionBlock = { [weak self] in
+                guard let record = record else { return }
+
+                self?.cache.set(.just(record))
+
+                DispatchQueue.main.async {
+                    promise(.success(self?.mapper.map(record).toItem()))
+                }
+            }
+
+            operation.queryCompletionBlock = { [weak self] in
+                $1.map { self?.eventDispatcher.dispatch(ErrorOccured(.init($0))) }
+            }
+
+            self.database.add(operation)
+        }
     }
 
     public func add(_ itemToSave: ItemToSave) {

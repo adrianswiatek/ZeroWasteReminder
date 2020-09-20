@@ -44,6 +44,12 @@ public final class ListsViewModel {
 
     public func fetchLists() {
         listsRepository.fetchAll()
+            .sink { [weak self] in
+                self?.lists = $0.sorted { $0.updateDate > $1.updateDate}
+                self?.isLoadingSubject.send(false)
+            }
+            .store(in: &subscriptions)
+
         isLoadingSubject.send(true)
     }
 
@@ -59,7 +65,7 @@ public final class ListsViewModel {
     }
 
     public func updateList(_ list: List) {
-        listsRepository.update(list)
+        listsRepository.update(.just(list))
         isLoadingSubject.send(true)
     }
 
@@ -91,8 +97,6 @@ public final class ListsViewModel {
         switch event {
         case let event as ListAdded:
             updatedLists.insert(event.list, at: 0)
-        case let event as ListsFetched:
-            updatedLists = event.lists
         case let event as ListRemoved:
             updatedLists.removeAll { $0.id == event.list.id }
         case let event as ListsUpdated:
@@ -101,15 +105,19 @@ public final class ListsViewModel {
             }
         case let event as ErrorOccured:
             requestsSubject.send(.showErrorMessage(event.error.localizedDescription))
-        case is ListRemotelyAdded:
+        case is ListAddedReceived:
             return fetchOrSchedule(delayInSeconds: 3)
-        case is ListRemotelyRemoved, is ListRemotelyUpdated:
+        case is ListRemovedReceived, is ListUpdatedReceived:
             return fetchOrSchedule()
         default:
             return
         }
 
-        lists = updatedLists.sorted { $0.updateDate > $1.updateDate }
+        lists = sortedByUpdateDate(updatedLists)
+    }
+
+    private func sortedByUpdateDate(_ lists: [List]) -> [List] {
+        lists.sorted { $0.updateDate > $1.updateDate }
     }
 
     private func fetchOrSchedule(delayInSeconds: Int = 0) {

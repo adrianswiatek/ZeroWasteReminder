@@ -79,6 +79,16 @@ public final class ItemsViewModel {
 
     public func fetchItems() {
         itemsRepository.fetchAll(from: list)
+            .flatMap { [weak self] items -> AnyPublisher<[Item], Never> in
+                guard let self = self else { return Empty().eraseToAnyPublisher() }
+                return self.prepareToDisplay(Just(items).eraseToAnyPublisher())
+            }
+            .sink { [weak self] in
+                self?.items = $0
+                self?.isLoadingSubject.send(false)
+            }
+            .store(in: &subscriptions)
+
         isLoadingSubject.send(true)
     }
 
@@ -125,12 +135,9 @@ public final class ItemsViewModel {
     private func bind() {
         eventDispatcher.events
             .compactMap { [weak self] in self?.updatedWithEvent($0) }
-            .combineLatest(itemsFilterViewModel.cellViewModels, $sortType)
-            .compactMap { items, cells, sortType -> [Item] in
-                if cells.allSatisfy({ $0.isSelected == false }) {
-                    return items.sorted(by: sortType.action())
-                }
-                return cells.flatMap { $0.filter(items) }.sorted(by: sortType.action())
+            .flatMap { [weak self] items -> AnyPublisher<[Item], Never> in
+                guard let self = self else { return Empty().eraseToAnyPublisher() }
+                return self.prepareToDisplay(Just(items).eraseToAnyPublisher())
             }
             .sink { [weak self] in
                 self?.items = $0
@@ -161,15 +168,13 @@ public final class ItemsViewModel {
         switch event {
         case let event as ItemAdded:
             updatedItems += [event.item]
-        case let event as ItemsFetched:
-            updatedItems = event.items
         case let event as ItemsRemoved:
             event.items.forEach { item in updatedItems.removeAll { item.id == $0.id } }
         case let event as ItemUpdated:
             updatedItems.firstIndex { $0.id == event.item.id }.map { updatedItems[$0] = event.item }
         case let event as ItemMoved:
             updatedItems = updatedItems.removedAll { $0.id == event.item.id }
-        case let event as ListRemotelyRemoved where event.listId == list.id:
+        case let event as ListRemovedReceived where event.listId == list.id:
             requestsSubject.send(.dismiss)
         case let event as ErrorOccured:
             requestsSubject.send(.showErrorMessage(event.error.localizedDescription))
@@ -177,14 +182,14 @@ public final class ItemsViewModel {
             return items
         }
 
-        return updatedItems.removedAll { $0.listId != list.id }
+        return updatedItems
     }
 
     private func handleRemoteEvent(_ event: AppEvent) {
         switch event {
-        case let event as ItemRemotelyAdded where event.listId == list.id: fetchOrSchedule(delayInSeconds: 3)
-        case let event as ItemRemotelyRemoved where event.listId == list.id: fetchOrSchedule()
-        case let event as ItemRemotelyUpdated where event.listId == list.id: fetchOrSchedule()
+        case let event as ItemAddedReceived where event.listId == list.id: fetchOrSchedule(delayInSeconds: 3)
+        case let event as ItemRemovedReceived where event.listId == list.id: fetchOrSchedule()
+        case let event as ItemUpdatedReceived where event.listId == list.id: fetchOrSchedule()
         default: return
         }
     }
@@ -197,6 +202,19 @@ public final class ItemsViewModel {
         } else {
             needsToFetchSubject.send(true)
         }
+    }
+
+    private func prepareToDisplay(
+        _ itemsPublisher: AnyPublisher<[Item], Never>
+    ) -> AnyPublisher<[Item], Never> {
+        itemsPublisher.combineLatest(itemsFilterViewModel.cellViewModels, $sortType)
+            .map { items, cells, sortType -> [Item] in
+                if cells.allSatisfy({ $0.isSelected == false }) {
+                    return items.sorted(by: sortType.action())
+                }
+                return cells.flatMap { $0.filter(items) }.sorted(by: sortType.action())
+            }
+            .eraseToAnyPublisher()
     }
 }
 

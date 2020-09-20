@@ -41,6 +41,12 @@ public final class MoveItemViewModel {
 
     public func fetchLists() {
         moveItemService.fetchLists(for: item)
+            .sink { [weak self] in
+                self?.lists = $0.sorted { $0.name < $1.name }
+                self?.isLoadingSubject.send(false)
+            }
+            .store(in: &subscriptions)
+
         isLoadingSubject.send(true)
     }
 
@@ -68,8 +74,6 @@ public final class MoveItemViewModel {
         switch event {
         case is ItemMoved:
             requestsSubject.send(.dismiss)
-        case let event as ListsFetchedForItemToMove:
-            lists = event.lists.sorted { $0.name < $1.name }
         case let event as ErrorOccured:
             requestsSubject.send(.showErrorMessage(event.error.localizedDescription))
         default:

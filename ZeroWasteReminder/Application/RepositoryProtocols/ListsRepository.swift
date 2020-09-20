@@ -1,10 +1,9 @@
 import Combine
 
 public protocol ListsRepository {
-    func fetchAll()
+    func fetchAll() -> Future<[List], Never>
     func add(_ list: List)
     func remove(_ list: List)
-    func update(_ list: List)
     func update(_ lists: [List])
 }
 

@@ -23,29 +23,34 @@ public final class CloudKitListsRepository: ListsRepository {
         self.eventDispatcher = eventDispatcher
     }
 
-    public func fetchAll() {
-        let query = CKQuery(recordType: "List", predicate: .init(value: true))
-        let operation = CKQueryOperation(query: query)
+    public func fetchAll() -> Future<[List], Never> {
+        Future { [weak self] promise in
+            guard let self = self else { return promise(.success([])) }
 
-        var records = [CKRecord]()
+            let query = CKQuery(recordType: "List", predicate: .init(value: true))
+            let operation = CKQueryOperation(query: query)
 
-        operation.recordFetchedBlock = {
-            records.append($0)
+            var records = [CKRecord]()
+
+            operation.recordFetchedBlock = {
+                records.append($0)
+            }
+
+            operation.completionBlock = { [weak self] in
+                self?.cache.invalidate()
+                self?.cache.set(records)
+
+                DispatchQueue.main.async {
+                    promise(.success(records.compactMap { self?.mapper.map($0).toList() }))
+                }
+            }
+
+            operation.queryCompletionBlock = { [weak self] in
+                $1.map { self?.eventDispatcher.dispatch(ErrorOccured(.init($0))) }
+            }
+
+            self.database.add(operation)
         }
-
-        operation.completionBlock = { [weak self] in
-            self?.cache.invalidate()
-            self?.cache.set(records)
-
-            let lists = records.compactMap { self?.mapper.map($0).toList() }
-            self?.eventDispatcher.dispatch(ListsFetched(lists))
-        }
-
-        operation.queryCompletionBlock = { [weak self] in
-            $1.map { self?.eventDispatcher.dispatch(ErrorOccured(.init($0))) }
-        }
-
-        database.add(operation)
     }
 
     public func add(_ list: List) {
@@ -83,10 +88,6 @@ public final class CloudKitListsRepository: ListsRepository {
         }
 
         database.add(operation)
-    }
-
-    public func update(_ list: List) {
-        update([list])
     }
 
     public func update(_ lists: [List]) {

@@ -11,9 +11,9 @@ public struct ListRemoteEventBuilder: RemoteEventBuilder {
     public init(from userInfo: [AnyHashable: Any]) {
         self.userInfo = userInfo
         self.eventBuilders = [
-            .add: ListRemotelyAdded.init,
-            .remove: ListRemotelyRemoved.init,
-            .update: ListRemotelyUpdated.init
+            .add: ListAddedReceived.init,
+            .remove: ListRemovedReceived.init,
+            .update: ListUpdatedReceived.init
         ]
     }
 
@@ -35,9 +35,9 @@ public struct ItemRemoteEventBuilder: RemoteEventBuilder {
     public init(from userInfo: [AnyHashable: Any]) {
         self.userInfo = userInfo
         self.eventBuilders = [
-            .add: ItemRemotelyAdded.init,
-            .remove: ItemRemotelyRemoved.init,
-            .update: ItemRemotelyUpdated.init
+            .add: ItemAddedReceived.init,
+            .remove: ItemRemovedReceived.init,
+            .update: ItemUpdatedReceived.init
         ]
     }
 

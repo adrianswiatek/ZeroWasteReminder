@@ -9,18 +9,15 @@ public final class InMemoryItemsRepository: ItemsRepository {
         self.eventDispatcher = eventDispatcher
     }
 
-    public func fetchAll(from list: List) {
-        let items = self.items
-            .filter { $0.listId == list.id }
-            .map { $0 }
-
-        eventDispatcher.dispatch(ItemsFetched(items))
+    public func fetchAll(from list: List) -> Future<[Item], Never> {
+        Future { [weak self] promise in
+            guard let self = self else { return promise(.success([])) }
+            promise(.success(self.items.filter { $0.listId == list.id }))
+        }
     }
 
-    public func fetch(by id: Id<Item>) {
-        items.first { $0.id == id }.map {
-            eventDispatcher.dispatch(ItemFetched($0))
-        }
+    public func fetch(by id: Id<Item>) -> Future<Item?, Never> {
+        Future { [weak self] in $0(.success(self?.items.first { $0.id == id })) }
     }
 
     public func add(_ itemToSave: ItemToSave) {

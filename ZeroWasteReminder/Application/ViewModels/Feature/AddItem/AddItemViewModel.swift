@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public final class AddViewModel {
+public final class AddItemViewModel {
     @Published public var name: String
     @Published public var notes: String
     @Published public var expirationTypeIndex: Int
@@ -149,7 +149,7 @@ public final class AddViewModel {
     }
 }
 
-public extension AddViewModel {
+public extension AddItemViewModel {
     enum Request: Equatable {
         case dismiss
     }

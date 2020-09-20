@@ -21,10 +21,10 @@ public final class EditContentViewController: UIViewController {
     private let moveButton: ActionButton = .move
     private let removeButton: ActionButton = .remove
 
-    private let viewModel: EditViewModel
+    private let viewModel: EditItemViewModel
     private var subscriptions: Set<AnyCancellable>
 
-    public init(viewModel: EditViewModel) {
+    public init(viewModel: EditItemViewModel) {
         self.viewModel = viewModel
         self.subscriptions = []
 

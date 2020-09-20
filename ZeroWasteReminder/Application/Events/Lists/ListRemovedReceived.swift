@@ -1,4 +1,4 @@
-public struct ListRemotelyAdded: AppEvent {
+public struct ListRemovedReceived: AppEvent {
     public let listId: Id<List>
 
     public init(_ listId: Id<List>) {
@@ -6,7 +6,7 @@ public struct ListRemotelyAdded: AppEvent {
     }
 }
 
-extension ListRemotelyAdded {
+extension ListRemovedReceived {
     public var description: String {
         "\(name)(id: \(listId.asString))"
     }
