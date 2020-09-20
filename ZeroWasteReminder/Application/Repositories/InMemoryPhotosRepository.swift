@@ -8,6 +8,12 @@ public final class InMemoryPhotosRepository: PhotosRepository {
         itemIdsToPhotos.reduce(into: [PhotoToSave]()) { $0 += $1.value }
     }
 
+    private let eventDispatcher: EventDispatcher
+
+    public init(eventDispatcher: EventDispatcher) {
+        self.eventDispatcher = eventDispatcher
+    }
+
     public func fetchThumbnails(for item: Item) -> Future<[Photo], AppError> {
         Future { [weak self] promise in
             let thumbnails = self?.itemIdsToPhotos[item.id]?.map { $0.thumbnail }
@@ -25,17 +31,14 @@ public final class InMemoryPhotosRepository: PhotosRepository {
         }
     }
 
-    public func update(
-        _ photosChangeset: PhotosChangeset,
-        for item: Item
-    ) -> Future<Void, Never> {
-        Future { [weak self] promise in
-            guard photosChangeset.hasChanges else { return promise(.success(())) }
-
-            self?.itemIdsToPhotos.updateValue(photosChangeset.photosToSave, forKey: item.id)
-            self?.itemIdsToPhotos[item.id]?.removeAll { photosChangeset.idsToDelete.contains($0.id) }
-
-            promise(.success(()))
+    public func update(_ photosChangeset: PhotosChangeset, for item: Item) {
+        guard photosChangeset.hasChanges else {
+            return eventDispatcher.dispatch(NoResultOccured())
         }
+
+        itemIdsToPhotos.updateValue(photosChangeset.photosToSave, forKey: item.id)
+        itemIdsToPhotos[item.id]?.removeAll { photosChangeset.idsToDelete.contains($0.id) }
+
+        eventDispatcher.dispatch(PhotosUpdated(item.id))
     }
 }

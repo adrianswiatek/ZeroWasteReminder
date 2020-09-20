@@ -13,10 +13,12 @@ public final class CloudKitPhotosRepository: PhotosRepository {
 
     private let configuration: CloudKitConfiguration
     private let mapper: CloudKitMapper
+    private let eventDispatcher: EventDispatcher
 
-    public init(configuration: CloudKitConfiguration, mapper: CloudKitMapper) {
+    public init(configuration: CloudKitConfiguration, mapper: CloudKitMapper, eventDispatcher: EventDispatcher) {
         self.configuration = configuration
         self.mapper = mapper
+        self.eventDispatcher = eventDispatcher
     }
 
     public func fetchThumbnails(for item: Item) -> Future<[Photo], AppError> {
@@ -79,23 +81,21 @@ public final class CloudKitPhotosRepository: PhotosRepository {
         }
     }
 
-    public func update(_ photosChangeset: PhotosChangeset, for item: Item) -> Future<Void, Never> {
-        Future { [weak self] promise in
-            guard let self = self, photosChangeset.hasChanges else {
-                return promise(.success(()))
-            }
-
-            let operation = CKModifyRecordsOperation(
-                recordsToSave: self.mapToRecords(photosChangeset.photosToSave, for: item),
-                recordIDsToDelete: self.mapToRecordIds(photosChangeset.idsToDelete)
-            )
-
-            operation.modifyRecordsCompletionBlock = { _, _, _ in
-                DispatchQueue.main.async { promise(.success(())) }
-            }
-
-            self.database.add(operation)
+    public func update(_ photosChangeset: PhotosChangeset, for item: Item) {
+        guard photosChangeset.hasChanges else {
+            return eventDispatcher.dispatch(NoResultOccured())
         }
+
+        let operation = CKModifyRecordsOperation(
+            recordsToSave: mapToRecords(photosChangeset.photosToSave, for: item),
+            recordIDsToDelete: mapToRecordIds(photosChangeset.idsToDelete)
+        )
+
+        operation.modifyRecordsCompletionBlock = { [weak self] _, _, _ in
+            self?.eventDispatcher.dispatch(PhotosUpdated(item.id))
+        }
+
+        database.add(operation)
     }
 
     private func mapToRecords(_ photos: [PhotoToSave], for item: Item) -> [CKRecord] {

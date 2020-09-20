@@ -2,14 +2,9 @@ import Combine
 import Foundation
 
 public protocol PhotosRepository {
-    @discardableResult
     func fetchThumbnails(for item: Item) -> Future<[Photo], AppError>
-
-    @discardableResult
     func fetchFullSize(with photoId: Id<Photo>) -> Future<Photo, AppError>
-
-    @discardableResult
-    func update(_ photosChangeset: PhotosChangeset, for item: Item) -> Future<Void, Never>
+    func update(_ photosChangeset: PhotosChangeset, for item: Item)
 }
 
 public extension PhotosRepository {

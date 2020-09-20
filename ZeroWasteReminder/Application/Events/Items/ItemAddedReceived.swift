@@ -10,6 +10,6 @@ public struct ItemAddedReceived: AppEvent {
 
 extension ItemAddedReceived {
     public var description: String {
-        "\(name)(id: \(itemId.asString), parentListId: \(listId.asString)"
+        "\(name)(id: \(itemId.asString), parentListId: \(listId.asString))"
     }
 }
