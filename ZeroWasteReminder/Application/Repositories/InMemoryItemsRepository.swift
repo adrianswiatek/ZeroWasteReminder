@@ -17,10 +17,8 @@ public final class InMemoryItemsRepository: ItemsRepository {
         eventDispatcher.dispatch(ItemsFetched(items))
     }
 
-    public func fetch(by id: Id<Item>) {
-        items.first { $0.id == id }.map {
-            eventDispatcher.dispatch(ItemFetched($0))
-        }
+    public func fetch(by id: Id<Item>) -> Future<Item?, Never> {
+        Future { [weak self] in $0(.success(self?.items.first { $0.id == id })) }
     }
 
     public func add(_ itemToSave: ItemToSave) {

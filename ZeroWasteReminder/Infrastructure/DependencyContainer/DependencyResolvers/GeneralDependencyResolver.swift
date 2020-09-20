@@ -22,8 +22,8 @@ public final class GeneralDependencyResolver: DependencyResolver {
         container.register(ItemsCoordinator.self) { resolver in
             ItemsCoordinator(
                 sharingControllerFactory: resolver.resolve(SharingControllerFactory.self)!,
-                addViewModelFactory: resolver.resolve(AddViewModelFactory.self)!,
-                editViewModelFactory: resolver.resolve(EditViewModelFactory.self)!,
+                addViewModelFactory: resolver.resolve(AddItemViewModelFactory.self)!,
+                editViewModelFactory: resolver.resolve(EditItemViewModelFactory.self)!,
                 moveItemViewModelFactory: resolver.resolve(MoveItemViewModelFactory.self)!,
                 addCoordinator: resolver.resolve(AddCoordinator.self)!,
                 editCoordinator: resolver.resolve(EditCoordinator.self)!
@@ -128,8 +128,8 @@ public final class GeneralDependencyResolver: DependencyResolver {
             )
         }
 
-        container.register(AddViewModelFactory.self) { resolver in
-            AddViewModelFactory(
+        container.register(AddItemViewModelFactory.self) { resolver in
+            AddItemViewModelFactory(
                 itemsRepository: resolver.resolve(ItemsRepository.self)!,
                 photosRepository: resolver.resolve(PhotosRepository.self)!,
                 fileService: resolver.resolve(FileService.self)!,
@@ -138,8 +138,8 @@ public final class GeneralDependencyResolver: DependencyResolver {
             )
         }
 
-        container.register(EditViewModelFactory.self) { resolver in
-            EditViewModelFactory(
+        container.register(EditItemViewModelFactory.self) { resolver in
+            EditItemViewModelFactory(
                 itemsRepository: resolver.resolve(ItemsRepository.self)!,
                 photosRepository: resolver.resolve(PhotosRepository.self)!,
                 fileService: resolver.resolve(FileService.self)!,

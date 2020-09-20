@@ -24,9 +24,9 @@ public final class ExpirationSectionView: UIView {
 
     private var bottomConstraints: [Int: NSLayoutConstraint]
 
-    private let viewModel: AddViewModel
+    private let viewModel: AddItemViewModel
 
-    public init(viewModel: AddViewModel) {
+    public init(viewModel: AddItemViewModel) {
         self.viewModel = viewModel
         self.expirationDateView = .init(viewModel: viewModel.expirationDateViewModel)
         self.expirationPeriodView = .init(viewModel: viewModel.expirationPeriodViewModel)

@@ -46,9 +46,7 @@ public final class CloudKitListsRepository: ListsRepository {
             }
 
             operation.queryCompletionBlock = { [weak self] in
-                guard let error = $1 else { return }
-                self?.eventDispatcher.dispatch(ErrorOccured(.init(error)))
-                DispatchQueue.main.async { promise(.success([])) }
+                $1.map { self?.eventDispatcher.dispatch(ErrorOccured(.init($0))) }
             }
 
             self.database.add(operation)

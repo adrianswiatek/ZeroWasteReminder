@@ -13,11 +13,11 @@ public final class AddViewController: UIViewController {
     private let loadingView: LoadingView
     private let warningBarView: WarningBarView
 
-    private let viewModel: AddViewModel
+    private let viewModel: AddItemViewModel
     private let coordinator: AddCoordinator
     private var subscriptions: Set<AnyCancellable>
 
-    public init(viewModel: AddViewModel, coordinator: AddCoordinator) {
+    public init(viewModel: AddItemViewModel, coordinator: AddCoordinator) {
         self.viewModel = viewModel
         self.coordinator = coordinator
         self.subscriptions = []

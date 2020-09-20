@@ -1,4 +1,4 @@
-public final class EditViewModelFactory {
+public final class AddItemViewModelFactory {
     private let itemsRepository: ItemsRepository
     private let photosRepository: PhotosRepository
     private let fileService: FileService
@@ -19,9 +19,9 @@ public final class EditViewModelFactory {
         self.eventDispatcher = eventDispatcher
     }
 
-    public func create(for item: Item) -> EditViewModel {
+    public func create(for list: List) -> AddItemViewModel {
         .init(
-            item: item,
+            list: list,
             itemsRepository: itemsRepository,
             photosRepository: photosRepository,
             fileService: fileService,

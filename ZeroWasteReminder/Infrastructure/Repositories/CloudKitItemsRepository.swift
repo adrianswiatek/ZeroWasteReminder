@@ -52,32 +52,37 @@ public final class CloudKitItemsRepository: ItemsRepository {
         database.add(operation)
     }
 
-    public func fetch(by id: Id<Item>) {
-        let recordId = CKRecord.ID(recordName: id.asString, zoneID: zone.zoneID)
-        let query = CKQuery(recordType: "Item", predicate: .init(format: "%K == %@", "recordID", recordId))
-        let operation = CKQueryOperation(query: query)
+    public func fetch(by id: Id<Item>) -> Future<Item?, Never> {
+        Future { [weak self] promise in
+            guard let self = self else { return promise(.success(nil)) }
 
-        var record: CKRecord?
+            let recordId = CKRecord.ID(recordName: id.asString, zoneID: self.zone.zoneID)
+            let query = CKQuery(recordType: "Item", predicate: .init(format: "%K == %@", "recordID", recordId))
+            let operation = CKQueryOperation(query: query)
 
-        operation.recordFetchedBlock = {
-            record = $0
-        }
+            var record: CKRecord?
 
-        operation.completionBlock = { [weak self] in
-            guard let record = record, let item = self?.mapper.map(record).toItem() else {
-                return
+            operation.recordFetchedBlock = {
+                record = $0
             }
 
-            self?.cache.invalidate()
-            self?.cache.set(.just(record))
-            self?.eventDispatcher.dispatch(ItemFetched(item))
-        }
+            operation.completionBlock = { [weak self] in
+                guard let record = record else { return }
 
-        operation.queryCompletionBlock = { [weak self] in
-            $1.map { self?.eventDispatcher.dispatch(ErrorOccured(.init($0))) }
-        }
+                self?.cache.invalidate()
+                self?.cache.set(.just(record))
 
-        database.add(operation)
+                DispatchQueue.main.async {
+                    promise(.success(self?.mapper.map(record).toItem()))
+                }
+            }
+
+            operation.queryCompletionBlock = { [weak self] in
+                $1.map { self?.eventDispatcher.dispatch(ErrorOccured(.init($0))) }
+            }
+
+            self.database.add(operation)
+        }
     }
 
     public func add(_ itemToSave: ItemToSave) {

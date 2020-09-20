@@ -10,12 +10,12 @@ public final class EditViewController: UIViewController {
     private let loadingView: LoadingView
     private let warningBarView: WarningBarView
 
-    private let viewModel: EditViewModel
+    private let viewModel: EditItemViewModel
     private let coordinator: EditCoordinator
 
     private var subscriptions: Set<AnyCancellable>
 
-    public init(viewModel: EditViewModel, coordinator: EditCoordinator) {
+    public init(viewModel: EditItemViewModel, coordinator: EditCoordinator) {
         self.viewModel = viewModel
         self.coordinator = coordinator
 
@@ -116,7 +116,7 @@ public final class EditViewController: UIViewController {
             .store(in: &subscriptions)
     }
 
-    private func handleRequest(_ request: EditViewModel.Request) {
+    private func handleRequest(_ request: EditItemViewModel.Request) {
         switch request {
         case .dismiss:
             navigationController?.popViewController(animated: true)

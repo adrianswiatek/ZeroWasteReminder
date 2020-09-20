@@ -2,16 +2,16 @@ import UIKit
 
 public final class ItemsCoordinator {
     private let sharingControllerFactory: SharingControllerFactory
-    private let addViewModelFactory: AddViewModelFactory
-    private let editViewModelFactory: EditViewModelFactory
+    private let addViewModelFactory: AddItemViewModelFactory
+    private let editViewModelFactory: EditItemViewModelFactory
     private let moveItemViewModelFactory: MoveItemViewModelFactory
     private let addCoordinator: AddCoordinator
     private let editCoordinator: EditCoordinator
 
     public init(
         sharingControllerFactory: SharingControllerFactory,
-        addViewModelFactory: AddViewModelFactory,
-        editViewModelFactory: EditViewModelFactory,
+        addViewModelFactory: AddItemViewModelFactory,
+        editViewModelFactory: EditItemViewModelFactory,
         moveItemViewModelFactory: MoveItemViewModelFactory,
         addCoordinator: AddCoordinator,
         editCoordinator: EditCoordinator
