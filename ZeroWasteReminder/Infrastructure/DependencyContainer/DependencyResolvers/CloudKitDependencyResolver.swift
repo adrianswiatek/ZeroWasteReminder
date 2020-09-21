@@ -48,7 +48,8 @@ public final class CloudKitDependencyResolver: DependencyResolver {
         container.register(PhotosRepository.self) { resolver in
             CloudKitPhotosRepository(
                 configuration: resolver.resolve(CloudKitConfiguration.self)!,
-                mapper: resolver.resolve(CloudKitMapper.self)!
+                mapper: resolver.resolve(CloudKitMapper.self)!,
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }
     }

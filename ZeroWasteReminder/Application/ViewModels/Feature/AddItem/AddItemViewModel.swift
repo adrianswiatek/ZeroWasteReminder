@@ -112,17 +112,20 @@ public final class AddItemViewModel {
             .store(in: &subscriptions)
 
         eventDispatcher.events
-            .compactMap { $0 as? ItemAdded }
-            .flatMap { [weak self] event -> AnyPublisher<Void, Never> in
-                guard let self = self else { return Empty().eraseToAnyPublisher() }
-                let changeset = self.photosViewModel.photosChangeset
-                return self.photosRepository.update(changeset, for: event.item).eraseToAnyPublisher()
-            }
-            .sink(
-                receiveCompletion: { [weak self] _ in self?.isLoadingSubject.send(false) },
-                receiveValue: { [weak self] in self?.requestSubject.send(.dismiss) }
-            )
+            .sink { [weak self] in self?.handleEvent($0) }
             .store(in: &subscriptions)
+    }
+
+    private func handleEvent(_ event: AppEvent) {
+        switch event {
+        case let event as ItemAdded:
+            photosRepository.update(photosViewModel.photosChangeset, for: event.item)
+        case is PhotosUpdated:
+            isLoadingSubject.send(false)
+            requestSubject.send(.dismiss)
+        default:
+            return
+        }
     }
 
     private func tryCreateItem() -> Item? {

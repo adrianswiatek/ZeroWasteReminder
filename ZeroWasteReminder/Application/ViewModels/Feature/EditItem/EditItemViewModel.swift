@@ -14,7 +14,7 @@ public final class EditItemViewModel {
 
     public var expirationDate: AnyPublisher<(date: Date, formatted: String), Never> {
         expirationDateSubject
-            .map { [weak self] in ($0 ?? Date(), self?.formattedDate($0) ?? "Toggle date picker") }
+            .map { [weak self] in ($0 ?? Date(), self?.formattedDate($0) ?? .localized(.toggleDatePicker)) }
             .eraseToAnyPublisher()
     }
 
@@ -144,34 +144,28 @@ public final class EditItemViewModel {
             .store(in: &subscriptions)
 
         eventDispatcher.events
-            .compactMap { $0 as? ItemUpdated }
-            .flatMap { [weak self] event -> AnyPublisher<Void, Never> in
-                guard let self = self else { return Empty().eraseToAnyPublisher() }
-                let changeset = self.photosViewModel.photosChangeset
-                return self.photosRepository.update(changeset, for: event.item).eraseToAnyPublisher()
-            }
-            .sink(
-                receiveCompletion: { [weak self] _ in self?.isLoadingSubject.send(false) },
-                receiveValue: { [weak self] in self?.requestSubject.send(.dismiss) }
-            )
-            .store(in: &subscriptions)
-
-        eventDispatcher.events
-            .sink { [weak self] in
-                self?.handleEvent($0)
-                self?.isLoadingSubject.send(false)
-            }
+            .sink { [weak self] in self?.handleEvent($0) }
             .store(in: &subscriptions)
     }
 
-    private func handleEvent(_ appEvent: AppEvent) {
-        switch appEvent {
+    private func handleEvent(_ event: AppEvent) {
+        switch event {
+        case let event as ItemUpdated:
+            photosRepository.update(photosViewModel.photosChangeset, for: event.item)
         case is ItemsRemoved:
             requestSubject.send(.dismiss)
         case let event as ItemRemovedReceived where event.itemId == item.id:
             requestSubject.send(.dismiss)
         case let event as ItemUpdatedReceived where event.itemId == item.id:
             refreshItem()
+        case let event as PhotosUpdated where event.itemId == item.id:
+            requestSubject.send(.dismiss)
+        case let event as PhotoAddedReceived where event.itemId == item.id:
+            photosViewModel.fetchThumbnailIfNeeded(with: event.photoId)
+        case let event as PhotoRemovedReceived where event.itemId == item.id:
+            photosViewModel.removeThumbnailLocally(with: event.photoId)
+        case is NoResultOccured:
+            requestSubject.send(.dismiss)
         default:
             return
         }

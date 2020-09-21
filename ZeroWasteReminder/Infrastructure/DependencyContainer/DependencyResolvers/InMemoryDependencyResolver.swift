@@ -20,8 +20,8 @@ public final class InMemoryDependencyResolver: DependencyResolver {
             InMemoryItemsRepository(eventDispatcher: resolver.resolve(EventDispatcher.self)!)
         }
 
-        container.register(PhotosRepository.self) { _ in
-            InMemoryPhotosRepository()
+        container.register(PhotosRepository.self) { resolver in
+            InMemoryPhotosRepository(eventDispatcher: resolver.resolve(EventDispatcher.self)!)
         }
     }
 

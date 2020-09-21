@@ -74,31 +74,36 @@ private extension CloudKitSubscriptionService {
     enum Subscription: String, CaseIterable {
         case item = "Item"
         case list = "List"
+        case photo = "Photo"
 
         func asCKQuerySubscription() -> CKQuerySubscription {
+            let subscriptionWithKeys = subscription(for: rawValue)
+
             switch self {
-            case .item: return subscription(recordType: rawValue, desiredKeys: [CloudKitKey.Item.listReference])
-            case .list: return subscription(recordType: rawValue)
+            case .item: return subscriptionWithKeys(.just(CloudKitKey.Item.listReference))
+            case .list: return subscriptionWithKeys(.empty)
+            case .photo: return subscriptionWithKeys(.just(CloudKitKey.Photo.itemReference))
             }
         }
 
         private func subscription(
-            recordType: String,
-            desiredKeys: [CKRecord.FieldKey] = []
-        ) -> CKQuerySubscription {
-            let subscription = CKQuerySubscription(
-                recordType: recordType,
-                predicate: .init(value: true),
-                options: [.firesOnRecordCreation, .firesOnRecordUpdate, .firesOnRecordDeletion]
-            )
+            for recordType: String
+        ) -> ([CKRecord.FieldKey]) -> CKQuerySubscription {
+            return { desiredKeys in
+                let subscription = CKQuerySubscription(
+                    recordType: recordType,
+                    predicate: .init(value: true),
+                    options: [.firesOnRecordCreation, .firesOnRecordUpdate, .firesOnRecordDeletion]
+                )
 
-            let notificationInfo = CKQuerySubscription.NotificationInfo()
-            notificationInfo.shouldSendContentAvailable = true
-            notificationInfo.category = recordType
-            notificationInfo.desiredKeys = desiredKeys
+                let notificationInfo = CKQuerySubscription.NotificationInfo()
+                notificationInfo.shouldSendContentAvailable = true
+                notificationInfo.category = recordType
+                notificationInfo.desiredKeys = desiredKeys
 
-            subscription.notificationInfo = notificationInfo
-            return subscription
+                subscription.notificationInfo = notificationInfo
+                return subscription
+            }
         }
     }
 }
