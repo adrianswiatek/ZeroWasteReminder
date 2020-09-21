@@ -2,8 +2,9 @@ import Combine
 import Foundation
 
 public protocol PhotosRepository {
-    func fetchThumbnails(for item: Item) -> Future<[Photo], AppError>
-    func fetchFullSize(with photoId: Id<Photo>) -> Future<Photo, AppError>
+    func fetchThumbnail(with id: Id<Photo>) -> Future<Photo?, Never>
+    func fetchThumbnails(for item: Item) -> Future<[Photo], Never>
+    func fetchFullSize(with id: Id<Photo>) -> Future<Photo?, Never>
     func update(_ photosChangeset: PhotosChangeset, for item: Item)
 }
 

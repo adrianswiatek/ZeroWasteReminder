@@ -51,6 +51,24 @@ public final class PhotosViewModel {
             )
     }
 
+    public func fetchThumbnailIfNeeded(with id: Id<Photo>) {
+        guard !containsThumbnail(with: id) else {
+            return
+        }
+
+        isLoadingOverlayVisibleSubject.value = true
+
+        fetchPhotosSubscription = photosRepository.fetchThumbnail(with: id)
+            .compactMap { $0 }
+            .sink(
+                receiveCompletion: { [weak self] _ in self?.fetchPhotosSubscription = nil },
+                receiveValue: { [weak self] in
+                    self?.thumbnailsSubject.value.append($0)
+                    self?.isLoadingOverlayVisibleSubject.value = false
+                }
+            )
+    }
+
     public func addImage(at url: URL) {
         DispatchQueue.main.async {
             self.makePhotosToSave(at: url).map { self.addPhoto($0) }
@@ -80,6 +98,10 @@ public final class PhotosViewModel {
         return thumbnailsSubject.value[index]
     }
 
+    public func removeThumbnailLocally(with id: Id<Photo>) {
+        thumbnailsSubject.value.removeAll { $0.id == id }
+    }
+
     private func bind() {
         requestSubject
             .compactMap { [weak self] in
@@ -89,6 +111,10 @@ public final class PhotosViewModel {
             }
             .sink { [weak self] in self?.sendShowPhotoRequest(at: $0) }
             .store(in: &subscriptions)
+    }
+
+    private func containsThumbnail(with id: Id<Photo>) -> Bool {
+        thumbnailsSubject.value.map { $0.id }.contains(id)
     }
 
     private func addPhoto(_ photo: PhotoToSave) {
@@ -132,10 +158,9 @@ public final class PhotosViewModel {
         }
 
         photosRepository.fetchFullSize(with: photoId)
-            .sink(
-                receiveCompletion: { _ in },
-                receiveValue: { [weak self] in self?.requestSubject.send(.showPhoto($0)) }
-            )
+            .sink { [weak self] in
+                $0.map { self?.requestSubject.send(.showPhoto($0)) }
+            }
             .store(in: &subscriptions)
     }
 }

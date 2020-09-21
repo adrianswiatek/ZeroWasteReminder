@@ -7,7 +7,11 @@ public final class RemoteNotificationHandler {
 
     public init(eventDispatcher: EventDispatcher) {
         self.eventDispatcher = eventDispatcher
-        self.eventBuilders = [.item: ItemRemoteEventBuilder.init, .list: ListRemoteEventBuilder.init]
+        self.eventBuilders = [
+            .item: ItemRemoteEventBuilder.init,
+            .list: ListRemoteEventBuilder.init,
+            .photo: PhotoRemoteEventBuilder.init
+        ]
     }
 
     public func received(with userInfo: [AnyHashable: Any]) {

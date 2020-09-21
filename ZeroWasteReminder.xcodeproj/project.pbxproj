@@ -143,6 +143,7 @@
 		A7B2A4832469E58D00D9C0B1 /* RemoveExpirationDateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2A4822469E58D00D9C0B1 /* RemoveExpirationDateButton.swift */; };
 		A7B2E50B24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2E50A24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift */; };
 		A7B3BFD624F46C1C00B7F15B /* ItemToSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B3BFD524F46C1C00B7F15B /* ItemToSave.swift */; };
+		A7B52E6B251939EC0047FFDC /* PhotoAddedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B52E6A251939EC0047FFDC /* PhotoAddedReceived.swift */; };
 		A7BDE68324B5082B003215C0 /* ListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDE68224B5082B003215C0 /* ListsViewController.swift */; };
 		A7BDE68524B5095A003215C0 /* ListsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDE68424B5095A003215C0 /* ListsDataSource.swift */; };
 		A7BDE68724B50B73003215C0 /* ListsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDE68624B50B73003215C0 /* ListsTableView.swift */; };
@@ -162,7 +163,7 @@
 		A7CFBBB4250964FA0026D338 /* GeneralDependencyResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFBBB3250964FA0026D338 /* GeneralDependencyResolver.swift */; };
 		A7CFBBB6250969A80026D338 /* DependencyResolverComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFBBB5250969A80026D338 /* DependencyResolverComposite.swift */; };
 		A7CFBBB8250982560026D338 /* ListUpdatedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFBBB7250982560026D338 /* ListUpdatedReceived.swift */; };
-		A7D41C982517F69C00A78ADD /* PhotosUpdatedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D41C972517F69C00A78ADD /* PhotosUpdatedReceived.swift */; };
+		A7D41C982517F69C00A78ADD /* PhotoRemovedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D41C972517F69C00A78ADD /* PhotoRemovedReceived.swift */; };
 		A7D41CA12517FC0A00A78ADD /* PhotosUpdated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D41CA02517FC0A00A78ADD /* PhotosUpdated.swift */; };
 		A7D5B01D250AB6DE006A3B3B /* ItemsChangeListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D5B01C250AB6DE006A3B3B /* ItemsChangeListener.swift */; };
 		A7DAD1C224F70B0D0004529D /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DAD1C124F70B0D0004529D /* ArrayExtensions.swift */; };
@@ -337,6 +338,7 @@
 		A7B2A4822469E58D00D9C0B1 /* RemoveExpirationDateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveExpirationDateButton.swift; sourceTree = "<group>"; };
 		A7B2E50A24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImagePickerController.SourceTypeExtensions.swift; sourceTree = "<group>"; };
 		A7B3BFD524F46C1C00B7F15B /* ItemToSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToSave.swift; sourceTree = "<group>"; };
+		A7B52E6A251939EC0047FFDC /* PhotoAddedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAddedReceived.swift; sourceTree = "<group>"; };
 		A7BDE68224B5082B003215C0 /* ListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsViewController.swift; sourceTree = "<group>"; };
 		A7BDE68424B5095A003215C0 /* ListsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsDataSource.swift; sourceTree = "<group>"; };
 		A7BDE68624B50B73003215C0 /* ListsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsTableView.swift; sourceTree = "<group>"; };
@@ -356,7 +358,7 @@
 		A7CFBBB3250964FA0026D338 /* GeneralDependencyResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralDependencyResolver.swift; sourceTree = "<group>"; };
 		A7CFBBB5250969A80026D338 /* DependencyResolverComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyResolverComposite.swift; sourceTree = "<group>"; };
 		A7CFBBB7250982560026D338 /* ListUpdatedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListUpdatedReceived.swift; sourceTree = "<group>"; };
-		A7D41C972517F69C00A78ADD /* PhotosUpdatedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosUpdatedReceived.swift; sourceTree = "<group>"; };
+		A7D41C972517F69C00A78ADD /* PhotoRemovedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRemovedReceived.swift; sourceTree = "<group>"; };
 		A7D41CA02517FC0A00A78ADD /* PhotosUpdated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosUpdated.swift; sourceTree = "<group>"; };
 		A7D5B01C250AB6DE006A3B3B /* ItemsChangeListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsChangeListener.swift; sourceTree = "<group>"; };
 		A7DAD1C124F70B0D0004529D /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
@@ -855,7 +857,8 @@
 			isa = PBXGroup;
 			children = (
 				A7D41CA02517FC0A00A78ADD /* PhotosUpdated.swift */,
-				A7D41C972517F69C00A78ADD /* PhotosUpdatedReceived.swift */,
+				A7D41C972517F69C00A78ADD /* PhotoRemovedReceived.swift */,
+				A7B52E6A251939EC0047FFDC /* PhotoAddedReceived.swift */,
 			);
 			path = Photos;
 			sourceTree = "<group>";
@@ -1263,7 +1266,8 @@
 				A7175078244286F60058FCE4 /* ItemCell.swift in Sources */,
 				A7AD76E62463661100220A94 /* StateIndicatorLabel.swift in Sources */,
 				A74161412450D83B001ED316 /* UIAlertControllerExtensions.swift in Sources */,
-				A7D41C982517F69C00A78ADD /* PhotosUpdatedReceived.swift in Sources */,
+				A7B52E6B251939EC0047FFDC /* PhotoAddedReceived.swift in Sources */,
+				A7D41C982517F69C00A78ADD /* PhotoRemovedReceived.swift in Sources */,
 				A7A7495124F309CC009D6F25 /* MoveItemViewController.swift in Sources */,
 				A7E4C6002500506000761601 /* AddItemViewModelFactory.swift in Sources */,
 				A7159B642500442E00BC3532 /* AddCoordinator.swift in Sources */,

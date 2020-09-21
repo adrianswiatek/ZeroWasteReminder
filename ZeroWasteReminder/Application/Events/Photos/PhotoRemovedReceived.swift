@@ -1,4 +1,4 @@
-public struct PhotoAddedReceived: AppEvent {
+public struct PhotoRemovedReceived: AppEvent {
     public let photoId: Id<Photo>
     public let itemId: Id<Item>
 
@@ -8,7 +8,7 @@ public struct PhotoAddedReceived: AppEvent {
     }
 }
 
-extension PhotoAddedReceived {
+extension PhotoRemovedReceived {
     public var description: String {
         "\(name)(id: \(photoId.asString), parentItemId: \(itemId.asString))"
     }

@@ -15,15 +15,46 @@ public final class CloudKitPhotosRepository: PhotosRepository {
     private let mapper: CloudKitMapper
     private let eventDispatcher: EventDispatcher
 
-    public init(configuration: CloudKitConfiguration, mapper: CloudKitMapper, eventDispatcher: EventDispatcher) {
+    public init(
+        configuration: CloudKitConfiguration,
+        mapper: CloudKitMapper,
+        eventDispatcher: EventDispatcher
+    ) {
         self.configuration = configuration
         self.mapper = mapper
         self.eventDispatcher = eventDispatcher
     }
 
-    public func fetchThumbnails(for item: Item) -> Future<[Photo], AppError> {
+    public func fetchThumbnail(with id: Id<Photo>) -> Future<Photo?, Never> {
         Future { [weak self] promise in
-            guard let self = self else { return }
+            guard let self = self else { return promise(.success(nil)) }
+
+            let recordId = CKRecord.ID(recordName: id.asString, zoneID: self.zone.zoneID)
+            let query = CKQuery(recordType: "Photo", predicate: .init(format: "%K == %@", "recordID", recordId))
+            let operation = CKQueryOperation(query: query)
+
+            var record: CKRecord?
+            var error: Error?
+
+            operation.recordFetchedBlock = { record = $0 }
+            operation.queryCompletionBlock = { error = $1 }
+
+            operation.completionBlock = {
+                if let error = error {
+                    self.eventDispatcher.dispatch(ErrorOccured(.init(error)))
+                } else {
+                    let thumbnail = self.mapper.map(record).toThumbnail()
+                    DispatchQueue.main.async { promise(.success(thumbnail)) }
+                }
+            }
+
+            self.database.add(operation)
+        }
+    }
+
+    public func fetchThumbnails(for item: Item) -> Future<[Photo], Never> {
+        Future { [weak self] promise in
+            guard let self = self else { return promise(.success([])) }
 
             let itemReference = CKRecord.Reference(
                 recordID: .init(recordName: item.id.asString, zoneID: self.zone.zoneID),
@@ -42,7 +73,7 @@ public final class CloudKitPhotosRepository: PhotosRepository {
             operation.queryCompletionBlock = { error = $1 }
             operation.completionBlock = {
                 if let error = error {
-                    DispatchQueue.main.async { promise(.failure(.init(error))) }
+                    self.eventDispatcher.dispatch(ErrorOccured(.init(error)))
                 } else {
                     let photos = records.compactMap { self.mapper.map($0).toThumbnail() }
                     DispatchQueue.main.async { promise(.success(photos)) }
@@ -53,9 +84,9 @@ public final class CloudKitPhotosRepository: PhotosRepository {
         }
     }
 
-    public func fetchFullSize(with photoId: Id<Photo>) -> Future<Photo, AppError> {
+    public func fetchFullSize(with photoId: Id<Photo>) -> Future<Photo?, Never> {
         Future { [weak self] promise in
-            guard let self = self else { return }
+            guard let self = self else { return promise(.success(nil)) }
 
             let recordId = CKRecord.ID(recordName: photoId.asString, zoneID: self.zone.zoneID)
             let predicate = NSPredicate(format: "%K == %@", "recordID", recordId)
@@ -70,9 +101,9 @@ public final class CloudKitPhotosRepository: PhotosRepository {
             operation.queryCompletionBlock = { error = $1 }
             operation.completionBlock = {
                 if let error = error {
-                    DispatchQueue.main.async { promise(.failure(AppError(error))) }
+                    self.eventDispatcher.dispatch(ErrorOccured(.init(error)))
                 } else {
-                    let fullSize: Photo! = record.flatMap { self.mapper.map($0).toFullSize() }
+                    let fullSize = record.flatMap { self.mapper.map($0).toFullSize() }
                     DispatchQueue.main.async { promise(.success(fullSize)) }
                 }
             }

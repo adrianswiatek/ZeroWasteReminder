@@ -14,20 +14,27 @@ public final class InMemoryPhotosRepository: PhotosRepository {
         self.eventDispatcher = eventDispatcher
     }
 
-    public func fetchThumbnails(for item: Item) -> Future<[Photo], AppError> {
+    public func fetchThumbnail(with id: Id<Photo>) -> Future<Photo?, Never> {
+        Future { [weak self] promise in
+            let photo = self?.itemIdsToPhotos.values
+                .flatMap { $0 }
+                .map { $0.thumbnail }
+                .first { $0.id == id }
+
+            promise(.success(photo))
+        }
+    }
+
+    public func fetchThumbnails(for item: Item) -> Future<[Photo], Never> {
         Future { [weak self] promise in
             let thumbnails = self?.itemIdsToPhotos[item.id]?.map { $0.thumbnail }
             promise(.success(thumbnails ?? []))
         }
     }
 
-    public func fetchFullSize(with photoId: Id<Photo>) -> Future<Photo, AppError> {
+    public func fetchFullSize(with id: Id<Photo>) -> Future<Photo?, Never> {
         Future { [weak self] promise in
-            guard let photo = self?.photos.first(where: { $0.id == photoId }) else {
-                return promise(.failure(.general("Photo with given id does not exist.")))
-            }
-
-            promise(.success(photo.fullSize))
+            promise(.success(self?.photos.first(where: { $0.id == id })?.fullSize))
         }
     }
 

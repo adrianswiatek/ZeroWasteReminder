@@ -14,7 +14,7 @@ public final class EditItemViewModel {
 
     public var expirationDate: AnyPublisher<(date: Date, formatted: String), Never> {
         expirationDateSubject
-            .map { [weak self] in ($0 ?? Date(), self?.formattedDate($0) ?? "Toggle date picker") }
+            .map { [weak self] in ($0 ?? Date(), self?.formattedDate($0) ?? .localized(.toggleDatePicker)) }
             .eraseToAnyPublisher()
     }
 
@@ -148,8 +148,8 @@ public final class EditItemViewModel {
             .store(in: &subscriptions)
     }
 
-    private func handleEvent(_ appEvent: AppEvent) {
-        switch appEvent {
+    private func handleEvent(_ event: AppEvent) {
+        switch event {
         case let event as ItemUpdated:
             photosRepository.update(photosViewModel.photosChangeset, for: event.item)
         case is ItemsRemoved:
@@ -160,8 +160,12 @@ public final class EditItemViewModel {
             refreshItem()
         case let event as PhotosUpdated where event.itemId == item.id:
             requestSubject.send(.dismiss)
+        case let event as PhotoAddedReceived where event.itemId == item.id:
+            photosViewModel.fetchThumbnailIfNeeded(with: event.photoId)
+        case let event as PhotoRemovedReceived where event.itemId == item.id:
+            photosViewModel.removeThumbnailLocally(with: event.photoId)
         case is NoResultOccured:
-            isLoadingSubject.send(false)
+            requestSubject.send(.dismiss)
         default:
             return
         }
