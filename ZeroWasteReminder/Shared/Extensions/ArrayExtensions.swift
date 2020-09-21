@@ -1,4 +1,8 @@
 extension Array {
+    public static var empty: Self {
+        []
+    }
+
     public static func just(_ element: Element) -> Self {
         [element]
     }
