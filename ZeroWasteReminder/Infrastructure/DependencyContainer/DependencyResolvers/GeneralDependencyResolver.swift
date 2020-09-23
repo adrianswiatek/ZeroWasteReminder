@@ -1,4 +1,5 @@
 import Swinject
+import UserNotifications
 
 public final class GeneralDependencyResolver: DependencyResolver {
     private let container: Container
@@ -45,11 +46,22 @@ public final class GeneralDependencyResolver: DependencyResolver {
                 resolver.resolve(EventDispatcher.self)!
             )
         }.inObjectScope(.container)
+
+        container.register(NotificationScheduler.self) { resolver in
+            NotificationScheduler(
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!,
+                userNotificationCenter: resolver.resolve(UNUserNotificationCenter.self)!
+            )
+        }.inObjectScope(.container)
     }
 
     public func registerOtherObjects() {
         container.register(NotificationCenter.self) { _ in
             NotificationCenter.default
+        }.inObjectScope(.container)
+
+        container.register(UNUserNotificationCenter.self) { _ in
+            UNUserNotificationCenter.current()
         }.inObjectScope(.container)
 
         container.register(EventDispatcher.self) { resolver in

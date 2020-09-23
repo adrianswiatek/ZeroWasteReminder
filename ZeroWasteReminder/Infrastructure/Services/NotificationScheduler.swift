@@ -3,10 +3,15 @@ import UserNotifications
 
 public final class NotificationScheduler {
     private let eventDispatcher: EventDispatcher
+    private let userNotificationCenter: UNUserNotificationCenter
     private var subscriptions: Set<AnyCancellable>
 
-    public init(eventDispatcher: EventDispatcher) {
+    public init(
+        eventDispatcher: EventDispatcher,
+        userNotificationCenter: UNUserNotificationCenter
+    ) {
         self.eventDispatcher = eventDispatcher
+        self.userNotificationCenter = userNotificationCenter
         self.subscriptions = []
         self.bind()
     }
@@ -31,14 +36,30 @@ public final class NotificationScheduler {
     }
 
     private func whenAdded(_ items: [Item]) {
-
+        items.forEach { userNotificationCenter.add(requestForItem($0)) }
     }
 
     private func whenRemoved(_ items: [Item]) {
-
+        userNotificationCenter.removePendingNotificationRequests(
+            withIdentifiers: items.map { $0.id.asString }
+        )
     }
 
-    private func whenUpdated(_ item: [Item]) {
+    private func whenUpdated(_ items: [Item]) {
+        items.forEach { userNotificationCenter.add(requestForItem($0)) }
+    }
 
+    private func requestForItem(_ item: Item) -> UNNotificationRequest {
+        return UNNotificationRequest(
+            identifier: item.id.asString,
+            content: contentForItem(item),
+            trigger: UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        )
+    }
+
+    private func contentForItem(_ item: Item) -> UNNotificationContent {
+        let content = UNMutableNotificationContent()
+        content.body = "\(item.name) will expire soon"
+        return content
     }
 }

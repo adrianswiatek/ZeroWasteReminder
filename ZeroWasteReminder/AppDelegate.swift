@@ -1,17 +1,21 @@
 import CloudKit
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
 internal class AppDelegate: UIResponder, UIApplicationDelegate {
     internal let dependencyContainer: DependencyContainer
+
     private let remoteNotificationHandler: RemoteNotificationHandler
+    private let userNotificationCenter: UNUserNotificationCenter
 
     internal override init() {
         dependencyContainer = .init(
             configuration: .cloudKit(containerIdentifier: "iCloud.pl.aswiatek.PushNotifications")
         )
-        dependencyContainer.startBackgroundServices()
         remoteNotificationHandler = dependencyContainer.remoteNotificationHandler
+        userNotificationCenter = dependencyContainer.userNotificationCenter
+
         super.init()
     }
 
@@ -19,6 +23,8 @@ internal class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
+        dependencyContainer.startBackgroundServices()
+        userNotificationCenter.requestAuthorization(options: [.alert]) { _, _ in }
         application.registerForRemoteNotifications()
         return true
     }

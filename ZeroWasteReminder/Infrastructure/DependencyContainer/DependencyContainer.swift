@@ -30,10 +30,15 @@ internal final class DependencyContainer {
         container.resolve(RemoteNotificationHandler.self)!
     }
 
+    internal var userNotificationCenter: UNUserNotificationCenter {
+        container.resolve(UNUserNotificationCenter.self)!
+    }
+
     internal func startBackgroundServices() {
         container.resolve(AccountService.self)!.refreshUserEligibility()
         container.resolve(SubscriptionService.self)!.registerSubscriptionsIfNeeded()
         container.resolve(EventDispatcherInterceptor.self)!.startIntercept()
+        _ = container.resolve(NotificationScheduler.self)
     }
 
     private func infrastructureDependencyResolver(

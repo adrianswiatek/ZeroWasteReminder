@@ -741,9 +741,9 @@
 		A7760E54250960A100E51933 /* DependencyContainer */ = {
 			isa = PBXGroup;
 			children = (
-				A7760E59250961B000E51933 /* DependencyResolvers */,
 				A757B2D124C3A3CD001A3268 /* DependencyContainer.swift */,
 				A7CFBBB1250962E50026D338 /* DependencyResolver.swift */,
+				A7760E59250961B000E51933 /* DependencyResolvers */,
 			);
 			path = DependencyContainer;
 			sourceTree = "<group>";
@@ -752,9 +752,9 @@
 			isa = PBXGroup;
 			children = (
 				A7760E57250960BC00E51933 /* CloudKitDependencyResolver.swift */,
-				A7760E55250960B100E51933 /* InMemoryDependencyResolver.swift */,
-				A7CFBBB3250964FA0026D338 /* GeneralDependencyResolver.swift */,
 				A7CFBBB5250969A80026D338 /* DependencyResolverComposite.swift */,
+				A7CFBBB3250964FA0026D338 /* GeneralDependencyResolver.swift */,
+				A7760E55250960B100E51933 /* InMemoryDependencyResolver.swift */,
 			);
 			path = DependencyResolvers;
 			sourceTree = "<group>";
