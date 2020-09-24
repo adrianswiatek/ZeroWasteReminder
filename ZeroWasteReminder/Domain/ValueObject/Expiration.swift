@@ -3,6 +3,13 @@ import Foundation
 public enum Expiration: Hashable {
     case none
     case date(_ date: Date)
+
+    public var date: Date? {
+        guard case .date(let date) = self else {
+            return nil
+        }
+        return date
+    }
 }
 
 extension Expiration: Equatable {
