@@ -4,17 +4,16 @@ import UIKit
 
 public final class AddContentViewController: UIViewController {
     private let nameLabel: UILabel = .defaultWithText(.localized(.itemName))
-    private let nameTextView: NameTextView = {
-        let textView = NameTextView()
-        textView.becomeFirstResponder()
-        return textView
-    }()
+    private let nameTextView: NameTextView
 
     private lazy var expirationSectionView: ExpirationSectionView =
         .init(viewModel: viewModel)
 
     private let notesLabel: UILabel = .defaultWithText(.localized(.notes))
     private let notesTextView: NotesTextView
+
+    private let alarmLabel: UILabel = .defaultWithText(.localized(.alarm))
+    private let alarmButton: AlarmButton
 
     private let photosLabel: UILabel = .defaultWithText(.localized(.photos))
     private let photosViewController: PhotosViewController
@@ -26,7 +25,9 @@ public final class AddContentViewController: UIViewController {
         self.viewModel = viewModel
         self.subscriptions = []
 
+        self.nameTextView = .init()
         self.notesTextView = .init()
+        self.alarmButton = .init(type: .system)
         self.photosViewController = .init(viewModel: viewModel.photosViewModel)
 
         super.init(nibName: nil, bundle: nil)
@@ -42,6 +43,7 @@ public final class AddContentViewController: UIViewController {
 
     private func setupView() {
         view.translatesAutoresizingMaskIntoConstraints = false
+        nameTextView.becomeFirstResponder()
 
         view.addSubview(nameLabel)
         NSLayoutConstraint.activate([
@@ -84,10 +86,27 @@ public final class AddContentViewController: UIViewController {
             notesTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
+        view.addSubview(alarmLabel)
+        NSLayoutConstraint.activate([
+            alarmLabel.topAnchor.constraint(
+                equalTo: notesTextView.bottomAnchor, constant: Metrics.betweenSectionsPadding
+            ),
+            alarmLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+        ])
+
+        view.addSubview(alarmButton)
+        NSLayoutConstraint.activate([
+            alarmButton.topAnchor.constraint(
+                equalTo: alarmLabel.bottomAnchor, constant: Metrics.insideSectionPadding
+            ),
+            alarmButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            alarmButton.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+
         view.addSubview(photosLabel)
         NSLayoutConstraint.activate([
             photosLabel.topAnchor.constraint(
-                equalTo: notesTextView.bottomAnchor, constant: Metrics.betweenSectionsPadding
+                equalTo: alarmButton.bottomAnchor, constant: Metrics.betweenSectionsPadding
             ),
             photosLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])

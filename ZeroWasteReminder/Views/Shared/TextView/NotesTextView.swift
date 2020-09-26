@@ -56,7 +56,9 @@ public final class NotesTextView: UITextView {
     private func layoutClearButton() {
         addSubview(clearButton)
         NSLayoutConstraint.activate([
-            clearButton.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor, constant: 8),
+            clearButton.trailingAnchor.constraint(
+                equalTo: layoutMarginsGuide.trailingAnchor, constant: 8
+            ),
             clearButton.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }

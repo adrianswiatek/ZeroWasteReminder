@@ -38,6 +38,7 @@
 		A716C9C1244FA07A004262AF /* RemainingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A716C9C0244FA07A004262AF /* RemainingViewModel.swift */; };
 		A716C9C8244FB505004262AF /* RemainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A716C9C7244FB505004262AF /* RemainingView.swift */; };
 		A7175078244286F60058FCE4 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7175077244286F60058FCE4 /* ItemCell.swift */; };
+		A717BA90251FDD8100FE1E1D /* AlarmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A717BA8F251FDD8100FE1E1D /* AlarmButton.swift */; };
 		A71AE5CD24B916AD00996C27 /* EditListTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71AE5CC24B916AD00996C27 /* EditListTextField.swift */; };
 		A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */; };
 		A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */; };
@@ -234,6 +235,7 @@
 		A716C9C0244FA07A004262AF /* RemainingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingViewModel.swift; sourceTree = "<group>"; };
 		A716C9C7244FB505004262AF /* RemainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingView.swift; sourceTree = "<group>"; };
 		A7175077244286F60058FCE4 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
+		A717BA8F251FDD8100FE1E1D /* AlarmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmButton.swift; sourceTree = "<group>"; };
 		A71AE5CC24B916AD00996C27 /* EditListTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListTextField.swift; sourceTree = "<group>"; };
 		A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNavigationController.swift; sourceTree = "<group>"; };
@@ -592,6 +594,7 @@
 			isa = PBXGroup;
 			children = (
 				A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */,
+				A717BA8F251FDD8100FE1E1D /* AlarmButton.swift */,
 				A7F3D36524D3838F0059841A /* EmptyListView.swift */,
 				A749366B247346A4003DB46E /* LoadingView.swift */,
 				A7DD996D248463B500B40141 /* ReuseIdentifiable.swift */,
@@ -1237,6 +1240,7 @@
 				A7A7495424F30A0F009D6F25 /* MoveItemViewModel.swift in Sources */,
 				A7E530AF249C02E40020DB14 /* CloudKitAccountService.swift in Sources */,
 				A70BCCE52447C56A00CC49D0 /* ExpirationTypeExtensions.swift in Sources */,
+				A717BA90251FDD8100FE1E1D /* AlarmButton.swift in Sources */,
 				A72F4CBF2460B5FA008B0D5B /* ExpirationDateButton.swift in Sources */,
 				A7159B62250043FA00BC3532 /* ListsCoordinator.swift in Sources */,
 				A782FAD62475E83300C69737 /* CloudKitSubscriptionService.swift in Sources */,

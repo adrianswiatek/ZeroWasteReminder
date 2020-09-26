@@ -3,7 +3,7 @@ import UIKit
 
 public final class ItemsDataSource: UITableViewDiffableDataSource<ItemsDataSource.Section, Item> {
     private let viewModel: ItemsViewModel
-    private var subscriptions: [AnyCancellable]
+    private var subscriptions: Set<AnyCancellable>
 
     public init(_ tableView: UITableView, _ viewModel: ItemsViewModel) {
         self.viewModel = viewModel
