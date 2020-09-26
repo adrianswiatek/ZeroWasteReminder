@@ -3,11 +3,8 @@ import Combine
 import UIKit
 
 public final class AddContentViewController: UIViewController {
-    private let nameLabel: UILabel = .defaultWithText(.localized(.itemName))
-    private let nameTextView: NameTextView
-
-    private lazy var expirationSectionView: ExpirationSectionView =
-        .init(viewModel: viewModel)
+    private let itemNameSectionView: ItemNameSectionView
+    private let expirationSectionView: ExpirationSectionView
 
     private let notesLabel: UILabel = .defaultWithText(.localized(.notes))
     private let notesTextView: NotesTextView
@@ -25,7 +22,9 @@ public final class AddContentViewController: UIViewController {
         self.viewModel = viewModel
         self.subscriptions = []
 
-        self.nameTextView = .init()
+        self.itemNameSectionView = .init(viewModel: viewModel)
+        self.expirationSectionView = .init(viewModel: viewModel)
+
         self.notesTextView = .init()
         self.alarmButton = .init(type: .system)
         self.photosViewController = .init(viewModel: viewModel.photosViewModel)
@@ -43,27 +42,19 @@ public final class AddContentViewController: UIViewController {
 
     private func setupView() {
         view.translatesAutoresizingMaskIntoConstraints = false
-        nameTextView.becomeFirstResponder()
+        itemNameSectionView.becomeFirstResponder()
 
-        view.addSubview(nameLabel)
+        view.addSubview(itemNameSectionView)
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: view.topAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        ])
-
-        view.addSubview(nameTextView)
-        NSLayoutConstraint.activate([
-            nameTextView.topAnchor.constraint(
-                equalTo: nameLabel.bottomAnchor, constant: Metrics.insideSectionPadding
-            ),
-            nameTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            nameTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            itemNameSectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            itemNameSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            itemNameSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
         view.addSubview(expirationSectionView)
         NSLayoutConstraint.activate([
             expirationSectionView.topAnchor.constraint(
-                equalTo: nameTextView.bottomAnchor, constant: Metrics.betweenSectionsPadding
+                equalTo: itemNameSectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
             ),
             expirationSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             expirationSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -126,17 +117,8 @@ public final class AddContentViewController: UIViewController {
     }
 
     private func bind() {
-        nameTextView.value
-            .assign(to: \.name, on: viewModel)
-            .store(in: &subscriptions)
-
         notesTextView.value
             .assign(to: \.notes, on: viewModel)
-            .store(in: &subscriptions)
-
-        viewModel.$expirationTypeIndex
-            .dropFirst()
-            .sink { [weak self] _ in self?.nameTextView.resignFirstResponder() }
             .store(in: &subscriptions)
     }
 }

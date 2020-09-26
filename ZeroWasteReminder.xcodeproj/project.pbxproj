@@ -39,6 +39,7 @@
 		A716C9C8244FB505004262AF /* RemainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A716C9C7244FB505004262AF /* RemainingView.swift */; };
 		A7175078244286F60058FCE4 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7175077244286F60058FCE4 /* ItemCell.swift */; };
 		A717BA90251FDD8100FE1E1D /* AlarmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A717BA8F251FDD8100FE1E1D /* AlarmButton.swift */; };
+		A717BA97251FF9CC00FE1E1D /* ItemNameSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A717BA96251FF9CC00FE1E1D /* ItemNameSectionView.swift */; };
 		A71AE5CD24B916AD00996C27 /* EditListTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71AE5CC24B916AD00996C27 /* EditListTextField.swift */; };
 		A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */; };
 		A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */; };
@@ -236,6 +237,7 @@
 		A716C9C7244FB505004262AF /* RemainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingView.swift; sourceTree = "<group>"; };
 		A7175077244286F60058FCE4 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 		A717BA8F251FDD8100FE1E1D /* AlarmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmButton.swift; sourceTree = "<group>"; };
+		A717BA96251FF9CC00FE1E1D /* ItemNameSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemNameSectionView.swift; sourceTree = "<group>"; };
 		A71AE5CC24B916AD00996C27 /* EditListTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListTextField.swift; sourceTree = "<group>"; };
 		A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNavigationController.swift; sourceTree = "<group>"; };
@@ -513,6 +515,14 @@
 			path = ZeroWasteReminder;
 			sourceTree = "<group>";
 		};
+		A717BA95251FF9BD00FE1E1D /* Sections */ = {
+			isa = PBXGroup;
+			children = (
+				A717BA96251FF9CC00FE1E1D /* ItemNameSectionView.swift */,
+			);
+			path = Sections;
+			sourceTree = "<group>";
+		};
 		A71AE5CE24B916B500996C27 /* EditList */ = {
 			isa = PBXGroup;
 			children = (
@@ -593,6 +603,7 @@
 		A72F4CBD2460B5EA008B0D5B /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				A717BA95251FF9BD00FE1E1D /* Sections */,
 				A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */,
 				A717BA8F251FDD8100FE1E1D /* AlarmButton.swift */,
 				A7F3D36524D3838F0059841A /* EmptyListView.swift */,
@@ -600,6 +611,7 @@
 				A7DD996D248463B500B40141 /* ReuseIdentifiable.swift */,
 				A7DDA2FD249D792A005DAEA6 /* WarningBarView.swift */,
 				A7A8EF79247C80F700FF1AC2 /* Button */,
+				A7EC2D5F2445030200993F53 /* ExpirationSection */,
 				A763AFFE2482F20C00E93546 /* PhotosSection */,
 				A7A8EF78247C80DE00FF1AC2 /* TextView */,
 			);
@@ -883,7 +895,6 @@
 				A7159B632500442E00BC3532 /* AddCoordinator.swift */,
 				A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */,
 				A7DB8A34244285010035CF36 /* AddViewController.swift */,
-				A7EC2D5F2445030200993F53 /* ExpirationSection */,
 			);
 			path = Add;
 			sourceTree = "<group>";
@@ -1270,6 +1281,7 @@
 				A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */,
 				A7DD996A2484578D00B40141 /* PhotoCell.swift in Sources */,
 				A7ACC4C2247B00BF0098EDE0 /* CloudKitConfiguration.swift in Sources */,
+				A717BA97251FF9CC00FE1E1D /* ItemNameSectionView.swift in Sources */,
 				A7175078244286F60058FCE4 /* ItemCell.swift in Sources */,
 				A7AD76E62463661100220A94 /* StateIndicatorLabel.swift in Sources */,
 				A74161412450D83B001ED316 /* UIAlertControllerExtensions.swift in Sources */,
