@@ -9,12 +9,9 @@ public final class NotesSectionView: UIView {
     private let label: UILabel
     private let textView: NotesTextView
 
-    private var subscriptions: Set<AnyCancellable>
-
     public init() {
         self.label = .defaultWithText(.localized(.notes))
         self.textView = .init()
-        self.subscriptions = []
 
         super.init(frame: .zero)
 

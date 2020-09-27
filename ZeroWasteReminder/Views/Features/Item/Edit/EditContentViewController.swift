@@ -12,9 +12,7 @@ public final class EditContentViewController: UIViewController {
     private let removeDateButton: RemoveExpirationDateButton = .init(type: .system)
     private let datePicker = ExpirationDatePicker()
 
-    private let photosLabel: UILabel = .defaultWithText(.localized(.photos))
-    private let photosViewController: PhotosViewController
-
+    private let photosSectionView: PhotosSectionView
     private let actionsSectionView: ActionsSectionView
 
     private let viewModel: EditItemViewModel
@@ -27,7 +25,7 @@ public final class EditContentViewController: UIViewController {
         self.itemNameSectionView = .init()
         self.notesSectionView = .init()
         self.alarmSectionView = .init()
-        self.photosViewController = .init(viewModel: viewModel.photosViewModel)
+        self.photosSectionView = .init(viewModel: viewModel.photosViewModel)
         self.actionsSectionView = .init()
 
         super.init(nibName: nil, bundle: nil)
@@ -114,30 +112,19 @@ public final class EditContentViewController: UIViewController {
             alarmSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
-        view.addSubview(photosLabel)
+        view.addSubview(photosSectionView)
         NSLayoutConstraint.activate([
-            photosLabel.topAnchor.constraint(
+            photosSectionView.topAnchor.constraint(
                 equalTo: alarmSectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
             ),
-            photosLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        ])
-
-        addChild(photosViewController)
-        view.addSubview(photosViewController.view)
-        photosViewController.didMove(toParent: self)
-
-        NSLayoutConstraint.activate([
-            photosViewController.view.topAnchor.constraint(
-                equalTo: photosLabel.bottomAnchor, constant: Metrics.insideSectionPadding
-            ),
-            photosViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            photosViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            photosSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            photosSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
         view.addSubview(actionsSectionView)
         NSLayoutConstraint.activate([
             actionsSectionView.topAnchor.constraint(
-                equalTo: photosViewController.view.bottomAnchor, constant: Metrics.betweenSectionsPadding
+                equalTo: photosSectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
             ),
             actionsSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             actionsSectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),

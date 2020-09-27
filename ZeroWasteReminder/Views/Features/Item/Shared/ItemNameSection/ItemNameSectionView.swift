@@ -9,12 +9,9 @@ public final class ItemNameSectionView: UIView {
     private let label: UILabel
     private let textView: ItemNameTextView
 
-    private var subscriptions: Set<AnyCancellable>
-
     public init() {
         self.label = .defaultWithText(.localized(.itemName))
         self.textView = .init()
-        self.subscriptions = []
 
         super.init(frame: .zero)
 

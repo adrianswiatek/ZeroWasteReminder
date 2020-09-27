@@ -1,22 +1,17 @@
 import Combine
 import UIKit
 
-public final class AlarmSectionView: UIView {
-    public var tap: AnyPublisher<Void, Never> {
-        button.tap
-    }
-
+public final class PhotosSectionView: UIView {
     private let label: UILabel
-    private let button: AlarmButton
+    private let view: PhotosView
 
-    public init() {
-        self.label = .defaultWithText(.localized(.alarm))
-        self.button = .init(type: .system)
+    public init(viewModel: PhotosViewModel) {
+        self.label = .defaultWithText(.localized(.photos))
+        self.view = PhotosView(viewModel: viewModel)
 
         super.init(frame: .zero)
 
         self.setupView()
-        self.button.setTitle("1 day before", for: .normal)
     }
 
     public required init?(coder: NSCoder) {
@@ -32,19 +27,19 @@ public final class AlarmSectionView: UIView {
             label.leadingAnchor.constraint(equalTo: leadingAnchor)
         ])
 
-        addSubview(button)
+        addSubview(view)
         NSLayoutConstraint.activate([
-            button.topAnchor.constraint(
+            view.topAnchor.constraint(
                 equalTo: label.bottomAnchor, constant: Metrics.spacing
             ),
-            button.leadingAnchor.constraint(equalTo: leadingAnchor),
-            button.bottomAnchor.constraint(equalTo: bottomAnchor),
-            button.trailingAnchor.constraint(equalTo: trailingAnchor)
+            view.leadingAnchor.constraint(equalTo: leadingAnchor),
+            view.bottomAnchor.constraint(equalTo: bottomAnchor),
+            view.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
 }
 
-private extension AlarmSectionView {
+private extension PhotosSectionView {
     enum Metrics {
         static let spacing: CGFloat = 8
     }

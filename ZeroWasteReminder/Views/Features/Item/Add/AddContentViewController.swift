@@ -7,9 +7,7 @@ public final class AddContentViewController: UIViewController {
     private let expirationSectionView: ExpirationSectionView
     private let notesSectionView: NotesSectionView
     private let alarmSectionView: AlarmSectionView
-
-    private let photosLabel: UILabel = .defaultWithText(.localized(.photos))
-    private let photosViewController: PhotosViewController
+    private let photosSectionView: PhotosSectionView
 
     private let viewModel: AddItemViewModel
     private var subscriptions: Set<AnyCancellable>
@@ -22,8 +20,7 @@ public final class AddContentViewController: UIViewController {
         self.expirationSectionView = .init(viewModel: viewModel)
         self.notesSectionView = .init()
         self.alarmSectionView = .init()
-
-        self.photosViewController = .init(viewModel: viewModel.photosViewModel)
+        self.photosSectionView = .init(viewModel: viewModel.photosViewModel)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -74,25 +71,14 @@ public final class AddContentViewController: UIViewController {
             alarmSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
-        view.addSubview(photosLabel)
+        view.addSubview(photosSectionView)
         NSLayoutConstraint.activate([
-            photosLabel.topAnchor.constraint(
+            photosSectionView.topAnchor.constraint(
                 equalTo: alarmSectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
             ),
-            photosLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        ])
-
-        addChild(photosViewController)
-        view.addSubview(photosViewController.view)
-        photosViewController.didMove(toParent: self)
-
-        NSLayoutConstraint.activate([
-            photosViewController.view.topAnchor.constraint(
-                equalTo: photosLabel.bottomAnchor, constant: Metrics.insideSectionPadding
-            ),
-            photosViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            photosViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            photosViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            photosSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            photosSectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            photosSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 

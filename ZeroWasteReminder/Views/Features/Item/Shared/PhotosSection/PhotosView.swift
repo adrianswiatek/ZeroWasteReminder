@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public final class PhotosViewController: UIViewController {
+public final class PhotosView: UIView {
     private let loadingView: LoadingView
     private let emptyView: PhotosEmptyView
 
@@ -23,7 +23,7 @@ public final class PhotosViewController: UIViewController {
 
         self.subscriptions = []
 
-        super.init(nibName: nil, bundle: nil)
+        super.init(frame: .zero)
 
         self.setupLoadingView()
         self.setupView()
@@ -36,37 +36,37 @@ public final class PhotosViewController: UIViewController {
     }
 
     private func setupLoadingView() {
-       let loadingViewColor: UIColor = view.traitCollection.userInterfaceStyle == .dark ? .black : .white
+       let loadingViewColor: UIColor = traitCollection.userInterfaceStyle == .dark ? .black : .white
        loadingView.backgroundColor = loadingViewColor.withAlphaComponent(0.75)
        loadingView.layer.cornerRadius = 8
        loadingView.show()
     }
 
     private func setupView() {
-        view.translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = false
 
-        view.addSubview(emptyView)
+        addSubview(emptyView)
         NSLayoutConstraint.activate([
-            emptyView.topAnchor.constraint(equalTo: view.topAnchor),
-            emptyView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            emptyView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            emptyView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            emptyView.topAnchor.constraint(equalTo: topAnchor),
+            emptyView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            emptyView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            emptyView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
 
-        view.addSubview(collectionView)
+        addSubview(collectionView)
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            collectionView.topAnchor.constraint(equalTo: topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
 
-        view.addSubview(loadingView)
+        addSubview(loadingView)
         NSLayoutConstraint.activate([
-            loadingView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
-            loadingView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            loadingView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
-            loadingView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
+            loadingView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor)
         ])
     }
 
