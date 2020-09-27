@@ -2,8 +2,7 @@ import Combine
 import UIKit
 
 public final class EditContentViewController: UIViewController {
-    private let nameLabel: UILabel = .defaultWithText("Item name")
-    private let nameTextView = NameTextView()
+    private let itemNameSectionView: ItemNameSectionView
 
     private let expirationDateLabel: UILabel = .defaultWithText("Expiration date")
     private let stateIndicatorLabel = StateIndicatorLabel()
@@ -28,6 +27,7 @@ public final class EditContentViewController: UIViewController {
         self.viewModel = viewModel
         self.subscriptions = []
 
+        self.itemNameSectionView = .init()
         self.photosViewController = .init(viewModel: viewModel.photosViewModel)
 
         super.init(nibName: nil, bundle: nil)
@@ -48,25 +48,19 @@ public final class EditContentViewController: UIViewController {
     private func setupView() {
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        view.addSubview(nameLabel)
+        view.addSubview(itemNameSectionView)
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Metrics.betweenSectionsPadding),
-            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        ])
-
-        view.addSubview(nameTextView)
-        NSLayoutConstraint.activate([
-            nameTextView.topAnchor.constraint(
-                equalTo: nameLabel.bottomAnchor, constant: Metrics.insideSectionPadding
+            itemNameSectionView.topAnchor.constraint(
+                equalTo: view.topAnchor, constant: Metrics.betweenSectionsPadding
             ),
-            nameTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            nameTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            itemNameSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            itemNameSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
         view.addSubview(expirationDateLabel)
         NSLayoutConstraint.activate([
             expirationDateLabel.topAnchor.constraint(
-                equalTo: nameTextView.bottomAnchor, constant: Metrics.betweenSectionsPadding
+                equalTo: itemNameSectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
             ),
             expirationDateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
@@ -202,7 +196,7 @@ public final class EditContentViewController: UIViewController {
             .sink { [weak self] in self?.viewModel.setExpirationDate($0) }
             .store(in: &subscriptions)
 
-        nameTextView.value
+        itemNameSectionView.itemName
             .assign(to: \.name, on: viewModel)
             .store(in: &subscriptions)
 
@@ -215,7 +209,7 @@ public final class EditContentViewController: UIViewController {
             .store(in: &subscriptions)
 
         viewModel.$name
-            .sink { [weak self] in self?.nameTextView.text = $0 }
+            .sink { [weak self] in self?.itemNameSectionView.setText($0) }
             .store(in: &subscriptions)
 
         viewModel.$notes

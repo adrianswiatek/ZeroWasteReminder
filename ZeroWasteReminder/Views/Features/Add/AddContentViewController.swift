@@ -22,7 +22,7 @@ public final class AddContentViewController: UIViewController {
         self.viewModel = viewModel
         self.subscriptions = []
 
-        self.itemNameSectionView = .init(viewModel: viewModel)
+        self.itemNameSectionView = .init()
         self.expirationSectionView = .init(viewModel: viewModel)
 
         self.notesTextView = .init()
@@ -117,8 +117,17 @@ public final class AddContentViewController: UIViewController {
     }
 
     private func bind() {
+        itemNameSectionView.itemName
+            .assign(to: \.name, on: viewModel)
+            .store(in: &subscriptions)
+
         notesTextView.value
             .assign(to: \.notes, on: viewModel)
+            .store(in: &subscriptions)
+
+        viewModel.$expirationTypeIndex
+            .dropFirst()
+            .sink { [weak self] _ in self?.itemNameSectionView.resignFirstResponder() }
             .store(in: &subscriptions)
     }
 }
