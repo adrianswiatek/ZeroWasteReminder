@@ -1,4 +1,5 @@
 public enum LocalizedText: String {
+    case actions = "Actions"
     case addItem = "Add item"
     case alarm = "Alarm"
     case allLists = "All lists"

@@ -133,7 +133,7 @@
 		A7A7495624F31404009D6F25 /* MoveItemNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A7495524F31404009D6F25 /* MoveItemNavigationController.swift */; };
 		A7A7495924F321C4009D6F25 /* DefaultMoveItemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A7495824F321C4009D6F25 /* DefaultMoveItemService.swift */; };
 		A7A7E96024BA621F003751B6 /* EditListOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A7E95F24BA621F003751B6 /* EditListOverlayView.swift */; };
-		A7A8EF73247C52E900FF1AC2 /* NameTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */; };
+		A7A8EF73247C52E900FF1AC2 /* ItemNameTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF72247C52E900FF1AC2 /* ItemNameTextView.swift */; };
 		A7A8EF75247C771900FF1AC2 /* NotesTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF74247C771900FF1AC2 /* NotesTextView.swift */; };
 		A7A8EF77247C7DF900FF1AC2 /* SharedTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A8EF76247C7DF900FF1AC2 /* SharedTextViewDelegate.swift */; };
 		A7ACC4C2247B00BF0098EDE0 /* CloudKitConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ACC4C1247B00BF0098EDE0 /* CloudKitConfiguration.swift */; };
@@ -159,6 +159,8 @@
 		A7C1A0B3249FE9FE0054BBAF /* InMemoryPhotosRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C1A0B2249FE9FE0054BBAF /* InMemoryPhotosRepository.swift */; };
 		A7C1A0B5249FEA630054BBAF /* CloudKitPhotosRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C1A0B4249FEA630054BBAF /* CloudKitPhotosRepository.swift */; };
 		A7C1A0B9249FFB540054BBAF /* InMemoryItemsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C1A0B8249FFB540054BBAF /* InMemoryItemsRepository.swift */; };
+		A7C75C94252129660005FDEA /* AlarmSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C75C93252129660005FDEA /* AlarmSectionView.swift */; };
+		A7C75C9B252133870005FDEA /* ActionsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C75C9A252133870005FDEA /* ActionsSectionView.swift */; };
 		A7C9636E247DA58800DE824F /* ClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C9636D247DA58800DE824F /* ClearButton.swift */; };
 		A7CA5344245E0624006D84FD /* ItemsFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CA5343245E0624006D84FD /* ItemsFilterViewController.swift */; };
 		A7CAC7EA24F1BE480094FF15 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CAC7E924F1BE480094FF15 /* ActionButton.swift */; };
@@ -332,7 +334,7 @@
 		A7A7495524F31404009D6F25 /* MoveItemNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemNavigationController.swift; sourceTree = "<group>"; };
 		A7A7495824F321C4009D6F25 /* DefaultMoveItemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMoveItemService.swift; sourceTree = "<group>"; };
 		A7A7E95F24BA621F003751B6 /* EditListOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListOverlayView.swift; sourceTree = "<group>"; };
-		A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTextView.swift; sourceTree = "<group>"; };
+		A7A8EF72247C52E900FF1AC2 /* ItemNameTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemNameTextView.swift; sourceTree = "<group>"; };
 		A7A8EF74247C771900FF1AC2 /* NotesTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextView.swift; sourceTree = "<group>"; };
 		A7A8EF76247C7DF900FF1AC2 /* SharedTextViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTextViewDelegate.swift; sourceTree = "<group>"; };
 		A7ACC4C1247B00BF0098EDE0 /* CloudKitConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitConfiguration.swift; sourceTree = "<group>"; };
@@ -358,6 +360,8 @@
 		A7C1A0B2249FE9FE0054BBAF /* InMemoryPhotosRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryPhotosRepository.swift; sourceTree = "<group>"; };
 		A7C1A0B4249FEA630054BBAF /* CloudKitPhotosRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitPhotosRepository.swift; sourceTree = "<group>"; };
 		A7C1A0B8249FFB540054BBAF /* InMemoryItemsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryItemsRepository.swift; sourceTree = "<group>"; };
+		A7C75C93252129660005FDEA /* AlarmSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSectionView.swift; sourceTree = "<group>"; };
+		A7C75C9A252133870005FDEA /* ActionsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsSectionView.swift; sourceTree = "<group>"; };
 		A7C9636D247DA58800DE824F /* ClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButton.swift; sourceTree = "<group>"; };
 		A7CA5343245E0624006D84FD /* ItemsFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsFilterViewController.swift; sourceTree = "<group>"; };
 		A7CAC7E924F1BE480094FF15 /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
@@ -726,9 +730,9 @@
 		A75C7765252119D400A28AE5 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				A717BA8F251FDD8100FE1E1D /* AlarmButton.swift */,
 				A7C9636D247DA58800DE824F /* ClearButton.swift */,
 				A7A8EF76247C7DF900FF1AC2 /* SharedTextViewDelegate.swift */,
+				A7C75C912521293D0005FDEA /* AlarmSection */,
 				A7EC2D5F2445030200993F53 /* ExpirationSection */,
 				A75C776925211A5D00A28AE5 /* ItemNameSection */,
 				A75C776B25211A8C00A28AE5 /* NotesSection */,
@@ -741,7 +745,7 @@
 			isa = PBXGroup;
 			children = (
 				A717BA96251FF9CC00FE1E1D /* ItemNameSectionView.swift */,
-				A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */,
+				A7A8EF72247C52E900FF1AC2 /* ItemNameTextView.swift */,
 			);
 			path = ItemNameSection;
 			sourceTree = "<group>";
@@ -815,11 +819,11 @@
 		A780EFCF245F7570002A8AD4 /* Edit */ = {
 			isa = PBXGroup;
 			children = (
-				A7CAC7E924F1BE480094FF15 /* ActionButton.swift */,
 				A783EE2324673B8F008BCC17 /* EditContentViewController.swift */,
 				A7159B652500444E00BC3532 /* EditCoordinator.swift */,
 				A780EFD0245F7590002A8AD4 /* EditViewController.swift */,
 				A7AD76E52463661100220A94 /* StateIndicatorLabel.swift */,
+				A7C75C9825212F970005FDEA /* ActionsSection */,
 			);
 			path = Edit;
 			sourceTree = "<group>";
@@ -885,6 +889,24 @@
 				A7ACC4C4247B12AB0098EDE0 /* SharingControllerFactory.swift */,
 			);
 			path = SharingControllerFactory;
+			sourceTree = "<group>";
+		};
+		A7C75C912521293D0005FDEA /* AlarmSection */ = {
+			isa = PBXGroup;
+			children = (
+				A717BA8F251FDD8100FE1E1D /* AlarmButton.swift */,
+				A7C75C93252129660005FDEA /* AlarmSectionView.swift */,
+			);
+			path = AlarmSection;
+			sourceTree = "<group>";
+		};
+		A7C75C9825212F970005FDEA /* ActionsSection */ = {
+			isa = PBXGroup;
+			children = (
+				A7CAC7E924F1BE480094FF15 /* ActionButton.swift */,
+				A7C75C9A252133870005FDEA /* ActionsSectionView.swift */,
+			);
+			path = ActionsSection;
 			sourceTree = "<group>";
 		};
 		A7D41C962517F67100A78ADD /* Photos */ = {
@@ -1244,7 +1266,7 @@
 				A75043562506EB1600DFB4EB /* ItemUpdated.swift in Sources */,
 				A759430B24AFBF5A007A526B /* ListsViewModel.swift in Sources */,
 				A7547EE524C3B32000D82DE9 /* EmptySharingControllerFactory.swift in Sources */,
-				A7A8EF73247C52E900FF1AC2 /* NameTextView.swift in Sources */,
+				A7A8EF73247C52E900FF1AC2 /* ItemNameTextView.swift in Sources */,
 				A783EE2624674ECD008BCC17 /* AdaptiveScrollView.swift in Sources */,
 				A7636A672490499F00166631 /* FileService.swift in Sources */,
 				A725068D2457992F006C3A2F /* RemainingState.swift in Sources */,
@@ -1252,6 +1274,7 @@
 				A7FFA9792448F5C00061A3D6 /* ExpirationType.swift in Sources */,
 				A716C9C1244FA07A004262AF /* RemainingViewModel.swift in Sources */,
 				A7BDE68924B513F5003215C0 /* ListsNavigationController.swift in Sources */,
+				A7C75C9B252133870005FDEA /* ActionsSectionView.swift in Sources */,
 				A7A8EF75247C771900FF1AC2 /* NotesTextView.swift in Sources */,
 				A726F35B24C3C24800BE0EC5 /* StatusNotifier.swift in Sources */,
 				A73CB9A8250D839D0069E4F0 /* ListAddedReceived.swift in Sources */,
@@ -1366,6 +1389,7 @@
 				A7597E9D2506E35A00A53B7D /* NoResultOccured.swift in Sources */,
 				A77A99CD245A118200F3578C /* UIBarButtonItemExtensions.swift in Sources */,
 				A763AFF82482E13000E93546 /* LocalizedText.swift in Sources */,
+				A7C75C94252129660005FDEA /* AlarmSectionView.swift in Sources */,
 				A7203B8A24C3853B00C17F85 /* ListsRepository.swift in Sources */,
 				A7C9636E247DA58800DE824F /* ClearButton.swift in Sources */,
 				A7A181AA249E9C5200B8E6EE /* PhotoToSave.swift in Sources */,

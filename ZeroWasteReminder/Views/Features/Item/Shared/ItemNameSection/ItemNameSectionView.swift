@@ -7,7 +7,7 @@ public final class ItemNameSectionView: UIView {
     }
 
     private let label: UILabel
-    private let textView: NameTextView
+    private let textView: ItemNameTextView
 
     private var subscriptions: Set<AnyCancellable>
 

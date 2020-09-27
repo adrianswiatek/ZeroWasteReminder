@@ -1,32 +1,29 @@
 import Combine
 import UIKit
 
-public final class NotesSectionView: UIView {
-    public var notes: AnyPublisher<String, Never> {
-        textView.value
+public final class AlarmSectionView: UIView {
+    public var tap: AnyPublisher<Void, Never> {
+        button.tap
     }
 
     private let label: UILabel
-    private let textView: NotesTextView
+    private let button: AlarmButton
 
     private var subscriptions: Set<AnyCancellable>
 
     public init() {
-        self.label = .defaultWithText(.localized(.notes))
-        self.textView = .init()
+        self.label = .defaultWithText(.localized(.alarm))
+        self.button = .init(type: .system)
         self.subscriptions = []
 
         super.init(frame: .zero)
 
         self.setupView()
+        self.button.setTitle("1 day before", for: .normal)
     }
 
     public required init?(coder: NSCoder) {
         fatalError("Not supported.")
-    }
-
-    public func setText(_ text: String) {
-        textView.text = text
     }
 
     private func setupView() {
@@ -38,21 +35,19 @@ public final class NotesSectionView: UIView {
             label.leadingAnchor.constraint(equalTo: leadingAnchor)
         ])
 
-        addSubview(textView)
+        addSubview(button)
         NSLayoutConstraint.activate([
-            textView.topAnchor.constraint(
+            button.topAnchor.constraint(
                 equalTo: label.bottomAnchor, constant: Metrics.spacing
             ),
-            textView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            textView.bottomAnchor.constraint(
-                equalTo: bottomAnchor, constant: Metrics.spacing
-            ),
-            textView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            button.leadingAnchor.constraint(equalTo: leadingAnchor),
+            button.bottomAnchor.constraint(equalTo: bottomAnchor),
+            button.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
 }
 
-private extension NotesSectionView {
+private extension AlarmSectionView {
     enum Metrics {
         static let spacing: CGFloat = 8
     }

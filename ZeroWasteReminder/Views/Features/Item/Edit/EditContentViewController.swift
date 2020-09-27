@@ -4,6 +4,7 @@ import UIKit
 public final class EditContentViewController: UIViewController {
     private let itemNameSectionView: ItemNameSectionView
     private let notesSectionView: NotesSectionView
+    private let alarmSectionView: AlarmSectionView
 
     private let expirationDateLabel: UILabel = .defaultWithText("Expiration date")
     private let stateIndicatorLabel = StateIndicatorLabel()
@@ -14,9 +15,7 @@ public final class EditContentViewController: UIViewController {
     private let photosLabel: UILabel = .defaultWithText(.localized(.photos))
     private let photosViewController: PhotosViewController
 
-    private let actionsLabel: UILabel = .defaultWithText("Actions")
-    private let moveButton: ActionButton = .move
-    private let removeButton: ActionButton = .remove
+    private let actionsSectionView: ActionsSectionView
 
     private let viewModel: EditItemViewModel
     private var subscriptions: Set<AnyCancellable>
@@ -27,7 +26,9 @@ public final class EditContentViewController: UIViewController {
 
         self.itemNameSectionView = .init()
         self.notesSectionView = .init()
+        self.alarmSectionView = .init()
         self.photosViewController = .init(viewModel: viewModel.photosViewModel)
+        self.actionsSectionView = .init()
 
         super.init(nibName: nil, bundle: nil)
 
@@ -104,10 +105,19 @@ public final class EditContentViewController: UIViewController {
             notesSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
+        view.addSubview(alarmSectionView)
+        NSLayoutConstraint.activate([
+            alarmSectionView.topAnchor.constraint(
+                equalTo: notesSectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
+            ),
+            alarmSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            alarmSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+
         view.addSubview(photosLabel)
         NSLayoutConstraint.activate([
             photosLabel.topAnchor.constraint(
-                equalTo: notesSectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
+                equalTo: alarmSectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
             ),
             photosLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
@@ -124,32 +134,14 @@ public final class EditContentViewController: UIViewController {
             photosViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
-        view.addSubview(actionsLabel)
+        view.addSubview(actionsSectionView)
         NSLayoutConstraint.activate([
-            actionsLabel.topAnchor.constraint(
+            actionsSectionView.topAnchor.constraint(
                 equalTo: photosViewController.view.bottomAnchor, constant: Metrics.betweenSectionsPadding
             ),
-            actionsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        ])
-
-        view.addSubview(removeButton)
-        NSLayoutConstraint.activate([
-            removeButton.topAnchor.constraint(
-                equalTo: actionsLabel.bottomAnchor, constant: Metrics.insideSectionPadding
-            ),
-            removeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            removeButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-
-        view.addSubview(moveButton)
-        NSLayoutConstraint.activate([
-            moveButton.topAnchor.constraint(
-                equalTo: actionsLabel.bottomAnchor, constant: Metrics.insideSectionPadding
-            ),
-            moveButton.leadingAnchor.constraint(
-                equalTo: removeButton.trailingAnchor, constant: Metrics.insideSectionPadding
-            ),
-            moveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            actionsSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            actionsSectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            actionsSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 
@@ -168,14 +160,14 @@ public final class EditContentViewController: UIViewController {
             }
             .store(in: &subscriptions)
 
-        removeButton.tap
+        actionsSectionView.removeButtonTap
             .sink { [weak self] in
                 self?.viewModel.requestSubject.send(.removeCurrentItem)
                 self?.view.endEditing(true)
             }
             .store(in: &subscriptions)
 
-        moveButton.tap
+        actionsSectionView.moveButtonTap
             .sink { [weak self] in
                 self?.viewModel.requestSubject.send(.moveCurrentItem)
                 self?.view.endEditing(true)

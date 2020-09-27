@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public final class NameTextView: UITextView {
+public final class ItemNameTextView: UITextView {
     public var value: AnyPublisher<String, Never> {
         valueSubject.eraseToAnyPublisher()
     }
@@ -72,7 +72,7 @@ public final class NameTextView: UITextView {
     }
 }
 
-private extension NameTextView {
+private extension ItemNameTextView {
     class NameTextViewDelegate: SharedTextViewDelegate {
         private let maximumNumberOfCharacters: Int = 100
 
