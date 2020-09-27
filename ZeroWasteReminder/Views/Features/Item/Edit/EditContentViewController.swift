@@ -3,15 +3,13 @@ import UIKit
 
 public final class EditContentViewController: UIViewController {
     private let itemNameSectionView: ItemNameSectionView
+    private let notesSectionView: NotesSectionView
 
     private let expirationDateLabel: UILabel = .defaultWithText("Expiration date")
     private let stateIndicatorLabel = StateIndicatorLabel()
     private let dateButton: ExpirationDateButton = .init(type: .system)
     private let removeDateButton: RemoveExpirationDateButton = .init(type: .system)
     private let datePicker = ExpirationDatePicker()
-
-    private let notesLabel: UILabel = .defaultWithText("Notes")
-    private let notesTextView = NotesTextView()
 
     private let photosLabel: UILabel = .defaultWithText(.localized(.photos))
     private let photosViewController: PhotosViewController
@@ -28,6 +26,7 @@ public final class EditContentViewController: UIViewController {
         self.subscriptions = []
 
         self.itemNameSectionView = .init()
+        self.notesSectionView = .init()
         self.photosViewController = .init(viewModel: viewModel.photosViewModel)
 
         super.init(nibName: nil, bundle: nil)
@@ -97,27 +96,18 @@ public final class EditContentViewController: UIViewController {
             datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
 
-        view.addSubview(notesLabel)
+        view.addSubview(notesSectionView)
         NSLayoutConstraint.activate([
-            notesLabel.topAnchor.constraint(
-                equalTo: datePicker.bottomAnchor, constant: Metrics.betweenSectionsPadding
-            ),
-            notesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        ])
-
-        view.addSubview(notesTextView)
-        NSLayoutConstraint.activate([
-            notesTextView.topAnchor.constraint(
-                equalTo: notesLabel.bottomAnchor, constant: Metrics.insideSectionPadding
-            ),
-            notesTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            notesTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            notesSectionView.topAnchor.constraint(
+                equalTo: datePicker.bottomAnchor, constant: Metrics.betweenSectionsPadding),
+            notesSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            notesSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
         view.addSubview(photosLabel)
         NSLayoutConstraint.activate([
             photosLabel.topAnchor.constraint(
-                equalTo: notesTextView.bottomAnchor, constant: Metrics.betweenSectionsPadding
+                equalTo: notesSectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
             ),
             photosLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
@@ -200,7 +190,7 @@ public final class EditContentViewController: UIViewController {
             .assign(to: \.name, on: viewModel)
             .store(in: &subscriptions)
 
-        notesTextView.value
+        notesSectionView.notes
             .assign(to: \.notes, on: viewModel)
             .store(in: &subscriptions)
 
@@ -213,7 +203,7 @@ public final class EditContentViewController: UIViewController {
             .store(in: &subscriptions)
 
         viewModel.$notes
-            .sink { [weak self] in self?.notesTextView.text = $0 }
+            .sink { [weak self] in self?.notesSectionView.setText($0) }
             .store(in: &subscriptions)
 
         viewModel.expirationDate

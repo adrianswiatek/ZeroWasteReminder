@@ -5,9 +5,7 @@ import UIKit
 public final class AddContentViewController: UIViewController {
     private let itemNameSectionView: ItemNameSectionView
     private let expirationSectionView: ExpirationSectionView
-
-    private let notesLabel: UILabel = .defaultWithText(.localized(.notes))
-    private let notesTextView: NotesTextView
+    private let notesSectionView: NotesSectionView
 
     private let alarmLabel: UILabel = .defaultWithText(.localized(.alarm))
     private let alarmButton: AlarmButton
@@ -24,8 +22,8 @@ public final class AddContentViewController: UIViewController {
 
         self.itemNameSectionView = .init()
         self.expirationSectionView = .init(viewModel: viewModel)
+        self.notesSectionView = .init()
 
-        self.notesTextView = .init()
         self.alarmButton = .init(type: .system)
         self.photosViewController = .init(viewModel: viewModel.photosViewModel)
 
@@ -60,27 +58,19 @@ public final class AddContentViewController: UIViewController {
             expirationSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
-        view.addSubview(notesLabel)
+        view.addSubview(notesSectionView)
         NSLayoutConstraint.activate([
-            notesLabel.topAnchor.constraint(
+            notesSectionView.topAnchor.constraint(
                 equalTo: expirationSectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
             ),
-            notesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        ])
-
-        view.addSubview(notesTextView)
-        NSLayoutConstraint.activate([
-            notesTextView.topAnchor.constraint(
-                equalTo: notesLabel.bottomAnchor, constant: Metrics.insideSectionPadding
-            ),
-            notesTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            notesTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            notesSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            notesSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
         view.addSubview(alarmLabel)
         NSLayoutConstraint.activate([
             alarmLabel.topAnchor.constraint(
-                equalTo: notesTextView.bottomAnchor, constant: Metrics.betweenSectionsPadding
+                equalTo: notesSectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
             ),
             alarmLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
         ])
@@ -121,13 +111,8 @@ public final class AddContentViewController: UIViewController {
             .assign(to: \.name, on: viewModel)
             .store(in: &subscriptions)
 
-        notesTextView.value
+        notesSectionView.notes
             .assign(to: \.notes, on: viewModel)
-            .store(in: &subscriptions)
-
-        viewModel.$expirationTypeIndex
-            .dropFirst()
-            .sink { [weak self] _ in self?.itemNameSectionView.resignFirstResponder() }
             .store(in: &subscriptions)
     }
 }

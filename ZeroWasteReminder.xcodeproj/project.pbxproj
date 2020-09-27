@@ -92,6 +92,7 @@
 		A7597EA52506E3C000A53B7D /* ListRemoved.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597EA42506E3C000A53B7D /* ListRemoved.swift */; };
 		A7597EA72506E3D200A53B7D /* ListsUpdated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597EA62506E3D200A53B7D /* ListsUpdated.swift */; };
 		A7597EA92506E3DC00A53B7D /* ErrorOccured.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597EA82506E3DC00A53B7D /* ErrorOccured.swift */; };
+		A75C777025211C4600A28AE5 /* NotesSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75C776F25211C4600A28AE5 /* NotesSectionView.swift */; };
 		A75E703B248DA01300F06E98 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75E703A248DA01300F06E98 /* Photo.swift */; };
 		A760CAD6248802CB00999C12 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A760CAD5248802CB00999C12 /* PhotosDataSource.swift */; };
 		A7636A672490499F00166631 /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7636A662490499F00166631 /* FileService.swift */; };
@@ -290,6 +291,7 @@
 		A7597EA42506E3C000A53B7D /* ListRemoved.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRemoved.swift; sourceTree = "<group>"; };
 		A7597EA62506E3D200A53B7D /* ListsUpdated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsUpdated.swift; sourceTree = "<group>"; };
 		A7597EA82506E3DC00A53B7D /* ErrorOccured.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorOccured.swift; sourceTree = "<group>"; };
+		A75C776F25211C4600A28AE5 /* NotesSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesSectionView.swift; sourceTree = "<group>"; };
 		A75E703A248DA01300F06E98 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		A760CAD5248802CB00999C12 /* PhotosDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
 		A7636A662490499F00166631 /* FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
@@ -515,14 +517,6 @@
 			path = ZeroWasteReminder;
 			sourceTree = "<group>";
 		};
-		A717BA95251FF9BD00FE1E1D /* Sections */ = {
-			isa = PBXGroup;
-			children = (
-				A717BA96251FF9CC00FE1E1D /* ItemNameSectionView.swift */,
-			);
-			path = Sections;
-			sourceTree = "<group>";
-		};
 		A71AE5CE24B916B500996C27 /* EditList */ = {
 			isa = PBXGroup;
 			children = (
@@ -603,17 +597,8 @@
 		A72F4CBD2460B5EA008B0D5B /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				A717BA95251FF9BD00FE1E1D /* Sections */,
-				A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */,
-				A717BA8F251FDD8100FE1E1D /* AlarmButton.swift */,
-				A7F3D36524D3838F0059841A /* EmptyListView.swift */,
-				A749366B247346A4003DB46E /* LoadingView.swift */,
 				A7DD996D248463B500B40141 /* ReuseIdentifiable.swift */,
-				A7DDA2FD249D792A005DAEA6 /* WarningBarView.swift */,
-				A7A8EF79247C80F700FF1AC2 /* Button */,
-				A7EC2D5F2445030200993F53 /* ExpirationSection */,
-				A763AFFE2482F20C00E93546 /* PhotosSection */,
-				A7A8EF78247C80DE00FF1AC2 /* TextView */,
+				A75C776E25211B8700A28AE5 /* Views */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -728,7 +713,60 @@
 			path = Lists;
 			sourceTree = "<group>";
 		};
-		A763AFFE2482F20C00E93546 /* PhotosSection */ = {
+		A75C7764252119CD00A28AE5 /* Item */ = {
+			isa = PBXGroup;
+			children = (
+				A7DB8A32244284020035CF36 /* Add */,
+				A780EFCF245F7570002A8AD4 /* Edit */,
+				A75C7765252119D400A28AE5 /* Shared */,
+			);
+			path = Item;
+			sourceTree = "<group>";
+		};
+		A75C7765252119D400A28AE5 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				A717BA8F251FDD8100FE1E1D /* AlarmButton.swift */,
+				A7C9636D247DA58800DE824F /* ClearButton.swift */,
+				A7A8EF76247C7DF900FF1AC2 /* SharedTextViewDelegate.swift */,
+				A7EC2D5F2445030200993F53 /* ExpirationSection */,
+				A75C776925211A5D00A28AE5 /* ItemNameSection */,
+				A75C776B25211A8C00A28AE5 /* NotesSection */,
+				A763AFFE2482F20C00E93546 /* Photos */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		A75C776925211A5D00A28AE5 /* ItemNameSection */ = {
+			isa = PBXGroup;
+			children = (
+				A717BA96251FF9CC00FE1E1D /* ItemNameSectionView.swift */,
+				A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */,
+			);
+			path = ItemNameSection;
+			sourceTree = "<group>";
+		};
+		A75C776B25211A8C00A28AE5 /* NotesSection */ = {
+			isa = PBXGroup;
+			children = (
+				A7A8EF74247C771900FF1AC2 /* NotesTextView.swift */,
+				A75C776F25211C4600A28AE5 /* NotesSectionView.swift */,
+			);
+			path = NotesSection;
+			sourceTree = "<group>";
+		};
+		A75C776E25211B8700A28AE5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */,
+				A7F3D36524D3838F0059841A /* EmptyListView.swift */,
+				A749366B247346A4003DB46E /* LoadingView.swift */,
+				A7DDA2FD249D792A005DAEA6 /* WarningBarView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A763AFFE2482F20C00E93546 /* Photos */ = {
 			isa = PBXGroup;
 			children = (
 				A7AFA37024A53D5600BD5983 /* PhotoCaptureTarget.swift */,
@@ -738,7 +776,7 @@
 				A784410D24881C5B00FBBF3C /* FullScreenPhoto */,
 				A731DBDE24A92C7000CE926A /* PhotosCollection */,
 			);
-			path = PhotosSection;
+			path = Photos;
 			sourceTree = "<group>";
 		};
 		A77608B224BB8C7000BA0C66 /* Controls */ = {
@@ -777,6 +815,7 @@
 		A780EFCF245F7570002A8AD4 /* Edit */ = {
 			isa = PBXGroup;
 			children = (
+				A7CAC7E924F1BE480094FF15 /* ActionButton.swift */,
 				A783EE2324673B8F008BCC17 /* EditContentViewController.swift */,
 				A7159B652500444E00BC3532 /* EditCoordinator.swift */,
 				A780EFD0245F7590002A8AD4 /* EditViewController.swift */,
@@ -838,28 +877,6 @@
 			path = MoveItem;
 			sourceTree = "<group>";
 		};
-		A7A8EF78247C80DE00FF1AC2 /* TextView */ = {
-			isa = PBXGroup;
-			children = (
-				A7A8EF72247C52E900FF1AC2 /* NameTextView.swift */,
-				A7A8EF74247C771900FF1AC2 /* NotesTextView.swift */,
-				A7A8EF76247C7DF900FF1AC2 /* SharedTextViewDelegate.swift */,
-			);
-			path = TextView;
-			sourceTree = "<group>";
-		};
-		A7A8EF79247C80F700FF1AC2 /* Button */ = {
-			isa = PBXGroup;
-			children = (
-				A7CAC7E924F1BE480094FF15 /* ActionButton.swift */,
-				A7C9636D247DA58800DE824F /* ClearButton.swift */,
-				A72F4CBE2460B5FA008B0D5B /* ExpirationDateButton.swift */,
-				A76C34A92460C4EA00362B68 /* ExpirationDatePicker.swift */,
-				A7B2A4822469E58D00D9C0B1 /* RemoveExpirationDateButton.swift */,
-			);
-			path = Button;
-			sourceTree = "<group>";
-		};
 		A7ACC4C3247B129E0098EDE0 /* SharingControllerFactory */ = {
 			isa = PBXGroup;
 			children = (
@@ -902,8 +919,7 @@
 		A7DB8A33244284120035CF36 /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				A7DB8A32244284020035CF36 /* Add */,
-				A780EFCF245F7570002A8AD4 /* Edit */,
+				A75C7764252119CD00A28AE5 /* Item */,
 				A72A46D524426C3700B0007B /* Items */,
 				A759430624AFBF06007A526B /* Lists */,
 				A7A7494F24F309B4009D6F25 /* MoveItem */,
@@ -1038,10 +1054,13 @@
 		A7EC2D5F2445030200993F53 /* ExpirationSection */ = {
 			isa = PBXGroup;
 			children = (
+				A72F4CBE2460B5FA008B0D5B /* ExpirationDateButton.swift */,
+				A76C34A92460C4EA00362B68 /* ExpirationDatePicker.swift */,
 				A7EC2D5B2444F66800993F53 /* ExpirationDateView.swift */,
 				A71B691D2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift */,
 				A7EC2D5D2445004D00993F53 /* ExpirationPeriodView.swift */,
 				A71B69202443D3EB00AF7CB3 /* ExpirationSectionView.swift */,
+				A7B2A4822469E58D00D9C0B1 /* RemoveExpirationDateButton.swift */,
 			);
 			path = ExpirationSection;
 			sourceTree = "<group>";
@@ -1355,6 +1374,7 @@
 				A72315AE244B0943008614B2 /* ValidationRules.swift in Sources */,
 				A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */,
 				A7CFBBB4250964FA0026D338 /* GeneralDependencyResolver.swift in Sources */,
+				A75C777025211C4600A28AE5 /* NotesSectionView.swift in Sources */,
 				A700D6C42454BEF400F16F2E /* ItemsFilterDataSource.swift in Sources */,
 				A71388FA24F5B41C00EE5C68 /* EmptyMoveItemView.swift in Sources */,
 				A780EFD3245F786F002A8AD4 /* SortType.swift in Sources */,
