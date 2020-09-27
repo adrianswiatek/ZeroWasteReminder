@@ -9,6 +9,14 @@ public final class AddContentViewController: UIViewController {
     private let alarmSectionView: AlarmSectionView
     private let photosSectionView: PhotosSectionView
 
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = Metrics.spacing
+        return stackView
+    }()
+
     private let viewModel: AddItemViewModel
     private var subscriptions: Set<AnyCancellable>
 
@@ -24,6 +32,7 @@ public final class AddContentViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
+        self.setupStackView()
         self.setupView()
         self.bind()
     }
@@ -33,52 +42,24 @@ public final class AddContentViewController: UIViewController {
         fatalError("Not supported.")
     }
 
+    private func setupStackView() {
+        stackView.addArrangedSubview(itemNameSectionView)
+        stackView.addArrangedSubview(expirationSectionView)
+        stackView.addArrangedSubview(notesSectionView)
+        stackView.addArrangedSubview(alarmSectionView)
+        stackView.addArrangedSubview(photosSectionView)
+    }
+
     private func setupView() {
         view.translatesAutoresizingMaskIntoConstraints = false
         itemNameSectionView.becomeFirstResponder()
 
-        view.addSubview(itemNameSectionView)
+        view.addSubview(stackView)
         NSLayoutConstraint.activate([
-            itemNameSectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            itemNameSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            itemNameSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-
-        view.addSubview(expirationSectionView)
-        NSLayoutConstraint.activate([
-            expirationSectionView.topAnchor.constraint(
-                equalTo: itemNameSectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
-            ),
-            expirationSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            expirationSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-
-        view.addSubview(notesSectionView)
-        NSLayoutConstraint.activate([
-            notesSectionView.topAnchor.constraint(
-                equalTo: expirationSectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
-            ),
-            notesSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            notesSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-
-        view.addSubview(alarmSectionView)
-        NSLayoutConstraint.activate([
-            alarmSectionView.topAnchor.constraint(
-                equalTo: notesSectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
-            ),
-            alarmSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            alarmSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-
-        view.addSubview(photosSectionView)
-        NSLayoutConstraint.activate([
-            photosSectionView.topAnchor.constraint(
-                equalTo: alarmSectionView.bottomAnchor, constant: Metrics.betweenSectionsPadding
-            ),
-            photosSectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            photosSectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            photosSectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            stackView.topAnchor.constraint(equalTo: view.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 
@@ -95,7 +76,6 @@ public final class AddContentViewController: UIViewController {
 
 private extension AddContentViewController {
     enum Metrics {
-        static let insideSectionPadding: CGFloat = 8
-        static let betweenSectionsPadding: CGFloat = 24
+        static let spacing: CGFloat = 24
     }
 }
