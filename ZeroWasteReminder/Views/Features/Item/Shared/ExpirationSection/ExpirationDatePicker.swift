@@ -26,7 +26,7 @@ public final class ExpirationDatePicker: UIDatePicker {
     }
 
     public func setVisibility(_ show: Bool) {
-        self.heightConstraint.constant = show ? self.intrinsicContentSize.height : .zero
+        heightConstraint.constant = show ? intrinsicContentSize.height : .zero
         guard let window = window else { return }
 
         UIView.animate(withDuration: 0.3) {

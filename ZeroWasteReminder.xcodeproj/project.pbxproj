@@ -84,6 +84,7 @@
 		A7576899250EC3EA00F97388 /* ItemRemovedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7576898250EC3EA00F97388 /* ItemRemovedReceived.swift */; };
 		A757689B250EC42600F97388 /* ItemUpdatedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757689A250EC42600F97388 /* ItemUpdatedReceived.swift */; };
 		A757B2D224C3A3CD001A3268 /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757B2D124C3A3CD001A3268 /* DependencyContainer.swift */; };
+		A75851EF2522640400239F68 /* EditExpirationSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75851EE2522640400239F68 /* EditExpirationSectionView.swift */; };
 		A759430B24AFBF5A007A526B /* ListsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A759430A24AFBF5A007A526B /* ListsViewModel.swift */; };
 		A7597E9A2506D6F700A53B7D /* EventDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597E992506D6F700A53B7D /* EventDispatcher.swift */; };
 		A7597E9D2506E35A00A53B7D /* NoResultOccured.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597E9C2506E35A00A53B7D /* NoResultOccured.swift */; };
@@ -286,6 +287,7 @@
 		A7576898250EC3EA00F97388 /* ItemRemovedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRemovedReceived.swift; sourceTree = "<group>"; };
 		A757689A250EC42600F97388 /* ItemUpdatedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemUpdatedReceived.swift; sourceTree = "<group>"; };
 		A757B2D124C3A3CD001A3268 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
+		A75851EE2522640400239F68 /* EditExpirationSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditExpirationSectionView.swift; sourceTree = "<group>"; };
 		A759430A24AFBF5A007A526B /* ListsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsViewModel.swift; sourceTree = "<group>"; };
 		A7597E992506D6F700A53B7D /* EventDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDispatcher.swift; sourceTree = "<group>"; };
 		A7597E9C2506E35A00A53B7D /* NoResultOccured.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoResultOccured.swift; sourceTree = "<group>"; };
@@ -670,6 +672,15 @@
 			path = Items;
 			sourceTree = "<group>";
 		};
+		A75851ED252263E800239F68 /* ExpirationSection */ = {
+			isa = PBXGroup;
+			children = (
+				A75851EE2522640400239F68 /* EditExpirationSectionView.swift */,
+				A7B2A4822469E58D00D9C0B1 /* RemoveExpirationDateButton.swift */,
+			);
+			path = ExpirationSection;
+			sourceTree = "<group>";
+		};
 		A759430624AFBF06007A526B /* Lists */ = {
 			isa = PBXGroup;
 			children = (
@@ -814,6 +825,7 @@
 				A780EFD0245F7590002A8AD4 /* EditViewController.swift */,
 				A7AD76E52463661100220A94 /* StateIndicatorLabel.swift */,
 				A7C75C9825212F970005FDEA /* ActionsSection */,
+				A75851ED252263E800239F68 /* ExpirationSection */,
 			);
 			path = Edit;
 			sourceTree = "<group>";
@@ -1085,7 +1097,6 @@
 				A71B691D2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift */,
 				A7EC2D5D2445004D00993F53 /* ExpirationPeriodView.swift */,
 				A71B69202443D3EB00AF7CB3 /* ExpirationSectionView.swift */,
-				A7B2A4822469E58D00D9C0B1 /* RemoveExpirationDateButton.swift */,
 			);
 			path = ExpirationSection;
 			sourceTree = "<group>";
@@ -1332,6 +1343,7 @@
 				A7AD76E62463661100220A94 /* StateIndicatorLabel.swift in Sources */,
 				A74161412450D83B001ED316 /* UIAlertControllerExtensions.swift in Sources */,
 				A7B52E6B251939EC0047FFDC /* PhotoAddedReceived.swift in Sources */,
+				A75851EF2522640400239F68 /* EditExpirationSectionView.swift in Sources */,
 				A7D41C982517F69C00A78ADD /* PhotoRemovedReceived.swift in Sources */,
 				A7A7495124F309CC009D6F25 /* MoveItemViewController.swift in Sources */,
 				A7E4C6002500506000761601 /* AddItemViewModelFactory.swift in Sources */,

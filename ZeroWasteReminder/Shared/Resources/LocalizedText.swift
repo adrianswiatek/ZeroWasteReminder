@@ -9,6 +9,7 @@ public enum LocalizedText: String {
     case clear = "Clear"
     case editItem = "Edit item"
     case expiration = "Expiration"
+    case expirationDate = "Expiration date"
     case fullScreen = "Full Screen"
     case item = "Item"
     case itemName = "Item name"
