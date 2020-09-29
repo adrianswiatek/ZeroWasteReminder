@@ -38,7 +38,7 @@
 		A716C9C1244FA07A004262AF /* RemainingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A716C9C0244FA07A004262AF /* RemainingViewModel.swift */; };
 		A716C9C8244FB505004262AF /* RemainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A716C9C7244FB505004262AF /* RemainingView.swift */; };
 		A7175078244286F60058FCE4 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7175077244286F60058FCE4 /* ItemCell.swift */; };
-		A717BA90251FDD8100FE1E1D /* AlarmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A717BA8F251FDD8100FE1E1D /* AlarmButton.swift */; };
+		A717BA90251FDD8100FE1E1D /* AlertButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A717BA8F251FDD8100FE1E1D /* AlertButton.swift */; };
 		A717BA97251FF9CC00FE1E1D /* ItemNameSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A717BA96251FF9CC00FE1E1D /* ItemNameSectionView.swift */; };
 		A71AE5CD24B916AD00996C27 /* EditListTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71AE5CC24B916AD00996C27 /* EditListTextField.swift */; };
 		A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */; };
@@ -160,7 +160,7 @@
 		A7C1A0B3249FE9FE0054BBAF /* InMemoryPhotosRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C1A0B2249FE9FE0054BBAF /* InMemoryPhotosRepository.swift */; };
 		A7C1A0B5249FEA630054BBAF /* CloudKitPhotosRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C1A0B4249FEA630054BBAF /* CloudKitPhotosRepository.swift */; };
 		A7C1A0B9249FFB540054BBAF /* InMemoryItemsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C1A0B8249FFB540054BBAF /* InMemoryItemsRepository.swift */; };
-		A7C75C94252129660005FDEA /* AlarmSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C75C93252129660005FDEA /* AlarmSectionView.swift */; };
+		A7C75C94252129660005FDEA /* AlertSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C75C93252129660005FDEA /* AlertSectionView.swift */; };
 		A7C75C9B252133870005FDEA /* ActionsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C75C9A252133870005FDEA /* ActionsSectionView.swift */; };
 		A7C9636E247DA58800DE824F /* ClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C9636D247DA58800DE824F /* ClearButton.swift */; };
 		A7CA5344245E0624006D84FD /* ItemsFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CA5343245E0624006D84FD /* ItemsFilterViewController.swift */; };
@@ -241,7 +241,7 @@
 		A716C9C0244FA07A004262AF /* RemainingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingViewModel.swift; sourceTree = "<group>"; };
 		A716C9C7244FB505004262AF /* RemainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingView.swift; sourceTree = "<group>"; };
 		A7175077244286F60058FCE4 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
-		A717BA8F251FDD8100FE1E1D /* AlarmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmButton.swift; sourceTree = "<group>"; };
+		A717BA8F251FDD8100FE1E1D /* AlertButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertButton.swift; sourceTree = "<group>"; };
 		A717BA96251FF9CC00FE1E1D /* ItemNameSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemNameSectionView.swift; sourceTree = "<group>"; };
 		A71AE5CC24B916AD00996C27 /* EditListTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListTextField.swift; sourceTree = "<group>"; };
 		A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
@@ -363,7 +363,7 @@
 		A7C1A0B2249FE9FE0054BBAF /* InMemoryPhotosRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryPhotosRepository.swift; sourceTree = "<group>"; };
 		A7C1A0B4249FEA630054BBAF /* CloudKitPhotosRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitPhotosRepository.swift; sourceTree = "<group>"; };
 		A7C1A0B8249FFB540054BBAF /* InMemoryItemsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryItemsRepository.swift; sourceTree = "<group>"; };
-		A7C75C93252129660005FDEA /* AlarmSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSectionView.swift; sourceTree = "<group>"; };
+		A7C75C93252129660005FDEA /* AlertSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSectionView.swift; sourceTree = "<group>"; };
 		A7C75C9A252133870005FDEA /* ActionsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsSectionView.swift; sourceTree = "<group>"; };
 		A7C9636D247DA58800DE824F /* ClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButton.swift; sourceTree = "<group>"; };
 		A7CA5343245E0624006D84FD /* ItemsFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsFilterViewController.swift; sourceTree = "<group>"; };
@@ -888,8 +888,8 @@
 		A7C75C912521293D0005FDEA /* AlarmSection */ = {
 			isa = PBXGroup;
 			children = (
-				A717BA8F251FDD8100FE1E1D /* AlarmButton.swift */,
-				A7C75C93252129660005FDEA /* AlarmSectionView.swift */,
+				A717BA8F251FDD8100FE1E1D /* AlertButton.swift */,
+				A7C75C93252129660005FDEA /* AlertSectionView.swift */,
 			);
 			path = AlarmSection;
 			sourceTree = "<group>";
@@ -1308,7 +1308,7 @@
 				A7A7495424F30A0F009D6F25 /* MoveItemViewModel.swift in Sources */,
 				A7E530AF249C02E40020DB14 /* CloudKitAccountService.swift in Sources */,
 				A70BCCE52447C56A00CC49D0 /* ExpirationTypeExtensions.swift in Sources */,
-				A717BA90251FDD8100FE1E1D /* AlarmButton.swift in Sources */,
+				A717BA90251FDD8100FE1E1D /* AlertButton.swift in Sources */,
 				A72F4CBF2460B5FA008B0D5B /* ExpirationDateButton.swift in Sources */,
 				A7159B62250043FA00BC3532 /* ListsCoordinator.swift in Sources */,
 				A782FAD62475E83300C69737 /* CloudKitSubscriptionService.swift in Sources */,
@@ -1405,7 +1405,7 @@
 				A7597E9D2506E35A00A53B7D /* NoResultOccured.swift in Sources */,
 				A77A99CD245A118200F3578C /* UIBarButtonItemExtensions.swift in Sources */,
 				A763AFF82482E13000E93546 /* LocalizedText.swift in Sources */,
-				A7C75C94252129660005FDEA /* AlarmSectionView.swift in Sources */,
+				A7C75C94252129660005FDEA /* AlertSectionView.swift in Sources */,
 				A7203B8A24C3853B00C17F85 /* ListsRepository.swift in Sources */,
 				A7C9636E247DA58800DE824F /* ClearButton.swift in Sources */,
 				A7A181AA249E9C5200B8E6EE /* PhotoToSave.swift in Sources */,

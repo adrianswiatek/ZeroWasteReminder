@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public final class AlarmButton: UIButton {
+public final class AlertButton: UIButton {
     public var tap: AnyPublisher<Void, Never> {
         tapSubject.eraseToAnyPublisher()
     }
@@ -70,7 +70,7 @@ public final class AlarmButton: UIButton {
     }
 }
 
-private extension AlarmButton {
+private extension AlertButton {
     enum Metrics {
         static let cornerRadius: CGFloat = 8
         static let height: CGFloat = 47

@@ -5,7 +5,7 @@ public final class EditContentViewController: UIViewController {
     private let itemNameSectionView: ItemNameSectionView
     private let notesSectionView: NotesSectionView
     private let expirationSectionView: EditExpirationSectionView
-    private let alarmSectionView: AlarmSectionView
+    private let alertSectionView: AlertSectionView
     private let photosSectionView: PhotosSectionView
     private let actionsSectionView: ActionsSectionView
 
@@ -14,6 +14,8 @@ public final class EditContentViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.spacing = Metrics.spacing
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.directionalLayoutMargins = .init(top: Metrics.spacing, leading: 0, bottom: 0, trailing: 0)
         return stackView
     }()
 
@@ -26,8 +28,8 @@ public final class EditContentViewController: UIViewController {
 
         self.itemNameSectionView = .init()
         self.notesSectionView = .init()
-        self.expirationSectionView = .init()
-        self.alarmSectionView = .init()
+        self.expirationSectionView = .init(viewModel: viewModel)
+        self.alertSectionView = .init()
         self.photosSectionView = .init(viewModel: viewModel.photosViewModel)
         self.actionsSectionView = .init()
 
@@ -47,7 +49,7 @@ public final class EditContentViewController: UIViewController {
         stackView.addArrangedSubview(itemNameSectionView)
         stackView.addArrangedSubview(expirationSectionView)
         stackView.addArrangedSubview(notesSectionView)
-        stackView.addArrangedSubview(alarmSectionView)
+        stackView.addArrangedSubview(alertSectionView)
         stackView.addArrangedSubview(photosSectionView)
         stackView.addArrangedSubview(actionsSectionView)
     }
@@ -65,17 +67,6 @@ public final class EditContentViewController: UIViewController {
     }
 
     private func bind() {
-        expirationSectionView.tap
-            .sink { [weak self] in
-                if case .dateButton = $0 {
-                    self?.viewModel.toggleExpirationDatePicker()
-                } else if case .removeDateButton = $0 {
-                    self?.viewModel.setExpirationDate(nil)
-                }
-                self?.view.endEditing(true)
-            }
-            .store(in: &subscriptions)
-
         actionsSectionView.removeButtonTap
             .sink { [weak self] in
                 self?.viewModel.requestSubject.send(.removeCurrentItem)
@@ -90,10 +81,6 @@ public final class EditContentViewController: UIViewController {
             }
             .store(in: &subscriptions)
 
-        expirationSectionView.datePickerValue
-            .sink { [weak self] in self?.viewModel.setExpirationDate($0) }
-            .store(in: &subscriptions)
-
         itemNameSectionView.itemName
             .assign(to: \.name, on: viewModel)
             .store(in: &subscriptions)
@@ -102,28 +89,12 @@ public final class EditContentViewController: UIViewController {
             .assign(to: \.notes, on: viewModel)
             .store(in: &subscriptions)
 
-        viewModel.isRemoveDateButtonEnabled
-            .sink { [weak self] in self?.expirationSectionView.setRemoveButtonEnabled($0) }
-            .store(in: &subscriptions)
-
         viewModel.$name
             .sink { [weak self] in self?.itemNameSectionView.setText($0) }
             .store(in: &subscriptions)
 
         viewModel.$notes
             .sink { [weak self] in self?.notesSectionView.setText($0) }
-            .store(in: &subscriptions)
-
-        viewModel.expirationDate
-            .sink { [weak self] in self?.expirationSectionView.setExpiration($0.date, $0.formatted) }
-            .store(in: &subscriptions)
-
-        viewModel.isExpirationDateVisible
-            .sink { [weak self] in self?.expirationSectionView.setDatePickerVisibility($0) }
-            .store(in: &subscriptions)
-
-        viewModel.state
-            .sink { [weak self] in self?.expirationSectionView.setState($0) }
             .store(in: &subscriptions)
     }
 }

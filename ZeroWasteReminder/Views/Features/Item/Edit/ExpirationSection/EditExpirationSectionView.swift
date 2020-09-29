@@ -2,24 +2,19 @@ import Combine
 import UIKit
 
 public final class EditExpirationSectionView: UIView {
-    public var tap: AnyPublisher<TapSource, Never> {
-        Publishers.Merge(
-            dateButton.tap.map { TapSource.dateButton },
-            removeDateButton.tap.map { TapSource.removeDateButton }
-        ).eraseToAnyPublisher()
-    }
-
-    public var datePickerValue: AnyPublisher<Date, Never> {
-        datePicker.value
-    }
-
     private let label: UILabel
     private let stateIndicatorLabel: StateIndicatorLabel
     private let dateButton: ExpirationDateButton
     private let removeDateButton: RemoveExpirationDateButton
     private let datePicker: ExpirationDatePicker
 
-    public init() {
+    private let viewModel: EditItemViewModel
+    private var subscriptions: Set<AnyCancellable>
+
+    public init(viewModel: EditItemViewModel) {
+        self.viewModel = viewModel
+        self.subscriptions = []
+
         self.label = .defaultWithText(.localized(.expirationDate))
         self.stateIndicatorLabel = .init()
         self.dateButton = .init(type: .system)
@@ -29,23 +24,7 @@ public final class EditExpirationSectionView: UIView {
         super.init(frame: .zero)
 
         self.setupView()
-    }
-
-    public func setState(_ state: RemainingState) {
-        stateIndicatorLabel.setState(state)
-    }
-
-    public func setExpiration(_ date: Date, _ formattedDate: String) {
-        datePicker.setDate(date, animated: false)
-        dateButton.setTitle(formattedDate, for: .normal)
-    }
-
-    public func setDatePickerVisibility(_ show: Bool) {
-        datePicker.setVisibility(show)
-    }
-
-    public func setRemoveButtonEnabled(_ isEnabled: Bool) {
-        removeDateButton.isEnabled = isEnabled
+        self.bind()
     }
 
     public required init?(coder: NSCoder) {
@@ -91,6 +70,39 @@ public final class EditExpirationSectionView: UIView {
             datePicker.bottomAnchor.constraint(equalTo: bottomAnchor),
             datePicker.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
+    }
+
+    private func bind() {
+        viewModel.expirationDate
+            .sink { [weak self] in
+                self?.datePicker.setDate($0.date, animated: false)
+                self?.dateButton.setTitle($0.formatted, for: .normal)
+            }
+            .store(in: &subscriptions)
+
+        viewModel.isExpirationDateVisible
+            .sink { [weak self] in self?.datePicker.setVisibility($0) }
+            .store(in: &subscriptions)
+
+        viewModel.isRemoveDateButtonEnabled
+            .assign(to: \.isEnabled, on: removeDateButton)
+            .store(in: &subscriptions)
+
+        viewModel.state
+            .sink { [weak self] in self?.stateIndicatorLabel.setState($0) }
+            .store(in: &subscriptions)
+
+        dateButton.tap
+            .sink { [weak self] in self?.viewModel.toggleExpirationDatePicker() }
+            .store(in: &subscriptions)
+
+        removeDateButton.tap
+            .sink { [weak self] in self?.viewModel.setExpirationDate(nil) }
+            .store(in: &subscriptions)
+
+        datePicker.value
+            .sink { [weak self] in self?.viewModel.setExpirationDate($0) }
+            .store(in: &subscriptions)
     }
 }
 

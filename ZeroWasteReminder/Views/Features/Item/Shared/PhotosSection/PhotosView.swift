@@ -63,10 +63,10 @@ public final class PhotosView: UIView {
 
         addSubview(loadingView)
         NSLayoutConstraint.activate([
-            loadingView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-            loadingView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
-            loadingView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
-            loadingView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor)
+            loadingView.topAnchor.constraint(equalTo: topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
 

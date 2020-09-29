@@ -6,7 +6,7 @@ public final class AddContentViewController: UIViewController {
     private let itemNameSectionView: ItemNameSectionView
     private let expirationSectionView: ExpirationSectionView
     private let notesSectionView: NotesSectionView
-    private let alarmSectionView: AlarmSectionView
+    private let alertSectionView: AlertSectionView
     private let photosSectionView: PhotosSectionView
 
     private let stackView: UIStackView = {
@@ -27,7 +27,7 @@ public final class AddContentViewController: UIViewController {
         self.itemNameSectionView = .init()
         self.expirationSectionView = .init(viewModel: viewModel)
         self.notesSectionView = .init()
-        self.alarmSectionView = .init()
+        self.alertSectionView = .init()
         self.photosSectionView = .init(viewModel: viewModel.photosViewModel)
 
         super.init(nibName: nil, bundle: nil)
@@ -46,7 +46,7 @@ public final class AddContentViewController: UIViewController {
         stackView.addArrangedSubview(itemNameSectionView)
         stackView.addArrangedSubview(expirationSectionView)
         stackView.addArrangedSubview(notesSectionView)
-        stackView.addArrangedSubview(alarmSectionView)
+        stackView.addArrangedSubview(alertSectionView)
         stackView.addArrangedSubview(photosSectionView)
     }
 

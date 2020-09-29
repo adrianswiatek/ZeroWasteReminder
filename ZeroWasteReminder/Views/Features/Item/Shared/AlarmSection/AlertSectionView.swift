@@ -1,16 +1,16 @@
 import Combine
 import UIKit
 
-public final class AlarmSectionView: UIView {
+public final class AlertSectionView: UIView {
     public var tap: AnyPublisher<Void, Never> {
         button.tap
     }
 
     private let label: UILabel
-    private let button: AlarmButton
+    private let button: AlertButton
 
     public init() {
-        self.label = .defaultWithText(.localized(.alarm))
+        self.label = .defaultWithText(.localized(.alert))
         self.button = .init(type: .system)
 
         super.init(frame: .zero)
@@ -44,7 +44,7 @@ public final class AlarmSectionView: UIView {
     }
 }
 
-private extension AlarmSectionView {
+private extension AlertSectionView {
     enum Metrics {
         static let spacing: CGFloat = 8
     }
