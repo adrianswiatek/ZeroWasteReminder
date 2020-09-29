@@ -16,11 +16,14 @@ public final class AlertSectionView: UIView {
         super.init(frame: .zero)
 
         self.setupView()
-        self.button.setTitle("1 day before", for: .normal)
     }
 
     public required init?(coder: NSCoder) {
         fatalError("Not supported.")
+    }
+
+    public func setTitle(_ title: String) {
+        button.setTitle(title, for: .normal)
     }
 
     private func setupView() {

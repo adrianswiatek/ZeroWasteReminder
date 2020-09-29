@@ -71,6 +71,14 @@ public final class AddContentViewController: UIViewController {
         notesSectionView.notes
             .assign(to: \.notes, on: viewModel)
             .store(in: &subscriptions)
+
+        alertSectionView.tap
+            .sink { [weak self] in self?.viewModel.requestSubject.send(.setAlert) }
+            .store(in: &subscriptions)
+
+        viewModel.$alertOption
+            .sink { [weak self] in self?.alertSectionView.setTitle($0.formatted) }
+            .store(in: &subscriptions)
     }
 }
 

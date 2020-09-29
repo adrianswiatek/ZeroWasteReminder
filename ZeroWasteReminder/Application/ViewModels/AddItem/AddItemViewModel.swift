@@ -5,6 +5,7 @@ public final class AddItemViewModel {
     @Published public var name: String
     @Published public var notes: String
     @Published public var expirationTypeIndex: Int
+    @Published public private(set) var alertOption: AlertOption
 
     public var isLoading: AnyPublisher<Bool, Never> {
         isLoadingSubject.eraseToAnyPublisher()
@@ -76,6 +77,7 @@ public final class AddItemViewModel {
 
         self.name = ""
         self.notes = ""
+        self.alertOption = .none
 
         self.expirationTypeIndex = ExpirationType.none.index
 
@@ -123,6 +125,8 @@ public final class AddItemViewModel {
         case is PhotosUpdated:
             isLoadingSubject.send(false)
             requestSubject.send(.dismiss)
+        case let event as AlertSet:
+            alertOption = event.option
         default:
             return
         }
@@ -138,7 +142,7 @@ public final class AddItemViewModel {
             name: name,
             notes: notes,
             expiration: expiration,
-            photos: [],
+            alertDate: .none,
             listId: list.id
         )
     }
@@ -155,5 +159,6 @@ public final class AddItemViewModel {
 public extension AddItemViewModel {
     enum Request: Equatable {
         case dismiss
+        case setAlert
     }
 }

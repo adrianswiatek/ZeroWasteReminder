@@ -111,8 +111,7 @@ public final class AddViewController: UIViewController {
             .store(in: &subscriptions)
 
         viewModel.requestSubject
-            .filter { $0 == .dismiss }
-            .sink { [weak self] _ in self?.dismiss(animated: true) }
+            .sink { [weak self] in self?.handleRequest($0) }
             .store(in: &subscriptions)
 
         viewModel.isLoading
@@ -135,6 +134,15 @@ public final class AddViewController: UIViewController {
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleViewTap))
         gestureRecognizer.cancelsTouchesInView = false
         view.addGestureRecognizer(gestureRecognizer)
+    }
+
+    private func handleRequest(_ request: AddItemViewModel.Request) {
+        switch request {
+        case .dismiss:
+            dismiss(animated: true)
+        case .setAlert:
+            coordinator.navigateToAlert(withOption: viewModel.alertOption, in: self)
+        }
     }
 
     private func handleRequest(_ request: PhotosViewModel.Request) {

@@ -10,7 +10,10 @@ public final class GeneralDependencyResolver: DependencyResolver {
 
     public func registerCoordinators() {
         container.register(AddCoordinator.self) { resolver in
-            AddCoordinator(imagePickerFactory: resolver.resolve(ImagePickerControllerFactory.self)!)
+            AddCoordinator(
+                imagePickerFactory: resolver.resolve(ImagePickerControllerFactory.self)!,
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
+            )
         }
 
         container.register(EditCoordinator.self) { resolver in
