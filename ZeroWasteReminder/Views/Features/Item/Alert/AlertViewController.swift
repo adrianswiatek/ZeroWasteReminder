@@ -5,34 +5,23 @@ public final class AlertViewController: UIViewController {
     private lazy var dismissButton: UIBarButtonItem =
         .dismissButton(target: self, action: #selector(handleDismiss))
 
-    private let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .systemBackground
-        tableView.tableFooterView = UIView()
-        return tableView
-    }()
+    private let tableView: AlertTableView
+    private let dataSource: AlertDataSource
 
-    private let tableViewDataSource: UITableViewDiffableDataSource<Section, AlertOption>
     private let viewModel: AlertViewModel
     private var subscriptions: Set<AnyCancellable>
 
     public init(viewModel: AlertViewModel) {
         self.viewModel = viewModel
         self.subscriptions = []
-        self.tableViewDataSource = .init(tableView: tableView, cellProvider: { tableView, indexPath, alertOption in
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = alertOption.formatted
-            return cell
-        })
+
+        self.tableView = .init(viewModel)
+        self.dataSource = .init(tableView, viewModel)
 
         super.init(nibName: nil, bundle: nil)
 
         navigationItem.leftBarButtonItem = dismissButton
         navigationItem.title = .localized(.alert)
-
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        self.tableView.delegate = self
 
         self.setupView()
         self.bind()
@@ -41,11 +30,6 @@ public final class AlertViewController: UIViewController {
     @available(*, unavailable)
     public required init?(coder: NSCoder) {
         fatalError("Not supported.")
-    }
-
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        self.applyOptions()
     }
 
     private func setupView() {
@@ -75,26 +59,8 @@ public final class AlertViewController: UIViewController {
             .store(in: &subscriptions)
     }
 
-    private func applyOptions() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, AlertOption>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(viewModel.options)
-        tableViewDataSource.apply(snapshot)
-    }
-
-    @objc private func handleDismiss() {
+    @objc
+    private func handleDismiss() {
         navigationController?.popToRootViewController(animated: true)
-    }
-}
-
-extension AlertViewController: UITableViewDelegate {
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.selectOption(at: indexPath.row)
-    }
-}
-
-extension AlertViewController {
-    public enum Section {
-        case main
     }
 }

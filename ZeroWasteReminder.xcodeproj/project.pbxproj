@@ -87,6 +87,8 @@
 		A757689B250EC42600F97388 /* ItemUpdatedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757689A250EC42600F97388 /* ItemUpdatedReceived.swift */; };
 		A757B2D224C3A3CD001A3268 /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757B2D124C3A3CD001A3268 /* DependencyContainer.swift */; };
 		A75851EF2522640400239F68 /* EditExpirationSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75851EE2522640400239F68 /* EditExpirationSectionView.swift */; };
+		A758CEA9252531D900E35D76 /* AlertDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A758CEA8252531D900E35D76 /* AlertDataSource.swift */; };
+		A758CEAD2525340D00E35D76 /* AlertOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A758CEAC2525340D00E35D76 /* AlertOptionCell.swift */; };
 		A759430B24AFBF5A007A526B /* ListsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A759430A24AFBF5A007A526B /* ListsViewModel.swift */; };
 		A7597E9A2506D6F700A53B7D /* EventDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597E992506D6F700A53B7D /* EventDispatcher.swift */; };
 		A7597E9D2506E35A00A53B7D /* NoResultOccured.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597E9C2506E35A00A53B7D /* NoResultOccured.swift */; };
@@ -95,6 +97,7 @@
 		A7597EA52506E3C000A53B7D /* ListRemoved.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597EA42506E3C000A53B7D /* ListRemoved.swift */; };
 		A7597EA72506E3D200A53B7D /* ListsUpdated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597EA62506E3D200A53B7D /* ListsUpdated.swift */; };
 		A7597EA92506E3DC00A53B7D /* ErrorOccured.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597EA82506E3DC00A53B7D /* ErrorOccured.swift */; };
+		A75A475925250FA9006EC64A /* AlertTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A475825250FA9006EC64A /* AlertTableView.swift */; };
 		A75C777025211C4600A28AE5 /* NotesSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75C776F25211C4600A28AE5 /* NotesSectionView.swift */; };
 		A75E703B248DA01300F06E98 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75E703A248DA01300F06E98 /* Photo.swift */; };
 		A760CAD6248802CB00999C12 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A760CAD5248802CB00999C12 /* PhotosDataSource.swift */; };
@@ -295,6 +298,8 @@
 		A757689A250EC42600F97388 /* ItemUpdatedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemUpdatedReceived.swift; sourceTree = "<group>"; };
 		A757B2D124C3A3CD001A3268 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
 		A75851EE2522640400239F68 /* EditExpirationSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditExpirationSectionView.swift; sourceTree = "<group>"; };
+		A758CEA8252531D900E35D76 /* AlertDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDataSource.swift; sourceTree = "<group>"; };
+		A758CEAC2525340D00E35D76 /* AlertOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertOptionCell.swift; sourceTree = "<group>"; };
 		A759430A24AFBF5A007A526B /* ListsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsViewModel.swift; sourceTree = "<group>"; };
 		A7597E992506D6F700A53B7D /* EventDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDispatcher.swift; sourceTree = "<group>"; };
 		A7597E9C2506E35A00A53B7D /* NoResultOccured.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoResultOccured.swift; sourceTree = "<group>"; };
@@ -303,6 +308,7 @@
 		A7597EA42506E3C000A53B7D /* ListRemoved.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRemoved.swift; sourceTree = "<group>"; };
 		A7597EA62506E3D200A53B7D /* ListsUpdated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsUpdated.swift; sourceTree = "<group>"; };
 		A7597EA82506E3DC00A53B7D /* ErrorOccured.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorOccured.swift; sourceTree = "<group>"; };
+		A75A475825250FA9006EC64A /* AlertTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTableView.swift; sourceTree = "<group>"; };
 		A75C776F25211C4600A28AE5 /* NotesSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesSectionView.swift; sourceTree = "<group>"; };
 		A75E703A248DA01300F06E98 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		A760CAD5248802CB00999C12 /* PhotosDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
@@ -802,6 +808,9 @@
 		A7627B902523BF0400637740 /* Alert */ = {
 			isa = PBXGroup;
 			children = (
+				A758CEA8252531D900E35D76 /* AlertDataSource.swift */,
+				A758CEAC2525340D00E35D76 /* AlertOptionCell.swift */,
+				A75A475825250FA9006EC64A /* AlertTableView.swift */,
 				A7627B922523C16900637740 /* AlertViewController.swift */,
 			);
 			path = Alert;
@@ -1310,6 +1319,7 @@
 				A725068D2457992F006C3A2F /* RemainingState.swift in Sources */,
 				A71C719124FD7E4400973611 /* CloudKitCache.swift in Sources */,
 				A7FFA9792448F5C00061A3D6 /* ExpirationType.swift in Sources */,
+				A758CEAD2525340D00E35D76 /* AlertOptionCell.swift in Sources */,
 				A716C9C1244FA07A004262AF /* RemainingViewModel.swift in Sources */,
 				A7BDE68924B513F5003215C0 /* ListsNavigationController.swift in Sources */,
 				A7C75C9B252133870005FDEA /* ActionsSectionView.swift in Sources */,
@@ -1349,6 +1359,7 @@
 				A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */,
 				A731F89524BE439B007348A3 /* ListCell.swift in Sources */,
 				A7627B9B2523D0F500637740 /* AlertDate.swift in Sources */,
+				A75A475925250FA9006EC64A /* AlertTableView.swift in Sources */,
 				A7CFBBB8250982560026D338 /* ListUpdatedReceived.swift in Sources */,
 				A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */,
 				A7E4C6022500507400761601 /* EditItemViewModelFactory.swift in Sources */,
@@ -1368,6 +1379,7 @@
 				A7AD76E62463661100220A94 /* StateIndicatorLabel.swift in Sources */,
 				A74161412450D83B001ED316 /* UIAlertControllerExtensions.swift in Sources */,
 				A7B52E6B251939EC0047FFDC /* PhotoAddedReceived.swift in Sources */,
+				A758CEA9252531D900E35D76 /* AlertDataSource.swift in Sources */,
 				A75851EF2522640400239F68 /* EditExpirationSectionView.swift in Sources */,
 				A7D41C982517F69C00A78ADD /* PhotoRemovedReceived.swift in Sources */,
 				A7A7495124F309CC009D6F25 /* MoveItemViewController.swift in Sources */,
