@@ -184,6 +184,7 @@
 		A7DAD1C224F70B0D0004529D /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DAD1C124F70B0D0004529D /* ArrayExtensions.swift */; };
 		A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A34244285010035CF36 /* AddViewController.swift */; };
 		A7DB8A37244286440035CF36 /* ItemsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A36244286440035CF36 /* ItemsNavigationController.swift */; };
+		A7DBEFFE252674CD00430986 /* configure.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DBEFFD252674CD00430986 /* configure.swift */; };
 		A7DD996A2484578D00B40141 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DD99692484578D00B40141 /* PhotoCell.swift */; };
 		A7DD996C248462C500B40141 /* PhotoCaptureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DD996B248462C500B40141 /* PhotoCaptureCell.swift */; };
 		A7DD996E248463B500B40141 /* ReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DD996D248463B500B40141 /* ReuseIdentifiable.swift */; };
@@ -395,6 +396,7 @@
 		A7DAD1C124F70B0D0004529D /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		A7DB8A34244285010035CF36 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		A7DB8A36244286440035CF36 /* ItemsNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsNavigationController.swift; sourceTree = "<group>"; };
+		A7DBEFFD252674CD00430986 /* configure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = configure.swift; sourceTree = "<group>"; };
 		A7DD99692484578D00B40141 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		A7DD996B248462C500B40141 /* PhotoCaptureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureCell.swift; sourceTree = "<group>"; };
 		A7DD996D248463B500B40141 /* ReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifiable.swift; sourceTree = "<group>"; };
@@ -975,6 +977,14 @@
 			path = Features;
 			sourceTree = "<group>";
 		};
+		A7DBEFFC252674C100430986 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				A7DBEFFD252674CD00430986 /* configure.swift */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
 		A7E08B3025213C0E0084D496 /* PhotosSection */ = {
 			isa = PBXGroup;
 			children = (
@@ -1139,6 +1149,7 @@
 				A701536524773CC000CE9085 /* AppError.swift */,
 				A72A46D0244265CD00B0007B /* Extensions */,
 				A72A46CC2442649A00B0007B /* Resources */,
+				A7DBEFFC252674C100430986 /* Tools */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1283,6 +1294,7 @@
 				A7BDE68724B50B73003215C0 /* ListsTableView.swift in Sources */,
 				A7C1A0B9249FFB540054BBAF /* InMemoryItemsRepository.swift in Sources */,
 				A7EC2D622445127200993F53 /* PeriodTypeExtensions.swift in Sources */,
+				A7DBEFFE252674CD00430986 /* configure.swift in Sources */,
 				A7159B6C25004BCF00BC3532 /* ListsViewModelFactory.swift in Sources */,
 				A7FCD91725082F5E00F001C7 /* EventDispatcherInterceptor.swift in Sources */,
 				A726F35D24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift in Sources */,

@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 
 public final class AlertViewModel {
     @Published public private(set) var selectedOption: AlertOption
@@ -12,8 +13,7 @@ public final class AlertViewModel {
         .daysBefore(3),
         .weeksBefore(1),
         .weeksBefore(2),
-        .monthsBefore(1),
-        .customDate
+        .monthsBefore(1)
     ]
 
     private let eventDispatcher: EventDispatcher
@@ -36,9 +36,7 @@ public final class AlertViewModel {
         assert(index >= 0 && index < options.count, "Invalid index.")
 
         selectedOption = options[index]
-        if selectedOption != .customDate {
-            requestSubject.send(.dismiss)
-        }
+        requestSubject.send(.dismiss)
     }
 
     private func bind() {

@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public final class AlertTableView: UITableView, ReuseIdentifiable {
+public final class AlertTableView: UITableView {
     private let viewModel: AlertViewModel
     private var subscriptions: Set<AnyCancellable>
 
@@ -29,12 +29,13 @@ public final class AlertTableView: UITableView, ReuseIdentifiable {
     }
 
     private func registerCells() {
-        register(AlertTableView.self, forCellReuseIdentifier: AlertTableView.identifier)
+        register(AlertOptionCell.self, forCellReuseIdentifier: AlertOptionCell.identifier)
     }
 }
 
 extension AlertTableView: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.selectOption(at: indexPath.row)
+        tableView.cellForRow(at: indexPath).map { $0.setSelected(true, animated: true) }
     }
 }

@@ -1,10 +1,12 @@
+import Foundation
+
 public enum AlertOption: Hashable {
     case none
     case onDayOfExpiration
     case daysBefore(_ days: Int)
     case weeksBefore(_ weeks: Int)
     case monthsBefore(_ months: Int)
-    case customDate
+    case customDate(_ date: Date)
 
     var formatted: String {
         switch self {
