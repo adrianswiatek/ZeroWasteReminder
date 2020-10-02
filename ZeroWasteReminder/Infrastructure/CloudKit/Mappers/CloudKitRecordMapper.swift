@@ -39,7 +39,7 @@ internal final class CloudKitRecordMapper {
             name: name,
             notes: notes(from: record),
             expiration: (record[CloudKitKey.Item.expiration] as? Date).map { .date($0) } ?? .none,
-            alertDate: .none,
+            alertOption: .none,
             listId: listId
         )
     }

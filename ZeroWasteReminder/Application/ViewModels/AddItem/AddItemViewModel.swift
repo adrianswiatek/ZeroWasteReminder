@@ -142,7 +142,7 @@ public final class AddItemViewModel {
             name: name,
             notes: notes,
             expiration: expiration,
-            alertDate: .none,
+            alertOption: .none,
             listId: list.id
         )
     }

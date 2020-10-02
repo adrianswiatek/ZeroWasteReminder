@@ -6,17 +6,15 @@ public final class AlertViewController: UIViewController {
         .dismissButton(target: self, action: #selector(handleDismiss))
 
     private let tableView: AlertTableView
-    private let dataSource: AlertDataSource
 
     private let viewModel: AlertViewModel
     private var subscriptions: Set<AnyCancellable>
 
     public init(viewModel: AlertViewModel) {
         self.viewModel = viewModel
-        self.subscriptions = []
 
         self.tableView = .init(viewModel)
-        self.dataSource = .init(tableView, viewModel)
+        self.subscriptions = []
 
         super.init(nibName: nil, bundle: nil)
 
@@ -45,18 +43,16 @@ public final class AlertViewController: UIViewController {
     }
 
     private func bind() {
-        viewModel.$selectedOption
-            .sink { [weak self] in
-                guard let index = self?.viewModel.indexOf($0) else { return }
-                let indexPath = IndexPath(row: index, section: 0)
-                self?.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
-            }
-            .store(in: &subscriptions)
-
         viewModel.requestSubject
-            .filter { $0 == .dismiss }
-            .sink { [weak self] _ in self?.handleDismiss() }
+            .sink { [weak self] in self?.handleRequest($0) }
             .store(in: &subscriptions)
+    }
+
+    private func handleRequest(_ request: AlertViewModel.Request) {
+        switch request {
+        case .dismiss: handleDismiss()
+        default: return
+        }
     }
 
     @objc

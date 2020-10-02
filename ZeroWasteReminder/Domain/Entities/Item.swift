@@ -5,35 +5,35 @@ public struct Item: Identifiable, Hashable {
     public let name: String
     public let notes: String
     public let expiration: Expiration
-    public let alertDate: AlertDate
+    public let alertOption: AlertOption
 
     public let listId: Id<List>
 
     public func withName(_ name: String) -> Item {
-        .init(id: id, name: name, notes: notes, expiration: expiration, alertDate: alertDate, listId: listId)
+        .init(id: id, name: name, notes: notes, expiration: expiration, alertOption: alertOption, listId: listId)
     }
 
     public func withExpiration(_ expiration: Expiration) -> Item {
-        .init(id: id, name: name, notes: notes, expiration: expiration, alertDate: alertDate, listId: listId)
+        .init(id: id, name: name, notes: notes, expiration: expiration, alertOption: alertOption, listId: listId)
     }
 
     public func withExpirationDate(_ date: Date?) -> Item {
         if let date = date {
-            return .init(id: id, name: name, notes: notes, expiration: .date(date), alertDate: alertDate, listId: listId)
+            return .init(id: id, name: name, notes: notes, expiration: .date(date), alertOption: alertOption, listId: listId)
         }
-        return .init(id: id, name: name, notes: notes, expiration: .none, alertDate: alertDate, listId: listId)
+        return .init(id: id, name: name, notes: notes, expiration: .none, alertOption: alertOption, listId: listId)
     }
 
     public func withNotes(_ notes: String) -> Item {
-        .init(id: id, name: name, notes: notes, expiration: expiration, alertDate: alertDate, listId: listId)
+        .init(id: id, name: name, notes: notes, expiration: expiration, alertOption: alertOption, listId: listId)
     }
 
     public func withListId(_ listId: Id<List>) -> Item {
-        .init(id: id, name: name, notes: notes, expiration: expiration, alertDate: alertDate, listId: listId)
+        .init(id: id, name: name, notes: notes, expiration: expiration, alertOption: alertOption, listId: listId)
     }
 
-    public func withAlertDate(_ alertDate: AlertDate) -> Item {
-        .init(id: id, name: name, notes: notes, expiration: expiration, alertDate: alertDate, listId: listId)
+    public func withAlertOption(_ alertOption: AlertOption) -> Item {
+        .init(id: id, name: name, notes: notes, expiration: expiration, alertOption: alertOption, listId: listId)
     }
 }
 
@@ -43,7 +43,7 @@ extension Item: Equatable {
             && lhs.name == rhs.name
             && lhs.notes == rhs.notes
             && lhs.expiration == rhs.expiration
-            && lhs.alertDate == rhs.alertDate
+            && lhs.alertOption == rhs.alertOption
             && lhs.listId == rhs.listId
     }
 }

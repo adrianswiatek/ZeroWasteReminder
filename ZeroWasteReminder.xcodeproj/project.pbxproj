@@ -87,7 +87,6 @@
 		A757689B250EC42600F97388 /* ItemUpdatedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757689A250EC42600F97388 /* ItemUpdatedReceived.swift */; };
 		A757B2D224C3A3CD001A3268 /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757B2D124C3A3CD001A3268 /* DependencyContainer.swift */; };
 		A75851EF2522640400239F68 /* EditExpirationSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75851EE2522640400239F68 /* EditExpirationSectionView.swift */; };
-		A758CEA9252531D900E35D76 /* AlertDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A758CEA8252531D900E35D76 /* AlertDataSource.swift */; };
 		A758CEAD2525340D00E35D76 /* AlertOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A758CEAC2525340D00E35D76 /* AlertOptionCell.swift */; };
 		A759430B24AFBF5A007A526B /* ListsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A759430A24AFBF5A007A526B /* ListsViewModel.swift */; };
 		A7597E9A2506D6F700A53B7D /* EventDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7597E992506D6F700A53B7D /* EventDispatcher.swift */; };
@@ -103,7 +102,6 @@
 		A760CAD6248802CB00999C12 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A760CAD5248802CB00999C12 /* PhotosDataSource.swift */; };
 		A7627B932523C16900637740 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7627B922523C16900637740 /* AlertViewController.swift */; };
 		A7627B972523C5DF00637740 /* AlertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7627B962523C5DF00637740 /* AlertViewModel.swift */; };
-		A7627B9B2523D0F500637740 /* AlertDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7627B9A2523D0F500637740 /* AlertDate.swift */; };
 		A7636A672490499F00166631 /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7636A662490499F00166631 /* FileService.swift */; };
 		A763AFF82482E13000E93546 /* LocalizedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A763AFF72482E13000E93546 /* LocalizedText.swift */; };
 		A763AFFA2482E2C500E93546 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A763AFF92482E2C500E93546 /* StringExtensions.swift */; };
@@ -132,6 +130,8 @@
 		A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */; };
 		A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */; };
 		A78AC17C24F8362700B2A59D /* MoveItemHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78AC17B24F8362700B2A59D /* MoveItemHeaderView.swift */; };
+		A79510B4252926E700D09E3B /* AlertDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79510B3252926E700D09E3B /* AlertDateCell.swift */; };
+		A79510B7252926EE00D09E3B /* AlertCalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79510B6252926EE00D09E3B /* AlertCalendarCell.swift */; };
 		A797433424A2ABA000A05EA2 /* ItemsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A798DF4724524B0900A84F79 /* ItemsDataSource.swift */; };
 		A79B4A202479F6FA00ECE1B1 /* SubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */; };
 		A79DDDA32461F9B1008A3DFE /* EditItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79DDDA22461F9B1008A3DFE /* EditItemViewModel.swift */; };
@@ -174,6 +174,8 @@
 		A7CA5344245E0624006D84FD /* ItemsFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CA5343245E0624006D84FD /* ItemsFilterViewController.swift */; };
 		A7CAC7EA24F1BE480094FF15 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CAC7E924F1BE480094FF15 /* ActionButton.swift */; };
 		A7CD75C7248C53FC00FCD8DF /* PhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CD75C6248C53FC00FCD8DF /* PhotosViewModel.swift */; };
+		A7CD80C0252A569B00BAF8E0 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CD80BF252A569B00BAF8E0 /* UIViewExtensions.swift */; };
+		A7CD80C4252A74F600BAF8E0 /* AlertDateCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CD80C3252A74F600BAF8E0 /* AlertDateCellViewModel.swift */; };
 		A7CFBBB2250962E50026D338 /* DependencyResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFBBB1250962E50026D338 /* DependencyResolver.swift */; };
 		A7CFBBB4250964FA0026D338 /* GeneralDependencyResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFBBB3250964FA0026D338 /* GeneralDependencyResolver.swift */; };
 		A7CFBBB6250969A80026D338 /* DependencyResolverComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFBBB5250969A80026D338 /* DependencyResolverComposite.swift */; };
@@ -299,7 +301,6 @@
 		A757689A250EC42600F97388 /* ItemUpdatedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemUpdatedReceived.swift; sourceTree = "<group>"; };
 		A757B2D124C3A3CD001A3268 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
 		A75851EE2522640400239F68 /* EditExpirationSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditExpirationSectionView.swift; sourceTree = "<group>"; };
-		A758CEA8252531D900E35D76 /* AlertDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDataSource.swift; sourceTree = "<group>"; };
 		A758CEAC2525340D00E35D76 /* AlertOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertOptionCell.swift; sourceTree = "<group>"; };
 		A759430A24AFBF5A007A526B /* ListsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsViewModel.swift; sourceTree = "<group>"; };
 		A7597E992506D6F700A53B7D /* EventDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDispatcher.swift; sourceTree = "<group>"; };
@@ -315,7 +316,6 @@
 		A760CAD5248802CB00999C12 /* PhotosDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
 		A7627B922523C16900637740 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		A7627B962523C5DF00637740 /* AlertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewModel.swift; sourceTree = "<group>"; };
-		A7627B9A2523D0F500637740 /* AlertDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDate.swift; sourceTree = "<group>"; };
 		A7636A662490499F00166631 /* FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
 		A763AFF72482E13000E93546 /* LocalizedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedText.swift; sourceTree = "<group>"; };
 		A763AFF92482E2C500E93546 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -344,6 +344,8 @@
 		A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenPhotoViewController.swift; sourceTree = "<group>"; };
 		A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateViewModel.swift; sourceTree = "<group>"; };
 		A78AC17B24F8362700B2A59D /* MoveItemHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemHeaderView.swift; sourceTree = "<group>"; };
+		A79510B3252926E700D09E3B /* AlertDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDateCell.swift; sourceTree = "<group>"; };
+		A79510B6252926EE00D09E3B /* AlertCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertCalendarCell.swift; sourceTree = "<group>"; };
 		A798DF4724524B0900A84F79 /* ItemsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsDataSource.swift; sourceTree = "<group>"; };
 		A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionService.swift; sourceTree = "<group>"; };
 		A79DDDA22461F9B1008A3DFE /* EditItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemViewModel.swift; sourceTree = "<group>"; };
@@ -386,6 +388,8 @@
 		A7CA5343245E0624006D84FD /* ItemsFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsFilterViewController.swift; sourceTree = "<group>"; };
 		A7CAC7E924F1BE480094FF15 /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		A7CD75C6248C53FC00FCD8DF /* PhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewModel.swift; sourceTree = "<group>"; };
+		A7CD80BF252A569B00BAF8E0 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		A7CD80C3252A74F600BAF8E0 /* AlertDateCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDateCellViewModel.swift; sourceTree = "<group>"; };
 		A7CFBBB1250962E50026D338 /* DependencyResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyResolver.swift; sourceTree = "<group>"; };
 		A7CFBBB3250964FA0026D338 /* GeneralDependencyResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralDependencyResolver.swift; sourceTree = "<group>"; };
 		A7CFBBB5250969A80026D338 /* DependencyResolverComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyResolverComposite.swift; sourceTree = "<group>"; };
@@ -643,6 +647,7 @@
 				A77A99CE245A14EE00F3578C /* UIImageExtensions.swift */,
 				A76C34AE2460C99400362B68 /* UILabelExtension.swift */,
 				A71388F724F5AB6200EE5C68 /* UITableViewCellExtensions.swift */,
+				A7CD80BF252A569B00BAF8E0 /* UIViewExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -650,7 +655,7 @@
 		A74C418924D4BCB800399918 /* ValueObject */ = {
 			isa = PBXGroup;
 			children = (
-				A7627B9A2523D0F500637740 /* AlertDate.swift */,
+				A751AA4D2523DA940063EEE6 /* AlertOption.swift */,
 				A7FFA9762448F3FF0061A3D6 /* Expiration.swift */,
 				A7FFA9782448F5C00061A3D6 /* ExpirationType.swift */,
 				A74C418A24D4BCC500399918 /* Id.swift */,
@@ -687,7 +692,7 @@
 		A751AA4C2523DA870063EEE6 /* Alert */ = {
 			isa = PBXGroup;
 			children = (
-				A751AA4D2523DA940063EEE6 /* AlertOption.swift */,
+				A7CD80C3252A74F600BAF8E0 /* AlertDateCellViewModel.swift */,
 				A7627B962523C5DF00637740 /* AlertViewModel.swift */,
 			);
 			path = Alert;
@@ -810,8 +815,7 @@
 		A7627B902523BF0400637740 /* Alert */ = {
 			isa = PBXGroup;
 			children = (
-				A758CEA8252531D900E35D76 /* AlertDataSource.swift */,
-				A758CEAC2525340D00E35D76 /* AlertOptionCell.swift */,
+				A79510B9252926F100D09E3B /* Cells */,
 				A75A475825250FA9006EC64A /* AlertTableView.swift */,
 				A7627B922523C16900637740 /* AlertViewController.swift */,
 			);
@@ -862,6 +866,16 @@
 				A75851ED252263E800239F68 /* ExpirationSection */,
 			);
 			path = Edit;
+			sourceTree = "<group>";
+		};
+		A79510B9252926F100D09E3B /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				A79510B6252926EE00D09E3B /* AlertCalendarCell.swift */,
+				A79510B3252926E700D09E3B /* AlertDateCell.swift */,
+				A758CEAC2525340D00E35D76 /* AlertOptionCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		A79B4A1E2479F6CD00ECE1B1 /* Mappers */ = {
@@ -1325,6 +1339,7 @@
 				A75043562506EB1600DFB4EB /* ItemUpdated.swift in Sources */,
 				A759430B24AFBF5A007A526B /* ListsViewModel.swift in Sources */,
 				A7547EE524C3B32000D82DE9 /* EmptySharingControllerFactory.swift in Sources */,
+				A79510B4252926E700D09E3B /* AlertDateCell.swift in Sources */,
 				A7A8EF73247C52E900FF1AC2 /* ItemNameTextView.swift in Sources */,
 				A783EE2624674ECD008BCC17 /* AdaptiveScrollView.swift in Sources */,
 				A7636A672490499F00166631 /* FileService.swift in Sources */,
@@ -1360,6 +1375,7 @@
 				A782FAD62475E83300C69737 /* CloudKitSubscriptionService.swift in Sources */,
 				A7E4C5FE25004E4900761601 /* MoveItemViewModelFactory.swift in Sources */,
 				A780F53B24F5B6F900BF2171 /* MoveItemDataSource.swift in Sources */,
+				A7CD80C0252A569B00BAF8E0 /* UIViewExtensions.swift in Sources */,
 				A71AE5CD24B916AD00996C27 /* EditListTextField.swift in Sources */,
 				A71B691E2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift in Sources */,
 				A7B2A4832469E58D00D9C0B1 /* RemoveExpirationDateButton.swift in Sources */,
@@ -1370,7 +1386,6 @@
 				A79B4A202479F6FA00ECE1B1 /* SubscriptionService.swift in Sources */,
 				A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */,
 				A731F89524BE439B007348A3 /* ListCell.swift in Sources */,
-				A7627B9B2523D0F500637740 /* AlertDate.swift in Sources */,
 				A75A475925250FA9006EC64A /* AlertTableView.swift in Sources */,
 				A7CFBBB8250982560026D338 /* ListUpdatedReceived.swift in Sources */,
 				A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */,
@@ -1391,7 +1406,6 @@
 				A7AD76E62463661100220A94 /* StateIndicatorLabel.swift in Sources */,
 				A74161412450D83B001ED316 /* UIAlertControllerExtensions.swift in Sources */,
 				A7B52E6B251939EC0047FFDC /* PhotoAddedReceived.swift in Sources */,
-				A758CEA9252531D900E35D76 /* AlertDataSource.swift in Sources */,
 				A75851EF2522640400239F68 /* EditExpirationSectionView.swift in Sources */,
 				A7D41C982517F69C00A78ADD /* PhotoRemovedReceived.swift in Sources */,
 				A7A7495124F309CC009D6F25 /* MoveItemViewController.swift in Sources */,
@@ -1405,6 +1419,7 @@
 				A75043582506F7CC00DFB4EB /* ItemMoved.swift in Sources */,
 				A7C1A0B3249FE9FE0054BBAF /* InMemoryPhotosRepository.swift in Sources */,
 				A7159B5F2500381C00BC3532 /* ListsViewControllerFactory.swift in Sources */,
+				A79510B7252926EE00D09E3B /* AlertCalendarCell.swift in Sources */,
 				A7DAD1C224F70B0D0004529D /* ArrayExtensions.swift in Sources */,
 				A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */,
 				A7D41CA12517FC0A00A78ADD /* PhotosUpdated.swift in Sources */,
@@ -1461,6 +1476,7 @@
 				A7A181AA249E9C5200B8E6EE /* PhotoToSave.swift in Sources */,
 				A700D6C92454D96800F16F2E /* ItemsFilterViewModel.swift in Sources */,
 				A7597EA92506E3DC00A53B7D /* ErrorOccured.swift in Sources */,
+				A7CD80C4252A74F600BAF8E0 /* AlertDateCellViewModel.swift in Sources */,
 				A72315AE244B0943008614B2 /* ValidationRules.swift in Sources */,
 				A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */,
 				A7CFBBB4250964FA0026D338 /* GeneralDependencyResolver.swift in Sources */,
@@ -1550,7 +1566,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1605,7 +1621,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1628,7 +1644,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ZeroWasteReminder/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1654,7 +1670,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = ZeroWasteReminder/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

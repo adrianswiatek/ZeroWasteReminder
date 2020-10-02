@@ -6,4 +6,10 @@ public extension DateFormatter {
         formatter.dateStyle = .full
         return formatter
     }
+
+    static var longDateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        return formatter
+    }
 }
