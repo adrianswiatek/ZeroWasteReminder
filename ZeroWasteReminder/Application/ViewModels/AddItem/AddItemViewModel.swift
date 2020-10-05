@@ -123,10 +123,11 @@ public final class AddItemViewModel {
         case let event as ItemAdded:
             photosRepository.update(photosViewModel.photosChangeset, for: event.item)
         case is PhotosUpdated:
-            isLoadingSubject.send(false)
             requestSubject.send(.dismiss)
         case let event as AlertSet:
             alertOption = event.option
+        case is NoResultOccured:
+            requestSubject.send(.dismiss)
         default:
             return
         }
@@ -142,7 +143,7 @@ public final class AddItemViewModel {
             name: name,
             notes: notes,
             expiration: expiration,
-            alertOption: .none,
+            alertOption: alertOption,
             listId: list.id
         )
     }

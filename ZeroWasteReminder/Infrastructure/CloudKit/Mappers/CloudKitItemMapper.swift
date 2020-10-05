@@ -2,11 +2,9 @@ import CloudKit
 
 internal final class CloudKitItemMapper {
     private let item: Item
-    private let fileService: FileService
 
-    internal init(_ item: Item, _ fileService: FileService) {
+    internal init(_ item: Item) {
         self.item = item
-        self.fileService = fileService
     }
 
     internal func toRecordIdInZone(_ zone: CKRecordZone) -> CKRecord.ID? {
@@ -24,6 +22,7 @@ internal final class CloudKitItemMapper {
         record[CloudKitKey.Item.notes] = item.notes
         record[CloudKitKey.Item.expiration] = expiration(from: item)
         record[CloudKitKey.Item.listReference] = listReference(for: listRecord)
+        record[CloudKitKey.Item.alertOption] = item.alertOption.asString
         return record
     }
 

@@ -21,7 +21,7 @@ public final class ExpirationDateViewModel {
 
     private var subscriptions: Set<AnyCancellable>
 
-    private static let dateFormatter: DateFormatter = .fullDateFormatter
+    private static let dateFormatter: DateFormatter = .fullDate
 
     public init(initialDate: Date) {
         date = initialDate

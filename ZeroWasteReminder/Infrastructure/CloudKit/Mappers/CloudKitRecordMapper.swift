@@ -2,11 +2,9 @@ import CloudKit
 
 internal final class CloudKitRecordMapper {
     private let record: CKRecord?
-    private let fileService: FileService
 
-    internal init(_ record: CKRecord?, _ fileService: FileService) {
+    internal init(_ record: CKRecord?) {
         self.record = record
-        self.fileService = fileService
     }
 
     internal func toFullSize() -> Photo? {
@@ -38,8 +36,8 @@ internal final class CloudKitRecordMapper {
             id: .fromString(record.recordID.recordName),
             name: name,
             notes: notes(from: record),
-            expiration: (record[CloudKitKey.Item.expiration] as? Date).map { .date($0) } ?? .none,
-            alertOption: .none,
+            expiration: expiration(from: record),
+            alertOption: alertOption(from: record),
             listId: listId
         )
     }
@@ -59,6 +57,7 @@ internal final class CloudKitRecordMapper {
         applyChange(to: record, key: CloudKitKey.Item.name, value: item.name)
         applyChange(to: record, key: CloudKitKey.Item.notes, value: item.notes)
         applyChange(to: record, key: CloudKitKey.Item.expiration, value: expiration(from: item))
+        applyChange(to: record, key: CloudKitKey.Item.alertOption, value: item.alertOption.asString)
         applyChange(to: record, key: CloudKitKey.Item.listReference, value: listReference(from: item, and: record))
 
         return self
@@ -70,6 +69,14 @@ internal final class CloudKitRecordMapper {
 
     private func notes(from record: CKRecord) -> String {
         record[CloudKitKey.Item.notes] as? String ?? ""
+    }
+
+    private func expiration(from record: CKRecord) -> Expiration {
+        (record[CloudKitKey.Item.expiration] as? Date).map { .date($0) } ?? .none
+    }
+
+    private func alertOption(from record: CKRecord) -> AlertOption {
+        (record[CloudKitKey.Item.alertOption] as? String).map { .fromString($0) } ?? .none
     }
 
     private func listReference(from item: Item, and record: CKRecord) -> CKRecord.Reference {

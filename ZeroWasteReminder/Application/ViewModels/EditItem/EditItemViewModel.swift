@@ -5,6 +5,7 @@ public final class EditItemViewModel {
     @Published public var name: String
     @Published public var notes: String
     @Published public var item: Item
+    @Published public private(set) var alertOption: AlertOption
 
     public let requestSubject: PassthroughSubject<Request, Never>
 
@@ -88,11 +89,12 @@ public final class EditItemViewModel {
         self.fileService = fileService
         self.statusNotifier = statusNotifier
         self.eventDispatcher = eventDispatcher
-        self.dateFormatter = .fullDateFormatter
+        self.dateFormatter = .fullDate
 
         self.name = ""
         self.notes = ""
         self.expirationDateSubject = .init(nil)
+        self.alertOption = item.alertOption
 
         self.requestSubject = .init()
         self.isLoadingSubject = .init()

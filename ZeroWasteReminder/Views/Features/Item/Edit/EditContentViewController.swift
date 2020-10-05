@@ -96,6 +96,10 @@ public final class EditContentViewController: UIViewController {
         viewModel.$notes
             .sink { [weak self] in self?.notesSectionView.setText($0) }
             .store(in: &subscriptions)
+
+        viewModel.$alertOption
+            .sink { [weak self] in self?.alertSectionView.setTitle($0.formatted) }
+            .store(in: &subscriptions)
     }
 }
 

@@ -51,7 +51,7 @@ public final class AlertDateCell: UITableViewCell {
 
     private func setupLabel(with date: Date?) {
         textLabel?.text = date.map {
-            DateFormatter.longDateFormatter.string(from: $0)
+            DateFormatter.longDate.string(from: $0)
         } ?? .localized(.date)
     }
 

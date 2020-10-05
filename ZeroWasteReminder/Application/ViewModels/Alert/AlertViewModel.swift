@@ -55,7 +55,7 @@ public final class AlertViewModel {
         case .calendar:
             break
         case .date where isCalendarShown:
-            selectOption(.customDate(dateCellViewModel.date))
+            dateCellViewModel.date.map { selectOption(.customDate($0)) }
         case .date:
             isCalendarShown = true
             dateCellViewModel.isCalendarShown = true
