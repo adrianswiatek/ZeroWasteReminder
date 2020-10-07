@@ -29,11 +29,14 @@ public final class NotificationScheduler {
     private func handleEvent(_ event: AppEvent) {
         switch event {
         case let event as ItemAdded:
-            whenAdded(.just(event.item))
+            guard event.item.alertOption != .none else { return }
+            update(.just(event.item))
         case let event as ItemsRemoved:
-            whenRemoved(event.items)
+            remove(event.items)
         case let event as ItemUpdated:
-            whenUpdated(.just(event.item))
+            event.item.alertOption != .none
+                ? update(.just(event.item))
+                : remove(.just(event.item))
         default:
             return
         }
@@ -43,18 +46,16 @@ public final class NotificationScheduler {
         }
     }
 
-    private func whenAdded(_ items: [Item]) {
-        items.forEach { requestForItem($0).map { userNotificationCenter.add($0) } }
+    private func update(_ items: [Item]) {
+        items.forEach {
+            requestForItem($0).map { userNotificationCenter.add($0) }
+        }
     }
 
-    private func whenRemoved(_ items: [Item]) {
+    private func remove(_ items: [Item]) {
         userNotificationCenter.removePendingNotificationRequests(
             withIdentifiers: items.map { $0.id.asString }
         )
-    }
-
-    private func whenUpdated(_ items: [Item]) {
-        items.forEach { requestForItem($0).map { userNotificationCenter.add($0) } }
     }
 
     private func requestForItem(_ item: Item) -> UNNotificationRequest? {
@@ -87,10 +88,28 @@ public final class NotificationScheduler {
     }
 
     private func calendarTriggerFromItem(_ item: Item) -> UNCalendarNotificationTrigger? {
-        item.expiration.date
-            .map { $0.addingDays(-1).settingTime(hour: 9) }
+        switch item.alertOption {
+        case .none:
+            return nil
+        case .onDayOfExpiration:
+            return calendarTriggerFromDate(item.expiration.date)
+        case .daysBefore(let days):
+            return calendarTriggerFromDate(item.expiration.date.map { $0.adding(-days, .day) })
+        case .weeksBefore(let weeks):
+            return calendarTriggerFromDate(item.expiration.date.map { $0.adding(-weeks * 7, .day) })
+        case .monthsBefore(let months):
+            return calendarTriggerFromDate(item.expiration.date.map { $0.adding(-months, .month) })
+        case .customDate(let date):
+            let date = date.settingTime(hour: 9)
+            let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour], from: date)
+            return .init(dateMatching: dateComponents, repeats: false)
+        }
+    }
+
+    private func calendarTriggerFromDate(_ date: Date?) -> UNCalendarNotificationTrigger? {
+        date.map { $0.settingTime(hour: 9) }
             .map { Date.later($0, Date()) }
             .map { Calendar.current.dateComponents([.year, .month, .day, .hour], from: $0) }
-            .map { UNCalendarNotificationTrigger(dateMatching: $0, repeats: false) }
+            .map { .init(dateMatching: $0, repeats: false) }
     }
 }

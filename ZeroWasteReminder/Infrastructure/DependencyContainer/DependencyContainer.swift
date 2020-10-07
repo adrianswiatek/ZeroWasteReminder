@@ -38,7 +38,7 @@ internal final class DependencyContainer {
         container.resolve(AccountService.self)!.refreshUserEligibility()
         container.resolve(SubscriptionService.self)!.registerSubscriptionsIfNeeded()
 //        container.resolve(EventDispatcherInterceptor.self)!.startIntercept()
-//        _ = container.resolve(NotificationScheduler.self)
+        _ = container.resolve(NotificationScheduler.self)
     }
 
     private func infrastructureDependencyResolver(

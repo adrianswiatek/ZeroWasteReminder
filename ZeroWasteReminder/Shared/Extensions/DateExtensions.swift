@@ -20,8 +20,8 @@ public extension Date {
         first.compare(second) == .orderedDescending ? first : second
     }
 
-    func addingDays(_ numberOfDays: Int) -> Date {
-        Calendar.current.date(byAdding: .day, value: numberOfDays, to: self) ?? self
+    func adding(_ value: Int, _ component: Calendar.Component) -> Date {
+        Calendar.current.date(byAdding: component, value: value, to: self) ?? self
     }
 
     func settingTime(hour: Int, minute: Int = 0, second: Int = 0) -> Date {
