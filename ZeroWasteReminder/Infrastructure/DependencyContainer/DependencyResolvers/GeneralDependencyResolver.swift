@@ -19,7 +19,8 @@ public final class GeneralDependencyResolver: DependencyResolver {
         container.register(EditCoordinator.self) { resolver in
             EditCoordinator(
                 imagePickerFactory: resolver.resolve(ImagePickerControllerFactory.self)!,
-                moveItemViewModelFactory: resolver.resolve(MoveItemViewModelFactory.self)!
+                moveItemViewModelFactory: resolver.resolve(MoveItemViewModelFactory.self)!,
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }
 

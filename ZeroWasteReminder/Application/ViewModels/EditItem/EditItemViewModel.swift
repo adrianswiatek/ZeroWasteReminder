@@ -47,9 +47,9 @@ public final class EditItemViewModel {
     public let photosViewModel: PhotosViewModel
 
     private var itemHasChanged: AnyPublisher<Bool, Never> {
-        Publishers.CombineLatest3($name, $notes, expirationDateSubject)
-            .map { [weak self] in (self?.item, $0, $1, $2) }
-            .map { !$1.isEmpty && $0 != $0?.withName($1).withNotes($2).withExpirationDate($3) }
+        Publishers.CombineLatest4($name, $notes, expirationDateSubject, $alertOption)
+            .map { [weak self] in (self?.item, $0, $1, $2, $3) }
+            .map { !$1.isEmpty && $0 != $0?.withName($1).withNotes($2).withExpirationDate($3).withAlertOption($4) }
             .eraseToAnyPublisher()
     }
 
@@ -166,6 +166,8 @@ public final class EditItemViewModel {
             photosViewModel.fetchThumbnailIfNeeded(with: event.photoId)
         case let event as PhotoRemovedReceived where event.itemId == item.id:
             photosViewModel.removeThumbnailLocally(with: event.photoId)
+        case let event as AlertSet:
+            alertOption = event.option
         case is NoResultOccured:
             requestSubject.send(.dismiss)
         default:
@@ -186,6 +188,7 @@ public final class EditItemViewModel {
     private func updateItem(with item: Item) {
         name = item.name
         notes = item.notes
+        alertOption = item.alertOption
 
         if case .date(let date) = item.expiration {
             expirationDateSubject.send(date)
@@ -201,7 +204,12 @@ public final class EditItemViewModel {
 
     private func tryCreateItem(_ name: String, _ notes: String, _ expirationDate: Date?) -> Item? {
         guard !name.isEmpty else { return nil }
-        return item.withName(name).withNotes(notes).withExpirationDate(expirationDate)
+
+        return item
+            .withName(name)
+            .withNotes(notes)
+            .withExpirationDate(expirationDate)
+            .withAlertOption(alertOption)
     }
 }
 
@@ -210,5 +218,6 @@ public extension EditItemViewModel {
         case dismiss
         case moveCurrentItem
         case removeCurrentItem
+        case setAlert
     }
 }

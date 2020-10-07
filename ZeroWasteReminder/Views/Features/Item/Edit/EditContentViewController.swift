@@ -85,6 +85,10 @@ public final class EditContentViewController: UIViewController {
             .assign(to: \.name, on: viewModel)
             .store(in: &subscriptions)
 
+        alertSectionView.tap
+            .sink { [weak self] in self?.viewModel.requestSubject.send(.setAlert) }
+            .store(in: &subscriptions)
+
         notesSectionView.notes
             .assign(to: \.notes, on: viewModel)
             .store(in: &subscriptions)

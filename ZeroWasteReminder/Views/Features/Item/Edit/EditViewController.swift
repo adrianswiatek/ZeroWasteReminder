@@ -124,6 +124,8 @@ public final class EditViewController: UIViewController {
             coordinator.navigateToMoveItem(with: viewModel.item, in: self)
         case .removeCurrentItem:
             handleRemoveButtonTap()
+        case .setAlert:
+            coordinator.navigateToAlert(withOption: viewModel.alertOption, in: self)
         }
     }
 

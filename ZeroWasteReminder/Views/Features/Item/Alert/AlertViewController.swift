@@ -57,6 +57,6 @@ public final class AlertViewController: UIViewController {
 
     @objc
     private func handleDismiss() {
-        navigationController?.popToRootViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 }
