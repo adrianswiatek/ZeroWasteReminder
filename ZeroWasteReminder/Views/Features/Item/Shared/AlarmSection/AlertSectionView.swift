@@ -23,7 +23,7 @@ public final class AlertSectionView: UIView {
     }
 
     public func setTitle(_ title: String) {
-        button.setTitle(title, for: .normal)
+        button.setText(title)
     }
 
     private func setupView() {

@@ -12,7 +12,7 @@ public final class AlertOptionCell: UITableViewCell {
     }
 
     public func set(_ alertOption: AlertOption) {
-        textLabel?.text = alertOption.formatted
+        textLabel?.text = alertOption.formatted(.longDate)
     }
 
     public override func setSelected(_ selected: Bool, animated: Bool) {

@@ -77,7 +77,7 @@ public final class AddContentViewController: UIViewController {
             .store(in: &subscriptions)
 
         viewModel.$alertOption
-            .sink { [weak self] in self?.alertSectionView.setTitle($0.formatted) }
+            .sink { [weak self] in self?.alertSectionView.setTitle($0.formatted(.fullDate)) }
             .store(in: &subscriptions)
     }
 }

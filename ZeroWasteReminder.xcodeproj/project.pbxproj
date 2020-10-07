@@ -82,6 +82,7 @@
 		A7547EDB24C3AF5100D82DE9 /* AlwaysEligibleAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EDA24C3AF5000D82DE9 /* AlwaysEligibleAccountService.swift */; };
 		A7547EE524C3B32000D82DE9 /* EmptySharingControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EE424C3B32000D82DE9 /* EmptySharingControllerFactory.swift */; };
 		A7547EE724C3B4BA00D82DE9 /* EmptySubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EE624C3B4BA00D82DE9 /* EmptySubscriptionService.swift */; };
+		A7560A6B252E763D007A6861 /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7560A6A252E763D007A6861 /* NotificationScheduler.swift */; };
 		A7576897250EC32300F97388 /* ItemAddedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7576896250EC32300F97388 /* ItemAddedReceived.swift */; };
 		A7576899250EC3EA00F97388 /* ItemRemovedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7576898250EC3EA00F97388 /* ItemRemovedReceived.swift */; };
 		A757689B250EC42600F97388 /* ItemUpdatedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757689A250EC42600F97388 /* ItemUpdatedReceived.swift */; };
@@ -156,7 +157,6 @@
 		A7B2E50B24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2E50A24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift */; };
 		A7B3BFD624F46C1C00B7F15B /* ItemToSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B3BFD524F46C1C00B7F15B /* ItemToSave.swift */; };
 		A7B52E6B251939EC0047FFDC /* PhotoAddedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B52E6A251939EC0047FFDC /* PhotoAddedReceived.swift */; };
-		A7BCD12C251AA64300A81A6D /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BCD12B251AA64300A81A6D /* NotificationScheduler.swift */; };
 		A7BDE68324B5082B003215C0 /* ListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDE68224B5082B003215C0 /* ListsViewController.swift */; };
 		A7BDE68524B5095A003215C0 /* ListsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDE68424B5095A003215C0 /* ListsDataSource.swift */; };
 		A7BDE68724B50B73003215C0 /* ListsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDE68624B50B73003215C0 /* ListsTableView.swift */; };
@@ -296,6 +296,7 @@
 		A7547EDA24C3AF5000D82DE9 /* AlwaysEligibleAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlwaysEligibleAccountService.swift; sourceTree = "<group>"; };
 		A7547EE424C3B32000D82DE9 /* EmptySharingControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySharingControllerFactory.swift; sourceTree = "<group>"; };
 		A7547EE624C3B4BA00D82DE9 /* EmptySubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySubscriptionService.swift; sourceTree = "<group>"; };
+		A7560A6A252E763D007A6861 /* NotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduler.swift; sourceTree = "<group>"; };
 		A7576896250EC32300F97388 /* ItemAddedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAddedReceived.swift; sourceTree = "<group>"; };
 		A7576898250EC3EA00F97388 /* ItemRemovedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRemovedReceived.swift; sourceTree = "<group>"; };
 		A757689A250EC42600F97388 /* ItemUpdatedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemUpdatedReceived.swift; sourceTree = "<group>"; };
@@ -370,7 +371,6 @@
 		A7B2E50A24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImagePickerController.SourceTypeExtensions.swift; sourceTree = "<group>"; };
 		A7B3BFD524F46C1C00B7F15B /* ItemToSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToSave.swift; sourceTree = "<group>"; };
 		A7B52E6A251939EC0047FFDC /* PhotoAddedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAddedReceived.swift; sourceTree = "<group>"; };
-		A7BCD12B251AA64300A81A6D /* NotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduler.swift; sourceTree = "<group>"; };
 		A7BDE68224B5082B003215C0 /* ListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsViewController.swift; sourceTree = "<group>"; };
 		A7BDE68424B5095A003215C0 /* ListsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsDataSource.swift; sourceTree = "<group>"; };
 		A7BDE68624B50B73003215C0 /* ListsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsTableView.swift; sourceTree = "<group>"; };
@@ -1128,7 +1128,7 @@
 				A782FAD52475E83300C69737 /* CloudKitSubscriptionService.swift */,
 				A7FCD91825082F8A00F001C7 /* ConsoleEventBusInterceptor.swift */,
 				A7636A662490499F00166631 /* FileService.swift */,
-				A7BCD12B251AA64300A81A6D /* NotificationScheduler.swift */,
+				A7560A6A252E763D007A6861 /* NotificationScheduler.swift */,
 				A74D163F249C2ED500FEB5CD /* RemoteStatusNotifier.swift */,
 			);
 			path = Services;
@@ -1363,6 +1363,7 @@
 				A7CFBBB6250969A80026D338 /* DependencyResolverComposite.swift in Sources */,
 				A7A8EF77247C7DF900FF1AC2 /* SharedTextViewDelegate.swift in Sources */,
 				A78172AE2494D05200F406EC /* CloudKitItemMapper.swift in Sources */,
+				A7560A6B252E763D007A6861 /* NotificationScheduler.swift in Sources */,
 				A7E317992496EBB8006B9610 /* PhotosChangeset.swift in Sources */,
 				A7E4C5FC25004D9800761601 /* ItemsViewModelFactory.swift in Sources */,
 				A7F82BAC2458CBA800970CFC /* FilteringModeState.swift in Sources */,
@@ -1465,7 +1466,6 @@
 				A700D6C72454C6FE00F16F2E /* ItemsFilterCollectionViewCell.swift in Sources */,
 				A7DD996C248462C500B40141 /* PhotoCaptureCell.swift in Sources */,
 				A7F16D24244AFF2000ED2402 /* ExpirationPeriodViewModel.swift in Sources */,
-				A7BCD12C251AA64300A81A6D /* NotificationScheduler.swift in Sources */,
 				A7597E9A2506D6F700A53B7D /* EventDispatcher.swift in Sources */,
 				A7597E9D2506E35A00A53B7D /* NoResultOccured.swift in Sources */,
 				A77A99CD245A118200F3578C /* UIBarButtonItemExtensions.swift in Sources */,

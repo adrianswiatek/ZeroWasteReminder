@@ -22,6 +22,10 @@ public final class AlertButton: UIButton {
         return imageView
     }()
 
+    private let titleAttributes: [NSAttributedString.Key: Any] = {
+        [.font: UIFont.systemFont(ofSize: 14, weight: .light)]
+    }()
+
     private let tapSubject: PassthroughSubject<Void, Never>
 
     public override init(frame: CGRect) {
@@ -38,15 +42,18 @@ public final class AlertButton: UIButton {
         fatalError("Not supported.")
     }
 
+    public func setText(_ text: String) {
+        setAttributedTitle(.init(string: text, attributes: titleAttributes), for: .normal)
+    }
+
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .tertiarySystemFill
 
         layer.cornerRadius = Metrics.cornerRadius
 
-        setTitle(.localized(.none), for: .normal)
         setTitleColor(.label, for: .normal)
-        titleLabel?.font = .systemFont(ofSize: 14, weight: .light)
+        setAttributedTitle(.init(string: .localized(.none), attributes: titleAttributes), for: .normal)
 
         contentHorizontalAlignment = .leading
         contentEdgeInsets = .init(top: 0, left: Metrics.padding, bottom: 0, right: 0)

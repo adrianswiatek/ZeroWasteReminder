@@ -8,7 +8,7 @@ public enum AlertOption: Hashable {
     case monthsBefore(_ months: Int)
     case customDate(_ date: Date)
 
-    var formatted: String {
+    public func formatted(_ dateFormatter: DateFormatter) -> String {
         switch self {
         case .none:
             return .localized(.none)
@@ -21,7 +21,7 @@ public enum AlertOption: Hashable {
         case .monthsBefore(let months):
             return "\(months) \(months == 1 ? "month" : "months") before"
         case .customDate(let date):
-            return DateFormatter.longDate.string(from: date)
+            return dateFormatter.string(from: date)
         }
     }
 }
