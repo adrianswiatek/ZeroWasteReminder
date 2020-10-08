@@ -8,6 +8,6 @@ public struct AlertSet: AppEvent {
 
 extension AlertSet {
     public var description: String {
-        "\(name)(option: \(option.formatted))"
+        "\(name)(option: \(option.formatted(.longDate)))"
     }
 }

@@ -1,58 +1,20 @@
 import Combine
 import UserNotifications
 
-public final class NotificationScheduler {
-    private let eventDispatcher: EventDispatcher
+public final class UserNotificationScheduler: NotificationScheduler {
     private let userNotificationCenter: UNUserNotificationCenter
-    private var subscriptions: Set<AnyCancellable>
 
-    public init(
-        eventDispatcher: EventDispatcher,
-        userNotificationCenter: UNUserNotificationCenter
-    ) {
-        self.eventDispatcher = eventDispatcher
+    public init(userNotificationCenter: UNUserNotificationCenter) {
         self.userNotificationCenter = userNotificationCenter
-        self.subscriptions = []
-        self.bind()
-
-        self.userNotificationCenter.getPendingNotificationRequests {
-            print($0.map { "\($0.identifier), \(($0.trigger as? UNCalendarNotificationTrigger).map { $0.dateComponents }!)" })
-        }
     }
 
-    private func bind() {
-        eventDispatcher.events
-            .sink { [weak self] in self?.handleEvent($0) }
-            .store(in: &subscriptions)
-    }
-
-    private func handleEvent(_ event: AppEvent) {
-        switch event {
-        case let event as ItemAdded:
-            guard event.item.alertOption != .none else { return }
-            update(.just(event.item))
-        case let event as ItemsRemoved:
-            remove(event.items)
-        case let event as ItemUpdated:
-            event.item.alertOption != .none
-                ? update(.just(event.item))
-                : remove(.just(event.item))
-        default:
-            return
-        }
-
-        userNotificationCenter.getPendingNotificationRequests {
-            print($0.map { "\($0.identifier), \(($0.trigger as? UNCalendarNotificationTrigger).map { $0.dateComponents }!)" })
-        }
-    }
-
-    private func update(_ items: [Item]) {
+    public func scheduleNotification(for items: [Item]) {
         items.forEach {
             requestForItem($0).map { userNotificationCenter.add($0) }
         }
     }
 
-    private func remove(_ items: [Item]) {
+    public func removeScheduledNotifications(for items: [Item]) {
         userNotificationCenter.removePendingNotificationRequests(
             withIdentifiers: items.map { $0.id.asString }
         )
@@ -76,7 +38,7 @@ public final class NotificationScheduler {
 
     private func contentForItem(_ item: Item) -> UNNotificationContent {
         let content = UNMutableNotificationContent()
-        content.body = "\(item.name) will expire soon"
+        content.body = "\(item.name) will expire \(item.expiration.date!)"
         return content
     }
 

@@ -4,9 +4,11 @@ import Swinject
 internal final class DependencyContainer {
     private let container: Container
     private var resolver: DependencyResolver!
+    private var listeners: [Any]
 
     internal init(configuration: Configuration) {
         container = Container()
+        listeners = []
 
         resolver = DependencyResolverComposite([
             GeneralDependencyResolver(container),
@@ -20,6 +22,8 @@ internal final class DependencyContainer {
         resolver.registerServices()
         resolver.registerViewControllerFactories()
         resolver.registerViewModelFactories()
+
+        attachListeners()
     }
 
     internal var rootViewController: UIViewController {
@@ -37,8 +41,6 @@ internal final class DependencyContainer {
     internal func startBackgroundServices() {
         container.resolve(AccountService.self)!.refreshUserEligibility()
         container.resolve(SubscriptionService.self)!.registerSubscriptionsIfNeeded()
-//        container.resolve(EventDispatcherInterceptor.self)!.startIntercept()
-        _ = container.resolve(NotificationScheduler.self)
     }
 
     private func infrastructureDependencyResolver(
@@ -50,6 +52,12 @@ internal final class DependencyContainer {
         case .inMemory:
             return InMemoryDependencyResolver(container)
         }
+    }
+
+    private func attachListeners() {
+        listeners.append(container.resolve(EventDispatcherInterceptor.self)!)
+        listeners.append(container.resolve(ScheduleNotification.self)!)
+        listeners.append(container.resolve(UpdateListsDate.self)!)
     }
 }
 

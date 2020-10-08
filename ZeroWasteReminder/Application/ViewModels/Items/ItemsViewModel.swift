@@ -31,7 +31,7 @@ public final class ItemsViewModel {
 
     private let itemsRepository: ItemsRepository
     private let statusNotifier: StatusNotifier
-    private let itemsChangeListener: ItemsChangeListener
+    private let updateListsDate: UpdateListsDate
     private let eventDispatcher: EventDispatcher
 
     private var subscriptions: Set<AnyCancellable>
@@ -40,14 +40,14 @@ public final class ItemsViewModel {
         list: List,
         itemsRepository: ItemsRepository,
         statusNotifier: StatusNotifier,
-        itemsChangeListener: ItemsChangeListener,
+        updateListsDate: UpdateListsDate,
         eventDispatcher: EventDispatcher
     ) {
         self.list = list
 
         self.itemsRepository = itemsRepository
         self.statusNotifier = statusNotifier
-        self.itemsChangeListener = itemsChangeListener
+        self.updateListsDate = updateListsDate
         self.eventDispatcher = eventDispatcher
 
         self.itemsFilterViewModel = .init()
@@ -65,12 +65,12 @@ public final class ItemsViewModel {
 
         self.subscriptions = []
 
-        self.itemsChangeListener.listen(in: list)
+        self.updateListsDate.listen(in: list)
         self.bind()
     }
 
     deinit {
-        itemsChangeListener.stopListening()
+        updateListsDate.stopListening()
     }
 
     public func cellViewModel(for item: Item) -> ItemsCellViewModel {

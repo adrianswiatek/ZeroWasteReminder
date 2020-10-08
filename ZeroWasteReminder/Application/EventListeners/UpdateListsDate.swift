@@ -1,13 +1,16 @@
 import Combine
 import Foundation
 
-public final class ItemsChangeListener {
+public final class UpdateListsDate {
     private let listsRepository: ListsRepository
     private let eventDispatcher: EventDispatcher
 
     private var subscription: AnyCancellable?
 
-    public init(_ listsRepository: ListsRepository, _ eventDispatcher: EventDispatcher) {
+    public init(
+        _ listsRepository: ListsRepository,
+        _ eventDispatcher: EventDispatcher
+    ) {
         self.listsRepository = listsRepository
         self.eventDispatcher = eventDispatcher
     }
@@ -33,8 +36,6 @@ public final class ItemsChangeListener {
     }
 
     private func update(_ lists: List...) {
-        listsRepository.update(lists.map {
-            $0.withUpdateDate(Date())
-        })
+        listsRepository.update(lists.map { $0.withUpdateDate(Date()) })
     }
 }

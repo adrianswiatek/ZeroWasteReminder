@@ -44,19 +44,19 @@ public final class GeneralDependencyResolver: DependencyResolver {
     }
 
     public func registerEventListeners() {
-        container.register(ItemsChangeListener.self) { resolver in
-            ItemsChangeListener(
+        container.register(UpdateListsDate.self) { resolver in
+            UpdateListsDate(
                 resolver.resolve(ListsRepository.self)!,
                 resolver.resolve(EventDispatcher.self)!
             )
-        }.inObjectScope(.container)
+        }
 
-        container.register(NotificationScheduler.self) { resolver in
-            NotificationScheduler(
-                eventDispatcher: resolver.resolve(EventDispatcher.self)!,
-                userNotificationCenter: resolver.resolve(UNUserNotificationCenter.self)!
+        container.register(ScheduleNotification.self) { resolver in
+            ScheduleNotification(
+                resolver.resolve(NotificationScheduler.self)!,
+                resolver.resolve(EventDispatcher.self)!
             )
-        }.inObjectScope(.container)
+        }
     }
 
     public func registerOtherObjects() {
@@ -73,11 +73,22 @@ public final class GeneralDependencyResolver: DependencyResolver {
         }.inObjectScope(.container)
 
         container.register(EventDispatcherInterceptor.self) { resolver in
-            ConsoleEventDispatcherInterceptor(resolver.resolve(EventDispatcher.self)!)
-        }.inObjectScope(.container)
+            ConsoleEventDispatcherInterceptor(eventDispatcher: resolver.resolve(EventDispatcher.self)!)
+        }
 
         container.register(RemoteNotificationHandler.self) { resolver in
             RemoteNotificationHandler(eventDispatcher: resolver.resolve(EventDispatcher.self)!)
+        }
+
+        container.register(UserNotificationScheduler.self) { resolver in
+            UserNotificationScheduler(userNotificationCenter: resolver.resolve(UNUserNotificationCenter.self)!)
+        }
+
+        container.register(NotificationScheduler.self) { resolver in
+            ConsoleNotificationSchedulerInterceptor(
+                notificationScheduler: resolver.resolve(UserNotificationScheduler.self)!,
+                userNotificationCenter: resolver.resolve(UNUserNotificationCenter.self)!
+            )
         }
 
         container.register(StatusNotifier.self) { resolver in
@@ -132,7 +143,7 @@ public final class GeneralDependencyResolver: DependencyResolver {
             ItemsViewModelFactory(
                 itemsRepository: resolver.resolve(ItemsRepository.self)!,
                 statusNotifier: resolver.resolve(StatusNotifier.self)!,
-                itemsChangeListener: resolver.resolve(ItemsChangeListener.self)!,
+                updateListsDate: resolver.resolve(UpdateListsDate.self)!,
                 eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }

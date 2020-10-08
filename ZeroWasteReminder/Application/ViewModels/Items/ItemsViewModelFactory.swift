@@ -1,18 +1,18 @@
 public final class ItemsViewModelFactory {
     private let itemsRepository: ItemsRepository
     private let statusNotifier: StatusNotifier
-    private let itemsChangeListener: ItemsChangeListener
+    private let updateListsDate: UpdateListsDate
     private let eventDispatcher: EventDispatcher
 
     public init(
         itemsRepository: ItemsRepository,
         statusNotifier: StatusNotifier,
-        itemsChangeListener: ItemsChangeListener,
+        updateListsDate: UpdateListsDate,
         eventDispatcher: EventDispatcher
     ) {
         self.itemsRepository = itemsRepository
         self.statusNotifier = statusNotifier
-        self.itemsChangeListener = itemsChangeListener
+        self.updateListsDate = updateListsDate
         self.eventDispatcher = eventDispatcher
     }
 
@@ -21,7 +21,7 @@ public final class ItemsViewModelFactory {
             list: list,
             itemsRepository: itemsRepository,
             statusNotifier: statusNotifier,
-            itemsChangeListener: itemsChangeListener,
+            updateListsDate: updateListsDate,
             eventDispatcher: eventDispatcher
         )
     }
