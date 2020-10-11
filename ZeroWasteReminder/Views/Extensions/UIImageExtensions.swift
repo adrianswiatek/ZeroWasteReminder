@@ -13,6 +13,7 @@ public extension UIImage {
     }
 
     enum Symbol: String {
+        case alarm = "alarm"
         case arrowDownCircle = "arrow.down.circle"
         case arrowRightArrowLeft = "arrow.right.arrow.left"
         case arrowUpCircle = "arrow.up.circle"
