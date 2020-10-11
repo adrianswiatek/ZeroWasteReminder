@@ -23,6 +23,10 @@ public final class EditItemViewModel {
         isExpirationDateVisibleSubject.eraseToAnyPublisher()
     }
 
+    public var isAlertSectionVisible: AnyPublisher<Bool, Never> {
+        expirationDateSubject.map { $0?.isInTheFuture() ?? false }.eraseToAnyPublisher()
+    }
+
     public var isRemoveDateButtonEnabled: AnyPublisher<Bool, Never> {
         expirationDateSubject.map { $0 != nil }.eraseToAnyPublisher()
     }
@@ -117,7 +121,7 @@ public final class EditItemViewModel {
     }
 
     public func saveItem() {
-        guard let item = tryCreateItem(name, notes, expirationDateSubject.value) else {
+        guard let item = tryCreateItem(name, notes, expirationDateSubject.value, alertOption) else {
             preconditionFailure("Unable to create an item.")
         }
 
@@ -202,9 +206,14 @@ public final class EditItemViewModel {
         return dateFormatter.string(from: date)
     }
 
-    private func tryCreateItem(_ name: String, _ notes: String, _ expirationDate: Date?) -> Item? {
+    private func tryCreateItem(
+        _ name: String,
+        _ notes: String,
+        _ expirationDate: Date?,
+        _ alertOption: AlertOption
+    ) -> Item? {
         guard !name.isEmpty else { return nil }
-
+        
         return item
             .withName(name)
             .withNotes(notes)

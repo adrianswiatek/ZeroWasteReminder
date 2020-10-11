@@ -39,6 +39,13 @@ public final class AddItemViewModel {
         expirationTypeIndex == ExpirationType.period.index
     }
 
+    public var isAlertSectionVisible: AnyPublisher<Bool, Never> {
+        $expirationTypeIndex
+            .map { ExpirationType.fromIndex($0) }
+            .map { $0 == .date || $0 == .period }
+            .eraseToAnyPublisher()
+    }
+
     public var canRemotelyConnect: AnyPublisher<Bool, Never> {
         statusNotifier.remoteStatus.map { $0 == .connected }.eraseToAnyPublisher()
     }
@@ -138,14 +145,10 @@ public final class AddItemViewModel {
             return nil
         }
 
-        return Item(
-            id: itemsRepository.nextId(),
-            name: name,
-            notes: notes,
-            expiration: expiration,
-            alertOption: alertOption,
-            listId: list.id
-        )
+        return Item(id: itemsRepository.nextId(), name: name, listId: list.id)
+            .withNotes(notes)
+            .withExpiration(expiration)
+            .withAlertOption(alertOption)
     }
 
     private func expiration() -> Expiration? {

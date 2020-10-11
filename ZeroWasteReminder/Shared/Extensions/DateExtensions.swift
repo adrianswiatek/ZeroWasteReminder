@@ -31,4 +31,14 @@ public extension Date {
         let result = calendar.date(bySettingHour: hour, minute: minute, second: second, of: self)
         return result ?? self
     }
+
+    func isInTheFuture() -> Bool {
+        let calendar = Calendar(identifier: .gregorian)
+        return calendar.compare(self, to: Date(), toGranularity: .day) == .orderedDescending
+    }
+
+    func isInThePast() -> Bool {
+        let calendar = Calendar(identifier: .gregorian)
+        return calendar.compare(self, to: Date(), toGranularity: .day) == .orderedDescending
+    }
 }

@@ -26,6 +26,23 @@ public final class AlertSectionView: UIView {
         button.setText(title)
     }
 
+    public func setVisibility(_ isVisible: Bool) {
+        if let superview = superview {
+            UIView.transition(
+                with: superview,
+                duration: Duration.visibility,
+                options: .transitionCrossDissolve,
+                animations: { self.isHidden = !isVisible }
+            )
+            UIView.animate(
+                withDuration: Duration.visibility,
+                animations: { self.alpha = isVisible ? 1 : 0 }
+            )
+        } else {
+            isHidden = !isVisible
+        }
+    }
+
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
 
@@ -50,5 +67,9 @@ public final class AlertSectionView: UIView {
 private extension AlertSectionView {
     enum Metrics {
         static let spacing: CGFloat = 8
+    }
+
+    enum Duration {
+        static let visibility: Double = 0.3
     }
 }

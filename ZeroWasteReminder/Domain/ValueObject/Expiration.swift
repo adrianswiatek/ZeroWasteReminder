@@ -10,6 +10,10 @@ public enum Expiration: Hashable {
         }
         return date
     }
+
+    public static func fromDate(_ date: Date?) -> Expiration {
+        date.map { .date($0) } ?? .none
+    }
 }
 
 extension Expiration: Equatable {

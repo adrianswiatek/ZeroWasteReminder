@@ -22,6 +22,7 @@ public final class UserNotificationScheduler: NotificationScheduler {
 
     private func requestForItem(_ item: Item) -> UNNotificationRequest? {
         guard canCreateRequestForItem(item) else {
+            removeScheduledNotifications(for: .just(item))
             return nil
         }
 
@@ -33,7 +34,7 @@ public final class UserNotificationScheduler: NotificationScheduler {
     }
 
     private func canCreateRequestForItem(_ item: Item) -> Bool {
-        item.expiration.date != nil
+        item.expiration.date.flatMap { item.alertOption.calculateDate(from: $0)?.isInTheFuture() } ?? false
     }
 
     private func contentForItem(_ item: Item) -> UNNotificationContent {
@@ -50,20 +51,8 @@ public final class UserNotificationScheduler: NotificationScheduler {
     }
 
     private func calendarTriggerFromItem(_ item: Item) -> UNCalendarNotificationTrigger? {
-        switch item.alertOption {
-        case .none:
-            return nil
-        case .onDayOfExpiration:
-            return calendarTriggerFromDate(item.expiration.date)
-        case .daysBefore(let days):
-            return calendarTriggerFromDate(item.expiration.date.map { $0.adding(-days, .day) })
-        case .weeksBefore(let weeks):
-            return calendarTriggerFromDate(item.expiration.date.map { $0.adding(-weeks * 7, .day) })
-        case .monthsBefore(let months):
-            return calendarTriggerFromDate(item.expiration.date.map { $0.adding(-months, .month) })
-        case .customDate(let date):
-            return calendarTriggerFromDate(date)
-        }
+        guard let expirationDate = item.expiration.date else { return nil }
+        return calendarTriggerFromDate(item.alertOption.calculateDate(from: expirationDate))
     }
 
     private func calendarTriggerFromDate(_ date: Date?) -> UNCalendarNotificationTrigger? {

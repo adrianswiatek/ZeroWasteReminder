@@ -24,6 +24,19 @@ public enum AlertOption: Hashable {
             return dateFormatter.string(from: date)
         }
     }
+
+    func calculateDate(from otherDate: Date) -> Date? {
+        let otherDate = otherDate.settingTime(hour: 9)
+
+        switch self {
+        case .none: return nil
+        case .onDayOfExpiration: return otherDate
+        case .daysBefore(let days): return otherDate.adding(-days, .day)
+        case .weeksBefore(let weeks): return otherDate.adding(-weeks * 7, .day)
+        case .monthsBefore(let months): return otherDate.adding(-months, .month)
+        case .customDate(let date): return date.settingTime(hour: 9)
+        }
+    }
 }
 
 extension AlertOption {

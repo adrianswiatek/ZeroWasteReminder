@@ -32,14 +32,10 @@ internal final class CloudKitRecordMapper {
             let listId = listId(from: record)
         else { return nil }
 
-        return Item(
-            id: .fromString(record.recordID.recordName),
-            name: name,
-            notes: notes(from: record),
-            expiration: expiration(from: record),
-            alertOption: alertOption(from: record),
-            listId: listId
-        )
+        return Item(id: .fromString(record.recordID.recordName), name: name, listId: listId)
+            .withNotes(notes(from: record))
+            .withExpiration(expiration(from: record))
+            .withAlertOption(alertOption(from: record))
     }
 
     internal func updatedBy(_ list: List?) -> CloudKitRecordMapper {

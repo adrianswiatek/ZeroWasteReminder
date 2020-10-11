@@ -53,6 +53,7 @@ public final class AddContentViewController: UIViewController {
     private func setupView() {
         view.translatesAutoresizingMaskIntoConstraints = false
         itemNameSectionView.becomeFirstResponder()
+        alertSectionView.isHidden = true
 
         view.addSubview(stackView)
         NSLayoutConstraint.activate([
@@ -74,6 +75,11 @@ public final class AddContentViewController: UIViewController {
 
         alertSectionView.tap
             .sink { [weak self] in self?.viewModel.requestSubject.send(.setAlert) }
+            .store(in: &subscriptions)
+
+        viewModel.isAlertSectionVisible
+            .removeDuplicates()
+            .sink { [weak self] in self?.alertSectionView.setVisibility($0) }
             .store(in: &subscriptions)
 
         viewModel.$alertOption
