@@ -30,9 +30,11 @@ public final class ScheduleItemNotification {
         case let event as ItemUpdated:
             event.item.alertOption != .none
                 ? scheduleNotification(for: event.item)
-                : removeSchedulerNotification(for: .just(event.item))
+                : removeScheduledNotification(for: .just(event.item))
         case let event as ItemsRemoved:
-            removeSchedulerNotification(for: event.items)
+            removeScheduledNotification(for: event.items)
+        case let event as ListRemoved:
+            removeScheduledNotificationForItems(in: event.list)
         default:
             break
         }
@@ -42,7 +44,11 @@ public final class ScheduleItemNotification {
         notificationScheduler.scheduleNotification(for: .just(item))
     }
 
-    private func removeSchedulerNotification(for items: [Item]) {
+    private func removeScheduledNotification(for items: [Item]) {
         notificationScheduler.removeScheduledNotifications(for: items)
+    }
+
+    private func removeScheduledNotificationForItems(in list: List) {
+        notificationScheduler.removeScheduledNotificationsForItems(in: list)
     }
 }

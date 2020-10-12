@@ -81,7 +81,7 @@ public final class GeneralDependencyResolver: DependencyResolver {
         }
 
         container.register(ItemNotificationIdentifierProvider.self) { _ in
-            MixedItemNotificationIdentifierProvider()
+            ShortItemNotificationIdentifierProvider()
         }
 
         container.register(ItemNotificationRequestFactory.self) { resolver in

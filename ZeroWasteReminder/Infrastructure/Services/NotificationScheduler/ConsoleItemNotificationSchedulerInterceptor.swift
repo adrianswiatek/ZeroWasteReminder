@@ -24,6 +24,14 @@ public final class ConsoleItemNotificationSchedulerInterceptor: ItemNotification
         logPendingNotifications()
     }
 
+    public func removeScheduledNotificationsForItems(in list: List) {
+        notificationScheduler.removeScheduledNotificationsForItems(in: list)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
+            self.logPendingNotifications()
+        }
+    }
+
     private func logPendingNotifications() {
         userNotificationCenter.getPendingNotificationRequests { [weak self] in
             guard let stringifiedRequests = self?.stringifyRequests($0) else {
