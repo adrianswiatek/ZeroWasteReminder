@@ -51,9 +51,9 @@ public final class GeneralDependencyResolver: DependencyResolver {
             )
         }
 
-        container.register(ScheduleNotification.self) { resolver in
-            ScheduleNotification(
-                resolver.resolve(NotificationScheduler.self)!,
+        container.register(ScheduleItemNotification.self) { resolver in
+            ScheduleItemNotification(
+                resolver.resolve(ItemNotificationScheduler.self)!,
                 resolver.resolve(EventDispatcher.self)!
             )
         }
@@ -80,13 +80,27 @@ public final class GeneralDependencyResolver: DependencyResolver {
             RemoteNotificationHandler(eventDispatcher: resolver.resolve(EventDispatcher.self)!)
         }
 
-        container.register(UserNotificationScheduler.self) { resolver in
-            UserNotificationScheduler(userNotificationCenter: resolver.resolve(UNUserNotificationCenter.self)!)
+        container.register(ItemNotificationIdentifierProvider.self) { _ in
+            MixedItemNotificationIdentifierProvider()
         }
 
-        container.register(NotificationScheduler.self) { resolver in
-            ConsoleNotificationSchedulerInterceptor(
-                notificationScheduler: resolver.resolve(UserNotificationScheduler.self)!,
+        container.register(ItemNotificationRequestFactory.self) { resolver in
+            CalendarItemNotificationRequestFactory(
+                identifierProvider: resolver.resolve(ItemNotificationIdentifierProvider.self)!
+            )
+        }
+
+        container.register(ItemUserNotificationScheduler.self) { resolver in
+            ItemUserNotificationScheduler(
+                userNotificationRequestFactory: resolver.resolve(ItemNotificationRequestFactory.self)!,
+                itemNotificationIdentifierProvider: resolver.resolve(ItemNotificationIdentifierProvider.self)!,
+                userNotificationCenter: resolver.resolve(UNUserNotificationCenter.self)!
+            )
+        }
+
+        container.register(ItemNotificationScheduler.self) { resolver in
+            ConsoleItemNotificationSchedulerInterceptor(
+                notificationScheduler: resolver.resolve(ItemUserNotificationScheduler.self)!,
                 userNotificationCenter: resolver.resolve(UNUserNotificationCenter.self)!
             )
         }

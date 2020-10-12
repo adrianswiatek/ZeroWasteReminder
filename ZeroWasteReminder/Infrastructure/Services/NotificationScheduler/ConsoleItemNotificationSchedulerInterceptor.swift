@@ -1,11 +1,11 @@
 import UserNotifications
 
-public final class ConsoleNotificationSchedulerInterceptor: NotificationScheduler {
-    private let notificationScheduler: NotificationScheduler
+public final class ConsoleItemNotificationSchedulerInterceptor: ItemNotificationScheduler {
+    private let notificationScheduler: ItemNotificationScheduler
     private let userNotificationCenter: UNUserNotificationCenter
 
     public init(
-        notificationScheduler: NotificationScheduler,
+        notificationScheduler: ItemNotificationScheduler,
         userNotificationCenter: UNUserNotificationCenter
     ) {
         self.notificationScheduler = notificationScheduler

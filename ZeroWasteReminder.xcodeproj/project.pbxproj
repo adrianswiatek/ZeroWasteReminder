@@ -59,13 +59,15 @@
 		A731DBE024A935A600CE926A /* PhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731DBDF24A935A600CE926A /* PhotosView.swift */; };
 		A731F89524BE439B007348A3 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731F89424BE439B007348A3 /* ListCell.swift */; };
 		A731F89724BE45D0007348A3 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731F89624BE45D0007348A3 /* List.swift */; };
-		A737F06B252FACC200FF9D60 /* UserNotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A737F06A252FACC200FF9D60 /* UserNotificationScheduler.swift */; };
-		A737F070252FAEDD00FF9D60 /* ConsoleNotificationSchedulerInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A737F06F252FAEDD00FF9D60 /* ConsoleNotificationSchedulerInterceptor.swift */; };
+		A737F06B252FACC200FF9D60 /* ItemUserNotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A737F06A252FACC200FF9D60 /* ItemUserNotificationScheduler.swift */; };
+		A737F070252FAEDD00FF9D60 /* ConsoleItemNotificationSchedulerInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A737F06F252FAEDD00FF9D60 /* ConsoleItemNotificationSchedulerInterceptor.swift */; };
 		A737F077252FC7C600FF9D60 /* UpdateListsDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A737F076252FC7C600FF9D60 /* UpdateListsDate.swift */; };
 		A73ADDB924A90C8200D7E316 /* PhotoCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73ADDB824A90C8200D7E316 /* PhotoCaptureView.swift */; };
 		A73ADDBB24A91D2D00D7E316 /* PhotosEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73ADDBA24A91D2D00D7E316 /* PhotosEmptyView.swift */; };
 		A73CB9A8250D839D0069E4F0 /* ListAddedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73CB9A7250D839D0069E4F0 /* ListAddedReceived.swift */; };
 		A73CB9AA250D83B10069E4F0 /* ListRemovedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73CB9A9250D83B10069E4F0 /* ListRemovedReceived.swift */; };
+		A740C74C2534F12100D1D42C /* ItemNotificationIdentifierProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A740C74B2534F12100D1D42C /* ItemNotificationIdentifierProvider.swift */; };
+		A740C7502534F18200D1D42C /* MixedItemNotificationRequestProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A740C74F2534F18200D1D42C /* MixedItemNotificationRequestProvider.swift */; };
 		A741613E2450D814001ED316 /* UIAlertActionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */; };
 		A74161412450D83B001ED316 /* UIAlertControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74161402450D83B001ED316 /* UIAlertControllerExtensions.swift */; };
 		A74774CC2475CD7800E41992 /* NotificationNameExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74774CB2475CD7800E41992 /* NotificationNameExtensions.swift */; };
@@ -85,7 +87,7 @@
 		A7547EDB24C3AF5100D82DE9 /* AlwaysEligibleAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EDA24C3AF5000D82DE9 /* AlwaysEligibleAccountService.swift */; };
 		A7547EE524C3B32000D82DE9 /* EmptySharingControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EE424C3B32000D82DE9 /* EmptySharingControllerFactory.swift */; };
 		A7547EE724C3B4BA00D82DE9 /* EmptySubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7547EE624C3B4BA00D82DE9 /* EmptySubscriptionService.swift */; };
-		A7560A6B252E763D007A6861 /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7560A6A252E763D007A6861 /* NotificationScheduler.swift */; };
+		A7560A6B252E763D007A6861 /* ItemNotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7560A6A252E763D007A6861 /* ItemNotificationScheduler.swift */; };
 		A7576897250EC32300F97388 /* ItemAddedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7576896250EC32300F97388 /* ItemAddedReceived.swift */; };
 		A7576899250EC3EA00F97388 /* ItemRemovedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7576898250EC3EA00F97388 /* ItemRemovedReceived.swift */; };
 		A757689B250EC42600F97388 /* ItemUpdatedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A757689A250EC42600F97388 /* ItemUpdatedReceived.swift */; };
@@ -128,6 +130,8 @@
 		A78172B02494D24400F406EC /* CloudKitRecordMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78172AF2494D24400F406EC /* CloudKitRecordMapper.swift */; };
 		A782FAD22475E0A000C69737 /* RemoteNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A782FAD12475E0A000C69737 /* RemoteNotificationHandler.swift */; };
 		A782FAD62475E83300C69737 /* CloudKitSubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A782FAD52475E83300C69737 /* CloudKitSubscriptionService.swift */; };
+		A78302072534E4C70050F987 /* CalendarItemNotificationRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78302062534E4C70050F987 /* CalendarItemNotificationRequestFactory.swift */; };
+		A783020D2534EC530050F987 /* ItemNotificationRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783020C2534EC530050F987 /* ItemNotificationRequestFactory.swift */; };
 		A783EE2424673B8F008BCC17 /* EditContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE2324673B8F008BCC17 /* EditContentViewController.swift */; };
 		A783EE2624674ECD008BCC17 /* AdaptiveScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */; };
 		A783EE28246755E9008BCC17 /* AddContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE27246755E9008BCC17 /* AddContentViewController.swift */; };
@@ -185,7 +189,7 @@
 		A7CFBBB8250982560026D338 /* ListUpdatedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFBBB7250982560026D338 /* ListUpdatedReceived.swift */; };
 		A7D41C982517F69C00A78ADD /* PhotoRemovedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D41C972517F69C00A78ADD /* PhotoRemovedReceived.swift */; };
 		A7D41CA12517FC0A00A78ADD /* PhotosUpdated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D41CA02517FC0A00A78ADD /* PhotosUpdated.swift */; };
-		A7D5B01D250AB6DE006A3B3B /* ScheduleNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D5B01C250AB6DE006A3B3B /* ScheduleNotification.swift */; };
+		A7D5B01D250AB6DE006A3B3B /* ScheduleItemNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D5B01C250AB6DE006A3B3B /* ScheduleItemNotification.swift */; };
 		A7DAD1C224F70B0D0004529D /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DAD1C124F70B0D0004529D /* ArrayExtensions.swift */; };
 		A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A34244285010035CF36 /* AddViewController.swift */; };
 		A7DB8A37244286440035CF36 /* ItemsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A36244286440035CF36 /* ItemsNavigationController.swift */; };
@@ -276,13 +280,15 @@
 		A731DBDF24A935A600CE926A /* PhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosView.swift; sourceTree = "<group>"; };
 		A731F89424BE439B007348A3 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		A731F89624BE45D0007348A3 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
-		A737F06A252FACC200FF9D60 /* UserNotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationScheduler.swift; sourceTree = "<group>"; };
-		A737F06F252FAEDD00FF9D60 /* ConsoleNotificationSchedulerInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleNotificationSchedulerInterceptor.swift; sourceTree = "<group>"; };
+		A737F06A252FACC200FF9D60 /* ItemUserNotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemUserNotificationScheduler.swift; sourceTree = "<group>"; };
+		A737F06F252FAEDD00FF9D60 /* ConsoleItemNotificationSchedulerInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleItemNotificationSchedulerInterceptor.swift; sourceTree = "<group>"; };
 		A737F076252FC7C600FF9D60 /* UpdateListsDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateListsDate.swift; sourceTree = "<group>"; };
 		A73ADDB824A90C8200D7E316 /* PhotoCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureView.swift; sourceTree = "<group>"; };
 		A73ADDBA24A91D2D00D7E316 /* PhotosEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosEmptyView.swift; sourceTree = "<group>"; };
 		A73CB9A7250D839D0069E4F0 /* ListAddedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAddedReceived.swift; sourceTree = "<group>"; };
 		A73CB9A9250D83B10069E4F0 /* ListRemovedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRemovedReceived.swift; sourceTree = "<group>"; };
+		A740C74B2534F12100D1D42C /* ItemNotificationIdentifierProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemNotificationIdentifierProvider.swift; sourceTree = "<group>"; };
+		A740C74F2534F18200D1D42C /* MixedItemNotificationRequestProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixedItemNotificationRequestProvider.swift; sourceTree = "<group>"; };
 		A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertActionExtensions.swift; sourceTree = "<group>"; };
 		A74161402450D83B001ED316 /* UIAlertControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExtensions.swift; sourceTree = "<group>"; };
 		A74774CB2475CD7800E41992 /* NotificationNameExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtensions.swift; sourceTree = "<group>"; };
@@ -302,7 +308,7 @@
 		A7547EDA24C3AF5000D82DE9 /* AlwaysEligibleAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlwaysEligibleAccountService.swift; sourceTree = "<group>"; };
 		A7547EE424C3B32000D82DE9 /* EmptySharingControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySharingControllerFactory.swift; sourceTree = "<group>"; };
 		A7547EE624C3B4BA00D82DE9 /* EmptySubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySubscriptionService.swift; sourceTree = "<group>"; };
-		A7560A6A252E763D007A6861 /* NotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduler.swift; sourceTree = "<group>"; };
+		A7560A6A252E763D007A6861 /* ItemNotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemNotificationScheduler.swift; sourceTree = "<group>"; };
 		A7576896250EC32300F97388 /* ItemAddedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemAddedReceived.swift; sourceTree = "<group>"; };
 		A7576898250EC3EA00F97388 /* ItemRemovedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRemovedReceived.swift; sourceTree = "<group>"; };
 		A757689A250EC42600F97388 /* ItemUpdatedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemUpdatedReceived.swift; sourceTree = "<group>"; };
@@ -345,6 +351,8 @@
 		A78172AF2494D24400F406EC /* CloudKitRecordMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitRecordMapper.swift; sourceTree = "<group>"; };
 		A782FAD12475E0A000C69737 /* RemoteNotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNotificationHandler.swift; sourceTree = "<group>"; };
 		A782FAD52475E83300C69737 /* CloudKitSubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitSubscriptionService.swift; sourceTree = "<group>"; };
+		A78302062534E4C70050F987 /* CalendarItemNotificationRequestFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarItemNotificationRequestFactory.swift; sourceTree = "<group>"; };
+		A783020C2534EC530050F987 /* ItemNotificationRequestFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemNotificationRequestFactory.swift; sourceTree = "<group>"; };
 		A783EE2324673B8F008BCC17 /* EditContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditContentViewController.swift; sourceTree = "<group>"; };
 		A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveScrollView.swift; sourceTree = "<group>"; };
 		A783EE27246755E9008BCC17 /* AddContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentViewController.swift; sourceTree = "<group>"; };
@@ -402,7 +410,7 @@
 		A7CFBBB7250982560026D338 /* ListUpdatedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListUpdatedReceived.swift; sourceTree = "<group>"; };
 		A7D41C972517F69C00A78ADD /* PhotoRemovedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRemovedReceived.swift; sourceTree = "<group>"; };
 		A7D41CA02517FC0A00A78ADD /* PhotosUpdated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosUpdated.swift; sourceTree = "<group>"; };
-		A7D5B01C250AB6DE006A3B3B /* ScheduleNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleNotification.swift; sourceTree = "<group>"; };
+		A7D5B01C250AB6DE006A3B3B /* ScheduleItemNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleItemNotification.swift; sourceTree = "<group>"; };
 		A7DAD1C124F70B0D0004529D /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		A7DB8A34244285010035CF36 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		A7DB8A36244286440035CF36 /* ItemsNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsNavigationController.swift; sourceTree = "<group>"; };
@@ -646,9 +654,9 @@
 		A737F069252FA93400FF9D60 /* NotificationScheduler */ = {
 			isa = PBXGroup;
 			children = (
-				A737F06A252FACC200FF9D60 /* UserNotificationScheduler.swift */,
-				A7560A6A252E763D007A6861 /* NotificationScheduler.swift */,
-				A737F06F252FAEDD00FF9D60 /* ConsoleNotificationSchedulerInterceptor.swift */,
+				A78302062534E4C70050F987 /* CalendarItemNotificationRequestFactory.swift */,
+				A737F06F252FAEDD00FF9D60 /* ConsoleItemNotificationSchedulerInterceptor.swift */,
+				A737F06A252FACC200FF9D60 /* ItemUserNotificationScheduler.swift */,
 			);
 			path = NotificationScheduler;
 			sourceTree = "<group>";
@@ -884,6 +892,16 @@
 			path = Edit;
 			sourceTree = "<group>";
 		};
+		A783020B2534EC3F0050F987 /* ServiceProtocols */ = {
+			isa = PBXGroup;
+			children = (
+				A740C74B2534F12100D1D42C /* ItemNotificationIdentifierProvider.swift */,
+				A783020C2534EC530050F987 /* ItemNotificationRequestFactory.swift */,
+				A7560A6A252E763D007A6861 /* ItemNotificationScheduler.swift */,
+			);
+			path = ServiceProtocols;
+			sourceTree = "<group>";
+		};
 		A79510B9252926F100D09E3B /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -980,7 +998,7 @@
 		A7D5B01B250AB692006A3B3B /* EventListeners */ = {
 			isa = PBXGroup;
 			children = (
-				A7D5B01C250AB6DE006A3B3B /* ScheduleNotification.swift */,
+				A7D5B01C250AB6DE006A3B3B /* ScheduleItemNotification.swift */,
 				A737F076252FC7C600FF9D60 /* UpdateListsDate.swift */,
 			);
 			path = EventListeners;
@@ -1043,6 +1061,7 @@
 				A7E5B8B52504387A008E9523 /* CloudKit */,
 				A7760E54250960A100E51933 /* DependencyContainer */,
 				A7E5B8AC25042FDC008E9523 /* Repositories */,
+				A783020B2534EC3F0050F987 /* ServiceProtocols */,
 				A7E5B8B625043962008E9523 /* Services */,
 			);
 			path = Infrastructure;
@@ -1146,6 +1165,7 @@
 				A782FAD52475E83300C69737 /* CloudKitSubscriptionService.swift */,
 				A7FCD91825082F8A00F001C7 /* ConsoleEventDispatcherInterceptor.swift */,
 				A7636A662490499F00166631 /* FileService.swift */,
+				A740C74F2534F18200D1D42C /* MixedItemNotificationRequestProvider.swift */,
 				A74D163F249C2ED500FEB5CD /* RemoteStatusNotifier.swift */,
 			);
 			path = Services;
@@ -1356,6 +1376,7 @@
 				A75043562506EB1600DFB4EB /* ItemUpdated.swift in Sources */,
 				A759430B24AFBF5A007A526B /* ListsViewModel.swift in Sources */,
 				A7547EE524C3B32000D82DE9 /* EmptySharingControllerFactory.swift in Sources */,
+				A740C7502534F18200D1D42C /* MixedItemNotificationRequestProvider.swift in Sources */,
 				A79510B4252926E700D09E3B /* AlertDateCell.swift in Sources */,
 				A7A8EF73247C52E900FF1AC2 /* ItemNameTextView.swift in Sources */,
 				A783EE2624674ECD008BCC17 /* AdaptiveScrollView.swift in Sources */,
@@ -1380,7 +1401,7 @@
 				A7CFBBB6250969A80026D338 /* DependencyResolverComposite.swift in Sources */,
 				A7A8EF77247C7DF900FF1AC2 /* SharedTextViewDelegate.swift in Sources */,
 				A78172AE2494D05200F406EC /* CloudKitItemMapper.swift in Sources */,
-				A7560A6B252E763D007A6861 /* NotificationScheduler.swift in Sources */,
+				A7560A6B252E763D007A6861 /* ItemNotificationScheduler.swift in Sources */,
 				A7E317992496EBB8006B9610 /* PhotosChangeset.swift in Sources */,
 				A7E4C5FC25004D9800761601 /* ItemsViewModelFactory.swift in Sources */,
 				A7F82BAC2458CBA800970CFC /* FilteringModeState.swift in Sources */,
@@ -1410,7 +1431,7 @@
 				A7E4C6022500507400761601 /* EditItemViewModelFactory.swift in Sources */,
 				A70BCCDB2447960200CC49D0 /* Item.swift in Sources */,
 				A783EE28246755E9008BCC17 /* AddContentViewController.swift in Sources */,
-				A737F06B252FACC200FF9D60 /* UserNotificationScheduler.swift in Sources */,
+				A737F06B252FACC200FF9D60 /* ItemUserNotificationScheduler.swift in Sources */,
 				A75043542506EB0700DFB4EB /* ItemsRemoved.swift in Sources */,
 				A716C9C8244FB505004262AF /* RemainingView.swift in Sources */,
 				A77A99CF245A14EE00F3578C /* UIImageExtensions.swift in Sources */,
@@ -1458,10 +1479,11 @@
 				A797433424A2ABA000A05EA2 /* ItemsDataSource.swift in Sources */,
 				A7FFA9772448F3FF0061A3D6 /* Expiration.swift in Sources */,
 				A7A7E96024BA621F003751B6 /* EditListOverlayView.swift in Sources */,
-				A7D5B01D250AB6DE006A3B3B /* ScheduleNotification.swift in Sources */,
+				A7D5B01D250AB6DE006A3B3B /* ScheduleItemNotification.swift in Sources */,
 				A76C34AF2460C99400362B68 /* UILabelExtension.swift in Sources */,
 				A7DE4B642512981B004E3B95 /* RemoteEventBuilder.swift in Sources */,
 				A749366C247346A4003DB46E /* LoadingView.swift in Sources */,
+				A783020D2534EC530050F987 /* ItemNotificationRequestFactory.swift in Sources */,
 				A77608B124BB8C5700BA0C66 /* EditListConfirmButton.swift in Sources */,
 				A731DBE024A935A600CE926A /* PhotosView.swift in Sources */,
 				A7547EDB24C3AF5100D82DE9 /* AlwaysEligibleAccountService.swift in Sources */,
@@ -1477,6 +1499,7 @@
 				A73ADDB924A90C8200D7E316 /* PhotoCaptureView.swift in Sources */,
 				A78172AA2494CF7300F406EC /* CloudKitPhotoMapper.swift in Sources */,
 				A7B3BFD624F46C1C00B7F15B /* ItemToSave.swift in Sources */,
+				A78302072534E4C70050F987 /* CalendarItemNotificationRequestFactory.swift in Sources */,
 				A700D6CB2454E82600F16F2E /* ItemsFilterCellViewModel.swift in Sources */,
 				A76C34AA2460C4EA00362B68 /* ExpirationDatePicker.swift in Sources */,
 				A751AA542523DF6D0063EEE6 /* AlertSet.swift in Sources */,
@@ -1496,7 +1519,8 @@
 				A7597EA92506E3DC00A53B7D /* ErrorOccured.swift in Sources */,
 				A7CD80C4252A74F600BAF8E0 /* AlertDateCellViewModel.swift in Sources */,
 				A72315AE244B0943008614B2 /* ValidationRules.swift in Sources */,
-				A737F070252FAEDD00FF9D60 /* ConsoleNotificationSchedulerInterceptor.swift in Sources */,
+				A737F070252FAEDD00FF9D60 /* ConsoleItemNotificationSchedulerInterceptor.swift in Sources */,
+				A740C74C2534F12100D1D42C /* ItemNotificationIdentifierProvider.swift in Sources */,
 				A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */,
 				A7CFBBB4250964FA0026D338 /* GeneralDependencyResolver.swift in Sources */,
 				A75C777025211C4600A28AE5 /* NotesSectionView.swift in Sources */,
