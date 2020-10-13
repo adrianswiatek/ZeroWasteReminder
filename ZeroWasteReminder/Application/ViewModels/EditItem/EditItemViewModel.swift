@@ -53,7 +53,8 @@ public final class EditItemViewModel {
     private var itemHasChanged: AnyPublisher<Bool, Never> {
         Publishers.CombineLatest4($name, $notes, expirationDateSubject, $alertOption)
             .map { [weak self] in (self?.item, $0, $1, $2, $3) }
-            .map { !$1.isEmpty && $0 != $0?.withName($1).withNotes($2).withExpirationDate($3).withAlertOption($4) }
+            .map { $1.isEmpty || ItemSnapshot(name: $1, notes: $2, expirationDate: $3, alertOption: $4).equals($0) }
+            .map { !$0 }
             .eraseToAnyPublisher()
     }
 

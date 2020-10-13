@@ -27,6 +27,7 @@
 		A71388F524F5A6ED00EE5C68 /* MoveItemTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71388F424F5A6ED00EE5C68 /* MoveItemTableView.swift */; };
 		A71388F824F5AB6200EE5C68 /* UITableViewCellExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71388F724F5AB6200EE5C68 /* UITableViewCellExtensions.swift */; };
 		A71388FA24F5B41C00EE5C68 /* EmptyMoveItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71388F924F5B41C00EE5C68 /* EmptyMoveItemView.swift */; };
+		A713BD0D2536579D00209C4F /* ItemSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = A713BD0C2536579D00209C4F /* ItemSnapshot.swift */; };
 		A7159B5F2500381C00BC3532 /* ListsViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7159B5E2500381C00BC3532 /* ListsViewControllerFactory.swift */; };
 		A7159B62250043FA00BC3532 /* ListsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7159B61250043FA00BC3532 /* ListsCoordinator.swift */; };
 		A7159B642500442E00BC3532 /* AddCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7159B632500442E00BC3532 /* AddCoordinator.swift */; };
@@ -248,6 +249,7 @@
 		A71388F424F5A6ED00EE5C68 /* MoveItemTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemTableView.swift; sourceTree = "<group>"; };
 		A71388F724F5AB6200EE5C68 /* UITableViewCellExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCellExtensions.swift; sourceTree = "<group>"; };
 		A71388F924F5B41C00EE5C68 /* EmptyMoveItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyMoveItemView.swift; sourceTree = "<group>"; };
+		A713BD0C2536579D00209C4F /* ItemSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSnapshot.swift; sourceTree = "<group>"; };
 		A7159B5E2500381C00BC3532 /* ListsViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsViewControllerFactory.swift; sourceTree = "<group>"; };
 		A7159B61250043FA00BC3532 /* ListsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsCoordinator.swift; sourceTree = "<group>"; };
 		A7159B632500442E00BC3532 /* AddCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCoordinator.swift; sourceTree = "<group>"; };
@@ -930,6 +932,7 @@
 			children = (
 				A79DDDA22461F9B1008A3DFE /* EditItemViewModel.swift */,
 				A7E4C6012500507400761601 /* EditItemViewModelFactory.swift */,
+				A713BD0C2536579D00209C4F /* ItemSnapshot.swift */,
 			);
 			path = EditItem;
 			sourceTree = "<group>";
@@ -1424,6 +1427,7 @@
 				A78172AC2494D01500F406EC /* CloudKitKey.swift in Sources */,
 				A79B4A202479F6FA00ECE1B1 /* SubscriptionService.swift in Sources */,
 				A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */,
+				A713BD0D2536579D00209C4F /* ItemSnapshot.swift in Sources */,
 				A731F89524BE439B007348A3 /* ListCell.swift in Sources */,
 				A75A475925250FA9006EC64A /* AlertTableView.swift in Sources */,
 				A7CFBBB8250982560026D338 /* ListUpdatedReceived.swift in Sources */,
