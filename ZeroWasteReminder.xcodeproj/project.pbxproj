@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -76,7 +76,6 @@
 		A749366C247346A4003DB46E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749366B247346A4003DB46E /* LoadingView.swift */; };
 		A74C418B24D4BCC500399918 /* Id.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74C418A24D4BCC500399918 /* Id.swift */; };
 		A74D1640249C2ED500FEB5CD /* RemoteStatusNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74D163F249C2ED500FEB5CD /* RemoteStatusNotifier.swift */; };
-		A74ECE5C2513F57100A5FB47 /* Swinject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7EADDD02501861F00249D1F /* Swinject.framework */; };
 		A750434124707386009A1451 /* CloudKitItemsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434024707386009A1451 /* CloudKitItemsRepository.swift */; };
 		A750434524707517009A1451 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A750434424707517009A1451 /* CloudKit.framework */; };
 		A75043502506EA7600DFB4EB /* ItemAdded.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434F2506EA7600DFB4EB /* ItemAdded.swift */; };
@@ -191,6 +190,7 @@
 		A7D41C982517F69C00A78ADD /* PhotoRemovedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D41C972517F69C00A78ADD /* PhotoRemovedReceived.swift */; };
 		A7D41CA12517FC0A00A78ADD /* PhotosUpdated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D41CA02517FC0A00A78ADD /* PhotosUpdated.swift */; };
 		A7D5B01D250AB6DE006A3B3B /* ScheduleItemNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D5B01C250AB6DE006A3B3B /* ScheduleItemNotification.swift */; };
+		A7D7949A25378BEA00EB0157 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = A7D7949925378BEA00EB0157 /* Swinject */; };
 		A7DAD1C224F70B0D0004529D /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DAD1C124F70B0D0004529D /* ArrayExtensions.swift */; };
 		A7DB8A35244285010035CF36 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A34244285010035CF36 /* AddViewController.swift */; };
 		A7DB8A37244286440035CF36 /* ItemsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DB8A36244286440035CF36 /* ItemsNavigationController.swift */; };
@@ -455,7 +455,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A750434524707517009A1451 /* CloudKit.framework in Frameworks */,
-				A74ECE5C2513F57100A5FB47 /* Swinject.framework in Frameworks */,
+				A7D7949A25378BEA00EB0157 /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1250,13 +1250,15 @@
 				A712ED572441172300B00791 /* Sources */,
 				A712ED582441172300B00791 /* Frameworks */,
 				A712ED592441172300B00791 /* Resources */,
-				A7EADDD4250186B200249D1F /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = ZeroWasteReminder;
+			packageProductDependencies = (
+				A7D7949925378BEA00EB0157 /* Swinject */,
+			);
 			productName = ZeroWasteReminder;
 			productReference = A712ED5B2441172300B00791 /* ZeroWasteReminder.app */;
 			productType = "com.apple.product-type.application";
@@ -1285,6 +1287,9 @@
 				Base,
 			);
 			mainGroup = A712ED522441172300B00791;
+			packageReferences = (
+				A7D7949825378BEA00EB0157 /* XCRemoteSwiftPackageReference "Swinject" */,
+			);
 			productRefGroup = A712ED5C2441172300B00791 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1305,28 +1310,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		A7EADDD4250186B200249D1F /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Swinject.framework",
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Swinject.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A712ED572441172300B00791 /* Sources */ = {
@@ -1753,6 +1736,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A7D7949825378BEA00EB0157 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A7D7949925378BEA00EB0157 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A7D7949825378BEA00EB0157 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A712ED532441172300B00791 /* Project object */;
 }

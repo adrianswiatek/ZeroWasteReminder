@@ -1,3 +1,4 @@
+import NotificationCenter
 import Swinject
 
 public final class CloudKitDependencyResolver: DependencyResolver {
