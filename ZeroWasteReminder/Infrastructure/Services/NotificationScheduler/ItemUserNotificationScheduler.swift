@@ -3,46 +3,43 @@ import UserNotifications
 
 public final class ItemUserNotificationScheduler: ItemNotificationScheduler {
     private let requestFactory: ItemNotificationRequestFactory
-    private let identifierProvider: ItemNotificationIdentifierProvider
+    private let notificationRepository: ItemNotificationsRepository
     private let userNotificationCenter: UNUserNotificationCenter
     private let eventDispatcher: EventDispatcher
 
     public init(
         userNotificationRequestFactory: ItemNotificationRequestFactory,
-        itemNotificationIdentifierProvider: ItemNotificationIdentifierProvider,
+        notificationRepository: ItemNotificationsRepository,
         userNotificationCenter: UNUserNotificationCenter,
         eventDispatcher: EventDispatcher
     ) {
         self.requestFactory = userNotificationRequestFactory
-        self.identifierProvider = itemNotificationIdentifierProvider
+        self.notificationRepository = notificationRepository
         self.userNotificationCenter = userNotificationCenter
         self.eventDispatcher = eventDispatcher
+
+        userNotificationCenter.removeAllPendingNotificationRequests()
     }
 
     public func scheduleNotification(for items: [Item]) {
         for item in items {
             guard let request = requestForItem(item) else { continue }
             userNotificationCenter.add(request)
-            eventDispatcher.dispatch(ItemNotificationScheduled(item))
+            notificationRepository.update(for: item)
         }
     }
 
     public func removeScheduledNotifications(for items: [Item]) {
-        userNotificationCenter.removePendingNotificationRequests(
-            withIdentifiers: items.map { identifierProvider.provide(from: $0) }
-        )
+        let ids = items.map { $0.id }
 
-        items.forEach { eventDispatcher.dispatch(ItemNotificationRemoved($0.id) )}
+        notificationRepository.remove(by: ids)
+        userNotificationCenter.removePendingNotificationRequests(withIdentifiers: ids.map { $0.asString })
     }
 
     public func removeScheduledNotificationsForItems(in list: List) {
-        userNotificationCenter.getPendingNotificationRequests { [weak self] requests in
-            self?.userNotificationCenter.removePendingNotificationRequests(
-                withIdentifiers: self?.filter(requests, by: list.id).map { $0.identifier } ?? []
-            )
-        }
-
-        eventDispatcher.dispatch(ItemNotificationRemoved(list.id))
+        let identifiers = notificationRepository.fetchAll(from: list).map { $0.itemId.asString }
+        userNotificationCenter.removePendingNotificationRequests(withIdentifiers: identifiers)
+        notificationRepository.remove(by: list.id)
     }
 
     private func requestForItem(_ item: Item) -> UNNotificationRequest? {
@@ -52,9 +49,5 @@ public final class ItemUserNotificationScheduler: ItemNotificationScheduler {
         }
 
         return requestFactory.create(for: item)
-    }
-
-    private func filter(_ requests: [UNNotificationRequest], by listId: Id<List>) -> [UNNotificationRequest] {
-        requests.filter { identifierProvider.is(listId, partOf: $0.identifier) }
     }
 }

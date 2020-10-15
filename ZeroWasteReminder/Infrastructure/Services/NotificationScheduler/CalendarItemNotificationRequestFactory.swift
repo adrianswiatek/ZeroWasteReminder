@@ -1,19 +1,13 @@
 import UserNotifications
 
 public final class CalendarItemNotificationRequestFactory: ItemNotificationRequestFactory {
-    private let identifierProvider: ItemNotificationIdentifierProvider
-
-    public init(identifierProvider: ItemNotificationIdentifierProvider) {
-        self.identifierProvider = identifierProvider
-    }
-
     public func canCreate(for item: Item) -> Bool {
         item.expiration.date.flatMap { item.alertOption.calculateDate(from: $0)?.isInTheFuture() } ?? false
     }
 
     public func create(for item: Item) -> UNNotificationRequest {
         UNNotificationRequest(
-            identifier: identifierProvider.provide(from: item),
+            identifier: item.id.asString,
             content: contentForItem(item),
             trigger: triggerForItem(item)
         )

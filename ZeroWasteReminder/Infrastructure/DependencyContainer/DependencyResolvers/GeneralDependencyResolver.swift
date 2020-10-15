@@ -57,13 +57,6 @@ public final class GeneralDependencyResolver: DependencyResolver {
                 resolver.resolve(EventDispatcher.self)!
             )
         }
-
-        container.register(UpdatePersistedItemNotification.self) { resolver in
-            UpdatePersistedItemNotification(
-                notificationRepository: resolver.resolve(ItemNotificationsRepository.self)!,
-                eventDispatcher: resolver.resolve(EventDispatcher.self)!
-            )
-        }
     }
 
     public func registerOtherObjects() {
@@ -87,20 +80,14 @@ public final class GeneralDependencyResolver: DependencyResolver {
             RemoteNotificationHandler(eventDispatcher: resolver.resolve(EventDispatcher.self)!)
         }
 
-        container.register(ItemNotificationIdentifierProvider.self) { _ in
-            ShortItemNotificationIdentifierProvider()
-        }
-
         container.register(ItemNotificationRequestFactory.self) { resolver in
-            CalendarItemNotificationRequestFactory(
-                identifierProvider: resolver.resolve(ItemNotificationIdentifierProvider.self)!
-            )
+            CalendarItemNotificationRequestFactory()
         }
 
         container.register(ItemUserNotificationScheduler.self) { resolver in
             ItemUserNotificationScheduler(
                 userNotificationRequestFactory: resolver.resolve(ItemNotificationRequestFactory.self)!,
-                itemNotificationIdentifierProvider: resolver.resolve(ItemNotificationIdentifierProvider.self)!,
+                notificationRepository: resolver.resolve(ItemNotificationsRepository.self)!,
                 userNotificationCenter: resolver.resolve(UNUserNotificationCenter.self)!,
                 eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
@@ -121,7 +108,7 @@ public final class GeneralDependencyResolver: DependencyResolver {
     public func registerRepositories() {
         container.register(ItemNotificationsRepository.self) { _ in
             InMemoryNotificationsRepository()
-        }
+        }.inObjectScope(.container)
     }
 
     public func registerServices() {

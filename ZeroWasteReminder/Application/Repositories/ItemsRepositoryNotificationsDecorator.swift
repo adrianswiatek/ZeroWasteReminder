@@ -14,19 +14,27 @@ public final class ItemsRepositoryNotificationsDecorator: ItemsRepository {
 
     public func fetchAll(from list: List) -> Future<[Item], Never> {
         Future { [weak self] promise in
-            self?.fetchAllCancellable = self?.itemsRepository.fetchAll(from: list).sink {
-                promise(.success(self?.itemsWithAlertOption($0, in: list) ?? []))
-                self?.fetchAllCancellable?.cancel()
-            }
+            self?.fetchAllCancellable = self?.itemsRepository.fetchAll(from: list)
+                .flatMap { [weak self] in
+                    self?.itemsWithAlertOption($0, in: list).eraseToAnyPublisher() ?? Empty().eraseToAnyPublisher()
+                }
+                .sink(
+                    receiveCompletion: { [weak self] _ in self?.fetchAllCancellable?.cancel() },
+                    receiveValue: { promise(.success($0)) }
+                )
         }
     }
 
     public func fetch(by id: Id<Item>) -> Future<Item?, Never> {
         Future { [weak self] promise in
-            self?.fetchCancellable = self?.itemsRepository.fetch(by: id).sink {
-                promise(.success(self?.itemWithAlertOption($0)))
-                self?.fetchCancellable?.cancel()
-            }
+            self?.fetchCancellable = self?.itemsRepository.fetch(by: id)
+                .flatMap { [weak self] in
+                    self?.itemWithAlertOption($0).eraseToAnyPublisher() ?? Empty().eraseToAnyPublisher()
+                }
+                .sink(
+                    receiveCompletion: { [weak self] _ in self?.fetchAllCancellable?.cancel() },
+                    receiveValue: { promise(.success($0)) }
+                )
         }
     }
 
@@ -50,16 +58,24 @@ public final class ItemsRepositoryNotificationsDecorator: ItemsRepository {
         itemsRepository.remove(items)
     }
 
-    private func itemWithAlertOption(_ item: Item?) -> Item? {
-        item.flatMap { notificationRepository.fetch(for: $0) }
-            .flatMap { item?.withAlertOption($0.alertOption) }
+    private func itemsWithAlertOption(_ items: [Item], in list: List) -> Future<[Item], Never> {
+        Future { [weak self] promise in
+            let notifications = self?.notificationRepository.fetchAll(from: list)
+            let items =  items.reduce(into: [Item]()) { items, item in
+                let notification = notifications?.first { $0.itemId == item.id }
+                items += notification != nil ? [item.withAlertOption(notification!.alertOption)] : [item]
+            }
+            promise(.success(items))
+        }
     }
 
-    private func itemsWithAlertOption(_ items: [Item], in list: List) -> [Item] {
-        let notifications = notificationRepository.fetchAll(from: list)
-        return items.reduce(into: [Item]()) { items, item in
-            let notification = notifications.first { $0.itemId == item.id }
-            items += notification != nil ? [item.withAlertOption(notification!.alertOption)] : [item]
+    private func itemWithAlertOption(_ item: Item?) -> Future<Item?, Never> {
+        Future { [weak self] promise in
+            let item = item
+                .flatMap { self?.notificationRepository.fetch(for: $0) }
+                .flatMap { item?.withAlertOption($0.alertOption) }
+
+            promise(.success(item))
         }
     }
 }
