@@ -12,7 +12,7 @@ public final class CalendarItemNotificationRequestFactory: ItemNotificationReque
     }
 
     public func create(for item: Item) -> UNNotificationRequest {
-        .init(
+        UNNotificationRequest(
             identifier: identifierProvider.provide(from: item),
             content: contentForItem(item),
             trigger: triggerForItem(item)

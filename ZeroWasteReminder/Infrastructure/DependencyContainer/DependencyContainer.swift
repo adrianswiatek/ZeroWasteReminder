@@ -55,9 +55,10 @@ internal final class DependencyContainer {
     }
 
     private func attachListeners() {
-//        listeners.append(container.resolve(EventDispatcherInterceptor.self)!)
+        listeners.append(container.resolve(EventDispatcherInterceptor.self)!)
         listeners.append(container.resolve(ScheduleItemNotification.self)!)
         listeners.append(container.resolve(UpdateListsDate.self)!)
+        listeners.append(container.resolve(UpdatePersistedItemNotification.self)!)
     }
 }
 

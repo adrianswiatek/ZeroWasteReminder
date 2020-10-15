@@ -101,7 +101,7 @@ public final class CloudKitItemsRepository: ItemsRepository {
                 self?.eventDispatcher.dispatch(ErrorOccured(.init(error)))
             } else if let item = self?.mapper.map($0?.first).toItem() {
                 $0?.first.map { self?.cache.set($0) }
-                self?.eventDispatcher.dispatch(ItemAdded(item))
+                self?.eventDispatcher.dispatch(ItemAdded(item.withAlertOption(itemToSave.item.alertOption)))
             } else {
                 self?.eventDispatcher.dispatch(NoResultOccured())
             }
@@ -126,7 +126,8 @@ public final class CloudKitItemsRepository: ItemsRepository {
                 },
                 receiveValue: { [weak self] in
                     if let event = $0 as? ItemUpdated {
-                        self?.eventDispatcher.dispatch(ItemMoved(event.item, to: list))
+                        let item = event.item.withAlertOption(item.alertOption)
+                        self?.eventDispatcher.dispatch(ItemMoved(item, to: list))
                     } else {
                         self?.eventDispatcher.dispatch($0)
                     }
@@ -196,7 +197,7 @@ public final class CloudKitItemsRepository: ItemsRepository {
                     receiveValue: { [weak self] in
                         if let record = $0, let updatedItem = self?.mapper.map(record).toItem() {
                             self?.cache.set(record)
-                            promise(.success(ItemUpdated(updatedItem)))
+                            promise(.success(ItemUpdated(updatedItem.withAlertOption(item.alertOption))))
                         } else {
                             promise(.success(NoResultOccured()))
                         }

@@ -22,7 +22,6 @@ internal final class CloudKitItemMapper {
         record[CloudKitKey.Item.notes] = item.notes
         record[CloudKitKey.Item.expiration] = expiration(from: item)
         record[CloudKitKey.Item.listReference] = listReference(for: listRecord)
-        record[CloudKitKey.Item.alertOption] = item.alertOption.asString
         return record
     }
 

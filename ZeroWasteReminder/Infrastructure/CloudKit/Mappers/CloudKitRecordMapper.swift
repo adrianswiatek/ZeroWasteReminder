@@ -35,7 +35,6 @@ internal final class CloudKitRecordMapper {
         return Item(id: .fromString(record.recordID.recordName), name: name, listId: listId)
             .withNotes(notes(from: record))
             .withExpiration(expiration(from: record))
-            .withAlertOption(alertOption(from: record))
     }
 
     internal func updatedBy(_ list: List?) -> CloudKitRecordMapper {
@@ -53,7 +52,6 @@ internal final class CloudKitRecordMapper {
         applyChange(to: record, key: CloudKitKey.Item.name, value: item.name)
         applyChange(to: record, key: CloudKitKey.Item.notes, value: item.notes)
         applyChange(to: record, key: CloudKitKey.Item.expiration, value: expiration(from: item))
-        applyChange(to: record, key: CloudKitKey.Item.alertOption, value: item.alertOption.asString)
         applyChange(to: record, key: CloudKitKey.Item.listReference, value: listReference(from: item, and: record))
 
         return self
@@ -69,10 +67,6 @@ internal final class CloudKitRecordMapper {
 
     private func expiration(from record: CKRecord) -> Expiration {
         (record[CloudKitKey.Item.expiration] as? Date).map { .date($0) } ?? .none
-    }
-
-    private func alertOption(from record: CKRecord) -> AlertOption {
-        (record[CloudKitKey.Item.alertOption] as? String).map { .fromString($0) } ?? .none
     }
 
     private func listReference(from item: Item, and record: CKRecord) -> CKRecord.Reference {

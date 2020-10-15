@@ -6,7 +6,6 @@ internal enum CloudKitKey {
     }
 
     internal enum Item {
-        static let alertOption = "alertOption"
         static let expiration = "expiration"
         static let id = "id"
         static let listReference = "listReference"

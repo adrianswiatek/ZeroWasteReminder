@@ -57,6 +57,13 @@ public final class GeneralDependencyResolver: DependencyResolver {
                 resolver.resolve(EventDispatcher.self)!
             )
         }
+
+        container.register(UpdatePersistedItemNotification.self) { resolver in
+            UpdatePersistedItemNotification(
+                notificationRepository: resolver.resolve(ItemNotificationsRepository.self)!,
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
+            )
+        }
     }
 
     public func registerOtherObjects() {
@@ -94,7 +101,8 @@ public final class GeneralDependencyResolver: DependencyResolver {
             ItemUserNotificationScheduler(
                 userNotificationRequestFactory: resolver.resolve(ItemNotificationRequestFactory.self)!,
                 itemNotificationIdentifierProvider: resolver.resolve(ItemNotificationIdentifierProvider.self)!,
-                userNotificationCenter: resolver.resolve(UNUserNotificationCenter.self)!
+                userNotificationCenter: resolver.resolve(UNUserNotificationCenter.self)!,
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }
 
@@ -110,7 +118,11 @@ public final class GeneralDependencyResolver: DependencyResolver {
         }.inObjectScope(.container)
     }
 
-    public func registerRepositories() {}
+    public func registerRepositories() {
+        container.register(ItemNotificationsRepository.self) { _ in
+            InMemoryNotificationsRepository()
+        }
+    }
 
     public func registerServices() {
         container.register(FileService.self) { _ in

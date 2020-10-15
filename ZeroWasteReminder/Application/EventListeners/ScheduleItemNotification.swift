@@ -36,7 +36,7 @@ public final class ScheduleItemNotification {
         case let event as ListRemoved:
             removeScheduledNotificationForItems(in: event.list)
         default:
-            break
+            return
         }
     }
 
