@@ -224,6 +224,9 @@
 		A7FCD91725082F5E00F001C7 /* EventDispatcherInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FCD91625082F5E00F001C7 /* EventDispatcherInterceptor.swift */; };
 		A7FCD91925082F8A00F001C7 /* ConsoleEventDispatcherInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FCD91825082F8A00F001C7 /* ConsoleEventDispatcherInterceptor.swift */; };
 		A7FF95D1253B80FF00CC8114 /* ItemsWriteRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FF95D0253B80FF00CC8114 /* ItemsWriteRepository.swift */; };
+		A7FF95DB253B8D9400CC8114 /* ZeroWasteReminder.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A7FF95D9253B8D9400CC8114 /* ZeroWasteReminder.xcdatamodeld */; };
+		A7FF95E0253B903F00CC8114 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FF95DF253B903F00CC8114 /* CoreDataStack.swift */; };
+		A7FF95E4253B927800CC8114 /* CoreDataItemNotificationsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FF95E3253B927800CC8114 /* CoreDataItemNotificationsRepository.swift */; };
 		A7FFA9772448F3FF0061A3D6 /* Expiration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA9762448F3FF0061A3D6 /* Expiration.swift */; };
 		A7FFA9792448F5C00061A3D6 /* ExpirationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA9782448F5C00061A3D6 /* ExpirationType.swift */; };
 		A7FFA97D244909B40061A3D6 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA97C244909B40061A3D6 /* DateExtensions.swift */; };
@@ -450,6 +453,9 @@
 		A7FCD91625082F5E00F001C7 /* EventDispatcherInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDispatcherInterceptor.swift; sourceTree = "<group>"; };
 		A7FCD91825082F8A00F001C7 /* ConsoleEventDispatcherInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleEventDispatcherInterceptor.swift; sourceTree = "<group>"; };
 		A7FF95D0253B80FF00CC8114 /* ItemsWriteRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsWriteRepository.swift; sourceTree = "<group>"; };
+		A7FF95DA253B8D9400CC8114 /* ZeroWasteReminder.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ZeroWasteReminder.xcdatamodel; sourceTree = "<group>"; };
+		A7FF95DF253B903F00CC8114 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		A7FF95E3253B927800CC8114 /* CoreDataItemNotificationsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataItemNotificationsRepository.swift; sourceTree = "<group>"; };
 		A7FFA9762448F3FF0061A3D6 /* Expiration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expiration.swift; sourceTree = "<group>"; };
 		A7FFA9782448F5C00061A3D6 /* ExpirationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationType.swift; sourceTree = "<group>"; };
 		A7FFA97C244909B40061A3D6 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
@@ -1075,6 +1081,7 @@
 		A7E5B8A925042E5D008E9523 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				A7FF95DE253B8EBD00CC8114 /* CoreData */,
 				A7E5B8B52504387A008E9523 /* CloudKit */,
 				A7760E54250960A100E51933 /* DependencyContainer */,
 				A7E5B8AC25042FDC008E9523 /* Repositories */,
@@ -1116,6 +1123,7 @@
 				A750434024707386009A1451 /* CloudKitItemsRepository.swift */,
 				A7C0680324D20642007556F5 /* CloudKitListsRepository.swift */,
 				A7C1A0B4249FEA630054BBAF /* CloudKitPhotosRepository.swift */,
+				A7FF95E3253B927800CC8114 /* CoreDataItemNotificationsRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1265,6 +1273,15 @@
 			path = RepositoryProtocols;
 			sourceTree = "<group>";
 		};
+		A7FF95DE253B8EBD00CC8114 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				A7FF95D9253B8D9400CC8114 /* ZeroWasteReminder.xcdatamodeld */,
+				A7FF95DF253B903F00CC8114 /* CoreDataStack.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1381,6 +1398,7 @@
 				A7C0680424D20642007556F5 /* CloudKitListsRepository.swift in Sources */,
 				A7576897250EC32300F97388 /* ItemAddedReceived.swift in Sources */,
 				A757689B250EC42600F97388 /* ItemUpdatedReceived.swift in Sources */,
+				A7FF95E4253B927800CC8114 /* CoreDataItemNotificationsRepository.swift in Sources */,
 				A7597EA52506E3C000A53B7D /* ListRemoved.swift in Sources */,
 				A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */,
 				A7760E58250960BC00E51933 /* CloudKitDependencyResolver.swift in Sources */,
@@ -1460,6 +1478,7 @@
 				A717BA97251FF9CC00FE1E1D /* ItemNameSectionView.swift in Sources */,
 				A7175078244286F60058FCE4 /* ItemCell.swift in Sources */,
 				A7AD76E62463661100220A94 /* StateIndicatorLabel.swift in Sources */,
+				A7FF95E0253B903F00CC8114 /* CoreDataStack.swift in Sources */,
 				A74161412450D83B001ED316 /* UIAlertControllerExtensions.swift in Sources */,
 				A7B52E6B251939EC0047FFDC /* PhotoAddedReceived.swift in Sources */,
 				A75851EF2522640400239F68 /* EditExpirationSectionView.swift in Sources */,
@@ -1530,6 +1549,7 @@
 				A7C75C94252129660005FDEA /* AlertSectionView.swift in Sources */,
 				A7203B8A24C3853B00C17F85 /* ListsRepository.swift in Sources */,
 				A7C9636E247DA58800DE824F /* ClearButton.swift in Sources */,
+				A7FF95DB253B8D9400CC8114 /* ZeroWasteReminder.xcdatamodeld in Sources */,
 				A7A181AA249E9C5200B8E6EE /* PhotoToSave.swift in Sources */,
 				A700D6C92454D96800F16F2E /* ItemsFilterViewModel.swift in Sources */,
 				A7597EA92506E3DC00A53B7D /* ErrorOccured.swift in Sources */,
@@ -1783,6 +1803,19 @@
 			productName = Swinject;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		A7FF95D9253B8D9400CC8114 /* ZeroWasteReminder.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A7FF95DA253B8D9400CC8114 /* ZeroWasteReminder.xcdatamodel */,
+			);
+			currentVersion = A7FF95DA253B8D9400CC8114 /* ZeroWasteReminder.xcdatamodel */;
+			path = ZeroWasteReminder.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A712ED532441172300B00791 /* Project object */;
 }

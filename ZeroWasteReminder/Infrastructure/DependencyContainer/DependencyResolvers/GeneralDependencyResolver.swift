@@ -107,7 +107,8 @@ public final class GeneralDependencyResolver: DependencyResolver {
 
     public func registerRepositories() {
         container.register(ItemNotificationsRepository.self) { _ in
-            InMemoryNotificationsRepository()
+//            InMemoryNotificationsRepository()
+            CoreDataItemNotificationsRepository(coreDataStack: CoreDataStack())
         }.inObjectScope(.container)
     }
 
