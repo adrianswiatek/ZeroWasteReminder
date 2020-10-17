@@ -1,7 +1,7 @@
 import CloudKit
 import Combine
 
-public final class CloudKitItemsRepository: ItemsRepository {
+public final class CloudKitItemsRepository {
     private let database: CKDatabase
     private let zone: CKRecordZone
     private let cache: CloudKitCache
@@ -23,7 +23,9 @@ public final class CloudKitItemsRepository: ItemsRepository {
         self.eventDispatcher = eventDispatcher
         self.subscriptions = [:]
     }
+}
 
+extension CloudKitItemsRepository: ItemsReadRepository {
     public func fetchAll(from list: List) -> Future<[Item], Never> {
         Future { [weak self] promise in
             guard let self = self else { return promise(.success([])) }
@@ -88,7 +90,9 @@ public final class CloudKitItemsRepository: ItemsRepository {
             self.database.add(operation)
         }
     }
+}
 
+extension CloudKitItemsRepository: ItemsWriteRepository {
     public func add(_ itemToSave: ItemToSave) {
         guard
             let listRecord = mapper.map(itemToSave.list).toRecordInZone(zone),

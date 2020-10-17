@@ -29,7 +29,8 @@ public final class ItemsViewModel {
     private let selectedItemSubject: PassthroughSubject<Item, Never>
     private let needsToFetchSubject: PassthroughSubject<Bool, Never>
 
-    private let itemsRepository: ItemsRepository
+    private let itemsReadRepository: ItemsReadRepository
+    private let itemsWriteRepository: ItemsWriteRepository
     private let statusNotifier: StatusNotifier
     private let updateListsDate: UpdateListsDate
     private let eventDispatcher: EventDispatcher
@@ -38,14 +39,16 @@ public final class ItemsViewModel {
 
     public init(
         list: List,
-        itemsRepository: ItemsRepository,
+        itemsReadRepository: ItemsReadRepository,
+        itemsWriteRepository: ItemsWriteRepository,
         statusNotifier: StatusNotifier,
         updateListsDate: UpdateListsDate,
         eventDispatcher: EventDispatcher
     ) {
         self.list = list
 
-        self.itemsRepository = itemsRepository
+        self.itemsReadRepository = itemsReadRepository
+        self.itemsWriteRepository = itemsWriteRepository
         self.statusNotifier = statusNotifier
         self.updateListsDate = updateListsDate
         self.eventDispatcher = eventDispatcher
@@ -78,7 +81,7 @@ public final class ItemsViewModel {
     }
 
     public func fetchItems() {
-        itemsRepository.fetchAll(from: list)
+        itemsReadRepository.fetchAll(from: list)
             .flatMap { [weak self] items -> AnyPublisher<[Item], Never> in
                 guard let self = self else { return Empty().eraseToAnyPublisher() }
                 return self.prepareToDisplay(Just(items).eraseToAnyPublisher())
@@ -96,19 +99,19 @@ public final class ItemsViewModel {
         guard !selectedItemIndices.isEmpty else { return }
 
         let selectedItems = selectedItemIndices.map { items[$0] }
-        itemsRepository.remove(selectedItems)
+        itemsWriteRepository.remove(selectedItems)
         isLoadingSubject.send(true)
 
         modeState.done(on: self)
     }
 
     public func removeItem(_ item: Item) {
-        itemsRepository.remove(item)
+        itemsWriteRepository.remove(item)
         isLoadingSubject.send(true)
     }
 
     public func removeAll() {
-        itemsRepository.remove(items)
+        itemsWriteRepository.remove(items)
         isLoadingSubject.send(true)
     }
 

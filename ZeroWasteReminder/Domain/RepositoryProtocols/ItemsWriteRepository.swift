@@ -1,9 +1,7 @@
 import Combine
 import Foundation
 
-public protocol ItemsRepository {
-    func fetchAll(from list: List) -> Future<[Item], Never>
-    func fetch(by id: Id<Item>) -> Future<Item?, Never>
+public protocol ItemsWriteRepository {
     func add(_ itemToSave: ItemToSave)
     func update(_ item: Item)
     func move(_ item: Item, to list: List)
@@ -11,7 +9,7 @@ public protocol ItemsRepository {
     func remove(_ items: [Item])
 }
 
-public extension ItemsRepository {
+public extension ItemsWriteRepository {
     func nextId() -> Id<Item> {
         .fromUuid(.init())
     }

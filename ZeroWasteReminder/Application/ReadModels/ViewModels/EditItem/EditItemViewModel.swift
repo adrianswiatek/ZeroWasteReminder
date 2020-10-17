@@ -70,7 +70,8 @@ public final class EditItemViewModel {
     private let isExpirationDateVisibleSubject: CurrentValueSubject<Bool, Never>
 
     private var originalPhotoIds: [Id<Photo>]
-    private let itemsRepository: ItemsRepository
+    private let itemsReadRepository: ItemsReadRepository
+    private let itemsWriteRepository: ItemsWriteRepository
     private let photosRepository: PhotosRepository
     private let fileService: FileService
     private let statusNotifier: StatusNotifier
@@ -81,13 +82,15 @@ public final class EditItemViewModel {
 
     public init(
         item: Item,
-        itemsRepository: ItemsRepository,
+        itemsReadRepository: ItemsReadRepository,
+        itemsWriteRepository: ItemsWriteRepository,
         photosRepository: PhotosRepository,
         fileService: FileService,
         statusNotifier: StatusNotifier,
         eventDispatcher: EventDispatcher
     ) {
-        self.itemsRepository = itemsRepository
+        self.itemsReadRepository = itemsReadRepository
+        self.itemsWriteRepository = itemsWriteRepository
         self.item = item
         self.originalPhotoIds = []
         self.photosRepository = photosRepository
@@ -127,12 +130,12 @@ public final class EditItemViewModel {
         }
 
         isLoadingSubject.send(true)
-        itemsRepository.update(item)
+        itemsWriteRepository.update(item)
     }
 
     public func remove() {
         isLoadingSubject.send(true)
-        itemsRepository.remove(item)
+        itemsWriteRepository.remove(item)
     }
 
     public func cleanUp() {
@@ -182,7 +185,7 @@ public final class EditItemViewModel {
 
     private func refreshItem() {
         isLoadingSubject.send(true)
-        itemsRepository.fetch(by: item.id)
+        itemsReadRepository.fetch(by: item.id)
             .sink { [weak self] in
                 $0.map { self?.item = $0 }
                 self?.isLoadingSubject.send(false)

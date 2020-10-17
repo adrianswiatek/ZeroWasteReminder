@@ -59,7 +59,7 @@ public final class AddItemViewModel {
 
     private let list: List
 
-    private let itemsRepository: ItemsRepository
+    private let itemsWriteRepository: ItemsWriteRepository
     private let photosRepository: PhotosRepository
     private let fileService: FileService
     private let statusNotifier: StatusNotifier
@@ -69,13 +69,13 @@ public final class AddItemViewModel {
 
     public init(
         list: List,
-        itemsRepository: ItemsRepository,
+        itemsWriteRepository: ItemsWriteRepository,
         photosRepository: PhotosRepository,
         fileService: FileService,
         statusNotifier: StatusNotifier,
         eventDispatcher: EventDispatcher
     ) {
-        self.itemsRepository = itemsRepository
+        self.itemsWriteRepository = itemsWriteRepository
         self.list = list
         self.photosRepository = photosRepository
         self.fileService = fileService
@@ -107,7 +107,7 @@ public final class AddItemViewModel {
         }
 
         isLoadingSubject.send(true)
-        itemsRepository.add(ItemToSave(item, list))
+        itemsWriteRepository.add(ItemToSave(item, list))
     }
 
     public func cleanUp() {
@@ -145,7 +145,7 @@ public final class AddItemViewModel {
             return nil
         }
 
-        return Item(id: itemsRepository.nextId(), name: name, listId: list.id)
+        return Item(id: itemsWriteRepository.nextId(), name: name, listId: list.id)
             .withNotes(notes)
             .withExpiration(expiration)
             .withAlertOption(alertOption)

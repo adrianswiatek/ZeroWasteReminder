@@ -16,11 +16,19 @@ public final class InMemoryDependencyResolver: DependencyResolver {
             InMemoryListsRepository(eventDispatcher: resolver.resolve(EventDispatcher.self)!)
         }
 
-        container.register(ItemsRepository.self) { resolver in
+        container.register(InMemoryItemsRepository.self) { resolver in
+            InMemoryItemsRepository(eventDispatcher: resolver.resolve(EventDispatcher.self)!)
+        }
+
+        container.register(ItemsReadRepository.self) { resolver in
             ItemsRepositoryNotificationsDecorator(
-                itemsRepository: InMemoryItemsRepository(eventDispatcher: resolver.resolve(EventDispatcher.self)!),
+                itemsRepository: resolver.resolve(InMemoryItemsRepository.self)!,
                 notificationsRepository: resolver.resolve(ItemNotificationsRepository.self)!
             )
+        }
+
+        container.register(ItemsWriteRepository.self) { resolver in
+            resolver.resolve(InMemoryItemsRepository.self)!
         }
 
         container.register(PhotosRepository.self) { resolver in

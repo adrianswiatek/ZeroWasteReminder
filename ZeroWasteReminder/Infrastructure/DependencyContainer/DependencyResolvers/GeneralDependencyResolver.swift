@@ -119,7 +119,7 @@ public final class GeneralDependencyResolver: DependencyResolver {
         container.register(MoveItemService.self) { resolver in
             DefaultMoveItemService(
                 listsRepository: resolver.resolve(ListsRepository.self)!,
-                itemsRepository: resolver.resolve(ItemsRepository.self)!,
+                itemsWriteRepository: resolver.resolve(ItemsWriteRepository.self)!,
                 eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }
@@ -154,7 +154,8 @@ public final class GeneralDependencyResolver: DependencyResolver {
 
         container.register(ItemsViewModelFactory.self) { resolver in
             ItemsViewModelFactory(
-                itemsRepository: resolver.resolve(ItemsRepository.self)!,
+                itemsReadRepository: resolver.resolve(ItemsReadRepository.self)!,
+                itemsWriteRepository: resolver.resolve(ItemsWriteRepository.self)!,
                 statusNotifier: resolver.resolve(StatusNotifier.self)!,
                 updateListsDate: resolver.resolve(UpdateListsDate.self)!,
                 eventDispatcher: resolver.resolve(EventDispatcher.self)!
@@ -170,7 +171,7 @@ public final class GeneralDependencyResolver: DependencyResolver {
 
         container.register(AddItemViewModelFactory.self) { resolver in
             AddItemViewModelFactory(
-                itemsRepository: resolver.resolve(ItemsRepository.self)!,
+                itemsWriteRepository: resolver.resolve(ItemsWriteRepository.self)!,
                 photosRepository: resolver.resolve(PhotosRepository.self)!,
                 fileService: resolver.resolve(FileService.self)!,
                 statusNotifier: resolver.resolve(StatusNotifier.self)!,
@@ -180,7 +181,8 @@ public final class GeneralDependencyResolver: DependencyResolver {
 
         container.register(EditItemViewModelFactory.self) { resolver in
             EditItemViewModelFactory(
-                itemsRepository: resolver.resolve(ItemsRepository.self)!,
+                itemsReadRepository: resolver.resolve(ItemsReadRepository.self)!,
+                itemsWriteRepository: resolver.resolve(ItemsWriteRepository.self)!,
                 photosRepository: resolver.resolve(PhotosRepository.self)!,
                 fileService: resolver.resolve(FileService.self)!,
                 statusNotifier: resolver.resolve(StatusNotifier.self)!,

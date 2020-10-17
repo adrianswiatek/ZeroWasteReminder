@@ -5,16 +5,16 @@ public final class DefaultMoveItemService: MoveItemService {
     private var moveItemSubscription: AnyCancellable?
 
     private let listsRepository: ListsRepository
-    private let itemsRepository: ItemsRepository
+    private let itemsWriteRepository: ItemsWriteRepository
     private let eventDispatcher: EventDispatcher
 
     public init(
         listsRepository: ListsRepository,
-        itemsRepository: ItemsRepository,
+        itemsWriteRepository: ItemsWriteRepository,
         eventDispatcher: EventDispatcher
     ) {
         self.listsRepository = listsRepository
-        self.itemsRepository = itemsRepository
+        self.itemsWriteRepository = itemsWriteRepository
         self.eventDispatcher = eventDispatcher
     }
 
@@ -28,6 +28,6 @@ public final class DefaultMoveItemService: MoveItemService {
     }
     
     public func moveItem(_ item: Item, to list: List) {
-        itemsRepository.move(item, to: list)
+        itemsWriteRepository.move(item, to: list)
     }
 }

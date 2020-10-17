@@ -37,16 +37,24 @@ public final class CloudKitDependencyResolver: DependencyResolver {
             )
         }
 
-        container.register(ItemsRepository.self) { resolver in
+        container.register(CloudKitItemsRepository.self) { resolver in
+            CloudKitItemsRepository(
+                configuration: resolver.resolve(CloudKitConfiguration.self)!,
+                cache: resolver.resolve(CloudKitCache.self)!,
+                mapper: resolver.resolve(CloudKitMapper.self)!,
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
+            )
+        }
+
+        container.register(ItemsReadRepository.self) { resolver in
             ItemsRepositoryNotificationsDecorator(
-                itemsRepository: CloudKitItemsRepository(
-                    configuration: resolver.resolve(CloudKitConfiguration.self)!,
-                    cache: resolver.resolve(CloudKitCache.self)!,
-                    mapper: resolver.resolve(CloudKitMapper.self)!,
-                    eventDispatcher: resolver.resolve(EventDispatcher.self)!
-                ),
+                itemsRepository: resolver.resolve(CloudKitItemsRepository.self)!,
                 notificationsRepository: resolver.resolve(ItemNotificationsRepository.self)!
             )
+        }
+
+        container.register(ItemsWriteRepository.self) { resolver in
+            resolver.resolve(CloudKitItemsRepository.self)!
         }
 
         container.register(PhotosRepository.self) { resolver in

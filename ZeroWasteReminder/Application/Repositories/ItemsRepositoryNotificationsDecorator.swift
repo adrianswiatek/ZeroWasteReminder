@@ -1,13 +1,13 @@
 import Combine
 
-public final class ItemsRepositoryNotificationsDecorator: ItemsRepository {
-    private let itemsRepository: ItemsRepository
+public final class ItemsRepositoryNotificationsDecorator: ItemsReadRepository {
+    private let itemsRepository: ItemsReadRepository
     private let notificationRepository: ItemNotificationsRepository
 
     private var fetchAllCancellable: AnyCancellable?
     private var fetchCancellable: AnyCancellable?
 
-    public init(itemsRepository: ItemsRepository, notificationsRepository: ItemNotificationsRepository) {
+    public init(itemsRepository: ItemsReadRepository, notificationsRepository: ItemNotificationsRepository) {
         self.itemsRepository = itemsRepository
         self.notificationRepository = notificationsRepository
     }
@@ -36,26 +36,6 @@ public final class ItemsRepositoryNotificationsDecorator: ItemsRepository {
                     receiveValue: { promise(.success($0)) }
                 )
         }
-    }
-
-    public func add(_ itemToSave: ItemToSave) {
-        itemsRepository.add(itemToSave)
-    }
-
-    public func update(_ item: Item) {
-        itemsRepository.update(item)
-    }
-
-    public func move(_ item: Item, to list: List) {
-        itemsRepository.move(item, to: list)
-    }
-
-    public func remove(_ item: Item) {
-        itemsRepository.remove(item)
-    }
-
-    public func remove(_ items: [Item]) {
-        itemsRepository.remove(items)
     }
 
     private func itemsWithAlertOption(_ items: [Item], in list: List) -> Future<[Item], Never> {

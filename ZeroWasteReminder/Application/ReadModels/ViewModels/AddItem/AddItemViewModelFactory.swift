@@ -1,18 +1,18 @@
 public final class AddItemViewModelFactory {
-    private let itemsRepository: ItemsRepository
+    private let itemsWriteRepository: ItemsWriteRepository
     private let photosRepository: PhotosRepository
     private let fileService: FileService
     private let statusNotifier: StatusNotifier
     private let eventDispatcher: EventDispatcher
 
     public init(
-        itemsRepository: ItemsRepository,
+        itemsWriteRepository: ItemsWriteRepository,
         photosRepository: PhotosRepository,
         fileService: FileService,
         statusNotifier: StatusNotifier,
         eventDispatcher: EventDispatcher
     ) {
-        self.itemsRepository = itemsRepository
+        self.itemsWriteRepository = itemsWriteRepository
         self.photosRepository = photosRepository
         self.fileService = fileService
         self.statusNotifier = statusNotifier
@@ -22,7 +22,7 @@ public final class AddItemViewModelFactory {
     public func create(for list: List) -> AddItemViewModel {
         .init(
             list: list,
-            itemsRepository: itemsRepository,
+            itemsWriteRepository: itemsWriteRepository,
             photosRepository: photosRepository,
             fileService: fileService,
             statusNotifier: statusNotifier,

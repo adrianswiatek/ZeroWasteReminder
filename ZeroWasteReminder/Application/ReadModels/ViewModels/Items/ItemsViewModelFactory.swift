@@ -1,16 +1,19 @@
 public final class ItemsViewModelFactory {
-    private let itemsRepository: ItemsRepository
+    private let itemsReadRepository: ItemsReadRepository
+    private let itemsWriteRepository: ItemsWriteRepository
     private let statusNotifier: StatusNotifier
     private let updateListsDate: UpdateListsDate
     private let eventDispatcher: EventDispatcher
 
     public init(
-        itemsRepository: ItemsRepository,
+        itemsReadRepository: ItemsReadRepository,
+        itemsWriteRepository: ItemsWriteRepository,
         statusNotifier: StatusNotifier,
         updateListsDate: UpdateListsDate,
         eventDispatcher: EventDispatcher
     ) {
-        self.itemsRepository = itemsRepository
+        self.itemsReadRepository = itemsReadRepository
+        self.itemsWriteRepository = itemsWriteRepository
         self.statusNotifier = statusNotifier
         self.updateListsDate = updateListsDate
         self.eventDispatcher = eventDispatcher
@@ -19,7 +22,8 @@ public final class ItemsViewModelFactory {
     public func create(for list: List) -> ItemsViewModel {
         .init(
             list: list,
-            itemsRepository: itemsRepository,
+            itemsReadRepository: itemsReadRepository,
+            itemsWriteRepository: itemsWriteRepository,
             statusNotifier: statusNotifier,
             updateListsDate: updateListsDate,
             eventDispatcher: eventDispatcher
