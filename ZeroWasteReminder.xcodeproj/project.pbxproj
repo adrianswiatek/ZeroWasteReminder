@@ -227,6 +227,9 @@
 		A7FF95DB253B8D9400CC8114 /* ZeroWasteReminder.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A7FF95D9253B8D9400CC8114 /* ZeroWasteReminder.xcdatamodeld */; };
 		A7FF95E0253B903F00CC8114 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FF95DF253B903F00CC8114 /* CoreDataStack.swift */; };
 		A7FF95E4253B927800CC8114 /* CoreDataItemNotificationsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FF95E3253B927800CC8114 /* CoreDataItemNotificationsRepository.swift */; };
+		A7FF95E8253BA6F800CC8114 /* CoreDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FF95E7253BA6F800CC8114 /* CoreDataMapper.swift */; };
+		A7FF95EC253BA84100CC8114 /* CoreDataNotificationEntityMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FF95EB253BA84100CC8114 /* CoreDataNotificationEntityMapper.swift */; };
+		A7FF95F3253BB6B200CC8114 /* NotificationEntityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FF95F2253BB6B200CC8114 /* NotificationEntityExtensions.swift */; };
 		A7FFA9772448F3FF0061A3D6 /* Expiration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA9762448F3FF0061A3D6 /* Expiration.swift */; };
 		A7FFA9792448F5C00061A3D6 /* ExpirationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA9782448F5C00061A3D6 /* ExpirationType.swift */; };
 		A7FFA97D244909B40061A3D6 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA97C244909B40061A3D6 /* DateExtensions.swift */; };
@@ -456,6 +459,9 @@
 		A7FF95DA253B8D9400CC8114 /* ZeroWasteReminder.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ZeroWasteReminder.xcdatamodel; sourceTree = "<group>"; };
 		A7FF95DF253B903F00CC8114 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		A7FF95E3253B927800CC8114 /* CoreDataItemNotificationsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataItemNotificationsRepository.swift; sourceTree = "<group>"; };
+		A7FF95E7253BA6F800CC8114 /* CoreDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataMapper.swift; sourceTree = "<group>"; };
+		A7FF95EB253BA84100CC8114 /* CoreDataNotificationEntityMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataNotificationEntityMapper.swift; sourceTree = "<group>"; };
+		A7FF95F2253BB6B200CC8114 /* NotificationEntityExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEntityExtensions.swift; sourceTree = "<group>"; };
 		A7FFA9762448F3FF0061A3D6 /* Expiration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expiration.swift; sourceTree = "<group>"; };
 		A7FFA9782448F5C00061A3D6 /* ExpirationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationType.swift; sourceTree = "<group>"; };
 		A7FFA97C244909B40061A3D6 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
@@ -1276,10 +1282,21 @@
 		A7FF95DE253B8EBD00CC8114 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				A7FF95D9253B8D9400CC8114 /* ZeroWasteReminder.xcdatamodeld */,
 				A7FF95DF253B903F00CC8114 /* CoreDataStack.swift */,
+				A7FF95F2253BB6B200CC8114 /* NotificationEntityExtensions.swift */,
+				A7FF95E6253BA6DB00CC8114 /* Mappers */,
+				A7FF95D9253B8D9400CC8114 /* ZeroWasteReminder.xcdatamodeld */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		A7FF95E6253BA6DB00CC8114 /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+				A7FF95E7253BA6F800CC8114 /* CoreDataMapper.swift */,
+				A7FF95EB253BA84100CC8114 /* CoreDataNotificationEntityMapper.swift */,
+			);
+			path = Mappers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1411,6 +1428,7 @@
 				A7A8EF73247C52E900FF1AC2 /* ItemNameTextView.swift in Sources */,
 				A783EE2624674ECD008BCC17 /* AdaptiveScrollView.swift in Sources */,
 				A7636A672490499F00166631 /* FileService.swift in Sources */,
+				A7FF95F3253BB6B200CC8114 /* NotificationEntityExtensions.swift in Sources */,
 				A725068D2457992F006C3A2F /* RemainingState.swift in Sources */,
 				A71C719124FD7E4400973611 /* CloudKitCache.swift in Sources */,
 				A7FFA9792448F5C00061A3D6 /* ExpirationType.swift in Sources */,
@@ -1431,6 +1449,7 @@
 				A7E5B8B925044A72008E9523 /* MoveItemService.swift in Sources */,
 				A7CFBBB6250969A80026D338 /* DependencyResolverComposite.swift in Sources */,
 				A7D7949D2537A77F00EB0157 /* ItemsRepositoryNotificationsDecorator.swift in Sources */,
+				A7FF95EC253BA84100CC8114 /* CoreDataNotificationEntityMapper.swift in Sources */,
 				A7A8EF77247C7DF900FF1AC2 /* SharedTextViewDelegate.swift in Sources */,
 				A78172AE2494D05200F406EC /* CloudKitItemMapper.swift in Sources */,
 				A7560A6B252E763D007A6861 /* ItemNotificationScheduler.swift in Sources */,
@@ -1497,6 +1516,7 @@
 				A79510B7252926EE00D09E3B /* AlertCalendarCell.swift in Sources */,
 				A7DAD1C224F70B0D0004529D /* ArrayExtensions.swift in Sources */,
 				A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */,
+				A7FF95E8253BA6F800CC8114 /* CoreDataMapper.swift in Sources */,
 				A7D41CA12517FC0A00A78ADD /* PhotosUpdated.swift in Sources */,
 				A700D6C22454BD6A00F16F2E /* ItemsFilterCollectionView.swift in Sources */,
 				A750434124707386009A1451 /* CloudKitItemsRepository.swift in Sources */,

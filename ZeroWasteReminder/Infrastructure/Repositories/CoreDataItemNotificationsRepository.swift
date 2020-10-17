@@ -2,9 +2,11 @@ import CoreData
 
 public final class CoreDataItemNotificationsRepository: ItemNotificationsRepository {
     private let viewContext: NSManagedObjectContext
+    private let mapper: CoreDataMapper
 
-    public init(coreDataStack: CoreDataStack) {
-        viewContext = coreDataStack.persistentContainer.viewContext
+    public init(coreDataStack: CoreDataStack, mapper: CoreDataMapper) {
+        self.viewContext = coreDataStack.persistentContainer.viewContext
+        self.mapper = mapper
     }
 
     public func fetchAll(from list: List) -> [Notification] {
@@ -12,31 +14,16 @@ public final class CoreDataItemNotificationsRepository: ItemNotificationsReposit
         request.predicate = .init(format: "listId == %@", list.id.asString)
 
         let notifications = (try? viewContext.fetch(request)) ?? []
-        return notifications.map {
-            Notification(
-                itemId: .fromUuid($0.itemId!),
-                listId: .fromUuid($0.listId!),
-                alertOption: .fromString($0.alertOption!)
-            )
-        }
+        return notifications.map { mapper.map($0).toNotification() }
     }
 
     public func fetch(for item: Item) -> Notification? {
-        fetchEntity(for: item.id).map {
-            Notification(
-                itemId: .fromUuid($0.itemId!),
-                listId: .fromUuid($0.listId!),
-                alertOption: .fromString($0.alertOption!)
-            )
-        }
+        fetchEntity(for: item.id).map { mapper.map($0).toNotification() }
     }
 
     public func update(for item: Item) {
         let entity = fetchEntity(for: item.id) ?? NotificationEntity(context: viewContext)
-        entity.itemId = item.id.asUuid
-        entity.listId = item.listId.asUuid
-        entity.alertOption = item.alertOption.asString
-
+        entity.updateBy(item)
         try? viewContext.save()
     }
 

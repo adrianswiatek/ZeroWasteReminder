@@ -1,5 +1,4 @@
 import CloudKit
-import UIKit
 
 public final class CloudKitMapper {
     private let fileService: FileService

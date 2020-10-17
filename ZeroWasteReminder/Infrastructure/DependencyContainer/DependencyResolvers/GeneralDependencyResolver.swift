@@ -61,15 +61,15 @@ public final class GeneralDependencyResolver: DependencyResolver {
 
     public func registerOtherObjects() {
         container.register(NotificationCenter.self) { _ in
-            NotificationCenter.default
+            .default
         }.inObjectScope(.container)
 
         container.register(UNUserNotificationCenter.self) { _ in
-            UNUserNotificationCenter.current()
+            .current()
         }.inObjectScope(.container)
 
         container.register(EventDispatcher.self) { resolver in
-            EventDispatcher()
+            .init()
         }.inObjectScope(.container)
 
         container.register(EventDispatcherInterceptor.self) { resolver in
@@ -94,21 +94,32 @@ public final class GeneralDependencyResolver: DependencyResolver {
         }
 
         container.register(ItemNotificationScheduler.self) { resolver in
-            ConsoleItemNotificationSchedulerInterceptor(
-                notificationScheduler: resolver.resolve(ItemUserNotificationScheduler.self)!,
-                userNotificationCenter: resolver.resolve(UNUserNotificationCenter.self)!
-            )
+            resolver.resolve(ItemUserNotificationScheduler.self)!
+//            ConsoleItemNotificationSchedulerInterceptor(
+//                notificationScheduler: resolver.resolve(ItemUserNotificationScheduler.self)!,
+//                userNotificationCenter: resolver.resolve(UNUserNotificationCenter.self)!
+//            )
         }
 
         container.register(StatusNotifier.self) { resolver in
             RemoteStatusNotifier(accountService: resolver.resolve(AccountService.self)!)
         }.inObjectScope(.container)
+
+        container.register(CoreDataMapper.self) { _ in
+            CoreDataMapper()
+        }
+
+        container.register(CoreDataStack.self) { _ in
+            CoreDataStack()
+        }.inObjectScope(.container)
     }
 
     public func registerRepositories() {
-        container.register(ItemNotificationsRepository.self) { _ in
-//            InMemoryNotificationsRepository()
-            CoreDataItemNotificationsRepository(coreDataStack: CoreDataStack())
+        container.register(ItemNotificationsRepository.self) { resolver in
+            CoreDataItemNotificationsRepository(
+                coreDataStack: resolver.resolve(CoreDataStack.self)!,
+                mapper: resolver.resolve(CoreDataMapper.self)!
+            )
         }.inObjectScope(.container)
     }
 
