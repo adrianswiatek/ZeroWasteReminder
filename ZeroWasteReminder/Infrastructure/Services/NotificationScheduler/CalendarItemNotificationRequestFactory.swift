@@ -14,9 +14,13 @@ public final class CalendarItemNotificationRequestFactory: ItemNotificationReque
     }
 
     private func contentForItem(_ item: Item) -> UNNotificationContent {
-        let content = UNMutableNotificationContent()
-        content.body = "\(item.name) will expire \(item.expiration.date!)"
-        return content
+        configure(UNMutableNotificationContent()) {
+            $0.body = "\(item.name) will expire \(item.expiration.date!)"
+            $0.userInfo = [
+                "listId": item.listId.asString,
+                "alertOption": item.alertOption.asString
+            ]
+        }
     }
 
     private func triggerForItem(_ item: Item) -> UNCalendarNotificationTrigger? {

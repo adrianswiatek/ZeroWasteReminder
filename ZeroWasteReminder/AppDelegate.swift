@@ -10,9 +10,11 @@ internal class AppDelegate: UIResponder, UIApplicationDelegate {
     private let userNotificationCenter: UNUserNotificationCenter
 
     internal override init() {
-        dependencyContainer = .init(
-            configuration: .cloudKit(containerIdentifier: "iCloud.pl.aswiatek.PushNotifications")
+        let dependencyContainerConfiguration = DependencyContainerConfiguration(
+            localStorage: .coreData,
+            remoteStorage: .cloudKit(containerIdentifier: "iCloud.pl.aswiatek.PushNotifications")
         )
+        dependencyContainer = .init(configuration: dependencyContainerConfiguration)
         remoteNotificationHandler = dependencyContainer.remoteNotificationHandler
         userNotificationCenter = dependencyContainer.userNotificationCenter
 

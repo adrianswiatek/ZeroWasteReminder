@@ -9,12 +9,16 @@ public final class CoreDataItemNotificationsRepository: ItemNotificationsReposit
         self.mapper = mapper
     }
 
-    public func fetchAll(from list: List) -> [Notification] {
-        let request: NSFetchRequest<NotificationEntity> = NotificationEntity.fetchRequest()
-        request.predicate = .init(format: "listId == %@", list.id.asString)
+    public func fetchAll() -> [Notification] {
+        fetchEntities(by: .init(value: true)).map {
+            mapper.map($0).toNotification()
+        }
+    }
 
-        let notifications = (try? viewContext.fetch(request)) ?? []
-        return notifications.map { mapper.map($0).toNotification() }
+    public func fetchAll(from list: List) -> [Notification] {
+        fetchEntities(by: .init(format: "listId == %@", list.id.asString)).map {
+            mapper.map($0).toNotification()
+        }
     }
 
     public func fetch(for item: Item) -> Notification? {

@@ -1,14 +1,23 @@
 import Swinject
 import UserNotifications
 
-public final class GeneralDependencyResolver: DependencyResolver {
+internal struct GeneralDependenciesRecorder: DependenciesRecorder {
     private let container: Container
 
-    public init(_ container: Container) {
+    internal init(_ container: Container) {
         self.container = container
     }
 
-    public func registerCoordinators() {
+    internal func register() {
+        registerCoordinators()
+        registerEventListeners()
+        registerOtherObjects()
+        registerServices()
+        registerViewControllerFactories()
+        registerViewModelFactories()
+    }
+
+    private func registerCoordinators() {
         container.register(AddCoordinator.self) { resolver in
             AddCoordinator(
                 imagePickerFactory: resolver.resolve(ImagePickerControllerFactory.self)!,
@@ -43,7 +52,7 @@ public final class GeneralDependencyResolver: DependencyResolver {
         }
     }
 
-    public func registerEventListeners() {
+    private func registerEventListeners() {
         container.register(UpdateListsDate.self) { resolver in
             UpdateListsDate(
                 resolver.resolve(ListsRepository.self)!,
@@ -59,7 +68,7 @@ public final class GeneralDependencyResolver: DependencyResolver {
         }
     }
 
-    public func registerOtherObjects() {
+    private func registerOtherObjects() {
         container.register(NotificationCenter.self) { _ in
             .default
         }.inObjectScope(.container)
@@ -69,7 +78,7 @@ public final class GeneralDependencyResolver: DependencyResolver {
         }.inObjectScope(.container)
 
         container.register(EventDispatcher.self) { resolver in
-            .init()
+            EventDispatcher()
         }.inObjectScope(.container)
 
         container.register(EventDispatcherInterceptor.self) { resolver in
@@ -84,7 +93,7 @@ public final class GeneralDependencyResolver: DependencyResolver {
             CalendarItemNotificationRequestFactory()
         }
 
-        container.register(ItemUserNotificationScheduler.self) { resolver in
+        container.register(ItemNotificationScheduler.self) { resolver in
             ItemUserNotificationScheduler(
                 userNotificationRequestFactory: resolver.resolve(ItemNotificationRequestFactory.self)!,
                 notificationRepository: resolver.resolve(ItemNotificationsRepository.self)!,
@@ -93,37 +102,12 @@ public final class GeneralDependencyResolver: DependencyResolver {
             )
         }
 
-        container.register(ItemNotificationScheduler.self) { resolver in
-            resolver.resolve(ItemUserNotificationScheduler.self)!
-//            ConsoleItemNotificationSchedulerInterceptor(
-//                notificationScheduler: resolver.resolve(ItemUserNotificationScheduler.self)!,
-//                userNotificationCenter: resolver.resolve(UNUserNotificationCenter.self)!
-//            )
-        }
-
         container.register(StatusNotifier.self) { resolver in
             RemoteStatusNotifier(accountService: resolver.resolve(AccountService.self)!)
         }.inObjectScope(.container)
-
-        container.register(CoreDataMapper.self) { _ in
-            CoreDataMapper()
-        }
-
-        container.register(CoreDataStack.self) { _ in
-            CoreDataStack()
-        }.inObjectScope(.container)
     }
 
-    public func registerRepositories() {
-        container.register(ItemNotificationsRepository.self) { resolver in
-            CoreDataItemNotificationsRepository(
-                coreDataStack: resolver.resolve(CoreDataStack.self)!,
-                mapper: resolver.resolve(CoreDataMapper.self)!
-            )
-        }.inObjectScope(.container)
-    }
-
-    public func registerServices() {
+    private func registerServices() {
         container.register(FileService.self) { _ in
             FileService(fileManager: .default)
         }
@@ -137,7 +121,7 @@ public final class GeneralDependencyResolver: DependencyResolver {
         }
     }
 
-    public func registerViewControllerFactories() {
+    private func registerViewControllerFactories() {
         container.register(ImagePickerControllerFactory.self) { _ in
             ImagePickerControllerFactory()
         }
@@ -155,7 +139,7 @@ public final class GeneralDependencyResolver: DependencyResolver {
         }
     }
 
-    public func registerViewModelFactories() {
+    private func registerViewModelFactories() {
         container.register(ListsViewModelFactory.self) { resolver in
             ListsViewModelFactory(
                 listsRepository: resolver.resolve(ListsRepository.self)!,

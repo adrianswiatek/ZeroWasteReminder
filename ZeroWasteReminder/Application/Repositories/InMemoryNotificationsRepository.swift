@@ -1,6 +1,10 @@
 public final class InMemoryNotificationsRepository: ItemNotificationsRepository {
     private var notifications: [Notification] = []
 
+    public func fetchAll() -> [Notification] {
+        notifications
+    }
+
     public func fetchAll(from list: List) -> [Notification] {
         notifications.filter { $0.listId == list.id }
     }

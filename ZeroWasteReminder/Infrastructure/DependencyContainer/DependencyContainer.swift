@@ -3,28 +3,8 @@ import Swinject
 
 internal final class DependencyContainer {
     private let container: Container
-    private var resolver: DependencyResolver!
+    private var recorder: DependenciesRecorder!
     private var listeners: [Any]
-
-    internal init(configuration: Configuration) {
-        container = Container()
-        listeners = []
-
-        resolver = DependencyResolverComposite([
-            GeneralDependencyResolver(container),
-            infrastructureDependencyResolver(from: configuration)
-        ])
-
-        resolver.registerCoordinators()
-        resolver.registerEventListeners()
-        resolver.registerOtherObjects()
-        resolver.registerRepositories()
-        resolver.registerServices()
-        resolver.registerViewControllerFactories()
-        resolver.registerViewModelFactories()
-
-        attachListeners()
-    }
 
     internal var rootViewController: UIViewController {
         container.resolve(ListsViewControllerFactory.self)!.create()
@@ -38,19 +18,68 @@ internal final class DependencyContainer {
         container.resolve(UNUserNotificationCenter.self)!
     }
 
+    internal init(configuration: DependencyContainerConfiguration) {
+        container = Container()
+        listeners = []
+
+        recorder = dependenciesRecorder(from: container, and: configuration)
+        recorder.register()
+
+        attachListeners()
+    }
+
     internal func startBackgroundServices() {
         container.resolve(AccountService.self)!.refreshUserEligibility()
         container.resolve(SubscriptionService.self)!.registerSubscriptionsIfNeeded()
     }
 
-    private func infrastructureDependencyResolver(
-        from configuration: Configuration
-    ) -> DependencyResolver {
-        switch configuration {
-        case .cloudKit(let containerIdentifier):
-            return CloudKitDependencyResolver(container, containerIdentifier)
+    private func dependenciesRecorder(
+        from container: Container,
+        and configuration: DependencyContainerConfiguration
+    ) -> DependenciesRecorder {
+        let localStorageRecorder = localStorageDependenciesRecorder(from: configuration)
+        let remoteStorageRecorder = remoteStorageDependenciesRecorder(from: container, and: configuration)
+
+        return DependenciesRecorderComposite([
+            GeneralDependenciesRecorder(container),
+            localStorageRecorder,
+            remoteStorageRecorder,
+            storageDependencyRecorder(
+                container,
+                localStorageRecorder.container,
+                remoteStorageRecorder.container
+            )
+        ])
+    }
+
+    private func storageDependencyRecorder(
+        _ container: Container,
+        _ localStorageContainer: Container,
+        _ remoteStorageContainer: Container
+    ) -> StorageDependencyRecorder {
+        .init(container, localStorageContainer, remoteStorageContainer)
+    }
+
+    private func localStorageDependenciesRecorder(
+        from configuration: DependencyContainerConfiguration
+    ) -> LocalStorageDependenciesRecorder {
+        switch configuration.localStorage {
+        case .coreData:
+            return CoreDataLocalStorageDependenciesRecorder()
         case .inMemory:
-            return InMemoryDependencyResolver(container)
+            return InMemoryLocalStorageDependenciesRecorder()
+        }
+    }
+
+    private func remoteStorageDependenciesRecorder(
+        from container: Container,
+        and configuration: DependencyContainerConfiguration
+    ) -> RemoteStorageDependenciesRecorder {
+        switch configuration.remoteStorage {
+        case .cloudKit(let containerIdentifier):
+            return CloudKitRemoteStorageDependenciesRecorder(container, containerIdentifier)
+        case .inMemory:
+            return InMemoryRemoteStorageDependenciesRecorder(container)
         }
     }
 
@@ -58,12 +87,5 @@ internal final class DependencyContainer {
 //        listeners.append(container.resolve(EventDispatcherInterceptor.self)!)
         listeners.append(container.resolve(ScheduleItemNotification.self)!)
         listeners.append(container.resolve(UpdateListsDate.self)!)
-    }
-}
-
-internal extension DependencyContainer {
-    enum Configuration {
-        case inMemory
-        case cloudKit(containerIdentifier: String)
     }
 }
