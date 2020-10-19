@@ -43,11 +43,11 @@ public final class ItemUserNotificationScheduler: ItemNotificationsScheduler {
     }
 
     private func requestForItem(_ item: Item) -> UNNotificationRequest? {
-        guard requestFactory.canCreate(for: item) else {
+        guard requestFactory.canCreate(for: .fromItem(item)) else {
             removeScheduledNotifications(for: .just(item))
             return nil
         }
 
-        return requestFactory.create(for: item)
+        return requestFactory.create(for: .fromItem(item))
     }
 }
