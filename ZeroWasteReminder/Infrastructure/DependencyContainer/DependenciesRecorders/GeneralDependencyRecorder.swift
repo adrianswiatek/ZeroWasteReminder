@@ -62,7 +62,7 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
 
         container.register(ScheduleItemNotification.self) { resolver in
             ScheduleItemNotification(
-                resolver.resolve(ItemNotificationScheduler.self)!,
+                resolver.resolve(ItemNotificationsScheduler.self)!,
                 resolver.resolve(EventDispatcher.self)!
             )
         }
@@ -93,7 +93,7 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
             CalendarItemNotificationRequestFactory()
         }
 
-        container.register(ItemNotificationScheduler.self) { resolver in
+        container.register(ItemNotificationsScheduler.self) { resolver in
             ItemUserNotificationScheduler(
                 userNotificationRequestFactory: resolver.resolve(ItemNotificationRequestFactory.self)!,
                 notificationRepository: resolver.resolve(ItemNotificationsRepository.self)!,
@@ -117,6 +117,14 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
                 listsRepository: resolver.resolve(ListsRepository.self)!,
                 itemsWriteRepository: resolver.resolve(ItemsWriteRepository.self)!,
                 eventDispatcher: resolver.resolve(EventDispatcher.self)!
+            )
+        }
+
+        container.register(ItemNotificationsRescheduler.self) { resolver in
+            ItemUserNotificationsResheduler(
+                itemNotificationsRepository: resolver.resolve(ItemNotificationsRepository.self)!,
+                notificationRequestFactory: resolver.resolve(ItemNotificationRequestFactory.self)!,
+                userNotificationCenter: resolver.resolve(UNUserNotificationCenter.self)!
             )
         }
     }

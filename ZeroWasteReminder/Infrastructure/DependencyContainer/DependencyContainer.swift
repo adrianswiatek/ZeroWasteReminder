@@ -31,6 +31,7 @@ internal final class DependencyContainer {
     internal func startBackgroundServices() {
         container.resolve(AccountService.self)!.refreshUserEligibility()
         container.resolve(SubscriptionService.self)!.registerSubscriptionsIfNeeded()
+        container.resolve(ItemNotificationsRescheduler.self)!.reschedule()
     }
 
     private func dependenciesRecorder(

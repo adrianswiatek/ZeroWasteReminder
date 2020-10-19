@@ -1,7 +1,7 @@
 import Combine
 import UserNotifications
 
-public final class ItemUserNotificationScheduler: ItemNotificationScheduler {
+public final class ItemUserNotificationScheduler: ItemNotificationsScheduler {
     private let requestFactory: ItemNotificationRequestFactory
     private let notificationRepository: ItemNotificationsRepository
     private let userNotificationCenter: UNUserNotificationCenter

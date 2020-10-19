@@ -1,15 +1,15 @@
 public final class InMemoryNotificationsRepository: ItemNotificationsRepository {
-    private var notifications: [Notification] = []
+    private var notifications: [ItemNotification] = []
 
-    public func fetchAll() -> [Notification] {
+    public func fetchAll() -> [ItemNotification] {
         notifications
     }
 
-    public func fetchAll(from list: List) -> [Notification] {
+    public func fetchAll(from list: List) -> [ItemNotification] {
         notifications.filter { $0.listId == list.id }
     }
 
-    public func fetch(for item: Item) -> Notification? {
+    public func fetch(for item: Item) -> ItemNotification? {
         notifications.first { $0.itemId == item.id }
     }
 
@@ -17,8 +17,7 @@ public final class InMemoryNotificationsRepository: ItemNotificationsRepository 
         if let index = notifications.firstIndex(where: { $0.itemId == item.id }) {
             notifications.remove(at: index)
         }
-
-        notifications.append(.init(itemId: item.id, listId: item.listId, alertOption: item.alertOption))
+        notifications.append(.fromItem(item))
     }
 
     public func remove(by itemIds: [Id<Item>]) {

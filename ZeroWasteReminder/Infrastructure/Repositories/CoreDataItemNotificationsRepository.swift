@@ -9,19 +9,19 @@ public final class CoreDataItemNotificationsRepository: ItemNotificationsReposit
         self.mapper = mapper
     }
 
-    public func fetchAll() -> [Notification] {
+    public func fetchAll() -> [ItemNotification] {
         fetchEntities(by: .init(value: true)).map {
             mapper.map($0).toNotification()
         }
     }
 
-    public func fetchAll(from list: List) -> [Notification] {
+    public func fetchAll(from list: List) -> [ItemNotification] {
         fetchEntities(by: .init(format: "listId == %@", list.id.asString)).map {
             mapper.map($0).toNotification()
         }
     }
 
-    public func fetch(for item: Item) -> Notification? {
+    public func fetch(for item: Item) -> ItemNotification? {
         fetchEntity(for: item.id).map { mapper.map($0).toNotification() }
     }
 

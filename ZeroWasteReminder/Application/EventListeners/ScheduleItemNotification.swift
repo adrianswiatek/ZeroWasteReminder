@@ -2,12 +2,12 @@ import Combine
 import Foundation
 
 public final class ScheduleItemNotification {
-    private let notificationScheduler: ItemNotificationScheduler
+    private let notificationScheduler: ItemNotificationsScheduler
     private let eventDispatcher: EventDispatcher
     private var subscriptions: Set<AnyCancellable>
 
     public init(
-        _ notificationScheduler: ItemNotificationScheduler,
+        _ notificationScheduler: ItemNotificationsScheduler,
         _ eventDispatcher: EventDispatcher
     ) {
         self.notificationScheduler = notificationScheduler

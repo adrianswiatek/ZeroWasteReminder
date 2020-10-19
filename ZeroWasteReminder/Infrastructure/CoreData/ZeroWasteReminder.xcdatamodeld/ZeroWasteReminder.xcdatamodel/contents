@@ -2,10 +2,12 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="NotificationEntity" representedClassName="NotificationEntity" syncable="YES" codeGenerationType="class">
         <attribute name="alertOption" attributeType="String"/>
+        <attribute name="expirationDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="itemId" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="itemName" attributeType="String"/>
         <attribute name="listId" attributeType="UUID" usesScalarValueType="NO"/>
     </entity>
     <elements>
-        <element name="NotificationEntity" positionX="-63" positionY="-18" width="128" height="88"/>
+        <element name="NotificationEntity" positionX="-63" positionY="-18" width="128" height="118"/>
     </elements>
 </model>

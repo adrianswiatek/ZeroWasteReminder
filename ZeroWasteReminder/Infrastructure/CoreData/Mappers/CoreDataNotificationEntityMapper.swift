@@ -7,10 +7,12 @@ internal struct CoreDataNotificationEntityMapper {
         self.entity = entity
     }
 
-    internal func toNotification() -> Notification {
+    internal func toNotification() -> ItemNotification {
         .init(
             itemId: .fromUuid(entity.itemId!),
             listId: .fromUuid(entity.listId!),
+            itemName: entity.itemName!,
+            expiration: .fromDate(entity.expirationDate!),
             alertOption: .fromString(entity.alertOption!)
         )
     }

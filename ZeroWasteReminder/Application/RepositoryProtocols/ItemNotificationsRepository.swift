@@ -1,7 +1,7 @@
 public protocol ItemNotificationsRepository {
-    func fetchAll() -> [Notification]
-    func fetchAll(from list: List) -> [Notification]
-    func fetch(for item: Item) -> Notification?
+    func fetchAll() -> [ItemNotification]
+    func fetchAll(from list: List) -> [ItemNotification]
+    func fetch(for item: Item) -> ItemNotification?
     func update(for item: Item)
 
     func remove(by itemIds: [Id<Item>])
