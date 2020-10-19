@@ -5,47 +5,61 @@ public struct Item: Identifiable, Hashable {
     public let name: String
     public let notes: String
     public let expiration: Expiration
+    public let alertOption: AlertOption
 
     public let listId: Id<List>
 
-    public func withName(_ name: String) -> Item {
-        .init(id: id, name: name, notes: notes, expiration: expiration, listId: listId)
+    public init(id: Id<Item>, name: String, listId: Id<List>) {
+        self.init(id, name, "", .none, .none, listId)
     }
 
-    public func withExpiration(_ expiration: Expiration) -> Item {
-        .init(id: id, name: name, notes: notes, expiration: expiration, listId: listId)
-    }
-
-    public func withExpirationDate(_ date: Date?) -> Item {
-        if let date = date {
-            return .init(id: id, name: name, notes: notes, expiration: .date(date), listId: listId)
-        }
-        return .init(id: id, name: name, notes: notes, expiration: .none, listId: listId)
-    }
-
-    public func withNotes(_ notes: String) -> Item {
-        .init(id: id, name: name, notes: notes, expiration: expiration, listId: listId)
-    }
-
-    public func withListId(_ listId: Id<List>) -> Item {
-        .init(id: id, name: name, notes: notes, expiration: expiration, listId: listId)
-    }
-}
-
-extension Item {
-    public init(
-        id: Id<Item>,
-        name: String,
-        notes: String,
-        expiration: Expiration,
-        photos: [PhotoToSave],
-        listId: Id<List>
+    private init(
+        _ id: Id<Item>,
+        _ name: String,
+        _ notes: String,
+        _ expiration: Expiration,
+        _ alertOption: AlertOption,
+        _ listId: Id<List>
     ) {
         self.id = id
         self.name = name
         self.notes = notes
         self.expiration = expiration
+        self.alertOption = alertOption
         self.listId = listId
+    }
+
+    public func withName(_ name: String) -> Item {
+        .init(id, name, notes, expiration, alertOption, listId)
+    }
+
+    public func withExpiration(_ expiration: Expiration) -> Item {
+        .init(id, name, notes, expiration, alertOption, listId)
+    }
+
+    public func withExpirationDate(_ date: Date?) -> Item {
+        if let date = date {
+            return .init(id, name, notes, .date(date), alertOption, listId)
+        }
+        return .init(id, name, notes, .none, alertOption, listId)
+    }
+
+    public func withNotes(_ notes: String) -> Item {
+        .init(id, name, notes, expiration, alertOption, listId)
+    }
+
+    public func withListId(_ listId: Id<List>) -> Item {
+        .init(id, name, notes, expiration, alertOption, listId)
+    }
+
+    public func withAlertOption(_ alertOption: AlertOption) -> Item {
+        var option = AlertOption.none
+
+        if case .date(let date) = expiration, alertOption.calculateDate(from: date)?.isInTheFuture() == true {
+            option = alertOption
+        }
+
+        return .init(id, name, notes, expiration, option, listId)
     }
 }
 
@@ -55,6 +69,7 @@ extension Item: Equatable {
             && lhs.name == rhs.name
             && lhs.notes == rhs.notes
             && lhs.expiration == rhs.expiration
+            && lhs.alertOption == rhs.alertOption
             && lhs.listId == rhs.listId
     }
 }

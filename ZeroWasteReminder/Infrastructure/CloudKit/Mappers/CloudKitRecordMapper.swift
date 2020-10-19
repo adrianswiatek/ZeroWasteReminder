@@ -2,11 +2,9 @@ import CloudKit
 
 internal final class CloudKitRecordMapper {
     private let record: CKRecord?
-    private let fileService: FileService
 
-    internal init(_ record: CKRecord?, _ fileService: FileService) {
+    internal init(_ record: CKRecord?) {
         self.record = record
-        self.fileService = fileService
     }
 
     internal func toFullSize() -> Photo? {
@@ -34,13 +32,9 @@ internal final class CloudKitRecordMapper {
             let listId = listId(from: record)
         else { return nil }
 
-        return Item(
-            id: .fromString(record.recordID.recordName),
-            name: name,
-            notes: notes(from: record),
-            expiration: (record[CloudKitKey.Item.expiration] as? Date).map { .date($0) } ?? .none,
-            listId: listId
-        )
+        return Item(id: .fromString(record.recordID.recordName), name: name, listId: listId)
+            .withNotes(notes(from: record))
+            .withExpiration(expiration(from: record))
     }
 
     internal func updatedBy(_ list: List?) -> CloudKitRecordMapper {
@@ -69,6 +63,10 @@ internal final class CloudKitRecordMapper {
 
     private func notes(from record: CKRecord) -> String {
         record[CloudKitKey.Item.notes] as? String ?? ""
+    }
+
+    private func expiration(from record: CKRecord) -> Expiration {
+        (record[CloudKitKey.Item.expiration] as? Date).map { .date($0) } ?? .none
     }
 
     private func listReference(from item: Item, and record: CKRecord) -> CKRecord.Reference {

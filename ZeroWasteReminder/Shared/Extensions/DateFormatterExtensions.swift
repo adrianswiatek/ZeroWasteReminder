@@ -1,9 +1,15 @@
 import Foundation
 
 public extension DateFormatter {
-    static var fullDateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .full
-        return formatter
+    static var fullDate: DateFormatter {
+        configure(DateFormatter()) { $0.dateStyle = .full }
+    }
+
+    static var longDate: DateFormatter {
+        configure(DateFormatter()) { $0.dateStyle = .long }
+    }
+
+    static func withFormat(_ format: String) -> DateFormatter {
+        configure(DateFormatter()) { $0.dateFormat = format }
     }
 }

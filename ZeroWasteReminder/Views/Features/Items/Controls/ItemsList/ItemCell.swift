@@ -8,39 +8,24 @@ public final class ItemCell: UITableViewCell {
         }
     }
 
-    private let nameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .label
-        label.font = .systemFont(ofSize: 16, weight: .medium)
-        label.numberOfLines = 0
-        return label
-    }()
+    private let nameLabel: UILabel = configure(UILabel()) {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.textColor = .label
+        $0.font = .systemFont(ofSize: 16, weight: .medium)
+        $0.numberOfLines = 0
+    }
 
-    private let expirationDateLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 14, weight: .light)
-        label.textColor = .secondaryLabel
-        return label
-    }()
+    private let expirationDateLabel: UILabel = configure(UILabel()) {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.font = .systemFont(ofSize: 14, weight: .light)
+        $0.textColor = .secondaryLabel
+    }
 
-    private let noteImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.setContentHuggingPriority(.defaultLow + 1, for: .horizontal)
-        imageView.setContentCompressionResistancePriority(.defaultHigh + 1, for: .horizontal)
-        imageView.isHidden = true
-
-        let symbolConfiguration = UIImage.SymbolConfiguration(scale: .small)
-        let image = UIImage.fromSymbol(.squareAndPencil, withConfiguration: symbolConfiguration)
-        imageView.image = image.withColor(.secondaryLabel)
-
-        return imageView
-    }()
+    private lazy var noteImageView: UIImageView = iconImageView(.squareAndPencil)
+    private lazy var alertImageView: UIImageView = iconImageView(.alarm)
 
     private lazy var secondRowStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [expirationDateLabel, noteImageView])
+        let stackView = UIStackView(arrangedSubviews: [expirationDateLabel, noteImageView, alertImageView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 8
         return stackView
@@ -100,5 +85,22 @@ public final class ItemCell: UITableViewCell {
         nameLabel.text = viewModel.itemName
         expirationDateLabel.text = viewModel.expirationDate
         noteImageView.isHidden = !viewModel.hasNotes
+        alertImageView.isHidden = !viewModel.hasAlert
+    }
+}
+
+private extension ItemCell {
+    func iconImageView(_ symbol: UIImage.Symbol) -> UIImageView {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.setContentHuggingPriority(.defaultLow + 1, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(.defaultHigh + 1, for: .horizontal)
+        imageView.isHidden = true
+
+        let symbolConfiguration = UIImage.SymbolConfiguration(scale: .small)
+        let image = UIImage.fromSymbol(symbol, withConfiguration: symbolConfiguration)
+        imageView.image = image.withColor(.secondaryLabel)
+
+        return imageView
     }
 }

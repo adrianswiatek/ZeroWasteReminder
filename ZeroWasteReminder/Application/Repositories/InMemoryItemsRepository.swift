@@ -1,14 +1,16 @@
 import Combine
 import Foundation
 
-public final class InMemoryItemsRepository: ItemsRepository {
+public final class InMemoryItemsRepository {
     private var items = [Item]()
     private let eventDispatcher: EventDispatcher
 
     public init(eventDispatcher: EventDispatcher) {
         self.eventDispatcher = eventDispatcher
     }
+}
 
+extension InMemoryItemsRepository: ItemsReadRepository {
     public func fetchAll(from list: List) -> Future<[Item], Never> {
         Future { [weak self] promise in
             guard let self = self else { return promise(.success([])) }
@@ -19,7 +21,9 @@ public final class InMemoryItemsRepository: ItemsRepository {
     public func fetch(by id: Id<Item>) -> Future<Item?, Never> {
         Future { [weak self] in $0(.success(self?.items.first { $0.id == id })) }
     }
+}
 
+extension InMemoryItemsRepository: ItemsWriteRepository {
     public func add(_ itemToSave: ItemToSave) {
         items.append(itemToSave.item)
         eventDispatcher.dispatch(ItemAdded(itemToSave.item))

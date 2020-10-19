@@ -1,5 +1,4 @@
 import CloudKit
-import UIKit
 
 public final class CloudKitMapper {
     private let fileService: FileService
@@ -13,7 +12,7 @@ public final class CloudKitMapper {
     }
 
     internal func map(_ item: Item) -> CloudKitItemMapper {
-        .init(item, fileService)
+        .init(item)
     }
 
     internal func map(_ photo: PhotoToSave) -> CloudKitPhotoMapper {
@@ -21,6 +20,6 @@ public final class CloudKitMapper {
     }
 
     internal func map(_ record: CKRecord?) -> CloudKitRecordMapper {
-        .init(record, fileService)
+        .init(record)
     }
 }

@@ -15,4 +15,30 @@ public extension Date {
         case .year: return date(byAdding: .year, value: period)
         }
     }
+
+    static func later(_ first: Date, _ second: Date) -> Date {
+        first.compare(second) == .orderedDescending ? first : second
+    }
+
+    func adding(_ value: Int, _ component: Calendar.Component) -> Date {
+        Calendar.current.date(byAdding: component, value: value, to: self) ?? self
+    }
+
+    func settingTime(hour: Int, minute: Int = 0, second: Int = 0) -> Date {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(abbreviation: "UTC") ?? .current
+
+        let result = calendar.date(bySettingHour: hour, minute: minute, second: second, of: self)
+        return result ?? self
+    }
+
+    func isInTheFuture() -> Bool {
+        let calendar = Calendar(identifier: .gregorian)
+        return calendar.compare(self, to: Date(), toGranularity: .day) == .orderedDescending
+    }
+
+    func isInThePast() -> Bool {
+        let calendar = Calendar(identifier: .gregorian)
+        return calendar.compare(self, to: Date(), toGranularity: .day) == .orderedDescending
+    }
 }

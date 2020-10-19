@@ -2,11 +2,9 @@ import CloudKit
 
 internal final class CloudKitItemMapper {
     private let item: Item
-    private let fileService: FileService
 
-    internal init(_ item: Item, _ fileService: FileService) {
+    internal init(_ item: Item) {
         self.item = item
-        self.fileService = fileService
     }
 
     internal func toRecordIdInZone(_ zone: CKRecordZone) -> CKRecord.ID? {
