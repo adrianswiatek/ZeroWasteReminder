@@ -18,15 +18,15 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
     }
 
     private func registerCoordinators() {
-        container.register(AddCoordinator.self) { resolver in
-            AddCoordinator(
+        container.register(AddItemCoordinator.self) { resolver in
+            AddItemCoordinator(
                 imagePickerFactory: resolver.resolve(ImagePickerControllerFactory.self)!,
                 eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }
 
-        container.register(EditCoordinator.self) { resolver in
-            EditCoordinator(
+        container.register(EditItemCoordinator.self) { resolver in
+            EditItemCoordinator(
                 imagePickerFactory: resolver.resolve(ImagePickerControllerFactory.self)!,
                 moveItemViewModelFactory: resolver.resolve(MoveItemViewModelFactory.self)!,
                 eventDispatcher: resolver.resolve(EventDispatcher.self)!
@@ -39,8 +39,8 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
                 addViewModelFactory: resolver.resolve(AddItemViewModelFactory.self)!,
                 editViewModelFactory: resolver.resolve(EditItemViewModelFactory.self)!,
                 moveItemViewModelFactory: resolver.resolve(MoveItemViewModelFactory.self)!,
-                addCoordinator: resolver.resolve(AddCoordinator.self)!,
-                editCoordinator: resolver.resolve(EditCoordinator.self)!
+                addCoordinator: resolver.resolve(AddItemCoordinator.self)!,
+                editCoordinator: resolver.resolve(EditItemCoordinator.self)!
             )
         }
 

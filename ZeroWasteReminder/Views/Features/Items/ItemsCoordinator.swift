@@ -5,16 +5,16 @@ public final class ItemsCoordinator {
     private let addViewModelFactory: AddItemViewModelFactory
     private let editViewModelFactory: EditItemViewModelFactory
     private let moveItemViewModelFactory: MoveItemViewModelFactory
-    private let addCoordinator: AddCoordinator
-    private let editCoordinator: EditCoordinator
+    private let addCoordinator: AddItemCoordinator
+    private let editCoordinator: EditItemCoordinator
 
     public init(
         sharingControllerFactory: SharingControllerFactory,
         addViewModelFactory: AddItemViewModelFactory,
         editViewModelFactory: EditItemViewModelFactory,
         moveItemViewModelFactory: MoveItemViewModelFactory,
-        addCoordinator: AddCoordinator,
-        editCoordinator: EditCoordinator
+        addCoordinator: AddItemCoordinator,
+        editCoordinator: EditItemCoordinator
     ) {
         self.sharingControllerFactory = sharingControllerFactory
         self.addViewModelFactory = addViewModelFactory
@@ -45,13 +45,13 @@ public final class ItemsCoordinator {
 
     private func createAddViewController(for list: List) -> UIViewController {
         let viewModel = addViewModelFactory.create(for: list)
-        let viewController = AddViewController(viewModel: viewModel, coordinator: addCoordinator)
+        let viewController = AddItemViewController(viewModel: viewModel, coordinator: addCoordinator)
         return AddNavigationController(rootViewController: viewController)
     }
 
     private func createEditViewController(for item: Item) -> UIViewController {
         let viewModel = editViewModelFactory.create(for: item)
-        return EditViewController(viewModel: viewModel, coordinator: editCoordinator)
+        return EditItemViewController(viewModel: viewModel, coordinator: editCoordinator)
     }
 
     private func createMoveItemController(for item: Item) -> UIViewController {

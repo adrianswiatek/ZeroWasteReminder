@@ -138,6 +138,10 @@ public final class EditItemViewModel {
         itemsWriteRepository.remove(item)
     }
 
+    public func setLoading(_ isLoading: Bool) {
+        isLoadingSubject.send(isLoading)
+    }
+
     public func cleanUp() {
         _ = fileService.removeTemporaryItems()
         isLoadingSubject.send(false)
@@ -182,6 +186,7 @@ public final class EditItemViewModel {
             return
         }
     }
+    
 
     private func refreshItem() {
         isLoadingSubject.send(true)

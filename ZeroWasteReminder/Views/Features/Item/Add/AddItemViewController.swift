@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public final class AddViewController: UIViewController {
+public final class AddItemViewController: UIViewController {
     private lazy var dismissButton: UIBarButtonItem =
         .dismissButton(target: self, action: #selector(handleDismiss))
 
@@ -14,10 +14,10 @@ public final class AddViewController: UIViewController {
     private let warningBarView: WarningBarView
 
     private let viewModel: AddItemViewModel
-    private let coordinator: AddCoordinator
+    private let coordinator: AddItemCoordinator
     private var subscriptions: Set<AnyCancellable>
 
-    public init(viewModel: AddItemViewModel, coordinator: AddCoordinator) {
+    public init(viewModel: AddItemViewModel, coordinator: AddItemCoordinator) {
         self.viewModel = viewModel
         self.coordinator = coordinator
         self.subscriptions = []
@@ -148,7 +148,10 @@ public final class AddViewController: UIViewController {
     private func handleRequest(_ request: PhotosViewModel.Request) {
         switch request {
         case .capturePhoto(let target):
-            coordinator.navigateToImagePicker(for: target, with: self, in: self)
+            coordinator.navigateToImagePicker(for: target, with: self, in: self) { [weak self] in self?.viewModel.setLoading(true)
+            } afterPresenting: { [weak self] in
+                self?.viewModel.setLoading(false)
+            }
         case .removePhoto(let photo):
             UIAlertController.presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
                 .sink { [weak self] _ in self?.viewModel.photosViewModel.removePhoto(photo) }
@@ -176,7 +179,7 @@ public final class AddViewController: UIViewController {
     }
 }
 
-extension AddViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+extension AddItemViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     public func imagePickerController(
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]

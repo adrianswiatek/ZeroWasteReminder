@@ -110,6 +110,10 @@ public final class AddItemViewModel {
         itemsWriteRepository.add(ItemToSave(item, list))
     }
 
+    public func setLoading(_ isLoading: Bool) {
+        isLoadingSubject.send(isLoading)
+    }
+
     public func cleanUp() {
         _ = fileService.removeTemporaryItems()
     }
@@ -123,6 +127,10 @@ public final class AddItemViewModel {
         eventDispatcher.events
             .sink { [weak self] in self?.handleEvent($0) }
             .store(in: &subscriptions)
+
+        photosViewModel.requestSubject
+            .sink { [weak self] in self?.handlePhotoRequests($0) }
+            .store(in: &subscriptions)
     }
 
     private func handleEvent(_ event: AppEvent) {
@@ -135,6 +143,15 @@ public final class AddItemViewModel {
             alertOption = event.option
         case is NoResultOccured:
             requestSubject.send(.dismiss)
+        default:
+            return
+        }
+    }
+
+    private func handlePhotoRequests(_ request: PhotosViewModel.Request) {
+        switch request {
+        case .capturePhoto:
+            isLoadingSubject.send(true)
         default:
             return
         }

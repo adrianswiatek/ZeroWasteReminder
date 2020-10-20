@@ -1,6 +1,6 @@
 import UIKit
 
-public final class AddCoordinator {
+public final class AddItemCoordinator {
     private let imagePickerFactory: ImagePickerControllerFactory
     private let eventDispatcher: EventDispatcher
 
@@ -12,10 +12,13 @@ public final class AddCoordinator {
     public func navigateToImagePicker(
         for target: PhotoCaptureTarget,
         with delegate: UIImagePickerControllerDelegate & UINavigationControllerDelegate,
-        in viewController: UIViewController
+        in viewController: UIViewController,
+        beforePresenting: @escaping () -> Void,
+        afterPresenting: @escaping () -> Void
     ) {
         imagePickerFactory.create(for: target, with: delegate).map {
-            viewController.present($0, animated: true)
+            beforePresenting()
+            viewController.present($0, animated: true, completion: afterPresenting)
         }
     }
 
