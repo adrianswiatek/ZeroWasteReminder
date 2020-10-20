@@ -39,9 +39,8 @@ public final class EditItemViewModel {
     }
 
     public var canSave: AnyPublisher<Bool, Never> {
-        Publishers.CombineLatest(itemHasChanged, photoIdsHaveChanged)
-            .map { $0 || $1 }
-            .eraseToAnyPublisher()
+        let canSavePublisher = Publishers.CombineLatest(itemHasChanged, photoIdsHaveChanged).map { $0 || $1 }
+        return Just(false).merge(with: canSavePublisher).eraseToAnyPublisher()
     }
 
     public var canRemotelyConnect: AnyPublisher<Bool, Never> {
@@ -59,10 +58,16 @@ public final class EditItemViewModel {
     }
 
     private var photoIdsHaveChanged: AnyPublisher<Bool, Never> {
-        photosViewModel.thumbnails
+        thumbnails
+            .delay(for: .milliseconds(100), scheduler: DispatchQueue.global())
             .map { $0.map(\.id) }
             .map { [weak self] in $0 != self?.originalPhotoIds }
+            .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
+    }
+
+    private var thumbnails: AnyPublisher<[Photo], Never> {
+        photosViewModel.thumbnails.dropFirst().eraseToAnyPublisher()
     }
 
     private let isLoadingSubject: PassthroughSubject<Bool, Never>
@@ -152,9 +157,9 @@ public final class EditItemViewModel {
             .sink { [weak self] in self?.updateItem(with: $0) }
             .store(in: &subscriptions)
 
-        photosViewModel.thumbnails
-            .prefix(2)
-            .sink { [weak self] in self?.originalPhotoIds = $0.map { $0.id } }
+        thumbnails
+            .prefix(1)
+            .sink { [weak self] in self?.originalPhotoIds = $0.map(\.id) }
             .store(in: &subscriptions)
 
         eventDispatcher.events
