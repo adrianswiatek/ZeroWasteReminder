@@ -31,7 +31,7 @@ public final class AlertDateCell: UITableViewCell {
 
     public func set(_ viewModel: AlertDateCellViewModel) {
         Publishers.CombineLatest3(viewModel.$date, viewModel.$isCalendarShown, isPressedSubject)
-            .sink(receiveValue: stateChanged)
+            .sink { [weak self] in self?.stateChanged($0, $1, $2) }
             .store(in: &subscriptions)
     }
 
