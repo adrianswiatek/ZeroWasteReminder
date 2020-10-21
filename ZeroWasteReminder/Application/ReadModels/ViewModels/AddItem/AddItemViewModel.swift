@@ -141,6 +141,9 @@ public final class AddItemViewModel {
             requestSubject.send(.dismiss)
         case let event as AlertSet:
             alertOption = event.option
+        case let event as ErrorOccured:
+            isLoadingSubject.send(false)
+            requestSubject.send(.showErrorMessage(event.error.localizedDescription))
         case is NoResultOccured:
             requestSubject.send(.dismiss)
         default:
@@ -181,5 +184,6 @@ public extension AddItemViewModel {
     enum Request: Equatable {
         case dismiss
         case setAlert
+        case showErrorMessage(_ message: String)
     }
 }

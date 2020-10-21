@@ -29,7 +29,7 @@ public final class CloudKitListsRepository: ListsRepository {
 
             let query = CKQuery(recordType: "List", predicate: .init(value: true))
             let operation = CKQueryOperation(query: query)
-            operation.configuration.timeoutIntervalForResource = 5
+            operation.configuration.timeoutIntervalForResource = Configuration.timeout
 
             var records = [CKRecord]()
 
@@ -61,10 +61,10 @@ public final class CloudKitListsRepository: ListsRepository {
         guard let record = mapper.map(list).toRecordInZone(zone) else { return }
 
         let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
-        operation.configuration.timeoutIntervalForResource = 5
+        operation.configuration.timeoutIntervalForResource = Configuration.timeout
         operation.modifyRecordsCompletionBlock = { [weak self] in
             if $2 != nil {
-                let error: AppError = .ofType(AddingListsFromICloudErrorType())
+                let error: AppError = .ofType(AddingListFromICloudErrorType())
                 self?.eventDispatcher.dispatch(ErrorOccured(error))
             } else if let list = self?.mapper.map($0?.first).toList() {
                 $0?.first.map { self?.cache.set($0) }
@@ -81,11 +81,11 @@ public final class CloudKitListsRepository: ListsRepository {
         guard let recordId = mapper.map(list).toRecordIdInZone(zone) else { return }
 
         let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: [recordId])
-        operation.configuration.timeoutIntervalForResource = 5
+        operation.configuration.timeoutIntervalForResource = Configuration.timeout
         operation.modifyRecordsCompletionBlock = { [weak self] in
             let id: Id<List>? = $1?.first.map { .fromString($0.recordName) }
             if $2 != nil {
-                let error: AppError = .ofType(RemovingListsFromICloudErrorType())
+                let error: AppError = .ofType(RemovingListFromICloudErrorType())
                 self?.eventDispatcher.dispatch(ErrorOccured(.init(error)))
             } else if id == list.id {
                 $1?.first.map { self?.cache.removeById($0) }
@@ -135,7 +135,7 @@ public final class CloudKitListsRepository: ListsRepository {
 
             let query = CKQuery(recordType: "List", predicate: .init(format: "%K IN %@", "recordID", ids))
             let operation = CKQueryOperation(query: query)
-            operation.configuration.timeoutIntervalForResource = 5
+            operation.configuration.timeoutIntervalForResource = Configuration.timeout
 
             var records: [CKRecord] = []
             var error: Error? = nil
@@ -163,7 +163,7 @@ public final class CloudKitListsRepository: ListsRepository {
             }
 
             let operation = CKModifyRecordsOperation(recordsToSave: updatedRecords)
-            operation.configuration.timeoutIntervalForResource = 5
+            operation.configuration.timeoutIntervalForResource = Configuration.timeout
             operation.savePolicy = .changedKeys
 
             var records: [CKRecord] = []
@@ -184,5 +184,11 @@ public final class CloudKitListsRepository: ListsRepository {
 
             self?.database.add(operation)
         }
+    }
+}
+
+private extension CloudKitListsRepository {
+    enum Configuration {
+        static let timeout: Double = 5
     }
 }

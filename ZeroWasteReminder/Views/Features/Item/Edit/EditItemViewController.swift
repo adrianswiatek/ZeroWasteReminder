@@ -126,6 +126,8 @@ public final class EditItemViewController: UIViewController {
             handleRemoveButtonTap()
         case .setAlert:
             coordinator.navigateToAlert(withOption: viewModel.alertOption, in: self)
+        case .showErrorMessage(let message):
+            UIAlertController.presentError(in: self, withMessage: message)
         }
     }
 

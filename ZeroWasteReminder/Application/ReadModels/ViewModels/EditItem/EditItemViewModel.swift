@@ -185,6 +185,9 @@ public final class EditItemViewModel {
             photosViewModel.removeThumbnailLocally(with: event.photoId)
         case let event as AlertSet:
             alertOption = event.option
+        case let event as ErrorOccured:
+            isLoadingSubject.send(false)
+            requestSubject.send(.showErrorMessage(event.error.localizedDescription))
         case is NoResultOccured:
             requestSubject.send(.dismiss)
         default:
@@ -242,5 +245,6 @@ public extension EditItemViewModel {
         case moveCurrentItem
         case removeCurrentItem
         case setAlert
+        case showErrorMessage(_ message: String)
     }
 }

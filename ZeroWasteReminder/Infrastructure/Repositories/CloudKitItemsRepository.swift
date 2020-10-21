@@ -33,8 +33,8 @@ extension CloudKitItemsRepository: ItemsReadRepository {
             let recordId = CKRecord.ID(recordName: list.id.asString, zoneID: self.zone.zoneID)
             let listReference = CKRecord.Reference(recordID: recordId, action: .none)
             let predicate = NSPredicate(format: "%K = %@", CloudKitKey.Item.listReference, listReference)
-            let query = CKQuery(recordType: "Item", predicate: predicate)
-            let operation = CKQueryOperation(query: query)
+            let operation = CKQueryOperation(query: .init(recordType: "Item", predicate: predicate))
+            operation.configuration.timeoutIntervalForResource = Configuration.timeout
 
             var records = [CKRecord]()
 
@@ -52,7 +52,10 @@ extension CloudKitItemsRepository: ItemsReadRepository {
             }
 
             operation.queryCompletionBlock = { [weak self] in
-                $1.map { self?.eventDispatcher.dispatch(ErrorOccured(.init($0))) }
+                guard $1 != nil else { return }
+
+                let error: AppError = .ofType(FetchingItemsFromICloudErrorType())
+                self?.eventDispatcher.dispatch(ErrorOccured(error))
             }
 
             self.database.add(operation)
@@ -100,9 +103,12 @@ extension CloudKitItemsRepository: ItemsWriteRepository {
         else { return }
 
         let operation = CKModifyRecordsOperation(recordsToSave: [itemRecord], recordIDsToDelete: nil)
+        operation.configuration.timeoutIntervalForResource = Configuration.timeout
+
         operation.modifyRecordsCompletionBlock = { [weak self] in
-            if let error = $2 {
-                self?.eventDispatcher.dispatch(ErrorOccured(.init(error)))
+            if $2 != nil {
+                let error: AppError = .ofType(AddingItemFromICloudErrorType())
+                self?.eventDispatcher.dispatch(ErrorOccured(error))
             } else if let item = self?.mapper.map($0?.first).toItem() {
                 $0?.first.map { self?.cache.set($0) }
                 self?.eventDispatcher.dispatch(ItemAdded(item.withAlertOption(itemToSave.item.alertOption)))
@@ -143,10 +149,12 @@ extension CloudKitItemsRepository: ItemsWriteRepository {
         guard let recordId = mapper.map(item).toRecordIdInZone(zone) else { return }
 
         let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: [recordId])
+        operation.configuration.timeoutIntervalForResource = Configuration.timeout
         operation.modifyRecordsCompletionBlock = { [weak self] in
             let id: Id<Item>? = $1?.first.map { .fromString($0.recordName) }
-            if let error = $2 {
-                self?.eventDispatcher.dispatch(ErrorOccured(.init(error)))
+            if $2 != nil {
+                let error: AppError = .ofType(RemovingItemFromICloudErrorType())
+                self?.eventDispatcher.dispatch(ErrorOccured(error))
             } else if id == item.id {
                 $1?.first.map { self?.cache.removeById($0) }
                 self?.eventDispatcher.dispatch(ItemsRemoved(item))
@@ -163,12 +171,14 @@ extension CloudKitItemsRepository: ItemsWriteRepository {
         guard !recordIds.isEmpty else { return }
 
         let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: recordIds)
+        operation.configuration.timeoutIntervalForResource = Configuration.timeout
         operation.modifyRecordsCompletionBlock = { [weak self] in
             let ids: [Id<Item>] = $1.map { $0.compactMap { .fromString($0.recordName) } } ?? []
             let removedItems = ids.compactMap { id in items.first { $0.id == id } }
 
-            if let error = $2 {
-                self?.eventDispatcher.dispatch(ErrorOccured(.init(error)))
+            if $2 != nil {
+                let error: AppError = .ofType(RemovingItemsFromICloudErrorType())
+                self?.eventDispatcher.dispatch(ErrorOccured(error))
             } else if !removedItems.isEmpty {
                 $1.map { self?.cache.removeByIds($0) }
                 self?.eventDispatcher.dispatch(ItemsRemoved(removedItems))
@@ -180,7 +190,7 @@ extension CloudKitItemsRepository: ItemsWriteRepository {
         database.add(operation)
     }
 
-    private func internalUpdate(_ item: Item) -> Future<AppEvent, Never> {
+    private func internalUpdate(_ item: Item) -> Future<AppEvent, AppError> {
         Future { [weak self] promise in
             guard let self = self, let recordId = self.mapper.map(item).toRecordIdInZone(self.zone) else {
                 return promise(.success(NoResultOccured()))
@@ -193,8 +203,8 @@ extension CloudKitItemsRepository: ItemsWriteRepository {
                 }
                 .sink(
                     receiveCompletion: { [weak self] in
-                        if case .failure(let error) = $0 {
-                            promise(.success(ErrorOccured(.init(error))))
+                        if case .failure = $0 {
+                            promise(.failure(.ofType(UpdatingItemFromICloudErrorType())))
                         }
                         self?.subscriptions.removeValue(forKey: "internalUpdate")
                     },
@@ -244,6 +254,8 @@ extension CloudKitItemsRepository: ItemsWriteRepository {
             }
 
             let operation = CKModifyRecordsOperation(recordsToSave: [updatedRecord])
+            operation.configuration.timeoutIntervalForResource = Configuration.timeout
+
             operation.savePolicy = .changedKeys
 
             var record: CKRecord?
@@ -264,5 +276,11 @@ extension CloudKitItemsRepository: ItemsWriteRepository {
 
             self?.database.add(operation)
         }
+    }
+}
+
+private extension CloudKitItemsRepository {
+    enum Configuration {
+        static let timeout: Double = 5
     }
 }
