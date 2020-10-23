@@ -61,6 +61,19 @@ public final class EditItemViewController: UIViewController {
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -48)
         ])
 
+        scrollView.addSubview(warningBarView)
+        NSLayoutConstraint.activate([
+            warningBarView.leadingAnchor.constraint(
+                equalTo: scrollView.layoutMarginsGuide.leadingAnchor, constant: 16
+            ),
+            warningBarView.bottomAnchor.constraint(equalTo:
+                                                    scrollView.layoutMarginsGuide.bottomAnchor
+            ),
+            warningBarView.trailingAnchor.constraint(equalTo:
+                                                        scrollView.layoutMarginsGuide.trailingAnchor, constant: -16
+            )
+        ])
+
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -100,7 +113,8 @@ public final class EditItemViewController: UIViewController {
             .sink { [weak self] in self?.handlePhotoRequest($0) }
             .store(in: &subscriptions)
 
-        viewModel.canSave
+        viewModel.canSave.combineLatest(viewModel.canRemotelyConnect)
+            .map { $0 && $1 }
             .assign(to: \.isEnabled, on: doneButton)
             .store(in: &subscriptions)
 
@@ -126,6 +140,8 @@ public final class EditItemViewController: UIViewController {
             handleRemoveButtonTap()
         case .setAlert:
             coordinator.navigateToAlert(withOption: viewModel.alertOption, in: self)
+        case .showErrorMessage(let message):
+            UIAlertController.presentError(in: self, withMessage: message)
         }
     }
 

@@ -29,6 +29,7 @@ public final class CloudKitListsRepository: ListsRepository {
 
             let query = CKQuery(recordType: "List", predicate: .init(value: true))
             let operation = CKQueryOperation(query: query)
+            operation.configuration.timeoutIntervalForResource = Configuration.timeout
 
             var records = [CKRecord]()
 
@@ -46,7 +47,10 @@ public final class CloudKitListsRepository: ListsRepository {
             }
 
             operation.queryCompletionBlock = { [weak self] in
-                $1.map { self?.eventDispatcher.dispatch(ErrorOccured(.init($0))) }
+                guard $1 != nil else { return }
+
+                let error: AppError = .ofType(FetchingListsFromICloudErrorType())
+                self?.eventDispatcher.dispatch(ErrorOccured(error))
             }
 
             self.database.add(operation)
@@ -57,9 +61,11 @@ public final class CloudKitListsRepository: ListsRepository {
         guard let record = mapper.map(list).toRecordInZone(zone) else { return }
 
         let operation = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: nil)
+        operation.configuration.timeoutIntervalForResource = Configuration.timeout
         operation.modifyRecordsCompletionBlock = { [weak self] in
-            if let error = $2 {
-                self?.eventDispatcher.dispatch(ErrorOccured(.init(error)))
+            if $2 != nil {
+                let error: AppError = .ofType(AddingListFromICloudErrorType())
+                self?.eventDispatcher.dispatch(ErrorOccured(error))
             } else if let list = self?.mapper.map($0?.first).toList() {
                 $0?.first.map { self?.cache.set($0) }
                 self?.eventDispatcher.dispatch(ListAdded(list))
@@ -75,9 +81,11 @@ public final class CloudKitListsRepository: ListsRepository {
         guard let recordId = mapper.map(list).toRecordIdInZone(zone) else { return }
 
         let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: [recordId])
+        operation.configuration.timeoutIntervalForResource = Configuration.timeout
         operation.modifyRecordsCompletionBlock = { [weak self] in
             let id: Id<List>? = $1?.first.map { .fromString($0.recordName) }
-            if let error = $2 {
+            if $2 != nil {
+                let error: AppError = .ofType(RemovingListFromICloudErrorType())
                 self?.eventDispatcher.dispatch(ErrorOccured(.init(error)))
             } else if id == list.id {
                 $1?.first.map { self?.cache.removeById($0) }
@@ -101,7 +109,8 @@ public final class CloudKitListsRepository: ListsRepository {
             }
             .sink(
                 receiveCompletion: { [weak self] in
-                    if case .failure(let error) = $0 {
+                    if case .failure = $0 {
+                        let error: AppError = .ofType(UpdatingListsInICloudErrorType())
                         self?.eventDispatcher.dispatch(ErrorOccured(.init(error)))
                     }
                     self?.updateSubscription = nil
@@ -126,6 +135,7 @@ public final class CloudKitListsRepository: ListsRepository {
 
             let query = CKQuery(recordType: "List", predicate: .init(format: "%K IN %@", "recordID", ids))
             let operation = CKQueryOperation(query: query)
+            operation.configuration.timeoutIntervalForResource = Configuration.timeout
 
             var records: [CKRecord] = []
             var error: Error? = nil
@@ -153,6 +163,7 @@ public final class CloudKitListsRepository: ListsRepository {
             }
 
             let operation = CKModifyRecordsOperation(recordsToSave: updatedRecords)
+            operation.configuration.timeoutIntervalForResource = Configuration.timeout
             operation.savePolicy = .changedKeys
 
             var records: [CKRecord] = []
@@ -173,5 +184,11 @@ public final class CloudKitListsRepository: ListsRepository {
 
             self?.database.add(operation)
         }
+    }
+}
+
+private extension CloudKitListsRepository {
+    enum Configuration {
+        static let timeout: Double = 5
     }
 }

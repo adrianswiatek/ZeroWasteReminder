@@ -169,6 +169,7 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
         container.register(MoveItemViewModelFactory.self) { resolver in
             MoveItemViewModelFactory(
                 moveItemService: resolver.resolve(MoveItemService.self)!,
+                statusNotifier: resolver.resolve(StatusNotifier.self)!,
                 eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }

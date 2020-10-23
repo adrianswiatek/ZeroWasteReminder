@@ -6,6 +6,7 @@ public final class MoveItemViewModel {
 
     public let itemName: String
 
+    public let canRemotelyConnect: AnyPublisher<Bool, Never>
     public let requestsSubject: PassthroughSubject<Request, Never>
 
     public var isLoading: AnyPublisher<Bool, Never> {
@@ -24,10 +25,19 @@ public final class MoveItemViewModel {
 
     private var subscriptions: Set<AnyCancellable>
 
-    public init(item: Item, moveItemService: MoveItemService, eventDispatcher: EventDispatcher) {
+    public init(
+        item: Item,
+        moveItemService: MoveItemService,
+        statusNotifier: StatusNotifier,
+        eventDispatcher: EventDispatcher
+    ) {
         self.item = item
         self.moveItemService = moveItemService
         self.eventDispatcher = eventDispatcher
+
+        self.canRemotelyConnect = statusNotifier.remoteStatus
+            .map { $0 == .connected }
+            .eraseToAnyPublisher()
 
         self.requestsSubject = .init()
         self.isLoadingSubject = .init(false)

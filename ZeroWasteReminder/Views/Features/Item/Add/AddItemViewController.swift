@@ -107,7 +107,8 @@ public final class AddItemViewController: UIViewController {
 
     private func bind() {
         viewModel.canSaveItem.combineLatest(viewModel.canRemotelyConnect)
-            .sink { [weak self] in self?.doneButton.isEnabled = $0 && $1 }
+            .map { $0 && $1 }
+            .assign(to: \.isEnabled, on: doneButton)
             .store(in: &subscriptions)
 
         viewModel.requestSubject
@@ -142,6 +143,8 @@ public final class AddItemViewController: UIViewController {
             dismiss(animated: true)
         case .setAlert:
             coordinator.navigateToAlert(withOption: viewModel.alertOption, in: self)
+        case .showErrorMessage(let message):
+            UIAlertController.presentError(in: self, withMessage: message)
         }
     }
 

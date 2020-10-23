@@ -59,6 +59,9 @@
 		A726F35D24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A726F35C24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift */; };
 		A72A46D424426A4000B0007B /* ItemsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D324426A4000B0007B /* ItemsTableView.swift */; };
 		A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D624426C4C00B0007B /* ListAddButton.swift */; };
+		A72BF83D2543524C00637466 /* AddingItemFromICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72BF83C2543524C00637466 /* AddingItemFromICloudErrorType.swift */; };
+		A72BF843254356AC00637466 /* UpdatingItemInICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72BF842254356AC00637466 /* UpdatingItemInICloudErrorType.swift */; };
+		A72BF84E2543720D00637466 /* MovingItemInICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72BF84D2543720D00637466 /* MovingItemInICloudErrorType.swift */; };
 		A72F4CBF2460B5FA008B0D5B /* ExpirationDateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72F4CBE2460B5FA008B0D5B /* ExpirationDateButton.swift */; };
 		A731DBE024A935A600CE926A /* PhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731DBDF24A935A600CE926A /* PhotosView.swift */; };
 		A731F89524BE439B007348A3 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731F89424BE439B007348A3 /* ListCell.swift */; };
@@ -150,6 +153,13 @@
 		A79510B7252926EE00D09E3B /* AlertCalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79510B6252926EE00D09E3B /* AlertCalendarCell.swift */; };
 		A797433424A2ABA000A05EA2 /* ItemsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A798DF4724524B0900A84F79 /* ItemsDataSource.swift */; };
 		A79B4A202479F6FA00ECE1B1 /* SubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */; };
+		A79D0AE12540D4DA00DADD65 /* FetchingListsFromICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79D0AE02540D4DA00DADD65 /* FetchingListsFromICloudErrorType.swift */; };
+		A79D0AE52540D4EF00DADD65 /* AddingListFromICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79D0AE42540D4EF00DADD65 /* AddingListFromICloudErrorType.swift */; };
+		A79D0AE82540D50000DADD65 /* UpdatingListsInICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79D0AE72540D50000DADD65 /* UpdatingListsInICloudErrorType.swift */; };
+		A79D0AEB2540D51200DADD65 /* RemovingListFromICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79D0AEA2540D51200DADD65 /* RemovingListFromICloudErrorType.swift */; };
+		A79D0AEF2540DB5100DADD65 /* FetchingItemsFromICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79D0AEE2540DB5100DADD65 /* FetchingItemsFromICloudErrorType.swift */; };
+		A79D0AF22540E1AA00DADD65 /* RemovingItemFromICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79D0AF12540E1AA00DADD65 /* RemovingItemFromICloudErrorType.swift */; };
+		A79D0AF62540E5FC00DADD65 /* RemovingItemsFromICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79D0AF52540E5FC00DADD65 /* RemovingItemsFromICloudErrorType.swift */; };
 		A79DDDA32461F9B1008A3DFE /* EditItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79DDDA22461F9B1008A3DFE /* EditItemViewModel.swift */; };
 		A7A181AA249E9C5200B8E6EE /* PhotoToSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A181A9249E9C5200B8E6EE /* PhotoToSave.swift */; };
 		A7A2DDA5249FD4FF0025B1B8 /* UUIDExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A2DDA4249FD4FF0025B1B8 /* UUIDExtensions.swift */; };
@@ -299,6 +309,9 @@
 		A726F35C24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStatusNotifier.swift; sourceTree = "<group>"; };
 		A72A46D324426A4000B0007B /* ItemsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsTableView.swift; sourceTree = "<group>"; };
 		A72A46D624426C4C00B0007B /* ListAddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAddButton.swift; sourceTree = "<group>"; };
+		A72BF83C2543524C00637466 /* AddingItemFromICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingItemFromICloudErrorType.swift; sourceTree = "<group>"; };
+		A72BF842254356AC00637466 /* UpdatingItemInICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatingItemInICloudErrorType.swift; sourceTree = "<group>"; };
+		A72BF84D2543720D00637466 /* MovingItemInICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingItemInICloudErrorType.swift; sourceTree = "<group>"; };
 		A72F4CBE2460B5FA008B0D5B /* ExpirationDateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateButton.swift; sourceTree = "<group>"; };
 		A731DBDF24A935A600CE926A /* PhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosView.swift; sourceTree = "<group>"; };
 		A731F89424BE439B007348A3 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
@@ -391,6 +404,13 @@
 		A79510B6252926EE00D09E3B /* AlertCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertCalendarCell.swift; sourceTree = "<group>"; };
 		A798DF4724524B0900A84F79 /* ItemsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsDataSource.swift; sourceTree = "<group>"; };
 		A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionService.swift; sourceTree = "<group>"; };
+		A79D0AE02540D4DA00DADD65 /* FetchingListsFromICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchingListsFromICloudErrorType.swift; sourceTree = "<group>"; };
+		A79D0AE42540D4EF00DADD65 /* AddingListFromICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingListFromICloudErrorType.swift; sourceTree = "<group>"; };
+		A79D0AE72540D50000DADD65 /* UpdatingListsInICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatingListsInICloudErrorType.swift; sourceTree = "<group>"; };
+		A79D0AEA2540D51200DADD65 /* RemovingListFromICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemovingListFromICloudErrorType.swift; sourceTree = "<group>"; };
+		A79D0AEE2540DB5100DADD65 /* FetchingItemsFromICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchingItemsFromICloudErrorType.swift; sourceTree = "<group>"; };
+		A79D0AF12540E1AA00DADD65 /* RemovingItemFromICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemovingItemFromICloudErrorType.swift; sourceTree = "<group>"; };
+		A79D0AF52540E5FC00DADD65 /* RemovingItemsFromICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemovingItemsFromICloudErrorType.swift; sourceTree = "<group>"; };
 		A79DDDA22461F9B1008A3DFE /* EditItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemViewModel.swift; sourceTree = "<group>"; };
 		A7A181A9249E9C5200B8E6EE /* PhotoToSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoToSave.swift; sourceTree = "<group>"; };
 		A7A2DDA4249FD4FF0025B1B8 /* UUIDExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDExtensions.swift; sourceTree = "<group>"; };
@@ -996,6 +1016,39 @@
 			path = Mappers;
 			sourceTree = "<group>";
 		};
+		A79D0ADF2540D4C500DADD65 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				A79D0AF92540E61100DADD65 /* Lists */,
+				A79D0AF82540E60E00DADD65 /* Items */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		A79D0AF82540E60E00DADD65 /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				A72BF83C2543524C00637466 /* AddingItemFromICloudErrorType.swift */,
+				A79D0AEE2540DB5100DADD65 /* FetchingItemsFromICloudErrorType.swift */,
+				A72BF84D2543720D00637466 /* MovingItemInICloudErrorType.swift */,
+				A79D0AF12540E1AA00DADD65 /* RemovingItemFromICloudErrorType.swift */,
+				A79D0AF52540E5FC00DADD65 /* RemovingItemsFromICloudErrorType.swift */,
+				A72BF842254356AC00637466 /* UpdatingItemInICloudErrorType.swift */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
+		A79D0AF92540E61100DADD65 /* Lists */ = {
+			isa = PBXGroup;
+			children = (
+				A79D0AE42540D4EF00DADD65 /* AddingListFromICloudErrorType.swift */,
+				A79D0AE02540D4DA00DADD65 /* FetchingListsFromICloudErrorType.swift */,
+				A79D0AEA2540D51200DADD65 /* RemovingListFromICloudErrorType.swift */,
+				A79D0AE72540D50000DADD65 /* UpdatingListsInICloudErrorType.swift */,
+			);
+			path = Lists;
+			sourceTree = "<group>";
+		};
 		A79DDDA12461F99D008A3DFE /* EditItem */ = {
 			isa = PBXGroup;
 			children = (
@@ -1230,6 +1283,7 @@
 			children = (
 				A71C719024FD7E4400973611 /* CloudKitCache.swift */,
 				A7ACC4C1247B00BF0098EDE0 /* CloudKitConfiguration.swift */,
+				A79D0ADF2540D4C500DADD65 /* Errors */,
 				A79B4A1E2479F6CD00ECE1B1 /* Mappers */,
 			);
 			path = CloudKit;
@@ -1418,6 +1472,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A72BF84E2543720D00637466 /* MovingItemInICloudErrorType.swift in Sources */,
 				A7F3D36624D3838F0059841A /* EmptyListView.swift in Sources */,
 				A783EE2424673B8F008BCC17 /* EditContentViewController.swift in Sources */,
 				A7AFA37124A53D5600BD5983 /* PhotoCaptureTarget.swift in Sources */,
@@ -1466,6 +1521,7 @@
 				A75043562506EB1600DFB4EB /* ItemUpdated.swift in Sources */,
 				A759430B24AFBF5A007A526B /* ListsViewModel.swift in Sources */,
 				A7547EE524C3B32000D82DE9 /* EmptySharingControllerFactory.swift in Sources */,
+				A79D0AE52540D4EF00DADD65 /* AddingListFromICloudErrorType.swift in Sources */,
 				A79510B4252926E700D09E3B /* AlertDateCell.swift in Sources */,
 				A7A8EF73247C52E900FF1AC2 /* ItemNameTextView.swift in Sources */,
 				A783EE2624674ECD008BCC17 /* AdaptiveScrollView.swift in Sources */,
@@ -1492,12 +1548,15 @@
 				A7B2E50B24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift in Sources */,
 				A7E5B8B925044A72008E9523 /* MoveItemService.swift in Sources */,
 				A7CFBBB6250969A80026D338 /* DependenciesRecorderComposite.swift in Sources */,
+				A72BF843254356AC00637466 /* UpdatingItemInICloudErrorType.swift in Sources */,
+				A79D0AEF2540DB5100DADD65 /* FetchingItemsFromICloudErrorType.swift in Sources */,
 				A7D7949D2537A77F00EB0157 /* ItemsRepositoryNotificationsDecorator.swift in Sources */,
 				A7FF95EC253BA84100CC8114 /* CoreDataNotificationEntityMapper.swift in Sources */,
 				A7A8EF77247C7DF900FF1AC2 /* SharedTextViewDelegate.swift in Sources */,
 				A78E20C6253CCA4D00B5F505 /* DependencyContainerConfiguration.swift in Sources */,
 				A78172AE2494D05200F406EC /* CloudKitItemMapper.swift in Sources */,
 				A7560A6B252E763D007A6861 /* ItemNotificationsScheduler.swift in Sources */,
+				A79D0AF62540E5FC00DADD65 /* RemovingItemsFromICloudErrorType.swift in Sources */,
 				A7E317992496EBB8006B9610 /* PhotosChangeset.swift in Sources */,
 				A7E4C5FC25004D9800761601 /* ItemsViewModelFactory.swift in Sources */,
 				A7F82BAC2458CBA800970CFC /* FilteringModeState.swift in Sources */,
@@ -1546,6 +1605,7 @@
 				A7175078244286F60058FCE4 /* ItemCell.swift in Sources */,
 				A7AD76E62463661100220A94 /* StateIndicatorLabel.swift in Sources */,
 				A7FF95E0253B903F00CC8114 /* CoreDataStack.swift in Sources */,
+				A79D0AE12540D4DA00DADD65 /* FetchingListsFromICloudErrorType.swift in Sources */,
 				A74161412450D83B001ED316 /* UIAlertControllerExtensions.swift in Sources */,
 				A7B52E6B251939EC0047FFDC /* PhotoAddedReceived.swift in Sources */,
 				A78E20FC253CFA1400B5F505 /* CoreDataLocalStorageDependenciesRecorder.swift in Sources */,
@@ -1554,6 +1614,7 @@
 				A7A7495124F309CC009D6F25 /* MoveItemViewController.swift in Sources */,
 				A7E4C6002500506000761601 /* AddItemViewModelFactory.swift in Sources */,
 				A7159B642500442E00BC3532 /* AddItemCoordinator.swift in Sources */,
+				A72BF83D2543524C00637466 /* AddingItemFromICloudErrorType.swift in Sources */,
 				A74D1640249C2ED500FEB5CD /* RemoteStatusNotifier.swift in Sources */,
 				A763AFFD2482E86000E93546 /* PhotosCollectionView.swift in Sources */,
 				A716B8FD244E43BB00D2FC89 /* ItemsCellViewModel.swift in Sources */,
@@ -1606,6 +1667,7 @@
 				A78302072534E4C70050F987 /* CalendarItemNotificationRequestFactory.swift in Sources */,
 				A700D6CB2454E82600F16F2E /* ItemsFilterCellViewModel.swift in Sources */,
 				A76C34AA2460C4EA00362B68 /* ExpirationDatePicker.swift in Sources */,
+				A79D0AF22540E1AA00DADD65 /* RemovingItemFromICloudErrorType.swift in Sources */,
 				A751AA542523DF6D0063EEE6 /* AlertSet.swift in Sources */,
 				A749366A2473153B003DB46E /* CloudKitMapper.swift in Sources */,
 				A700D6C72454C6FE00F16F2E /* ItemsFilterCollectionViewCell.swift in Sources */,
@@ -1630,11 +1692,13 @@
 				A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */,
 				A7CFBBB4250964FA0026D338 /* GeneralDependencyRecorder.swift in Sources */,
 				A75C777025211C4600A28AE5 /* NotesSectionView.swift in Sources */,
+				A79D0AE82540D50000DADD65 /* UpdatingListsInICloudErrorType.swift in Sources */,
 				A700D6C42454BEF400F16F2E /* ItemsFilterDataSource.swift in Sources */,
 				A71388FA24F5B41C00EE5C68 /* EmptyMoveItemView.swift in Sources */,
 				A737F077252FC7C600FF9D60 /* UpdateListsDate.swift in Sources */,
 				A780EFD3245F786F002A8AD4 /* SortType.swift in Sources */,
 				A7CAC7EA24F1BE480094FF15 /* ActionButton.swift in Sources */,
+				A79D0AEB2540D51200DADD65 /* RemovingListFromICloudErrorType.swift in Sources */,
 				A70BCCD9244795D700CC49D0 /* AddItemViewModel.swift in Sources */,
 				A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */,
 				A751AA4E2523DA940063EEE6 /* AlertOption.swift in Sources */,
