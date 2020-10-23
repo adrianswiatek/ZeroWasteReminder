@@ -27,8 +27,8 @@ public enum RemainingState: Hashable {
     private func componentsBetweenCurrentDate(and date: Date) -> DateComponents {
         Calendar.current.dateComponents(
             [.day, .month, .year],
-            from: Calendar.current.startOfDay(for: Date()),
-            to: Calendar.current.startOfDay(for: date)
+            from: Calendar.appCalendar.startOfDay(for: Date()),
+            to: Calendar.appCalendar.startOfDay(for: date)
         )
     }
 

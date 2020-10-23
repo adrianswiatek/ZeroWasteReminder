@@ -3,6 +3,10 @@ import Foundation
 public struct Id<T>: Equatable, Hashable {
     private let uuid: UUID
 
+    private init(uuid: UUID) {
+        self.uuid = uuid
+    }
+
     public static func fromUuid(_ uuid: UUID) -> Id<T> {
         .init(uuid: uuid)
     }
