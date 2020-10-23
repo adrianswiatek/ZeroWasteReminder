@@ -9,6 +9,7 @@ public final class MoveItemViewController: UIViewController {
         .doneButton(target: self, action: #selector(handleDone))
 
     private let loadingView: LoadingView
+    private let warningBarView: WarningBarView
     private let headerView: MoveItemHeaderView
 
     private let tableView: MoveItemTableView
@@ -22,6 +23,7 @@ public final class MoveItemViewController: UIViewController {
         self.subscriptions = []
 
         self.loadingView = .init()
+        self.warningBarView = .init()
         self.headerView = .init(viewModel)
 
         self.tableView = .init(viewModel)
@@ -44,16 +46,21 @@ public final class MoveItemViewController: UIViewController {
     private func setupView() {
         view.backgroundColor = .systemBackground
 
+        view.addSubview(warningBarView)
+        NSLayoutConstraint.activate([
+            warningBarView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            warningBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -.smallPadding),
+            warningBarView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
+        ])
+
         view.addSubview(headerView)
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             headerView.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                constant: Metric.padding
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: .bigPadding
             ),
             headerView.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                constant: -Metric.padding
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -.bigPadding
             )
         ])
 
@@ -62,7 +69,7 @@ public final class MoveItemViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
             tableView.bottomAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -Metric.padding
+                equalTo: warningBarView.topAnchor, constant: -.bigPadding
             ),
             tableView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor)
         ])
@@ -95,6 +102,10 @@ public final class MoveItemViewController: UIViewController {
         viewModel.requestsSubject
             .sink { [weak self] in self?.handleRequest($0) }
             .store(in: &subscriptions)
+
+        viewModel.canRemotelyConnect
+            .sink { [weak self] in self?.warningBarView.setVisibility(!$0) }
+            .store(in: &subscriptions)
     }
 
     private func handleRequest(_ request: MoveItemViewModel.Request) {
@@ -118,8 +129,7 @@ public final class MoveItemViewController: UIViewController {
     }
 }
 
-private extension MoveItemViewController {
-    enum Metric {
-        static let padding: CGFloat = 16
-    }
+private extension CGFloat {
+    static let bigPadding: CGFloat = 16
+    static let smallPadding: CGFloat = 8
 }

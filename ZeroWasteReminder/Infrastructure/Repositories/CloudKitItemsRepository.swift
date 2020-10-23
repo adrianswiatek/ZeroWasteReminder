@@ -123,15 +123,27 @@ extension CloudKitItemsRepository: ItemsWriteRepository {
     public func update(_ item: Item) {
         subscriptions["update"] = internalUpdate(item)
             .sink(
-                receiveCompletion: { [weak self] _ in self?.subscriptions.removeValue(forKey: "update") },
-                receiveValue: { [weak self] in self?.eventDispatcher.dispatch($0) }
+                receiveCompletion: { [weak self] completion in
+                    if case .failure = completion {
+                        let error: AppError = .ofType(UpdatingItemInICloudErrorType())
+                        self?.eventDispatcher.dispatch(ErrorOccured(error))
+                    }
+                    self?.subscriptions.removeValue(forKey: "update")
+                },
+                receiveValue: { [weak self] in
+                    self?.eventDispatcher.dispatch($0)
+                }
             )
     }
 
     public func move(_ item: Item, to list: List) {
         subscriptions["move"] = internalUpdate(item.withListId(list.id))
             .sink(
-                receiveCompletion: { [weak self] _ in
+                receiveCompletion: { [weak self] completion in
+                    if case .failure = completion {
+                        let error: AppError = .ofType(MovingItemInICloudErrorType())
+                        self?.eventDispatcher.dispatch(ErrorOccured(error))
+                    }
                     self?.subscriptions.removeValue(forKey: "move")
                 },
                 receiveValue: { [weak self] in
@@ -190,7 +202,7 @@ extension CloudKitItemsRepository: ItemsWriteRepository {
         database.add(operation)
     }
 
-    private func internalUpdate(_ item: Item) -> Future<AppEvent, AppError> {
+    private func internalUpdate(_ item: Item) -> Future<AppEvent, Error> {
         Future { [weak self] promise in
             guard let self = self, let recordId = self.mapper.map(item).toRecordIdInZone(self.zone) else {
                 return promise(.success(NoResultOccured()))
@@ -203,8 +215,8 @@ extension CloudKitItemsRepository: ItemsWriteRepository {
                 }
                 .sink(
                     receiveCompletion: { [weak self] in
-                        if case .failure = $0 {
-                            promise(.failure(.ofType(UpdatingItemFromICloudErrorType())))
+                        if case .failure(let error) = $0 {
+                            promise(.failure(error))
                         }
                         self?.subscriptions.removeValue(forKey: "internalUpdate")
                     },
@@ -228,6 +240,7 @@ extension CloudKitItemsRepository: ItemsWriteRepository {
 
             let query = CKQuery(recordType: "Item", predicate: .init(format: "%K == %@", "recordID", id))
             let operation = CKQueryOperation(query: query)
+            operation.configuration.timeoutIntervalForResource = Configuration.timeout
 
             var record: CKRecord?
             var error: Error?

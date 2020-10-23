@@ -96,16 +96,13 @@ public final class ListsViewController: UIViewController {
                 equalTo: view.safeAreaLayoutGuide.topAnchor
             ),
             editListComponent.textField.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                constant: .bigPadding
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: .bigPadding
             ),
             editListComponent.textField.bottomAnchor.constraint(
-                equalTo: tableView.topAnchor,
-                constant: -.smallPadding
+                equalTo: tableView.topAnchor, constant: -.smallPadding
             ),
             editListComponent.textField.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                constant: -.bigPadding
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -.bigPadding
             )
         ])
 
@@ -113,8 +110,7 @@ public final class ListsViewController: UIViewController {
         NSLayoutConstraint.activate([
             buttonsBottomConstraint,
             editListComponent.buttons.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                constant: -.buttonHorizontalPadding
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -.buttonHorizontalPadding
             )
         ])
 

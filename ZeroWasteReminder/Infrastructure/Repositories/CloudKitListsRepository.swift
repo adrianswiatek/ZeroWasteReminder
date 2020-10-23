@@ -110,7 +110,7 @@ public final class CloudKitListsRepository: ListsRepository {
             .sink(
                 receiveCompletion: { [weak self] in
                     if case .failure = $0 {
-                        let error: AppError = .ofType(UpdatingListsFromICloudErrorType())
+                        let error: AppError = .ofType(UpdatingListsInICloudErrorType())
                         self?.eventDispatcher.dispatch(ErrorOccured(.init(error)))
                     }
                     self?.updateSubscription = nil
