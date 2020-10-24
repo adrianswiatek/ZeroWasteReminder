@@ -17,8 +17,6 @@ public final class ItemUserNotificationScheduler: ItemNotificationsScheduler {
         self.notificationRepository = notificationRepository
         self.userNotificationCenter = userNotificationCenter
         self.eventDispatcher = eventDispatcher
-
-        userNotificationCenter.removeAllPendingNotificationRequests()
     }
 
     public func scheduleNotification(for items: [Item]) {

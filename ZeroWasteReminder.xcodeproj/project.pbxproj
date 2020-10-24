@@ -140,6 +140,7 @@
 		A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */; };
 		A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */; };
 		A78AC17C24F8362700B2A59D /* MoveItemHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78AC17B24F8362700B2A59D /* MoveItemHeaderView.swift */; };
+		A78ACCA42544DABC006A1978 /* CalendarExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78ACCA32544DABC006A1978 /* CalendarExtensions.swift */; };
 		A78E20C6253CCA4D00B5F505 /* DependencyContainerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78E20C5253CCA4D00B5F505 /* DependencyContainerConfiguration.swift */; };
 		A78E20D6253CDCD000B5F505 /* StorageDependencyRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78E20D5253CDCD000B5F505 /* StorageDependencyRecorder.swift */; };
 		A78E20E7253CEC2B00B5F505 /* LocalStorageDependenciesRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78E20E6253CEC2B00B5F505 /* LocalStorageDependenciesRecorder.swift */; };
@@ -391,6 +392,7 @@
 		A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenPhotoViewController.swift; sourceTree = "<group>"; };
 		A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateViewModel.swift; sourceTree = "<group>"; };
 		A78AC17B24F8362700B2A59D /* MoveItemHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemHeaderView.swift; sourceTree = "<group>"; };
+		A78ACCA32544DABC006A1978 /* CalendarExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarExtensions.swift; sourceTree = "<group>"; };
 		A78E20C5253CCA4D00B5F505 /* DependencyContainerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainerConfiguration.swift; sourceTree = "<group>"; };
 		A78E20D5253CDCD000B5F505 /* StorageDependencyRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageDependencyRecorder.swift; sourceTree = "<group>"; };
 		A78E20E6253CEC2B00B5F505 /* LocalStorageDependenciesRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageDependenciesRecorder.swift; sourceTree = "<group>"; };
@@ -673,6 +675,7 @@
 				A763AFF92482E2C500E93546 /* StringExtensions.swift */,
 				A7B2E50A24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift */,
 				A7A2DDA4249FD4FF0025B1B8 /* UUIDExtensions.swift */,
+				A78ACCA32544DABC006A1978 /* CalendarExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1639,6 +1642,7 @@
 				A7203B8C24C3867E00C17F85 /* InMemoryListsRepository.swift in Sources */,
 				A7C1A0B1249FE8E80054BBAF /* PhotosRepository.swift in Sources */,
 				A712ED612441172300B00791 /* SceneDelegate.swift in Sources */,
+				A78ACCA42544DABC006A1978 /* CalendarExtensions.swift in Sources */,
 				A75043502506EA7600DFB4EB /* ItemAdded.swift in Sources */,
 				A79DDDA32461F9B1008A3DFE /* EditItemViewModel.swift in Sources */,
 				A797433424A2ABA000A05EA2 /* ItemsDataSource.swift in Sources */,

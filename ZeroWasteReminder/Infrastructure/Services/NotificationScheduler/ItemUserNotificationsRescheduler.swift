@@ -30,5 +30,6 @@ public struct ItemUserNotificationsResheduler: ItemNotificationsRescheduler {
 private extension UNUserNotificationCenter {
     func add(_ request: UNNotificationRequest) {
         add(request, withCompletionHandler: nil)
+        print(request)
     }
 }

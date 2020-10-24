@@ -43,7 +43,7 @@ public final class CalendarItemNotificationRequestFactory: ItemNotificationReque
     private func calendarTriggerFromDate(_ date: Date?) -> UNCalendarNotificationTrigger? {
         date.map { $0.settingTime(hour: 9) }
             .map { Date.later($0, Date()) }
-            .map { Calendar.current.dateComponents([.year, .month, .day, .hour], from: $0) }
+            .map { Calendar.appCalendar.dateComponents([.year, .month, .day, .hour], from: $0) }
             .map { .init(dateMatching: $0, repeats: false) }
     }
 }
