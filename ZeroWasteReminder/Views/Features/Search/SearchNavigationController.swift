@@ -1,8 +1,12 @@
 import UIKit
 
-public final class ListsNavigationController: UINavigationController {
+public final class SearchNavigationController: UINavigationController {
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
+    }
+
+    public override var prefersStatusBarHidden: Bool {
+        false
     }
 
     public override init(rootViewController: UIViewController) {
@@ -20,7 +24,7 @@ public final class ListsNavigationController: UINavigationController {
     }
 
     @available(*, unavailable)
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError("Not supported.")
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("Not supported")
     }
 }

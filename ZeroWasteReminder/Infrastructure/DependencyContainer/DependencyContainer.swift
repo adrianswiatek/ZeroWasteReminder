@@ -7,7 +7,8 @@ internal final class DependencyContainer {
     private var listeners: [Any]
 
     internal var rootViewController: UIViewController {
-        container.resolve(ListsViewControllerFactory.self)!.create()
+//        container.resolve(ListsViewControllerFactory.self)!.create()
+        SearchNavigationController(rootViewController: SearchViewController())
     }
 
     internal var remoteNotificationHandler: RemoteNotificationHandler {

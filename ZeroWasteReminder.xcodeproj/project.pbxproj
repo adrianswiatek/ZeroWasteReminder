@@ -125,6 +125,7 @@
 		A776FB4924B92A8400BBF468 /* EditListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A776FB4824B92A8400BBF468 /* EditListComponent.swift */; };
 		A77A99CD245A118200F3578C /* UIBarButtonItemExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77A99CC245A118200F3578C /* UIBarButtonItemExtensions.swift */; };
 		A77A99CF245A14EE00F3578C /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77A99CE245A14EE00F3578C /* UIImageExtensions.swift */; };
+		A77E194B2546453000338387 /* SearchBarDismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77E194A2546453000338387 /* SearchBarDismissButton.swift */; };
 		A780EFD1245F7590002A8AD4 /* EditItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780EFD0245F7590002A8AD4 /* EditItemViewController.swift */; };
 		A780EFD3245F786F002A8AD4 /* SortType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780EFD2245F786F002A8AD4 /* SortType.swift */; };
 		A780F53B24F5B6F900BF2171 /* MoveItemDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780F53A24F5B6F900BF2171 /* MoveItemDataSource.swift */; };
@@ -157,6 +158,11 @@
 		A79510B4252926E700D09E3B /* AlertDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79510B3252926E700D09E3B /* AlertDateCell.swift */; };
 		A79510B7252926EE00D09E3B /* AlertCalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79510B6252926EE00D09E3B /* AlertCalendarCell.swift */; };
 		A797433424A2ABA000A05EA2 /* ItemsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A798DF4724524B0900A84F79 /* ItemsDataSource.swift */; };
+		A799C8222546066400A3E974 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799C8212546066400A3E974 /* SearchViewController.swift */; };
+		A799C8262546066C00A3E974 /* SearchNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799C8252546066C00A3E974 /* SearchNavigationController.swift */; };
+		A799C82C2546177900A3E974 /* SearchBarTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799C82B2546177900A3E974 /* SearchBarTextField.swift */; };
+		A799C830254637FE00A3E974 /* SearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799C82F254637FE00A3E974 /* SearchTableView.swift */; };
+		A799C834254638E700A3E974 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799C833254638E700A3E974 /* SearchBarView.swift */; };
 		A79B4A202479F6FA00ECE1B1 /* SubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */; };
 		A79D0AE12540D4DA00DADD65 /* FetchingListsFromICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79D0AE02540D4DA00DADD65 /* FetchingListsFromICloudErrorType.swift */; };
 		A79D0AE52540D4EF00DADD65 /* AddingListFromICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79D0AE42540D4EF00DADD65 /* AddingListFromICloudErrorType.swift */; };
@@ -393,6 +399,7 @@
 		A776FB4824B92A8400BBF468 /* EditListComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListComponent.swift; sourceTree = "<group>"; };
 		A77A99CC245A118200F3578C /* UIBarButtonItemExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonItemExtensions.swift; sourceTree = "<group>"; };
 		A77A99CE245A14EE00F3578C /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
+		A77E194A2546453000338387 /* SearchBarDismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarDismissButton.swift; sourceTree = "<group>"; };
 		A780EFD0245F7590002A8AD4 /* EditItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemViewController.swift; sourceTree = "<group>"; };
 		A780EFD2245F786F002A8AD4 /* SortType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortType.swift; sourceTree = "<group>"; };
 		A780F53A24F5B6F900BF2171 /* MoveItemDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemDataSource.swift; sourceTree = "<group>"; };
@@ -425,6 +432,11 @@
 		A79510B3252926E700D09E3B /* AlertDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDateCell.swift; sourceTree = "<group>"; };
 		A79510B6252926EE00D09E3B /* AlertCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertCalendarCell.swift; sourceTree = "<group>"; };
 		A798DF4724524B0900A84F79 /* ItemsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsDataSource.swift; sourceTree = "<group>"; };
+		A799C8212546066400A3E974 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		A799C8252546066C00A3E974 /* SearchNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNavigationController.swift; sourceTree = "<group>"; };
+		A799C82B2546177900A3E974 /* SearchBarTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarTextField.swift; sourceTree = "<group>"; };
+		A799C82F254637FE00A3E974 /* SearchTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableView.swift; sourceTree = "<group>"; };
+		A799C833254638E700A3E974 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionService.swift; sourceTree = "<group>"; };
 		A79D0AE02540D4DA00DADD65 /* FetchingListsFromICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchingListsFromICloudErrorType.swift; sourceTree = "<group>"; };
 		A79D0AE42540D4EF00DADD65 /* AddingListFromICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingListFromICloudErrorType.swift; sourceTree = "<group>"; };
@@ -1063,6 +1075,27 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		A799C8202546065800A3E974 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				A799C8252546066C00A3E974 /* SearchNavigationController.swift */,
+				A799C82F254637FE00A3E974 /* SearchTableView.swift */,
+				A799C8212546066400A3E974 /* SearchViewController.swift */,
+				A799C83925463A1B00A3E974 /* SearchBar */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		A799C83925463A1B00A3E974 /* SearchBar */ = {
+			isa = PBXGroup;
+			children = (
+				A77E194A2546453000338387 /* SearchBarDismissButton.swift */,
+				A799C82B2546177900A3E974 /* SearchBarTextField.swift */,
+				A799C833254638E700A3E974 /* SearchBarView.swift */,
+			);
+			path = SearchBar;
+			sourceTree = "<group>";
+		};
 		A79B4A1E2479F6CD00ECE1B1 /* Mappers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1207,6 +1240,7 @@
 				A72A46D524426C3700B0007B /* Items */,
 				A759430624AFBF06007A526B /* Lists */,
 				A7A7494F24F309B4009D6F25 /* MoveItem */,
+				A799C8202546065800A3E974 /* Search */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -1573,6 +1607,7 @@
 				A7ACC4C7247B12E20098EDE0 /* CloudKitSharingControllerFactory.swift in Sources */,
 				A7166EFF2538F89E00067802 /* InMemoryNotificationsRepository.swift in Sources */,
 				A757B2D224C3A3CD001A3268 /* DependencyContainer.swift in Sources */,
+				A799C8262546066C00A3E974 /* SearchNavigationController.swift in Sources */,
 				A77608B424BB8CAB00BA0C66 /* EditListControl.swift in Sources */,
 				A74C418B24D4BCC500399918 /* Id.swift in Sources */,
 				A7F82BAA2458CB9C00970CFC /* SelectionModeState.swift in Sources */,
@@ -1587,12 +1622,15 @@
 				A7BDE68B24B51C61003215C0 /* EditListMixedButton.swift in Sources */,
 				A71B69212443D3EB00AF7CB3 /* ExpirationSectionView.swift in Sources */,
 				A78172B02494D24400F406EC /* CloudKitRecordMapper.swift in Sources */,
+				A799C82C2546177900A3E974 /* SearchBarTextField.swift in Sources */,
+				A77E194B2546453000338387 /* SearchBarDismissButton.swift in Sources */,
 				A731F89724BE45D0007348A3 /* List.swift in Sources */,
 				A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */,
 				A74774CC2475CD7800E41992 /* NotificationNameExtensions.swift in Sources */,
 				A7C1A0B5249FEA630054BBAF /* CloudKitPhotosRepository.swift in Sources */,
 				A712ED632441172300B00791 /* ItemsViewController.swift in Sources */,
 				A78AC17C24F8362700B2A59D /* MoveItemHeaderView.swift in Sources */,
+				A799C8222546066400A3E974 /* SearchViewController.swift in Sources */,
 				A700C06924BB8EB500A9B00B /* EditListButtons.swift in Sources */,
 				A7159B682500446B00BC3532 /* ItemsCoordinator.swift in Sources */,
 				A7597E9F2506E38D00A53B7D /* AppEvent.swift in Sources */,
@@ -1686,6 +1724,7 @@
 				A716C9C8244FB505004262AF /* RemainingView.swift in Sources */,
 				A78E2100253CFF3800B5F505 /* HasContainer.swift in Sources */,
 				A77A99CF245A14EE00F3578C /* UIImageExtensions.swift in Sources */,
+				A799C834254638E700A3E974 /* SearchBarView.swift in Sources */,
 				A7597EA72506E3D200A53B7D /* ListsUpdated.swift in Sources */,
 				A7A7495924F321C4009D6F25 /* DefaultMoveItemService.swift in Sources */,
 				A7159B662500444E00BC3532 /* EditItemCoordinator.swift in Sources */,
@@ -1715,6 +1754,7 @@
 				A7C1A0B3249FE9FE0054BBAF /* InMemoryPhotosRepository.swift in Sources */,
 				A7159B5F2500381C00BC3532 /* ListsViewControllerFactory.swift in Sources */,
 				A79510B7252926EE00D09E3B /* AlertCalendarCell.swift in Sources */,
+				A799C830254637FE00A3E974 /* SearchTableView.swift in Sources */,
 				A7DAD1C224F70B0D0004529D /* ArrayExtensions.swift in Sources */,
 				A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */,
 				A7FF95E8253BA6F800CC8114 /* CoreDataMapper.swift in Sources */,

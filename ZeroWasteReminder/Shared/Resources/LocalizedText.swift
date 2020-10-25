@@ -32,5 +32,6 @@ public enum LocalizedText: String {
     case removeItem = "Remove item"
     case removeList = "Remove list"
     case removePhoto = "Remove photo"
+    case search = "Search"
     case toggleDatePicker = "Toggle date picker"
 }
