@@ -62,6 +62,8 @@
 		A72BF83D2543524C00637466 /* AddingItemFromICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72BF83C2543524C00637466 /* AddingItemFromICloudErrorType.swift */; };
 		A72BF843254356AC00637466 /* UpdatingItemInICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72BF842254356AC00637466 /* UpdatingItemInICloudErrorType.swift */; };
 		A72BF84E2543720D00637466 /* MovingItemInICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72BF84D2543720D00637466 /* MovingItemInICloudErrorType.swift */; };
+		A72BF874254389CD00637466 /* IdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72BF873254389CD00637466 /* IdTests.swift */; };
+		A72BF87A25438F9400637466 /* SortTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72BF87925438F9400637466 /* SortTypeTests.swift */; };
 		A72F4CBF2460B5FA008B0D5B /* ExpirationDateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72F4CBE2460B5FA008B0D5B /* ExpirationDateButton.swift */; };
 		A731DBE024A935A600CE926A /* PhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731DBDF24A935A600CE926A /* PhotosView.swift */; };
 		A731F89524BE439B007348A3 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731F89424BE439B007348A3 /* ListCell.swift */; };
@@ -140,6 +142,8 @@
 		A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */; };
 		A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */; };
 		A78AC17C24F8362700B2A59D /* MoveItemHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78AC17B24F8362700B2A59D /* MoveItemHeaderView.swift */; };
+		A78ACC8E2544AADF006A1978 /* ExpirationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78ACC8D2544AADF006A1978 /* ExpirationTests.swift */; };
+		A78ACC922544B239006A1978 /* AlertOptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78ACC912544B239006A1978 /* AlertOptionTests.swift */; };
 		A78ACCA42544DABC006A1978 /* CalendarExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78ACCA32544DABC006A1978 /* CalendarExtensions.swift */; };
 		A78E20C6253CCA4D00B5F505 /* DependencyContainerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78E20C5253CCA4D00B5F505 /* DependencyContainerConfiguration.swift */; };
 		A78E20D6253CDCD000B5F505 /* StorageDependencyRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78E20D5253CDCD000B5F505 /* StorageDependencyRecorder.swift */; };
@@ -255,6 +259,16 @@
 		A7FFA97D244909B40061A3D6 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA97C244909B40061A3D6 /* DateExtensions.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		A72BF8642543893400637466 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A712ED532441172300B00791 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A712ED5A2441172300B00791;
+			remoteInfo = ZeroWasteReminder;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		A700C06824BB8EB500A9B00B /* EditListButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListButtons.swift; sourceTree = "<group>"; };
 		A700D6C12454BD6A00F16F2E /* ItemsFilterCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsFilterCollectionView.swift; sourceTree = "<group>"; };
@@ -313,6 +327,10 @@
 		A72BF83C2543524C00637466 /* AddingItemFromICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingItemFromICloudErrorType.swift; sourceTree = "<group>"; };
 		A72BF842254356AC00637466 /* UpdatingItemInICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatingItemInICloudErrorType.swift; sourceTree = "<group>"; };
 		A72BF84D2543720D00637466 /* MovingItemInICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingItemInICloudErrorType.swift; sourceTree = "<group>"; };
+		A72BF85F2543893400637466 /* ZeroWasteReminderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZeroWasteReminderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A72BF8632543893400637466 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A72BF873254389CD00637466 /* IdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdTests.swift; sourceTree = "<group>"; };
+		A72BF87925438F9400637466 /* SortTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTypeTests.swift; sourceTree = "<group>"; };
 		A72F4CBE2460B5FA008B0D5B /* ExpirationDateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateButton.swift; sourceTree = "<group>"; };
 		A731DBDF24A935A600CE926A /* PhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosView.swift; sourceTree = "<group>"; };
 		A731F89424BE439B007348A3 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
@@ -392,6 +410,8 @@
 		A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenPhotoViewController.swift; sourceTree = "<group>"; };
 		A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateViewModel.swift; sourceTree = "<group>"; };
 		A78AC17B24F8362700B2A59D /* MoveItemHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemHeaderView.swift; sourceTree = "<group>"; };
+		A78ACC8D2544AADF006A1978 /* ExpirationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationTests.swift; sourceTree = "<group>"; };
+		A78ACC912544B239006A1978 /* AlertOptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertOptionTests.swift; sourceTree = "<group>"; };
 		A78ACCA32544DABC006A1978 /* CalendarExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarExtensions.swift; sourceTree = "<group>"; };
 		A78E20C5253CCA4D00B5F505 /* DependencyContainerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainerConfiguration.swift; sourceTree = "<group>"; };
 		A78E20D5253CDCD000B5F505 /* StorageDependencyRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageDependencyRecorder.swift; sourceTree = "<group>"; };
@@ -517,6 +537,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A72BF85C2543893400637466 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -580,6 +607,7 @@
 			isa = PBXGroup;
 			children = (
 				A712ED5D2441172300B00791 /* ZeroWasteReminder */,
+				A72BF8602543893400637466 /* ZeroWasteReminderTests */,
 				A712ED5C2441172300B00791 /* Products */,
 				A750434324707517009A1451 /* Frameworks */,
 			);
@@ -589,6 +617,7 @@
 			isa = PBXGroup;
 			children = (
 				A712ED5B2441172300B00791 /* ZeroWasteReminder.app */,
+				A72BF85F2543893400637466 /* ZeroWasteReminderTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -699,6 +728,34 @@
 				A700D6C52454C31900F16F2E /* ItemsList */,
 			);
 			path = Controls;
+			sourceTree = "<group>";
+		};
+		A72BF8602543893400637466 /* ZeroWasteReminderTests */ = {
+			isa = PBXGroup;
+			children = (
+				A72BF871254389B400637466 /* Domain */,
+				A72BF8632543893400637466 /* Info.plist */,
+			);
+			path = ZeroWasteReminderTests;
+			sourceTree = "<group>";
+		};
+		A72BF871254389B400637466 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				A72BF872254389B900637466 /* ValueObjects */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		A72BF872254389B900637466 /* ValueObjects */ = {
+			isa = PBXGroup;
+			children = (
+				A78ACC912544B239006A1978 /* AlertOptionTests.swift */,
+				A78ACC8D2544AADF006A1978 /* ExpirationTests.swift */,
+				A72BF873254389CD00637466 /* IdTests.swift */,
+				A72BF87925438F9400637466 /* SortTypeTests.swift */,
+			);
+			path = ValueObjects;
 			sourceTree = "<group>";
 		};
 		A72F4CBD2460B5EA008B0D5B /* Shared */ = {
@@ -1422,18 +1479,41 @@
 			productReference = A712ED5B2441172300B00791 /* ZeroWasteReminder.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A72BF85E2543893400637466 /* ZeroWasteReminderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A72BF8682543893400637466 /* Build configuration list for PBXNativeTarget "ZeroWasteReminderTests" */;
+			buildPhases = (
+				A72BF85B2543893400637466 /* Sources */,
+				A72BF85C2543893400637466 /* Frameworks */,
+				A72BF85D2543893400637466 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A72BF8652543893400637466 /* PBXTargetDependency */,
+			);
+			name = ZeroWasteReminderTests;
+			productName = ZeroWasteReminderTests;
+			productReference = A72BF85F2543893400637466 /* ZeroWasteReminderTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		A712ED532441172300B00791 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1140;
+				LastSwiftUpdateCheck = 1200;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Adrian Świątek";
 				TargetAttributes = {
 					A712ED5A2441172300B00791 = {
 						CreatedOnToolsVersion = 11.4;
+					};
+					A72BF85E2543893400637466 = {
+						CreatedOnToolsVersion = 12.0;
+						LastSwiftMigration = 1200;
+						TestTargetID = A712ED5A2441172300B00791;
 					};
 				};
 			};
@@ -1454,6 +1534,7 @@
 			projectRoot = "";
 			targets = (
 				A712ED5A2441172300B00791 /* ZeroWasteReminder */,
+				A72BF85E2543893400637466 /* ZeroWasteReminderTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1465,6 +1546,13 @@
 			files = (
 				A712ED6B2441172400B00791 /* LaunchScreen.storyboard in Resources */,
 				A712ED682441172400B00791 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A72BF85D2543893400637466 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1720,7 +1808,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A72BF85B2543893400637466 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A72BF874254389CD00637466 /* IdTests.swift in Sources */,
+				A78ACC922544B239006A1978 /* AlertOptionTests.swift in Sources */,
+				A78ACC8E2544AADF006A1978 /* ExpirationTests.swift in Sources */,
+				A72BF87A25438F9400637466 /* SortTypeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A72BF8652543893400637466 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A712ED5A2441172300B00791 /* ZeroWasteReminder */;
+			targetProxy = A72BF8642543893400637466 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		A712ED692441172400B00791 /* LaunchScreen.storyboard */ = {
@@ -1902,6 +2009,51 @@
 			};
 			name = Release;
 		};
+		A72BF8662543893400637466 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Q924VJ4PLT;
+				INFOPLIST_FILE = ZeroWasteReminderTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = pl.aswiatek.ZeroWasteReminderTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZeroWasteReminder.app/ZeroWasteReminder";
+			};
+			name = Debug;
+		};
+		A72BF8672543893400637466 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Q924VJ4PLT;
+				INFOPLIST_FILE = ZeroWasteReminderTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = pl.aswiatek.ZeroWasteReminderTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZeroWasteReminder.app/ZeroWasteReminder";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1919,6 +2071,15 @@
 			buildConfigurations = (
 				A712ED702441172400B00791 /* Debug */,
 				A712ED712441172400B00791 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A72BF8682543893400637466 /* Build configuration list for PBXNativeTarget "ZeroWasteReminderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A72BF8662543893400637466 /* Debug */,
+				A72BF8672543893400637466 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
