@@ -26,6 +26,12 @@ public extension UIBarButtonItem {
         return barButtonItem
     }
 
+    static func searchButton(target: UIViewController, action: Selector) -> UIBarButtonItem {
+        let barButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: target, action: action)
+        barButtonItem.tintColor = .white
+        return barButtonItem
+    }
+
     static func sortButton(target: UIViewController, action: Selector) -> UIBarButtonItem {
         let image = UIImage.fromSymbol(.arrowUpCircle)
         let barButtonItem = UIBarButtonItem(image: image, style: .plain, target: target, action: action)

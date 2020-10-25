@@ -5,6 +5,9 @@ public final class ListsViewController: UIViewController {
     private let tableView: ListsTableView
     private let dataSource: ListsDataSource
 
+    private lazy var searchBarButtonItem: UIBarButtonItem =
+        .searchButton(target: self, action: #selector(handleSearchButtonTap))
+
     private let loadingView: LoadingView
     private let warningBarView: WarningBarView
     private let editListComponent: EditListComponent
@@ -67,6 +70,7 @@ public final class ListsViewController: UIViewController {
         title = .localized(.allLists)
         view.backgroundColor = .accent
         loadingView.backgroundColor = UIColor.accent.withAlphaComponent(0.35)
+        navigationItem.rightBarButtonItem = searchBarButtonItem
 
         view.addSubview(warningBarView)
         NSLayoutConstraint.activate([
@@ -175,6 +179,11 @@ public final class ListsViewController: UIViewController {
         UIView.animate(withDuration: 0) {
             self.view.layoutIfNeeded()
         }
+    }
+
+    @objc
+    private func handleSearchButtonTap() {
+        print("Search button tapped")
     }
 }
 
