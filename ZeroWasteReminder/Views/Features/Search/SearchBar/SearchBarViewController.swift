@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public final class SearchBarViewController: UIView {
+public final class SearchBarViewController: UIViewController {
     private let backgroundView: UIView = configure(.init()) {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .accent
@@ -22,7 +22,7 @@ public final class SearchBarViewController: UIView {
     public init() {
         self.subscriptions = []
 
-        super.init(frame: .zero)
+        super.init(nibName: nil, bundle: nil)
 
         self.setupView()
         self.bind()
@@ -39,29 +39,29 @@ public final class SearchBarViewController: UIView {
     }
 
     private func setupView() {
-        translatesAutoresizingMaskIntoConstraints = false
+        view.translatesAutoresizingMaskIntoConstraints = false
 
-        addSubview(backgroundView)
+        view.addSubview(backgroundView)
         NSLayoutConstraint.activate([
-            backgroundView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            backgroundView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             backgroundView.heightAnchor.constraint(equalToConstant: 56)
         ])
 
-        addSubview(statusBarBackgroundView)
+        view.addSubview(statusBarBackgroundView)
         NSLayoutConstraint.activate([
-            statusBarBackgroundView.topAnchor.constraint(equalTo: topAnchor),
-            statusBarBackgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            statusBarBackgroundView.topAnchor.constraint(equalTo: view.topAnchor),
+            statusBarBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             statusBarBackgroundView.bottomAnchor.constraint(equalTo: backgroundView.topAnchor),
-            statusBarBackgroundView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            statusBarBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
         backgroundView.addSubview(dismissButton)
         NSLayoutConstraint.activate([
             dismissButton.leadingAnchor.constraint(
-                equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16
             ),
             dismissButton.centerYAnchor.constraint(
                 equalTo: backgroundView.centerYAnchor
@@ -74,7 +74,7 @@ public final class SearchBarViewController: UIView {
                 equalTo: dismissButton.trailingAnchor, constant: 16
             ),
             textField.trailingAnchor.constraint(
-                equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16
             ),
             textField.centerYAnchor.constraint(
                 equalTo: dismissButton.centerYAnchor

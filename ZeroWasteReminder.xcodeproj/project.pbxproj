@@ -162,7 +162,7 @@
 		A799C8262546066C00A3E974 /* SearchNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799C8252546066C00A3E974 /* SearchNavigationController.swift */; };
 		A799C82C2546177900A3E974 /* SearchBarTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799C82B2546177900A3E974 /* SearchBarTextField.swift */; };
 		A799C830254637FE00A3E974 /* SearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799C82F254637FE00A3E974 /* SearchTableView.swift */; };
-		A799C834254638E700A3E974 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799C833254638E700A3E974 /* SearchBarView.swift */; };
+		A799C834254638E700A3E974 /* SearchBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799C833254638E700A3E974 /* SearchBarViewController.swift */; };
 		A79B4A202479F6FA00ECE1B1 /* SubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */; };
 		A79D0AE12540D4DA00DADD65 /* FetchingListsFromICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79D0AE02540D4DA00DADD65 /* FetchingListsFromICloudErrorType.swift */; };
 		A79D0AE52540D4EF00DADD65 /* AddingListFromICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79D0AE42540D4EF00DADD65 /* AddingListFromICloudErrorType.swift */; };
@@ -436,7 +436,7 @@
 		A799C8252546066C00A3E974 /* SearchNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNavigationController.swift; sourceTree = "<group>"; };
 		A799C82B2546177900A3E974 /* SearchBarTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarTextField.swift; sourceTree = "<group>"; };
 		A799C82F254637FE00A3E974 /* SearchTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableView.swift; sourceTree = "<group>"; };
-		A799C833254638E700A3E974 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		A799C833254638E700A3E974 /* SearchBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewController.swift; sourceTree = "<group>"; };
 		A79B4A1F2479F6FA00ECE1B1 /* SubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionService.swift; sourceTree = "<group>"; };
 		A79D0AE02540D4DA00DADD65 /* FetchingListsFromICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchingListsFromICloudErrorType.swift; sourceTree = "<group>"; };
 		A79D0AE42540D4EF00DADD65 /* AddingListFromICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingListFromICloudErrorType.swift; sourceTree = "<group>"; };
@@ -1091,7 +1091,7 @@
 			children = (
 				A77E194A2546453000338387 /* SearchBarDismissButton.swift */,
 				A799C82B2546177900A3E974 /* SearchBarTextField.swift */,
-				A799C833254638E700A3E974 /* SearchBarView.swift */,
+				A799C833254638E700A3E974 /* SearchBarViewController.swift */,
 			);
 			path = SearchBar;
 			sourceTree = "<group>";
@@ -1724,7 +1724,7 @@
 				A716C9C8244FB505004262AF /* RemainingView.swift in Sources */,
 				A78E2100253CFF3800B5F505 /* HasContainer.swift in Sources */,
 				A77A99CF245A14EE00F3578C /* UIImageExtensions.swift in Sources */,
-				A799C834254638E700A3E974 /* SearchBarView.swift in Sources */,
+				A799C834254638E700A3E974 /* SearchBarViewController.swift in Sources */,
 				A7597EA72506E3D200A53B7D /* ListsUpdated.swift in Sources */,
 				A7A7495924F321C4009D6F25 /* DefaultMoveItemService.swift in Sources */,
 				A7159B662500444E00BC3532 /* EditItemCoordinator.swift in Sources */,
