@@ -134,6 +134,15 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
             ImagePickerControllerFactory()
         }
 
+        container.register(SearchViewControllerFactory.self) { resolver in
+            SearchViewControllerFactory(
+                viewModel: SearchViewModel(
+                    listsRepository: resolver.resolve(ListsRepository.self)!,
+                    itemsRepository: resolver.resolve(ItemsReadRepository.self)!
+                )
+            )
+        }
+
         container.register(ListsViewControllerFactory.self) { resolver in
             ListsViewControllerFactory(
                 viewModelFactory: resolver.resolve(ListsViewModelFactory.self)!,

@@ -2,12 +2,21 @@ import Combine
 import UIKit
 
 public final class SearchViewController: UIViewController {
-    private let searchBarViewController: SearchBarViewController = .init()
+    private let searchBarViewController: SearchBarViewController
     private let searchTableView: UITableView = SearchTableView()
 
-    public init() {
+    private let viewModel: SearchViewModel
+    private var subscriptions: Set<AnyCancellable>
+
+    public init(viewModel: SearchViewModel) {
+        self.viewModel = viewModel
+        self.searchBarViewController = .init(viewModel: viewModel.searchBarViewModel)
+        self.subscriptions = []
+
         super.init(nibName: nil, bundle: nil)
+
         self.setupView()
+        self.bind()
     }
 
     @available(*, unavailable)
@@ -44,5 +53,18 @@ public final class SearchViewController: UIViewController {
         addChild(searchBarViewController)
         view.addSubview(searchBarViewController.view)
         searchBarViewController.didMove(toParent: self)
+    }
+
+    private func bind() {
+        viewModel.requestSubject
+            .sink { [weak self] in self?.handleRequest($0) }
+            .store(in: &subscriptions)
+    }
+
+    private func handleRequest(_ request: SearchViewModel.Request) {
+        switch request {
+        case .dismiss:
+            print("Dismiss")
+        }
     }
 }

@@ -14,12 +14,14 @@ public final class SearchBarViewController: UIViewController {
         $0.backgroundColor = .accent
     }
 
-    private let textField: UITextField = SearchBarTextField()
+    private let textField: SearchBarTextField = .init()
     private let dismissButton: SearchBarDismissButton = .init()
 
+    private let viewModel: SearchBarViewModel
     private var subscriptions: Set<AnyCancellable>
 
-    public init() {
+    public init(viewModel: SearchBarViewModel) {
+        self.viewModel = viewModel
         self.subscriptions = []
 
         super.init(nibName: nil, bundle: nil)
@@ -86,8 +88,11 @@ public final class SearchBarViewController: UIViewController {
     }
 
     private func bind() {
+        textField.searchTerm
+            .assign(to: &viewModel.$searchTerm)
+
         dismissButton.tap
-            .sink { print("Dismiss button tapped.") }
+            .sink { [weak self] in self?.viewModel.dismissTapped() }
             .store(in: &subscriptions)
     }
 }

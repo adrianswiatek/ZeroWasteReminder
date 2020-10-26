@@ -77,6 +77,9 @@
 		A73CB9AA250D83B10069E4F0 /* ListRemovedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73CB9A9250D83B10069E4F0 /* ListRemovedReceived.swift */; };
 		A741613E2450D814001ED316 /* UIAlertActionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */; };
 		A74161412450D83B001ED316 /* UIAlertControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74161402450D83B001ED316 /* UIAlertControllerExtensions.swift */; };
+		A744C6F7254769B4002A4C17 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A744C6F6254769B4002A4C17 /* SearchViewModel.swift */; };
+		A744C6FD254769BE002A4C17 /* SearchBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A744C6FC254769BE002A4C17 /* SearchBarViewModel.swift */; };
+		A744C7092547828E002A4C17 /* SearchViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A744C7082547828E002A4C17 /* SearchViewControllerFactory.swift */; };
 		A74774CC2475CD7800E41992 /* NotificationNameExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74774CB2475CD7800E41992 /* NotificationNameExtensions.swift */; };
 		A749366A2473153B003DB46E /* CloudKitMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74936692473153B003DB46E /* CloudKitMapper.swift */; };
 		A749366C247346A4003DB46E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749366B247346A4003DB46E /* LoadingView.swift */; };
@@ -350,6 +353,9 @@
 		A73CB9A9250D83B10069E4F0 /* ListRemovedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRemovedReceived.swift; sourceTree = "<group>"; };
 		A741613D2450D814001ED316 /* UIAlertActionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertActionExtensions.swift; sourceTree = "<group>"; };
 		A74161402450D83B001ED316 /* UIAlertControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExtensions.swift; sourceTree = "<group>"; };
+		A744C6F6254769B4002A4C17 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		A744C6FC254769BE002A4C17 /* SearchBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewModel.swift; sourceTree = "<group>"; };
+		A744C7082547828E002A4C17 /* SearchViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewControllerFactory.swift; sourceTree = "<group>"; };
 		A74774CB2475CD7800E41992 /* NotificationNameExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtensions.swift; sourceTree = "<group>"; };
 		A74936692473153B003DB46E /* CloudKitMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitMapper.swift; sourceTree = "<group>"; };
 		A749366B247346A4003DB46E /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -654,7 +660,6 @@
 			isa = PBXGroup;
 			children = (
 				A7166EFA2538F09400067802 /* ItemNotification.swift */,
-				A72A46CE244264B400B0007B /* ViewModels */,
 			);
 			path = ReadModels;
 			sourceTree = "<group>";
@@ -700,6 +705,7 @@
 				A70FA67F244CF7090045B545 /* Items */,
 				A759430924AFBF51007A526B /* Lists */,
 				A7A7495224F30A01009D6F25 /* MoveItem */,
+				A744C6F5254769A1002A4C17 /* Search */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -814,6 +820,15 @@
 				A7CD80BF252A569B00BAF8E0 /* UIViewExtensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A744C6F5254769A1002A4C17 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				A744C6FC254769BE002A4C17 /* SearchBarViewModel.swift */,
+				A744C6F6254769B4002A4C17 /* SearchViewModel.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		A74C418924D4BCB800399918 /* ValueObjects */ = {
@@ -1309,6 +1324,7 @@
 				A7E5B8AD2504302F008E9523 /* RepositoryProtocols */,
 				A7E5B8B225043235008E9523 /* ServiceProtocols */,
 				A7E5B8B325043259008E9523 /* Services */,
+				A72A46CE244264B400B0007B /* ViewModels */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -1402,6 +1418,7 @@
 				A7159B69250049D000BC3532 /* ImagePickerControllerFactory.swift */,
 				A7159B5E2500381C00BC3532 /* ListsViewControllerFactory.swift */,
 				A7ACC4C3247B129E0098EDE0 /* SharingControllerFactory */,
+				A744C7082547828E002A4C17 /* SearchViewControllerFactory.swift */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
@@ -1601,6 +1618,7 @@
 				A7F3D36624D3838F0059841A /* EmptyListView.swift in Sources */,
 				A783EE2424673B8F008BCC17 /* EditContentViewController.swift in Sources */,
 				A7AFA37124A53D5600BD5983 /* PhotoCaptureTarget.swift in Sources */,
+				A744C7092547828E002A4C17 /* SearchViewControllerFactory.swift in Sources */,
 				A7627B972523C5DF00637740 /* AlertViewModel.swift in Sources */,
 				A7F82BA82458CB8700970CFC /* ReadModeState.swift in Sources */,
 				A7A2DDA5249FD4FF0025B1B8 /* UUIDExtensions.swift in Sources */,
@@ -1684,6 +1702,7 @@
 				A7A8EF77247C7DF900FF1AC2 /* SharedTextViewDelegate.swift in Sources */,
 				A78E20C6253CCA4D00B5F505 /* DependencyContainerConfiguration.swift in Sources */,
 				A78172AE2494D05200F406EC /* CloudKitItemMapper.swift in Sources */,
+				A744C6F7254769B4002A4C17 /* SearchViewModel.swift in Sources */,
 				A7560A6B252E763D007A6861 /* ItemNotificationsScheduler.swift in Sources */,
 				A79D0AF62540E5FC00DADD65 /* RemovingItemsFromICloudErrorType.swift in Sources */,
 				A7E317992496EBB8006B9610 /* PhotosChangeset.swift in Sources */,
@@ -1748,6 +1767,7 @@
 				A74D1640249C2ED500FEB5CD /* RemoteStatusNotifier.swift in Sources */,
 				A763AFFD2482E86000E93546 /* PhotosCollectionView.swift in Sources */,
 				A716B8FD244E43BB00D2FC89 /* ItemsCellViewModel.swift in Sources */,
+				A744C6FD254769BE002A4C17 /* SearchBarViewModel.swift in Sources */,
 				A776FB4924B92A8400BBF468 /* EditListComponent.swift in Sources */,
 				A70FA681244CF7190045B545 /* ItemsViewModel.swift in Sources */,
 				A75043582506F7CC00DFB4EB /* ItemMoved.swift in Sources */,

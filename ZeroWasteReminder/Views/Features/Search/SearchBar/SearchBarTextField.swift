@@ -3,9 +3,7 @@ import UIKit
 
 public final class SearchBarTextField: UITextField {
     public var searchTerm: AnyPublisher<String, Never> {
-        searchTermSubject
-            .debounce(for: .seconds(1), scheduler: DispatchQueue.main)
-            .eraseToAnyPublisher()
+        searchTermSubject.eraseToAnyPublisher()
     }
 
     private let searchTermSubject: CurrentValueSubject<String, Never> = .init("")
