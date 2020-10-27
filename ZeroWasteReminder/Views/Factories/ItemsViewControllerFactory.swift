@@ -10,7 +10,7 @@ public final class ItemsViewControllerFactory {
     }
 
     public func create(for list: List) -> UIViewController {
-        viewModel.set(list)
+        viewModel.set(for: list)
 
         return ItemsNavigationController(
             rootViewController: ItemsViewController(

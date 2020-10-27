@@ -40,6 +40,7 @@ public final class PhotosViewModel {
 
     public func fetchThumbnails(for item: Item) {
         isLoadingOverlayVisibleSubject.value = true
+        thumbnailsSubject.send([])
 
         fetchPhotosSubscription = photosRepository.fetchThumbnails(for: item)
             .sink(

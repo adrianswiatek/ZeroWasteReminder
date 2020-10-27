@@ -183,7 +183,7 @@ public final class ListsViewController: UIViewController {
 
     @objc
     private func handleSearchButtonTap() {
-        print("Search button tapped")
+        coordinator.navigateToSearch(in: self)
     }
 }
 

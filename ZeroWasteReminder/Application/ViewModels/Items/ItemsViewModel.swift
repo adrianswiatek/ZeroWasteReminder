@@ -72,8 +72,9 @@ public final class ItemsViewModel {
         updateListsDate.stopListening()
     }
 
-    public func set(_ list: List) {
+    public func set(for list: List) {
         self.list = list
+        self.items = []
         self.updateListsDate.listen(in: list)
     }
 

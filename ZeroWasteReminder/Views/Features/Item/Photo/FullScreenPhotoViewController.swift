@@ -48,7 +48,6 @@ public final class FullScreenPhotoViewController: UIViewController {
     public init(image: UIImage) {
         super.init(nibName: nil, bundle: nil)
         self.imageView.image = image
-        self.modalPresentationStyle = .fullScreen
     }
 
     @available(*, unavailable)

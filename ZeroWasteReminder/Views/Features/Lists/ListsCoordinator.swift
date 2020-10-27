@@ -15,11 +15,15 @@ public final class ListsCoordinator {
         self.itemsCoordinator = itemsCoordinator
     }
 
-    public func navigateToSearch(in viewController: UIViewController) {
-        viewController.present(searchViewControllerFactory.create(), animated: true)
+    public func navigateToItems(with list: List, in viewController: UIViewController) {
+        let itemsViewController = itemsViewControllerFactory.create(for: list)
+        itemsViewController.modalPresentationStyle = .fullScreen
+        viewController.present(itemsViewController, animated: true)
     }
 
-    public func navigateToItems(with list: List, in viewController: UIViewController) {
-        viewController.present(itemsViewControllerFactory.create(for: list), animated: true)
+    public func navigateToSearch(in viewController: UIViewController) {
+        let searchViewController = searchViewControllerFactory.create()
+        searchViewController.modalPresentationStyle = .fullScreen
+        viewController.present(searchViewController, animated: true)
     }
 }

@@ -8,7 +8,7 @@ public final class MoveItemViewControllerFactory {
     }
 
     public func create(for item: Item) -> UIViewController {
-        viewModel.set(item)
+        viewModel.set(for: item)
 
         return MoveItemNavigationController(
             rootViewController: MoveItemViewController(viewModel: viewModel)

@@ -99,7 +99,7 @@ public final class AddItemViewModel {
         self.bind()
     }
 
-    public func set(_ list: List) {
+    public func set(for list: List) {
         self.list = list
     }
 

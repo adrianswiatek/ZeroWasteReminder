@@ -160,7 +160,7 @@ public final class AddItemViewController: UIViewController {
                 .sink { [weak self] _ in self?.viewModel.photosViewModel.removePhoto(photo) }
                 .store(in: &self.subscriptions)
         case .showPhoto(let photo):
-            present(FullScreenPhotoViewController(image: photo.asImage), animated: true)
+            coordinator.navigateToFullScreenPhoto(for: photo, in: self)
         case .showPhotoAt:
             break
         }

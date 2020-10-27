@@ -39,6 +39,8 @@ public final class EditItemCoordinator {
     }
 
     public func navigateToMoveItem(with item: Item, in viewController: UIViewController) {
-        viewController.present(moveItemViewControllerFactory.create(for: item), animated: true)
+        let moveItemViewController = moveItemViewControllerFactory.create(for: item)
+        moveItemViewController.modalPresentationStyle = .fullScreen
+        viewController.present(moveItemViewController, animated: true)
     }
 }

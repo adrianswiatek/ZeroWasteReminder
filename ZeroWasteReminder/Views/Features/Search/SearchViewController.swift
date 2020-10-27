@@ -30,6 +30,8 @@ public final class SearchViewController: UIViewController {
     }
 
     private func setupView() {
+        view.backgroundColor = .black
+
         addSearchBarViewController()
         NSLayoutConstraint.activate([
             searchBarViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
@@ -64,7 +66,7 @@ public final class SearchViewController: UIViewController {
     private func handleRequest(_ request: SearchViewModel.Request) {
         switch request {
         case .dismiss:
-            print("Dismiss")
+            dismiss(animated: true)
         }
     }
 }

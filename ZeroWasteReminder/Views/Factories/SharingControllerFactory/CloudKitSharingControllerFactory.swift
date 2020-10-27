@@ -8,7 +8,7 @@ public final class CloudKitSharingControllerFactory: SharingControllerFactory {
         self.configuration = configuration
     }
 
-    public func build() -> UIViewController {
+    public func create() -> UIViewController {
         UICloudSharingController { _, _ in }
     }
 }

@@ -13,8 +13,6 @@ public final class MoveItemNavigationController: UINavigationController {
         navigationBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
 
         navigationBar.standardAppearance = navigationBarAppearance
-
-        modalPresentationStyle = .fullScreen
     }
 
     @available(*, unavailable)

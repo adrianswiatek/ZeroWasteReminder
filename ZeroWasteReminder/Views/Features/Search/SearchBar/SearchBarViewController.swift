@@ -5,8 +5,8 @@ public final class SearchBarViewController: UIViewController {
     private let backgroundView: UIView = configure(.init()) {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .accent
-        $0.layer.shadowOffset = .init(width: 0, height: 5)
-        $0.layer.shadowOpacity = 0.1
+        $0.layer.shadowOpacity = 0.15
+        $0.layer.shadowOffset = .init(width: 0, height: 2)
     }
 
     private let statusBarBackgroundView: UIView = configure(.init()) {

@@ -119,9 +119,10 @@ public final class EditItemViewModel {
         self.bind()
     }
 
-    public func set(_ item: Item) {
+    public func set(for item: Item) {
         self.item = item
         self.alertOption = item.alertOption
+
         self.photosViewModel.fetchThumbnails(for: item)
     }
 

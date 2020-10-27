@@ -25,7 +25,9 @@ public final class ItemsCoordinator {
     }
 
     public func navigateToAdd(for list: List, in viewController: UIViewController) {
-        viewController.present(addItemViewControllerFactory.create(for: list), animated: true)
+        let addItemViewController = addItemViewControllerFactory.create(for: list)
+        addItemViewController.modalPresentationStyle = .fullScreen
+        viewController.present(addItemViewController, animated: true)
     }
 
     public func navigateToEdit(for item: Item, in viewController: UIViewController) {
@@ -36,10 +38,12 @@ public final class ItemsCoordinator {
     }
 
     public func navigateToMoveItem(with item: Item, in viewController: UIViewController) {
-        viewController.present(moveItemViewControllerFactory.create(for: item), animated: true)
+        let moveItemViewController = moveItemViewControllerFactory.create(for: item)
+        moveItemViewController.modalPresentationStyle = .fullScreen
+        viewController.present(moveItemViewController, animated: true)
     }
 
     public func navigateToSharing(in viewController: UIViewController) {
-        viewController.present(sharingControllerFactory.build(), animated: true)
+        viewController.present(sharingControllerFactory.create(), animated: true)
     }
 }
