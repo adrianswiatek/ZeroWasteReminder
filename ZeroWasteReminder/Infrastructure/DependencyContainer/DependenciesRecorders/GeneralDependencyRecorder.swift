@@ -37,7 +37,7 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
         container.register(ItemsCoordinator.self) { resolver in
             ItemsCoordinator(
                 sharingControllerFactory: resolver.resolve(SharingControllerFactory.self)!,
-                addViewModelFactory: resolver.resolve(AddItemViewModelFactory.self)!,
+                addItemViewControllerFactory: resolver.resolve(AddItemViewControllerFactory.self)!,
                 editViewModelFactory: resolver.resolve(EditItemViewModelFactory.self)!,
                 moveItemViewModelFactory: resolver.resolve(MoveItemViewModelFactory.self)!,
                 addCoordinator: resolver.resolve(AddItemCoordinator.self)!,
@@ -132,16 +132,6 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
     }
 
     private func registerViewControllerFactories() {
-        container.register(ImagePickerControllerFactory.self) { _ in
-            ImagePickerControllerFactory()
-        }
-
-        container.register(SearchViewControllerFactory.self) { resolver in
-            SearchViewControllerFactory(
-                viewModel: resolver.resolve(SearchViewModel.self)!
-            )
-        }
-
         container.register(ListsViewControllerFactory.self) { resolver in
             ListsViewControllerFactory(
                 viewModel: resolver.resolve(ListsViewModel.self)!,
@@ -157,6 +147,23 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
             )
         }
 
+        container.register(AddItemViewControllerFactory.self) { resolver in
+            AddItemViewControllerFactory(
+                viewModel: resolver.resolve(AddItemViewModel.self)!,
+                coordinator: resolver.resolve(AddItemCoordinator.self)!
+            )
+        }
+
+        container.register(ImagePickerControllerFactory.self) { _ in
+            ImagePickerControllerFactory()
+        }
+
+        container.register(SearchViewControllerFactory.self) { resolver in
+            SearchViewControllerFactory(
+                viewModel: resolver.resolve(SearchViewModel.self)!
+            )
+        }
+
         container.register(SharingControllerFactory.self) { _ in
             EmptySharingControllerFactory()
         }
@@ -166,16 +173,6 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
         container.register(MoveItemViewModelFactory.self) { resolver in
             MoveItemViewModelFactory(
                 moveItemService: resolver.resolve(MoveItemService.self)!,
-                statusNotifier: resolver.resolve(StatusNotifier.self)!,
-                eventDispatcher: resolver.resolve(EventDispatcher.self)!
-            )
-        }
-
-        container.register(AddItemViewModelFactory.self) { resolver in
-            AddItemViewModelFactory(
-                itemsWriteRepository: resolver.resolve(ItemsWriteRepository.self)!,
-                photosRepository: resolver.resolve(PhotosRepository.self)!,
-                fileService: resolver.resolve(FileService.self)!,
                 statusNotifier: resolver.resolve(StatusNotifier.self)!,
                 eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
@@ -208,6 +205,16 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
                 itemsWriteRepository: resolver.resolve(ItemsWriteRepository.self)!,
                 statusNotifier: resolver.resolve(StatusNotifier.self)!,
                 updateListsDate: resolver.resolve(UpdateListsDate.self)!,
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
+            )
+        }
+
+        container.register(AddItemViewModel.self) { resolver in
+            AddItemViewModel(
+                itemsWriteRepository: resolver.resolve(ItemsWriteRepository.self)!,
+                photosRepository: resolver.resolve(PhotosRepository.self)!,
+                fileService: resolver.resolve(FileService.self)!,
+                statusNotifier: resolver.resolve(StatusNotifier.self)!,
                 eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }

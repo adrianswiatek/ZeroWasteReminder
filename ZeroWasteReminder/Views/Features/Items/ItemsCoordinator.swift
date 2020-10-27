@@ -2,7 +2,7 @@ import UIKit
 
 public final class ItemsCoordinator {
     private let sharingControllerFactory: SharingControllerFactory
-    private let addViewModelFactory: AddItemViewModelFactory
+    private let addItemViewControllerFactory: AddItemViewControllerFactory
     private let editViewModelFactory: EditItemViewModelFactory
     private let moveItemViewModelFactory: MoveItemViewModelFactory
     private let addCoordinator: AddItemCoordinator
@@ -10,14 +10,14 @@ public final class ItemsCoordinator {
 
     public init(
         sharingControllerFactory: SharingControllerFactory,
-        addViewModelFactory: AddItemViewModelFactory,
+        addItemViewControllerFactory: AddItemViewControllerFactory,
         editViewModelFactory: EditItemViewModelFactory,
         moveItemViewModelFactory: MoveItemViewModelFactory,
         addCoordinator: AddItemCoordinator,
         editCoordinator: EditItemCoordinator
     ) {
         self.sharingControllerFactory = sharingControllerFactory
-        self.addViewModelFactory = addViewModelFactory
+        self.addItemViewControllerFactory = addItemViewControllerFactory
         self.editViewModelFactory = editViewModelFactory
         self.moveItemViewModelFactory = moveItemViewModelFactory
         self.addCoordinator = addCoordinator
@@ -25,7 +25,7 @@ public final class ItemsCoordinator {
     }
 
     public func navigateToAdd(for list: List, in viewController: UIViewController) {
-        viewController.present(createAddViewController(for: list), animated: true)
+        viewController.present(addItemViewControllerFactory.create(for: list), animated: true)
     }
 
     public func navigateToEdit(for item: Item, in viewController: UIViewController) {
@@ -41,12 +41,6 @@ public final class ItemsCoordinator {
 
     public func navigateToSharing(in viewController: UIViewController) {
         viewController.present(sharingControllerFactory.build(), animated: true)
-    }
-
-    private func createAddViewController(for list: List) -> UIViewController {
-        let viewModel = addViewModelFactory.create(for: list)
-        let viewController = AddItemViewController(viewModel: viewModel, coordinator: addCoordinator)
-        return AddNavigationController(rootViewController: viewController)
     }
 
     private func createEditViewController(for item: Item) -> UIViewController {

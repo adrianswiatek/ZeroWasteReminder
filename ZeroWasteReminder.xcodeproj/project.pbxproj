@@ -45,7 +45,7 @@
 		A717BA97251FF9CC00FE1E1D /* ItemNameSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A717BA96251FF9CC00FE1E1D /* ItemNameSectionView.swift */; };
 		A71AE5CD24B916AD00996C27 /* EditListTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71AE5CC24B916AD00996C27 /* EditListTextField.swift */; };
 		A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */; };
-		A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */; };
+		A71B691B2443A9CA00AF7CB3 /* AddItemNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691A2443A9CA00AF7CB3 /* AddItemNavigationController.swift */; };
 		A71B691E2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B691D2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift */; };
 		A71B69212443D3EB00AF7CB3 /* ExpirationSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71B69202443D3EB00AF7CB3 /* ExpirationSectionView.swift */; };
 		A71C719124FD7E4400973611 /* CloudKitCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71C719024FD7E4400973611 /* CloudKitCache.swift */; };
@@ -220,6 +220,7 @@
 		A7CFBBB4250964FA0026D338 /* GeneralDependencyRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFBBB3250964FA0026D338 /* GeneralDependencyRecorder.swift */; };
 		A7CFBBB6250969A80026D338 /* DependenciesRecorderComposite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFBBB5250969A80026D338 /* DependenciesRecorderComposite.swift */; };
 		A7CFBBB8250982560026D338 /* ListUpdatedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CFBBB7250982560026D338 /* ListUpdatedReceived.swift */; };
+		A7D13C3B2548B37B0043AF56 /* AddItemViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D13C3A2548B37B0043AF56 /* AddItemViewControllerFactory.swift */; };
 		A7D41C982517F69C00A78ADD /* PhotoRemovedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D41C972517F69C00A78ADD /* PhotoRemovedReceived.swift */; };
 		A7D41CA12517FC0A00A78ADD /* PhotosUpdated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D41CA02517FC0A00A78ADD /* PhotosUpdated.swift */; };
 		A7D5B01D250AB6DE006A3B3B /* ScheduleItemNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D5B01C250AB6DE006A3B3B /* ScheduleItemNotification.swift */; };
@@ -237,7 +238,6 @@
 		A7E08B3525213D8B0084D496 /* PhotosSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E08B3425213D8B0084D496 /* PhotosSectionView.swift */; };
 		A7E317992496EBB8006B9610 /* PhotosChangeset.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E317982496EBB8006B9610 /* PhotosChangeset.swift */; };
 		A7E4C5FE25004E4900761601 /* MoveItemViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E4C5FD25004E4900761601 /* MoveItemViewModelFactory.swift */; };
-		A7E4C6002500506000761601 /* AddItemViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E4C5FF2500506000761601 /* AddItemViewModelFactory.swift */; };
 		A7E4C6022500507400761601 /* EditItemViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E4C6012500507400761601 /* EditItemViewModelFactory.swift */; };
 		A7E530AD249BFD330020DB14 /* AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E530AC249BFD330020DB14 /* AccountService.swift */; };
 		A7E530AF249C02E40020DB14 /* CloudKitAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E530AE249C02E40020DB14 /* CloudKitAccountService.swift */; };
@@ -318,7 +318,7 @@
 		A717BA96251FF9CC00FE1E1D /* ItemNameSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemNameSectionView.swift; sourceTree = "<group>"; };
 		A71AE5CC24B916AD00996C27 /* EditListTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListTextField.swift; sourceTree = "<group>"; };
 		A71B69182443A8D600AF7CB3 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
-		A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNavigationController.swift; sourceTree = "<group>"; };
+		A71B691A2443A9CA00AF7CB3 /* AddItemNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemNavigationController.swift; sourceTree = "<group>"; };
 		A71B691D2443CAD500AF7CB3 /* ExpirationPeriodTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationPeriodTextField.swift; sourceTree = "<group>"; };
 		A71B69202443D3EB00AF7CB3 /* ExpirationSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationSectionView.swift; sourceTree = "<group>"; };
 		A71C719024FD7E4400973611 /* CloudKitCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitCache.swift; sourceTree = "<group>"; };
@@ -496,6 +496,7 @@
 		A7CFBBB3250964FA0026D338 /* GeneralDependencyRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralDependencyRecorder.swift; sourceTree = "<group>"; };
 		A7CFBBB5250969A80026D338 /* DependenciesRecorderComposite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependenciesRecorderComposite.swift; sourceTree = "<group>"; };
 		A7CFBBB7250982560026D338 /* ListUpdatedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListUpdatedReceived.swift; sourceTree = "<group>"; };
+		A7D13C3A2548B37B0043AF56 /* AddItemViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemViewControllerFactory.swift; sourceTree = "<group>"; };
 		A7D41C972517F69C00A78ADD /* PhotoRemovedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRemovedReceived.swift; sourceTree = "<group>"; };
 		A7D41CA02517FC0A00A78ADD /* PhotosUpdated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosUpdated.swift; sourceTree = "<group>"; };
 		A7D5B01C250AB6DE006A3B3B /* ScheduleItemNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleItemNotification.swift; sourceTree = "<group>"; };
@@ -512,7 +513,6 @@
 		A7E08B3425213D8B0084D496 /* PhotosSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosSectionView.swift; sourceTree = "<group>"; };
 		A7E317982496EBB8006B9610 /* PhotosChangeset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosChangeset.swift; sourceTree = "<group>"; };
 		A7E4C5FD25004E4900761601 /* MoveItemViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemViewModelFactory.swift; sourceTree = "<group>"; };
-		A7E4C5FF2500506000761601 /* AddItemViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemViewModelFactory.swift; sourceTree = "<group>"; };
 		A7E4C6012500507400761601 /* EditItemViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemViewModelFactory.swift; sourceTree = "<group>"; };
 		A7E530AC249BFD330020DB14 /* AccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountService.swift; sourceTree = "<group>"; };
 		A7E530AE249C02E40020DB14 /* CloudKitAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitAccountService.swift; sourceTree = "<group>"; };
@@ -1239,7 +1239,7 @@
 				A783EE27246755E9008BCC17 /* AddContentViewController.swift */,
 				A7159B632500442E00BC3532 /* AddItemCoordinator.swift */,
 				A7DB8A34244285010035CF36 /* AddItemViewController.swift */,
-				A71B691A2443A9CA00AF7CB3 /* AddNavigationController.swift */,
+				A71B691A2443A9CA00AF7CB3 /* AddItemNavigationController.swift */,
 			);
 			path = Add;
 			sourceTree = "<group>";
@@ -1411,6 +1411,7 @@
 		A7E5B8B7250439AF008E9523 /* Factories */ = {
 			isa = PBXGroup;
 			children = (
+				A7D13C3A2548B37B0043AF56 /* AddItemViewControllerFactory.swift */,
 				A7159B69250049D000BC3532 /* ImagePickerControllerFactory.swift */,
 				A7FBAAA425479A8C00DF1060 /* ItemsViewControllerFactory.swift */,
 				A7159B5E2500381C00BC3532 /* ListsViewControllerFactory.swift */,
@@ -1448,7 +1449,6 @@
 			isa = PBXGroup;
 			children = (
 				A70BCCD8244795D700CC49D0 /* AddItemViewModel.swift */,
-				A7E4C5FF2500506000761601 /* AddItemViewModelFactory.swift */,
 				A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */,
 				A7F16D23244AFF2000ED2402 /* ExpirationPeriodViewModel.swift */,
 				A72315AD244B0943008614B2 /* ValidationRules.swift */,
@@ -1639,7 +1639,7 @@
 				A799C82C2546177900A3E974 /* SearchBarTextField.swift in Sources */,
 				A77E194B2546453000338387 /* SearchBarDismissButton.swift in Sources */,
 				A731F89724BE45D0007348A3 /* List.swift in Sources */,
-				A71B691B2443A9CA00AF7CB3 /* AddNavigationController.swift in Sources */,
+				A71B691B2443A9CA00AF7CB3 /* AddItemNavigationController.swift in Sources */,
 				A74774CC2475CD7800E41992 /* NotificationNameExtensions.swift in Sources */,
 				A7C1A0B5249FEA630054BBAF /* CloudKitPhotosRepository.swift in Sources */,
 				A712ED632441172300B00791 /* ItemsViewController.swift in Sources */,
@@ -1757,7 +1757,6 @@
 				A75851EF2522640400239F68 /* EditExpirationSectionView.swift in Sources */,
 				A7D41C982517F69C00A78ADD /* PhotoRemovedReceived.swift in Sources */,
 				A7A7495124F309CC009D6F25 /* MoveItemViewController.swift in Sources */,
-				A7E4C6002500506000761601 /* AddItemViewModelFactory.swift in Sources */,
 				A7159B642500442E00BC3532 /* AddItemCoordinator.swift in Sources */,
 				A72BF83D2543524C00637466 /* AddingItemFromICloudErrorType.swift in Sources */,
 				A74D1640249C2ED500FEB5CD /* RemoteStatusNotifier.swift in Sources */,
@@ -1842,6 +1841,7 @@
 				A75C777025211C4600A28AE5 /* NotesSectionView.swift in Sources */,
 				A79D0AE82540D50000DADD65 /* UpdatingListsInICloudErrorType.swift in Sources */,
 				A700D6C42454BEF400F16F2E /* ItemsFilterDataSource.swift in Sources */,
+				A7D13C3B2548B37B0043AF56 /* AddItemViewControllerFactory.swift in Sources */,
 				A71388FA24F5B41C00EE5C68 /* EmptyMoveItemView.swift in Sources */,
 				A737F077252FC7C600FF9D60 /* UpdateListsDate.swift in Sources */,
 				A780EFD3245F786F002A8AD4 /* SortType.swift in Sources */,
