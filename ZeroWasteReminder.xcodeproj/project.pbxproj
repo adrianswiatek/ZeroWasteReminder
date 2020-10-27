@@ -123,6 +123,7 @@
 		A763AFFD2482E86000E93546 /* PhotosCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A763AFFC2482E86000E93546 /* PhotosCollectionView.swift */; };
 		A76C34AA2460C4EA00362B68 /* ExpirationDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76C34A92460C4EA00362B68 /* ExpirationDatePicker.swift */; };
 		A76C34AF2460C99400362B68 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76C34AE2460C99400362B68 /* UILabelExtension.swift */; };
+		A7756D9A2548E315004ADF36 /* SearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7756D992548E315004ADF36 /* SearchDataSource.swift */; };
 		A77608B124BB8C5700BA0C66 /* EditListConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77608B024BB8C5700BA0C66 /* EditListConfirmButton.swift */; };
 		A77608B424BB8CAB00BA0C66 /* EditListControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77608B324BB8CAB00BA0C66 /* EditListControl.swift */; };
 		A776FB4924B92A8400BBF468 /* EditListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A776FB4824B92A8400BBF468 /* EditListComponent.swift */; };
@@ -399,6 +400,7 @@
 		A763AFFC2482E86000E93546 /* PhotosCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCollectionView.swift; sourceTree = "<group>"; };
 		A76C34A92460C4EA00362B68 /* ExpirationDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDatePicker.swift; sourceTree = "<group>"; };
 		A76C34AE2460C99400362B68 /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
+		A7756D992548E315004ADF36 /* SearchDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataSource.swift; sourceTree = "<group>"; };
 		A77608B024BB8C5700BA0C66 /* EditListConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListConfirmButton.swift; sourceTree = "<group>"; };
 		A77608B324BB8CAB00BA0C66 /* EditListControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListControl.swift; sourceTree = "<group>"; };
 		A776FB4824B92A8400BBF468 /* EditListComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListComponent.swift; sourceTree = "<group>"; };
@@ -1093,6 +1095,7 @@
 				A799C82F254637FE00A3E974 /* SearchTableView.swift */,
 				A799C8212546066400A3E974 /* SearchViewController.swift */,
 				A799C83925463A1B00A3E974 /* SearchBar */,
+				A7756D992548E315004ADF36 /* SearchDataSource.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -1688,6 +1691,7 @@
 				A7D13C432548B7530043AF56 /* EditItemViewControllerFactory.swift in Sources */,
 				A7EC2D5C2444F66800993F53 /* ExpirationDateView.swift in Sources */,
 				A7FBAAA525479A8C00DF1060 /* ItemsViewControllerFactory.swift in Sources */,
+				A7756D9A2548E315004ADF36 /* SearchDataSource.swift in Sources */,
 				A7FF95D1253B80FF00CC8114 /* ItemsWriteRepository.swift in Sources */,
 				A7BDE68324B5082B003215C0 /* ListsViewController.swift in Sources */,
 				A7B2E50B24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift in Sources */,

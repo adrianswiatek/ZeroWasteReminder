@@ -33,6 +33,7 @@ public final class SearchViewModel {
     private func bind() {
         searchBarViewModel.$searchTerm
             .debounce(for: .seconds(1), scheduler: DispatchQueue.main)
+            .removeDuplicates()
             .sink { print($0) }
             .store(in: &subscriptions)
 

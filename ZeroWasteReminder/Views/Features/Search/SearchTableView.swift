@@ -17,3 +17,7 @@ public final class SearchTableView: UITableView {
         tableFooterView = UIView()
     }
 }
+
+extension SearchTableView: UITableViewDelegate {
+
+}
