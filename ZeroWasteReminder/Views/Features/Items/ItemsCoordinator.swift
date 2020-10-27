@@ -4,7 +4,7 @@ public final class ItemsCoordinator {
     private let sharingControllerFactory: SharingControllerFactory
     private let addItemViewControllerFactory: AddItemViewControllerFactory
     private let editItemViewControllerFactory: EditItemViewControllerFactory
-    private let moveItemViewModelFactory: MoveItemViewModelFactory
+    private let moveItemViewControllerFactory: MoveItemViewControllerFactory
     private let addCoordinator: AddItemCoordinator
     private let editCoordinator: EditItemCoordinator
 
@@ -12,14 +12,14 @@ public final class ItemsCoordinator {
         sharingControllerFactory: SharingControllerFactory,
         addItemViewControllerFactory: AddItemViewControllerFactory,
         editItemViewControllerFactory: EditItemViewControllerFactory,
-        moveItemViewModelFactory: MoveItemViewModelFactory,
+        moveItemViewControllerFactory: MoveItemViewControllerFactory,
         addCoordinator: AddItemCoordinator,
         editCoordinator: EditItemCoordinator
     ) {
         self.sharingControllerFactory = sharingControllerFactory
         self.addItemViewControllerFactory = addItemViewControllerFactory
         self.editItemViewControllerFactory = editItemViewControllerFactory
-        self.moveItemViewModelFactory = moveItemViewModelFactory
+        self.moveItemViewControllerFactory = moveItemViewControllerFactory
         self.addCoordinator = addCoordinator
         self.editCoordinator = editCoordinator
     }
@@ -36,16 +36,10 @@ public final class ItemsCoordinator {
     }
 
     public func navigateToMoveItem(with item: Item, in viewController: UIViewController) {
-        viewController.present(createMoveItemController(for: item), animated: true)
+        viewController.present(moveItemViewControllerFactory.create(for: item), animated: true)
     }
 
     public func navigateToSharing(in viewController: UIViewController) {
         viewController.present(sharingControllerFactory.build(), animated: true)
-    }
-
-    private func createMoveItemController(for item: Item) -> UIViewController {
-        let viewModel = moveItemViewModelFactory.create(for: item)
-        let viewController = MoveItemViewController(viewModel: viewModel)
-        return MoveItemNavigationController(rootViewController: viewController)
     }
 }

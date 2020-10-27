@@ -52,6 +52,7 @@
 		A71F636C24F860DE009BC4AE /* MoveItemListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71F636B24F860DE009BC4AE /* MoveItemListCell.swift */; };
 		A7203B8A24C3853B00C17F85 /* ListsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7203B8924C3853B00C17F85 /* ListsRepository.swift */; };
 		A7203B8C24C3867E00C17F85 /* InMemoryListsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7203B8B24C3867E00C17F85 /* InMemoryListsRepository.swift */; };
+		A72301E12548C34300E15D2C /* MoveItemViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72301E02548C34300E15D2C /* MoveItemViewControllerFactory.swift */; };
 		A72315AE244B0943008614B2 /* ValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72315AD244B0943008614B2 /* ValidationRules.swift */; };
 		A725068D2457992F006C3A2F /* RemainingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A725068C2457992F006C3A2F /* RemainingState.swift */; };
 		A726F35B24C3C24800BE0EC5 /* StatusNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A726F35A24C3C24800BE0EC5 /* StatusNotifier.swift */; };
@@ -238,7 +239,6 @@
 		A7DE4B642512981B004E3B95 /* RemoteEventBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DE4B632512981B004E3B95 /* RemoteEventBuilder.swift */; };
 		A7E08B3525213D8B0084D496 /* PhotosSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E08B3425213D8B0084D496 /* PhotosSectionView.swift */; };
 		A7E317992496EBB8006B9610 /* PhotosChangeset.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E317982496EBB8006B9610 /* PhotosChangeset.swift */; };
-		A7E4C5FE25004E4900761601 /* MoveItemViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E4C5FD25004E4900761601 /* MoveItemViewModelFactory.swift */; };
 		A7E530AD249BFD330020DB14 /* AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E530AC249BFD330020DB14 /* AccountService.swift */; };
 		A7E530AF249C02E40020DB14 /* CloudKitAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E530AE249C02E40020DB14 /* CloudKitAccountService.swift */; };
 		A7E5B8B925044A72008E9523 /* MoveItemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E5B8B825044A72008E9523 /* MoveItemService.swift */; };
@@ -325,6 +325,7 @@
 		A71F636B24F860DE009BC4AE /* MoveItemListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemListCell.swift; sourceTree = "<group>"; };
 		A7203B8924C3853B00C17F85 /* ListsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsRepository.swift; sourceTree = "<group>"; };
 		A7203B8B24C3867E00C17F85 /* InMemoryListsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryListsRepository.swift; sourceTree = "<group>"; };
+		A72301E02548C34300E15D2C /* MoveItemViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemViewControllerFactory.swift; sourceTree = "<group>"; };
 		A72315AD244B0943008614B2 /* ValidationRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationRules.swift; sourceTree = "<group>"; };
 		A725068C2457992F006C3A2F /* RemainingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingState.swift; sourceTree = "<group>"; };
 		A726F35A24C3C24800BE0EC5 /* StatusNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusNotifier.swift; sourceTree = "<group>"; };
@@ -513,7 +514,6 @@
 		A7DE4B632512981B004E3B95 /* RemoteEventBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteEventBuilder.swift; sourceTree = "<group>"; };
 		A7E08B3425213D8B0084D496 /* PhotosSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosSectionView.swift; sourceTree = "<group>"; };
 		A7E317982496EBB8006B9610 /* PhotosChangeset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosChangeset.swift; sourceTree = "<group>"; };
-		A7E4C5FD25004E4900761601 /* MoveItemViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemViewModelFactory.swift; sourceTree = "<group>"; };
 		A7E530AC249BFD330020DB14 /* AccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountService.swift; sourceTree = "<group>"; };
 		A7E530AE249C02E40020DB14 /* CloudKitAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitAccountService.swift; sourceTree = "<group>"; };
 		A7E5B8B825044A72008E9523 /* MoveItemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemService.swift; sourceTree = "<group>"; };
@@ -1180,7 +1180,6 @@
 			isa = PBXGroup;
 			children = (
 				A7A7495324F30A0F009D6F25 /* MoveItemViewModel.swift */,
-				A7E4C5FD25004E4900761601 /* MoveItemViewModelFactory.swift */,
 			);
 			path = MoveItem;
 			sourceTree = "<group>";
@@ -1415,6 +1414,7 @@
 				A7159B69250049D000BC3532 /* ImagePickerControllerFactory.swift */,
 				A7FBAAA425479A8C00DF1060 /* ItemsViewControllerFactory.swift */,
 				A7159B5E2500381C00BC3532 /* ListsViewControllerFactory.swift */,
+				A72301E02548C34300E15D2C /* MoveItemViewControllerFactory.swift */,
 				A744C7082547828E002A4C17 /* SearchViewControllerFactory.swift */,
 				A7ACC4C3247B129E0098EDE0 /* SharingControllerFactory */,
 			);
@@ -1712,7 +1712,6 @@
 				A72F4CBF2460B5FA008B0D5B /* ExpirationDateButton.swift in Sources */,
 				A7159B62250043FA00BC3532 /* ListsCoordinator.swift in Sources */,
 				A782FAD62475E83300C69737 /* CloudKitSubscriptionService.swift in Sources */,
-				A7E4C5FE25004E4900761601 /* MoveItemViewModelFactory.swift in Sources */,
 				A780F53B24F5B6F900BF2171 /* MoveItemDataSource.swift in Sources */,
 				A7CD80C0252A569B00BAF8E0 /* UIViewExtensions.swift in Sources */,
 				A71AE5CD24B916AD00996C27 /* EditListTextField.swift in Sources */,
@@ -1723,6 +1722,7 @@
 				A7166EEB2538DD4A00067802 /* ItemNotificationsRepository.swift in Sources */,
 				A7C0680624D2092F007556F5 /* CloudKitListMapper.swift in Sources */,
 				A7E530AD249BFD330020DB14 /* AccountService.swift in Sources */,
+				A72301E12548C34300E15D2C /* MoveItemViewControllerFactory.swift in Sources */,
 				A78172AC2494D01500F406EC /* CloudKitKey.swift in Sources */,
 				A79B4A202479F6FA00ECE1B1 /* SubscriptionService.swift in Sources */,
 				A712ED5F2441172300B00791 /* AppDelegate.swift in Sources */,

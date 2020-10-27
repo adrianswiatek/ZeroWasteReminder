@@ -4,7 +4,7 @@ public final class MoveItemViewModel {
     @Published public var lists: [List]
     @Published private var selectedList: List?
 
-    public let itemName: String
+    public private(set) var itemName: String!
 
     public let canRemotelyConnect: AnyPublisher<Bool, Never>
     public let requestsSubject: PassthroughSubject<Request, Never>
@@ -19,19 +19,17 @@ public final class MoveItemViewModel {
 
     private let isLoadingSubject: CurrentValueSubject<Bool, Never>
 
-    private let item: Item
+    private var item: Item!
     private let moveItemService: MoveItemService
     private let eventDispatcher: EventDispatcher
 
     private var subscriptions: Set<AnyCancellable>
 
     public init(
-        item: Item,
         moveItemService: MoveItemService,
         statusNotifier: StatusNotifier,
         eventDispatcher: EventDispatcher
     ) {
-        self.item = item
         self.moveItemService = moveItemService
         self.eventDispatcher = eventDispatcher
 
@@ -42,11 +40,15 @@ public final class MoveItemViewModel {
         self.requestsSubject = .init()
         self.isLoadingSubject = .init(false)
 
-        self.itemName = item.name
         self.lists = []
         self.subscriptions = []
 
         self.bind()
+    }
+
+    public func set(_ item: Item) {
+        self.item = item
+        self.itemName = item.name
     }
 
     public func fetchLists() {

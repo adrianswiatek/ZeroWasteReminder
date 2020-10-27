@@ -2,16 +2,16 @@ import UIKit
 
 public final class EditItemCoordinator {
     private let imagePickerFactory: ImagePickerControllerFactory
-    private let moveItemViewModelFactory: MoveItemViewModelFactory
+    private let moveItemViewControllerFactory: MoveItemViewControllerFactory
     private let eventDispatcher: EventDispatcher
 
     public init(
         imagePickerFactory: ImagePickerControllerFactory,
-        moveItemViewModelFactory: MoveItemViewModelFactory,
+        moveItemViewControllerFactory: MoveItemViewControllerFactory,
         eventDispatcher: EventDispatcher
     ) {
         self.imagePickerFactory = imagePickerFactory
-        self.moveItemViewModelFactory = moveItemViewModelFactory
+        self.moveItemViewControllerFactory = moveItemViewControllerFactory
         self.eventDispatcher = eventDispatcher
     }
 
@@ -39,11 +39,6 @@ public final class EditItemCoordinator {
     }
 
     public func navigateToMoveItem(with item: Item, in viewController: UIViewController) {
-        viewController.present(createMoveItemController(for: item), animated: true)
-    }
-
-    private func createMoveItemController(for item: Item) -> UIViewController {
-        let viewController = MoveItemViewController(viewModel: moveItemViewModelFactory.create(for: item))
-        return MoveItemNavigationController(rootViewController: viewController)
+        viewController.present(moveItemViewControllerFactory.create(for: item), animated: true)
     }
 }

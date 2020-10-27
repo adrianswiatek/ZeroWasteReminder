@@ -13,9 +13,8 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
         registerEventListeners()
         registerOtherObjects()
         registerServices()
-        registerViewControllerFactories()
-        registerViewModelFactories()
         registerViewModels()
+        registerViewControllerFactories()
     }
 
     private func registerCoordinators() {
@@ -29,7 +28,7 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
         container.register(EditItemCoordinator.self) { resolver in
             EditItemCoordinator(
                 imagePickerFactory: resolver.resolve(ImagePickerControllerFactory.self)!,
-                moveItemViewModelFactory: resolver.resolve(MoveItemViewModelFactory.self)!,
+                moveItemViewControllerFactory: resolver.resolve(MoveItemViewControllerFactory.self)!,
                 eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }
@@ -39,7 +38,7 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
                 sharingControllerFactory: resolver.resolve(SharingControllerFactory.self)!,
                 addItemViewControllerFactory: resolver.resolve(AddItemViewControllerFactory.self)!,
                 editItemViewControllerFactory: resolver.resolve(EditItemViewControllerFactory.self)!,
-                moveItemViewModelFactory: resolver.resolve(MoveItemViewModelFactory.self)!,
+                moveItemViewControllerFactory: resolver.resolve(MoveItemViewControllerFactory.self)!,
                 addCoordinator: resolver.resolve(AddItemCoordinator.self)!,
                 editCoordinator: resolver.resolve(EditItemCoordinator.self)!
             )
@@ -131,61 +130,6 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
         }
     }
 
-    private func registerViewControllerFactories() {
-        container.register(ListsViewControllerFactory.self) { resolver in
-            ListsViewControllerFactory(
-                viewModel: resolver.resolve(ListsViewModel.self)!,
-                notificationCenter: resolver.resolve(NotificationCenter.self)!,
-                listsCoordinator: resolver.resolve(ListsCoordinator.self)!
-            )
-        }
-
-        container.register(ItemsViewControllerFactory.self) { resolver in
-            ItemsViewControllerFactory(
-                viewModel: resolver.resolve(ItemsViewModel.self)!,
-                coordinator: resolver.resolve(ItemsCoordinator.self)!
-            )
-        }
-
-        container.register(AddItemViewControllerFactory.self) { resolver in
-            AddItemViewControllerFactory(
-                viewModel: resolver.resolve(AddItemViewModel.self)!,
-                coordinator: resolver.resolve(AddItemCoordinator.self)!
-            )
-        }
-
-        container.register(EditItemViewControllerFactory.self) { resolver in
-            EditItemViewControllerFactory(
-                viewModel: resolver.resolve(EditItemViewModel.self)!,
-                coordinator: resolver.resolve(EditItemCoordinator.self)!
-            )
-        }
-
-        container.register(ImagePickerControllerFactory.self) { _ in
-            ImagePickerControllerFactory()
-        }
-
-        container.register(SearchViewControllerFactory.self) { resolver in
-            SearchViewControllerFactory(
-                viewModel: resolver.resolve(SearchViewModel.self)!
-            )
-        }
-
-        container.register(SharingControllerFactory.self) { _ in
-            EmptySharingControllerFactory()
-        }
-    }
-
-    private func registerViewModelFactories() {
-        container.register(MoveItemViewModelFactory.self) { resolver in
-            MoveItemViewModelFactory(
-                moveItemService: resolver.resolve(MoveItemService.self)!,
-                statusNotifier: resolver.resolve(StatusNotifier.self)!,
-                eventDispatcher: resolver.resolve(EventDispatcher.self)!
-            )
-        }
-    }
-
     private func registerViewModels() {
         container.register(ListsViewModel.self) { resolver in
             ListsViewModel(
@@ -226,11 +170,66 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
             )
         }
 
+        container.register(MoveItemViewModel.self) { resolver in
+            MoveItemViewModel(
+                moveItemService: resolver.resolve(MoveItemService.self)!,
+                statusNotifier: resolver.resolve(StatusNotifier.self)!,
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
+            )
+        }
+
         container.register(SearchViewModel.self) { resolver in
             SearchViewModel(
                 listsRepository: resolver.resolve(ListsRepository.self)!,
                 itemsRepository: resolver.resolve(ItemsReadRepository.self)!
             )
+        }
+    }
+
+    private func registerViewControllerFactories() {
+        container.register(ListsViewControllerFactory.self) { resolver in
+            ListsViewControllerFactory(
+                viewModel: resolver.resolve(ListsViewModel.self)!,
+                notificationCenter: resolver.resolve(NotificationCenter.self)!,
+                listsCoordinator: resolver.resolve(ListsCoordinator.self)!
+            )
+        }
+
+        container.register(ItemsViewControllerFactory.self) { resolver in
+            ItemsViewControllerFactory(
+                viewModel: resolver.resolve(ItemsViewModel.self)!,
+                coordinator: resolver.resolve(ItemsCoordinator.self)!
+            )
+        }
+
+        container.register(AddItemViewControllerFactory.self) { resolver in
+            AddItemViewControllerFactory(
+                viewModel: resolver.resolve(AddItemViewModel.self)!,
+                coordinator: resolver.resolve(AddItemCoordinator.self)!
+            )
+        }
+
+        container.register(EditItemViewControllerFactory.self) { resolver in
+            EditItemViewControllerFactory(
+                viewModel: resolver.resolve(EditItemViewModel.self)!,
+                coordinator: resolver.resolve(EditItemCoordinator.self)!
+            )
+        }
+
+        container.register(MoveItemViewControllerFactory.self) { resolver in
+            MoveItemViewControllerFactory(viewModel: resolver.resolve(MoveItemViewModel.self)!)
+        }
+
+        container.register(SearchViewControllerFactory.self) { resolver in
+            SearchViewControllerFactory(viewModel: resolver.resolve(SearchViewModel.self)!)
+        }
+
+        container.register(ImagePickerControllerFactory.self) { _ in
+            ImagePickerControllerFactory()
+        }
+
+        container.register(SharingControllerFactory.self) { _ in
+            EmptySharingControllerFactory()
         }
     }
 }
