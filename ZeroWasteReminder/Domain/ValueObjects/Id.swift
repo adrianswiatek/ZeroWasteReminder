@@ -3,6 +3,10 @@ import Foundation
 public struct Id<T>: Equatable, Hashable {
     private let uuid: UUID
 
+    public static var empty: Id<T> {
+        .init(uuid: .empty)
+    }
+
     private init(uuid: UUID) {
         self.uuid = uuid
     }

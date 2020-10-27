@@ -38,7 +38,7 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
             ItemsCoordinator(
                 sharingControllerFactory: resolver.resolve(SharingControllerFactory.self)!,
                 addItemViewControllerFactory: resolver.resolve(AddItemViewControllerFactory.self)!,
-                editViewModelFactory: resolver.resolve(EditItemViewModelFactory.self)!,
+                editItemViewControllerFactory: resolver.resolve(EditItemViewControllerFactory.self)!,
                 moveItemViewModelFactory: resolver.resolve(MoveItemViewModelFactory.self)!,
                 addCoordinator: resolver.resolve(AddItemCoordinator.self)!,
                 editCoordinator: resolver.resolve(EditItemCoordinator.self)!
@@ -154,6 +154,13 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
             )
         }
 
+        container.register(EditItemViewControllerFactory.self) { resolver in
+            EditItemViewControllerFactory(
+                viewModel: resolver.resolve(EditItemViewModel.self)!,
+                coordinator: resolver.resolve(EditItemCoordinator.self)!
+            )
+        }
+
         container.register(ImagePickerControllerFactory.self) { _ in
             ImagePickerControllerFactory()
         }
@@ -173,17 +180,6 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
         container.register(MoveItemViewModelFactory.self) { resolver in
             MoveItemViewModelFactory(
                 moveItemService: resolver.resolve(MoveItemService.self)!,
-                statusNotifier: resolver.resolve(StatusNotifier.self)!,
-                eventDispatcher: resolver.resolve(EventDispatcher.self)!
-            )
-        }
-
-        container.register(EditItemViewModelFactory.self) { resolver in
-            EditItemViewModelFactory(
-                itemsReadRepository: resolver.resolve(ItemsReadRepository.self)!,
-                itemsWriteRepository: resolver.resolve(ItemsWriteRepository.self)!,
-                photosRepository: resolver.resolve(PhotosRepository.self)!,
-                fileService: resolver.resolve(FileService.self)!,
                 statusNotifier: resolver.resolve(StatusNotifier.self)!,
                 eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
@@ -211,6 +207,17 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
 
         container.register(AddItemViewModel.self) { resolver in
             AddItemViewModel(
+                itemsWriteRepository: resolver.resolve(ItemsWriteRepository.self)!,
+                photosRepository: resolver.resolve(PhotosRepository.self)!,
+                fileService: resolver.resolve(FileService.self)!,
+                statusNotifier: resolver.resolve(StatusNotifier.self)!,
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
+            )
+        }
+
+        container.register(EditItemViewModel.self) { resolver in
+            EditItemViewModel(
+                itemsReadRepository: resolver.resolve(ItemsReadRepository.self)!,
                 itemsWriteRepository: resolver.resolve(ItemsWriteRepository.self)!,
                 photosRepository: resolver.resolve(PhotosRepository.self)!,
                 fileService: resolver.resolve(FileService.self)!,

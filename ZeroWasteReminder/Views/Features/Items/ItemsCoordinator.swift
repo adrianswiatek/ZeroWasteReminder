@@ -3,7 +3,7 @@ import UIKit
 public final class ItemsCoordinator {
     private let sharingControllerFactory: SharingControllerFactory
     private let addItemViewControllerFactory: AddItemViewControllerFactory
-    private let editViewModelFactory: EditItemViewModelFactory
+    private let editItemViewControllerFactory: EditItemViewControllerFactory
     private let moveItemViewModelFactory: MoveItemViewModelFactory
     private let addCoordinator: AddItemCoordinator
     private let editCoordinator: EditItemCoordinator
@@ -11,14 +11,14 @@ public final class ItemsCoordinator {
     public init(
         sharingControllerFactory: SharingControllerFactory,
         addItemViewControllerFactory: AddItemViewControllerFactory,
-        editViewModelFactory: EditItemViewModelFactory,
+        editItemViewControllerFactory: EditItemViewControllerFactory,
         moveItemViewModelFactory: MoveItemViewModelFactory,
         addCoordinator: AddItemCoordinator,
         editCoordinator: EditItemCoordinator
     ) {
         self.sharingControllerFactory = sharingControllerFactory
         self.addItemViewControllerFactory = addItemViewControllerFactory
-        self.editViewModelFactory = editViewModelFactory
+        self.editItemViewControllerFactory = editItemViewControllerFactory
         self.moveItemViewModelFactory = moveItemViewModelFactory
         self.addCoordinator = addCoordinator
         self.editCoordinator = editCoordinator
@@ -32,7 +32,7 @@ public final class ItemsCoordinator {
         guard let navigationController = viewController.navigationController else {
             preconditionFailure("Missing navigation controller.")
         }
-        navigationController.pushViewController(createEditViewController(for: item), animated: true)
+        navigationController.pushViewController(editItemViewControllerFactory.create(for: item), animated: true)
     }
 
     public func navigateToMoveItem(with item: Item, in viewController: UIViewController) {
@@ -41,11 +41,6 @@ public final class ItemsCoordinator {
 
     public func navigateToSharing(in viewController: UIViewController) {
         viewController.present(sharingControllerFactory.build(), animated: true)
-    }
-
-    private func createEditViewController(for item: Item) -> UIViewController {
-        let viewModel = editViewModelFactory.create(for: item)
-        return EditItemViewController(viewModel: viewModel, coordinator: editCoordinator)
     }
 
     private func createMoveItemController(for item: Item) -> UIViewController {

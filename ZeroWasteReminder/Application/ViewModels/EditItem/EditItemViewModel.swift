@@ -86,7 +86,6 @@ public final class EditItemViewModel {
     private var subscriptions: Set<AnyCancellable>
 
     public init(
-        item: Item,
         itemsReadRepository: ItemsReadRepository,
         itemsWriteRepository: ItemsWriteRepository,
         photosRepository: PhotosRepository,
@@ -96,7 +95,6 @@ public final class EditItemViewModel {
     ) {
         self.itemsReadRepository = itemsReadRepository
         self.itemsWriteRepository = itemsWriteRepository
-        self.item = item
         self.originalPhotoIds = []
         self.photosRepository = photosRepository
         self.fileService = fileService
@@ -106,8 +104,9 @@ public final class EditItemViewModel {
 
         self.name = ""
         self.notes = ""
+        self.item = .empty
         self.expirationDateSubject = .init(nil)
-        self.alertOption = item.alertOption
+        self.alertOption = .none
 
         self.requestSubject = .init()
         self.isLoadingSubject = .init()
@@ -118,6 +117,11 @@ public final class EditItemViewModel {
         self.subscriptions = []
 
         self.bind()
+    }
+
+    public func set(_ item: Item) {
+        self.item = item
+        self.alertOption = item.alertOption
         self.photosViewModel.fetchThumbnails(for: item)
     }
 
