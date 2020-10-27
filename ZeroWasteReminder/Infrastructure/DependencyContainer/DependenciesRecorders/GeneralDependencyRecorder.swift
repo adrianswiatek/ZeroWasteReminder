@@ -15,6 +15,7 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
         registerServices()
         registerViewControllerFactories()
         registerViewModelFactories()
+        registerViewModels()
     }
 
     private func registerCoordinators() {
@@ -46,7 +47,8 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
 
         container.register(ListsCoordinator.self) { resolver in
             ListsCoordinator(
-                itemsViewModelFactory: resolver.resolve(ItemsViewModelFactory.self)!,
+                searchViewControllerFactory: resolver.resolve(SearchViewControllerFactory.self)!,
+                itemsViewControllerFactory: resolver.resolve(ItemsViewControllerFactory.self)!,
                 itemsCoordinator: resolver.resolve(ItemsCoordinator.self)!
             )
         }
@@ -136,10 +138,7 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
 
         container.register(SearchViewControllerFactory.self) { resolver in
             SearchViewControllerFactory(
-                viewModel: SearchViewModel(
-                    listsRepository: resolver.resolve(ListsRepository.self)!,
-                    itemsRepository: resolver.resolve(ItemsReadRepository.self)!
-                )
+                viewModel: resolver.resolve(SearchViewModel.self)!
             )
         }
 
@@ -148,6 +147,13 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
                 viewModelFactory: resolver.resolve(ListsViewModelFactory.self)!,
                 notificationCenter: resolver.resolve(NotificationCenter.self)!,
                 listsCoordinator: resolver.resolve(ListsCoordinator.self)!
+            )
+        }
+
+        container.register(ItemsViewControllerFactory.self) { resolver in
+            ItemsViewControllerFactory(
+                viewModel: resolver.resolve(ItemsViewModel.self)!,
+                coordinator: resolver.resolve(ItemsCoordinator.self)!
             )
         }
 
@@ -161,16 +167,6 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
             ListsViewModelFactory(
                 listsRepository: resolver.resolve(ListsRepository.self)!,
                 statusNotifier: resolver.resolve(StatusNotifier.self)!,
-                eventDispatcher: resolver.resolve(EventDispatcher.self)!
-            )
-        }
-
-        container.register(ItemsViewModelFactory.self) { resolver in
-            ItemsViewModelFactory(
-                itemsReadRepository: resolver.resolve(ItemsReadRepository.self)!,
-                itemsWriteRepository: resolver.resolve(ItemsWriteRepository.self)!,
-                statusNotifier: resolver.resolve(StatusNotifier.self)!,
-                updateListsDate: resolver.resolve(UpdateListsDate.self)!,
                 eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }
@@ -201,6 +197,25 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
                 fileService: resolver.resolve(FileService.self)!,
                 statusNotifier: resolver.resolve(StatusNotifier.self)!,
                 eventDispatcher: resolver.resolve(EventDispatcher.self)!
+            )
+        }
+    }
+
+    private func registerViewModels() {
+        container.register(ItemsViewModel.self) { resolver in
+            ItemsViewModel(
+                itemsReadRepository: resolver.resolve(ItemsReadRepository.self)!,
+                itemsWriteRepository: resolver.resolve(ItemsWriteRepository.self)!,
+                statusNotifier: resolver.resolve(StatusNotifier.self)!,
+                updateListsDate: resolver.resolve(UpdateListsDate.self)!,
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
+            )
+        }
+
+        container.register(SearchViewModel.self) { resolver in
+            SearchViewModel(
+                listsRepository: resolver.resolve(ListsRepository.self)!,
+                itemsRepository: resolver.resolve(ItemsReadRepository.self)!
             )
         }
     }

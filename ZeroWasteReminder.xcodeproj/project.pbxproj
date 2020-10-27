@@ -237,7 +237,6 @@
 		A7DE4B642512981B004E3B95 /* RemoteEventBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DE4B632512981B004E3B95 /* RemoteEventBuilder.swift */; };
 		A7E08B3525213D8B0084D496 /* PhotosSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E08B3425213D8B0084D496 /* PhotosSectionView.swift */; };
 		A7E317992496EBB8006B9610 /* PhotosChangeset.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E317982496EBB8006B9610 /* PhotosChangeset.swift */; };
-		A7E4C5FC25004D9800761601 /* ItemsViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E4C5FB25004D9800761601 /* ItemsViewModelFactory.swift */; };
 		A7E4C5FE25004E4900761601 /* MoveItemViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E4C5FD25004E4900761601 /* MoveItemViewModelFactory.swift */; };
 		A7E4C6002500506000761601 /* AddItemViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E4C5FF2500506000761601 /* AddItemViewModelFactory.swift */; };
 		A7E4C6022500507400761601 /* EditItemViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E4C6012500507400761601 /* EditItemViewModelFactory.swift */; };
@@ -254,6 +253,7 @@
 		A7F82BA82458CB8700970CFC /* ReadModeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F82BA72458CB8700970CFC /* ReadModeState.swift */; };
 		A7F82BAA2458CB9C00970CFC /* SelectionModeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F82BA92458CB9C00970CFC /* SelectionModeState.swift */; };
 		A7F82BAC2458CBA800970CFC /* FilteringModeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F82BAB2458CBA800970CFC /* FilteringModeState.swift */; };
+		A7FBAAA525479A8C00DF1060 /* ItemsViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FBAAA425479A8C00DF1060 /* ItemsViewControllerFactory.swift */; };
 		A7FCD91725082F5E00F001C7 /* EventDispatcherInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FCD91625082F5E00F001C7 /* EventDispatcherInterceptor.swift */; };
 		A7FCD91925082F8A00F001C7 /* ConsoleEventDispatcherInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FCD91825082F8A00F001C7 /* ConsoleEventDispatcherInterceptor.swift */; };
 		A7FF95D1253B80FF00CC8114 /* ItemsWriteRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FF95D0253B80FF00CC8114 /* ItemsWriteRepository.swift */; };
@@ -513,7 +513,6 @@
 		A7DE4B632512981B004E3B95 /* RemoteEventBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteEventBuilder.swift; sourceTree = "<group>"; };
 		A7E08B3425213D8B0084D496 /* PhotosSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosSectionView.swift; sourceTree = "<group>"; };
 		A7E317982496EBB8006B9610 /* PhotosChangeset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosChangeset.swift; sourceTree = "<group>"; };
-		A7E4C5FB25004D9800761601 /* ItemsViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsViewModelFactory.swift; sourceTree = "<group>"; };
 		A7E4C5FD25004E4900761601 /* MoveItemViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemViewModelFactory.swift; sourceTree = "<group>"; };
 		A7E4C5FF2500506000761601 /* AddItemViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemViewModelFactory.swift; sourceTree = "<group>"; };
 		A7E4C6012500507400761601 /* EditItemViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemViewModelFactory.swift; sourceTree = "<group>"; };
@@ -531,6 +530,7 @@
 		A7F82BA72458CB8700970CFC /* ReadModeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadModeState.swift; sourceTree = "<group>"; };
 		A7F82BA92458CB9C00970CFC /* SelectionModeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionModeState.swift; sourceTree = "<group>"; };
 		A7F82BAB2458CBA800970CFC /* FilteringModeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteringModeState.swift; sourceTree = "<group>"; };
+		A7FBAAA425479A8C00DF1060 /* ItemsViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsViewControllerFactory.swift; sourceTree = "<group>"; };
 		A7FCD91625082F5E00F001C7 /* EventDispatcherInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDispatcherInterceptor.swift; sourceTree = "<group>"; };
 		A7FCD91825082F8A00F001C7 /* ConsoleEventDispatcherInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleEventDispatcherInterceptor.swift; sourceTree = "<group>"; };
 		A7FF95D0253B80FF00CC8114 /* ItemsWriteRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsWriteRepository.swift; sourceTree = "<group>"; };
@@ -613,7 +613,6 @@
 			children = (
 				A716B8FC244E43BB00D2FC89 /* ItemsCellViewModel.swift */,
 				A70FA680244CF7190045B545 /* ItemsViewModel.swift */,
-				A7E4C5FB25004D9800761601 /* ItemsViewModelFactory.swift */,
 				A716C9C0244FA07A004262AF /* RemainingViewModel.swift */,
 				A700D6CE2454ED9700F16F2E /* Filter */,
 				A7F82BA22458CB5A00970CFC /* ModeState */,
@@ -1416,9 +1415,10 @@
 			isa = PBXGroup;
 			children = (
 				A7159B69250049D000BC3532 /* ImagePickerControllerFactory.swift */,
+				A7FBAAA425479A8C00DF1060 /* ItemsViewControllerFactory.swift */,
 				A7159B5E2500381C00BC3532 /* ListsViewControllerFactory.swift */,
-				A7ACC4C3247B129E0098EDE0 /* SharingControllerFactory */,
 				A744C7082547828E002A4C17 /* SearchViewControllerFactory.swift */,
+				A7ACC4C3247B129E0098EDE0 /* SharingControllerFactory */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
@@ -1690,6 +1690,7 @@
 				A7DD996E248463B500B40141 /* ReuseIdentifiable.swift in Sources */,
 				A7159B6A250049D000BC3532 /* ImagePickerControllerFactory.swift in Sources */,
 				A7EC2D5C2444F66800993F53 /* ExpirationDateView.swift in Sources */,
+				A7FBAAA525479A8C00DF1060 /* ItemsViewControllerFactory.swift in Sources */,
 				A7FF95D1253B80FF00CC8114 /* ItemsWriteRepository.swift in Sources */,
 				A7BDE68324B5082B003215C0 /* ListsViewController.swift in Sources */,
 				A7B2E50B24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift in Sources */,
@@ -1706,7 +1707,6 @@
 				A7560A6B252E763D007A6861 /* ItemNotificationsScheduler.swift in Sources */,
 				A79D0AF62540E5FC00DADD65 /* RemovingItemsFromICloudErrorType.swift in Sources */,
 				A7E317992496EBB8006B9610 /* PhotosChangeset.swift in Sources */,
-				A7E4C5FC25004D9800761601 /* ItemsViewModelFactory.swift in Sources */,
 				A7F82BAC2458CBA800970CFC /* FilteringModeState.swift in Sources */,
 				A7A7495424F30A0F009D6F25 /* MoveItemViewModel.swift in Sources */,
 				A7E530AF249C02E40020DB14 /* CloudKitAccountService.swift in Sources */,

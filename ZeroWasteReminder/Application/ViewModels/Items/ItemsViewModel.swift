@@ -14,7 +14,7 @@ public final class ItemsViewModel {
 
     public let requestsSubject: PassthroughSubject<Request, Never>
 
-    public let list: List
+    public var list: List!
     public let itemsFilterViewModel: ItemsFilterViewModel
 
     public var selectedItem: AnyPublisher<Item, Never> {
@@ -38,15 +38,12 @@ public final class ItemsViewModel {
     private var subscriptions: Set<AnyCancellable>
 
     public init(
-        list: List,
         itemsReadRepository: ItemsReadRepository,
         itemsWriteRepository: ItemsWriteRepository,
         statusNotifier: StatusNotifier,
         updateListsDate: UpdateListsDate,
         eventDispatcher: EventDispatcher
     ) {
-        self.list = list
-
         self.itemsReadRepository = itemsReadRepository
         self.itemsWriteRepository = itemsWriteRepository
         self.statusNotifier = statusNotifier
@@ -68,12 +65,16 @@ public final class ItemsViewModel {
 
         self.subscriptions = []
 
-        self.updateListsDate.listen(in: list)
         self.bind()
     }
 
     deinit {
         updateListsDate.stopListening()
+    }
+
+    public func set(_ list: List) {
+        self.list = list
+        self.updateListsDate.listen(in: list)
     }
 
     public func cellViewModel(for item: Item) -> ItemsCellViewModel {
