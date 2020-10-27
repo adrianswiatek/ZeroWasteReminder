@@ -34,7 +34,6 @@
 		A7159B662500444E00BC3532 /* EditItemCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7159B652500444E00BC3532 /* EditItemCoordinator.swift */; };
 		A7159B682500446B00BC3532 /* ItemsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7159B672500446B00BC3532 /* ItemsCoordinator.swift */; };
 		A7159B6A250049D000BC3532 /* ImagePickerControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7159B69250049D000BC3532 /* ImagePickerControllerFactory.swift */; };
-		A7159B6C25004BCF00BC3532 /* ListsViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7159B6B25004BCF00BC3532 /* ListsViewModelFactory.swift */; };
 		A7166EEB2538DD4A00067802 /* ItemNotificationsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7166EEA2538DD4A00067802 /* ItemNotificationsRepository.swift */; };
 		A7166EFB2538F09400067802 /* ItemNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7166EFA2538F09400067802 /* ItemNotification.swift */; };
 		A7166EFF2538F89E00067802 /* InMemoryNotificationsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7166EFE2538F89E00067802 /* InMemoryNotificationsRepository.swift */; };
@@ -308,7 +307,6 @@
 		A7159B652500444E00BC3532 /* EditItemCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemCoordinator.swift; sourceTree = "<group>"; };
 		A7159B672500446B00BC3532 /* ItemsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsCoordinator.swift; sourceTree = "<group>"; };
 		A7159B69250049D000BC3532 /* ImagePickerControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerControllerFactory.swift; sourceTree = "<group>"; };
-		A7159B6B25004BCF00BC3532 /* ListsViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsViewModelFactory.swift; sourceTree = "<group>"; };
 		A7166EEA2538DD4A00067802 /* ItemNotificationsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemNotificationsRepository.swift; sourceTree = "<group>"; };
 		A7166EFA2538F09400067802 /* ItemNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemNotification.swift; sourceTree = "<group>"; };
 		A7166EFE2538F89E00067802 /* InMemoryNotificationsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryNotificationsRepository.swift; sourceTree = "<group>"; };
@@ -903,7 +901,6 @@
 			isa = PBXGroup;
 			children = (
 				A759430A24AFBF5A007A526B /* ListsViewModel.swift */,
-				A7159B6B25004BCF00BC3532 /* ListsViewModelFactory.swift */,
 			);
 			path = Lists;
 			sourceTree = "<group>";
@@ -1634,7 +1631,6 @@
 				A7C1A0B9249FFB540054BBAF /* InMemoryItemsRepository.swift in Sources */,
 				A7EC2D622445127200993F53 /* PeriodTypeExtensions.swift in Sources */,
 				A7DBEFFE252674CD00430986 /* configure.swift in Sources */,
-				A7159B6C25004BCF00BC3532 /* ListsViewModelFactory.swift in Sources */,
 				A7FCD91725082F5E00F001C7 /* EventDispatcherInterceptor.swift in Sources */,
 				A726F35D24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift in Sources */,
 				A7BDE68B24B51C61003215C0 /* EditListMixedButton.swift in Sources */,
