@@ -15,6 +15,10 @@ public final class SearchTableView: UITableView {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor.accent.withAlphaComponent(0.75)
         tableFooterView = UIView()
+
+        delegate = self
+
+        register(SearchCell.self, forCellReuseIdentifier: SearchCell.identifier)
     }
 }
 

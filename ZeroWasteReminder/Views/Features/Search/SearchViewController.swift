@@ -3,15 +3,23 @@ import UIKit
 
 public final class SearchViewController: UIViewController {
     private let searchBarViewController: SearchBarViewController
-    private let searchTableView: UITableView = SearchTableView()
+    private let searchTableView: UITableView
+    private let searchDataSource: SearchDataSource
 
     private let viewModel: SearchViewModel
+    private let coordinator: SearchCoordinator
+
     private var subscriptions: Set<AnyCancellable>
 
-    public init(viewModel: SearchViewModel) {
+    public init(viewModel: SearchViewModel, coordinator: SearchCoordinator) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
+
         self.searchBarViewController = .init(viewModel: viewModel.searchBarViewModel)
         self.subscriptions = []
+
+        self.searchTableView = SearchTableView()
+        self.searchDataSource = SearchDataSource(searchTableView, viewModel)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -27,6 +35,12 @@ public final class SearchViewController: UIViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
+        self.viewModel.initialize()
+    }
+
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.viewModel.cleanUp()
     }
 
     private func setupView() {

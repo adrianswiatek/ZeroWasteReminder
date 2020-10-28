@@ -5,23 +5,17 @@ public final class ItemsCoordinator {
     private let addItemViewControllerFactory: AddItemViewControllerFactory
     private let editItemViewControllerFactory: EditItemViewControllerFactory
     private let moveItemViewControllerFactory: MoveItemViewControllerFactory
-    private let addCoordinator: AddItemCoordinator
-    private let editCoordinator: EditItemCoordinator
 
     public init(
         sharingControllerFactory: SharingControllerFactory,
         addItemViewControllerFactory: AddItemViewControllerFactory,
         editItemViewControllerFactory: EditItemViewControllerFactory,
-        moveItemViewControllerFactory: MoveItemViewControllerFactory,
-        addCoordinator: AddItemCoordinator,
-        editCoordinator: EditItemCoordinator
+        moveItemViewControllerFactory: MoveItemViewControllerFactory
     ) {
         self.sharingControllerFactory = sharingControllerFactory
         self.addItemViewControllerFactory = addItemViewControllerFactory
         self.editItemViewControllerFactory = editItemViewControllerFactory
         self.moveItemViewControllerFactory = moveItemViewControllerFactory
-        self.addCoordinator = addCoordinator
-        self.editCoordinator = editCoordinator
     }
 
     public func navigateToAdd(for list: List, in viewController: UIViewController) {

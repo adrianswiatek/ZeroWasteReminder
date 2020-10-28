@@ -38,6 +38,10 @@ public final class ItemsRepositoryNotificationsDecorator: ItemsReadRepository {
         }
     }
 
+    public func fetch(by searchTerm: String) -> Future<[Item], Never> {
+        itemsRepository.fetch(by: searchTerm)
+    }
+
     private func itemsWithAlertOption(_ items: [Item], in list: List) -> Future<[Item], Never> {
         Future { [weak self] promise in
             let notifications = self?.notificationRepository.fetchAll(from: list)
