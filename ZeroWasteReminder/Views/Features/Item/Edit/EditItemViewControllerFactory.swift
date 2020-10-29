@@ -10,7 +10,7 @@ public final class EditItemViewControllerFactory {
     }
 
     public func create(for item: Item) -> UIViewController {
-        viewModel.set(for: item)
+        viewModel.initialize(for: item)
 
         return EditItemViewController(
             viewModel: viewModel,
