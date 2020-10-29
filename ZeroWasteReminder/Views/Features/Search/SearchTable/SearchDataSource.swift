@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public final class SearchDataSource: UITableViewDiffableDataSource<SearchDataSource.Section, Item> {
+public final class SearchDataSource: UITableViewDiffableDataSource<SearchDataSource.Section, SearchItem> {
     private let viewModel: SearchViewModel
     private var subscriptions: Set<AnyCancellable>
 
@@ -11,9 +11,9 @@ public final class SearchDataSource: UITableViewDiffableDataSource<SearchDataSou
 
         super.init(tableView: tableView) { tableView, indexPath, item in
             let cell = tableView.dequeueReusableCell(
-                withIdentifier: SearchCell.identifier,
+                withIdentifier: SearchItemCell.identifier,
                 for: indexPath
-            ) as? SearchCell
+            ) as? SearchItemCell
 
             cell?.set(item)
             return cell
@@ -28,8 +28,8 @@ public final class SearchDataSource: UITableViewDiffableDataSource<SearchDataSou
             .store(in: &subscriptions)
     }
 
-    private func apply(_ items: [Item]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+    private func apply(_ items: [SearchItem]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, SearchItem>()
         snapshot.appendSections([.main])
         snapshot.appendItems(items)
         apply(snapshot)

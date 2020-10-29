@@ -1,7 +1,15 @@
+import Combine
 import UIKit
 
 public final class SearchTableView: UITableView {
+    public var rowSelected: AnyPublisher<Int, Never> {
+        selectedRowSubject.eraseToAnyPublisher()
+    }
+
+    private let selectedRowSubject: PassthroughSubject<Int, Never>
+
     public override init(frame: CGRect, style: UITableView.Style) {
+        self.selectedRowSubject = .init()
         super.init(frame: frame, style: style)
         self.setupView()
     }
@@ -18,10 +26,13 @@ public final class SearchTableView: UITableView {
 
         delegate = self
 
-        register(SearchCell.self, forCellReuseIdentifier: SearchCell.identifier)
+        register(SearchItemCell.self, forCellReuseIdentifier: SearchItemCell.identifier)
     }
 }
 
 extension SearchTableView: UITableViewDelegate {
-
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        selectedRowSubject.send(indexPath.row)
+    }
 }

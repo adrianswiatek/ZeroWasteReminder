@@ -185,7 +185,8 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
         container.register(SearchViewModel.self) { resolver in
             SearchViewModel(
                 listsRepository: resolver.resolve(ListsRepository.self)!,
-                itemsRepository: resolver.resolve(ItemsReadRepository.self)!
+                itemsRepository: resolver.resolve(ItemsReadRepository.self)!,
+                eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
         }
     }

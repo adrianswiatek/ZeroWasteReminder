@@ -71,7 +71,7 @@
 		A737F06B252FACC200FF9D60 /* ItemUserNotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A737F06A252FACC200FF9D60 /* ItemUserNotificationScheduler.swift */; };
 		A737F070252FAEDD00FF9D60 /* ConsoleItemNotificationSchedulerInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A737F06F252FAEDD00FF9D60 /* ConsoleItemNotificationSchedulerInterceptor.swift */; };
 		A737F077252FC7C600FF9D60 /* UpdateListsDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A737F076252FC7C600FF9D60 /* UpdateListsDate.swift */; };
-		A739F66E254A28A800330A1B /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A739F66D254A28A800330A1B /* SearchCell.swift */; };
+		A739F66E254A28A800330A1B /* SearchItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A739F66D254A28A800330A1B /* SearchItemCell.swift */; };
 		A739F678254A305C00330A1B /* SearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A739F677254A305C00330A1B /* SearchCoordinator.swift */; };
 		A73ADDB924A90C8200D7E316 /* PhotoCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73ADDB824A90C8200D7E316 /* PhotoCaptureView.swift */; };
 		A73ADDBB24A91D2D00D7E316 /* PhotosEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73ADDBA24A91D2D00D7E316 /* PhotosEmptyView.swift */; };
@@ -125,6 +125,7 @@
 		A763AFFD2482E86000E93546 /* PhotosCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A763AFFC2482E86000E93546 /* PhotosCollectionView.swift */; };
 		A76C34AA2460C4EA00362B68 /* ExpirationDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76C34A92460C4EA00362B68 /* ExpirationDatePicker.swift */; };
 		A76C34AF2460C99400362B68 /* UILabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76C34AE2460C99400362B68 /* UILabelExtension.swift */; };
+		A7736C09254B6567009711FA /* SearchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7736C08254B6567009711FA /* SearchItem.swift */; };
 		A7756D9A2548E315004ADF36 /* SearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7756D992548E315004ADF36 /* SearchDataSource.swift */; };
 		A77608B124BB8C5700BA0C66 /* EditListConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77608B024BB8C5700BA0C66 /* EditListConfirmButton.swift */; };
 		A77608B424BB8CAB00BA0C66 /* EditListControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77608B324BB8CAB00BA0C66 /* EditListControl.swift */; };
@@ -349,7 +350,7 @@
 		A737F06A252FACC200FF9D60 /* ItemUserNotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemUserNotificationScheduler.swift; sourceTree = "<group>"; };
 		A737F06F252FAEDD00FF9D60 /* ConsoleItemNotificationSchedulerInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleItemNotificationSchedulerInterceptor.swift; sourceTree = "<group>"; };
 		A737F076252FC7C600FF9D60 /* UpdateListsDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateListsDate.swift; sourceTree = "<group>"; };
-		A739F66D254A28A800330A1B /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
+		A739F66D254A28A800330A1B /* SearchItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItemCell.swift; sourceTree = "<group>"; };
 		A739F677254A305C00330A1B /* SearchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCoordinator.swift; sourceTree = "<group>"; };
 		A73ADDB824A90C8200D7E316 /* PhotoCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCaptureView.swift; sourceTree = "<group>"; };
 		A73ADDBA24A91D2D00D7E316 /* PhotosEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosEmptyView.swift; sourceTree = "<group>"; };
@@ -404,6 +405,7 @@
 		A763AFFC2482E86000E93546 /* PhotosCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCollectionView.swift; sourceTree = "<group>"; };
 		A76C34A92460C4EA00362B68 /* ExpirationDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDatePicker.swift; sourceTree = "<group>"; };
 		A76C34AE2460C99400362B68 /* UILabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtension.swift; sourceTree = "<group>"; };
+		A7736C08254B6567009711FA /* SearchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItem.swift; sourceTree = "<group>"; };
 		A7756D992548E315004ADF36 /* SearchDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDataSource.swift; sourceTree = "<group>"; };
 		A77608B024BB8C5700BA0C66 /* EditListConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListConfirmButton.swift; sourceTree = "<group>"; };
 		A77608B324BB8CAB00BA0C66 /* EditListControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListControl.swift; sourceTree = "<group>"; };
@@ -813,7 +815,7 @@
 		A739F673254A300700330A1B /* SearchTable */ = {
 			isa = PBXGroup;
 			children = (
-				A739F66D254A28A800330A1B /* SearchCell.swift */,
+				A739F66D254A28A800330A1B /* SearchItemCell.swift */,
 				A7756D992548E315004ADF36 /* SearchDataSource.swift */,
 				A799C82F254637FE00A3E974 /* SearchTableView.swift */,
 			);
@@ -839,6 +841,7 @@
 			isa = PBXGroup;
 			children = (
 				A744C6FC254769BE002A4C17 /* SearchBarViewModel.swift */,
+				A7736C08254B6567009711FA /* SearchItem.swift */,
 				A744C6F6254769B4002A4C17 /* SearchViewModel.swift */,
 			);
 			path = Search;
@@ -1782,11 +1785,12 @@
 				A763AFFD2482E86000E93546 /* PhotosCollectionView.swift in Sources */,
 				A716B8FD244E43BB00D2FC89 /* ItemsCellViewModel.swift in Sources */,
 				A744C6FD254769BE002A4C17 /* SearchBarViewModel.swift in Sources */,
+				A7736C09254B6567009711FA /* SearchItem.swift in Sources */,
 				A776FB4924B92A8400BBF468 /* EditListComponent.swift in Sources */,
 				A70FA681244CF7190045B545 /* ItemsViewModel.swift in Sources */,
 				A75043582506F7CC00DFB4EB /* ItemMoved.swift in Sources */,
 				A7C1A0B3249FE9FE0054BBAF /* InMemoryPhotosRepository.swift in Sources */,
-				A739F66E254A28A800330A1B /* SearchCell.swift in Sources */,
+				A739F66E254A28A800330A1B /* SearchItemCell.swift in Sources */,
 				A7159B5F2500381C00BC3532 /* ListsViewControllerFactory.swift in Sources */,
 				A79510B7252926EE00D09E3B /* AlertCalendarCell.swift in Sources */,
 				A799C830254637FE00A3E974 /* SearchTableView.swift in Sources */,

@@ -31,7 +31,7 @@ public final class SearchBarTextField: UITextField {
         delegate = self
 
         tintColor = .accent
-        backgroundColor = .secondarySystemBackground
+        backgroundColor = .systemBackground
 
         placeholder = .localized(.search)
         returnKeyType = .search

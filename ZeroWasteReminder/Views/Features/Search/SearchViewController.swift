@@ -3,7 +3,7 @@ import UIKit
 
 public final class SearchViewController: UIViewController {
     private let searchBarViewController: SearchBarViewController
-    private let searchTableView: UITableView
+    private let searchTableView: SearchTableView
     private let searchDataSource: SearchDataSource
 
     private let viewModel: SearchViewModel
@@ -23,6 +23,7 @@ public final class SearchViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
+        self.viewModel.initialize()
         self.setupView()
         self.bind()
     }
@@ -32,15 +33,18 @@ public final class SearchViewController: UIViewController {
         fatalError("Not supported.")
     }
 
+    deinit {
+        self.viewModel.cleanUp()
+    }
+
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
-        self.viewModel.initialize()
     }
 
-    public override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        self.viewModel.cleanUp()
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.navigationBar.isHidden = false
     }
 
     private func setupView() {
@@ -72,8 +76,12 @@ public final class SearchViewController: UIViewController {
     }
 
     private func bind() {
-        viewModel.requestSubject
+        viewModel.requestsSubject
             .sink { [weak self] in self?.handleRequest($0) }
+            .store(in: &subscriptions)
+
+        searchTableView.rowSelected
+            .sink { [weak self] in self?.navigateToRow(atIndex: $0) }
             .store(in: &subscriptions)
     }
 
@@ -81,6 +89,12 @@ public final class SearchViewController: UIViewController {
         switch request {
         case .dismiss:
             dismiss(animated: true)
+        case .showErrorMessage(let message):
+            UIAlertController.presentError(in: self, withMessage: message)
         }
+    }
+
+    private func navigateToRow(atIndex index: Int) {
+        coordinator.navigateToEdit(for: viewModel.item(atIndex: index), in: self)
     }
 }

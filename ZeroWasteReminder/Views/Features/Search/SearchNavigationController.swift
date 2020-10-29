@@ -5,14 +5,11 @@ public final class SearchNavigationController: UINavigationController {
         .lightContent
     }
 
-    public override var prefersStatusBarHidden: Bool {
-        false
-    }
-
     public override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
 
         navigationBar.isTranslucent = false
+        navigationBar.tintColor = .white
         navigationBar.standardAppearance = configure(UINavigationBarAppearance()) {
             $0.backgroundColor = .accent
             $0.shadowColor = .clear
