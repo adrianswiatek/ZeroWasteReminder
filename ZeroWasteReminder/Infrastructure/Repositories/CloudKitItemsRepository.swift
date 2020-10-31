@@ -98,7 +98,7 @@ extension CloudKitItemsRepository: ItemsReadRepository {
         Future { [weak self] promise in
             guard let self = self, !searchTerm.isEmpty else { return promise(.success([])) }
 
-            let predicate = NSPredicate(format: "%K BEGINSWITH %@", "name", searchTerm)
+            let predicate = NSPredicate(format: "%K BEGINSWITH %@", "searchableName", searchTerm.lowercased())
             let query = CKQuery(recordType: "Item", predicate: predicate)
             let operation = CKQueryOperation(query: query)
             operation.configuration.timeoutIntervalForResource = Configuration.timeout

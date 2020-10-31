@@ -53,6 +53,7 @@ internal final class CloudKitRecordMapper {
         applyChange(to: record, key: CloudKitKey.Item.notes, value: item.notes)
         applyChange(to: record, key: CloudKitKey.Item.expiration, value: expiration(from: item))
         applyChange(to: record, key: CloudKitKey.Item.listReference, value: listReference(from: item, and: record))
+        applyChange(to: record, key: CloudKitKey.Item.searchableName, value: item.name.lowercased())
 
         return self
     }
