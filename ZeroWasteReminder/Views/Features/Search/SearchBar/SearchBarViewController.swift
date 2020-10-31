@@ -5,17 +5,11 @@ public final class SearchBarViewController: UIViewController {
     private let backgroundView: UIView = configure(.init()) {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .accent
-        $0.layer.shadowOpacity = 0.15
+        $0.layer.shadowOpacity = 0.2
         $0.layer.shadowOffset = .init(width: 0, height: 2)
     }
 
-    private let statusBarBackgroundView: UIView = configure(.init()) {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .accent
-    }
-
     private let textField: SearchBarTextField = .init()
-    private let dismissButton: SearchBarDismissButton = .init()
 
     private let viewModel: SearchBarViewModel
     private var subscriptions: Set<AnyCancellable>
@@ -49,50 +43,19 @@ public final class SearchBarViewController: UIViewController {
             backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            backgroundView.heightAnchor.constraint(equalToConstant: 56)
-        ])
-
-        view.addSubview(statusBarBackgroundView)
-        NSLayoutConstraint.activate([
-            statusBarBackgroundView.topAnchor.constraint(equalTo: view.topAnchor),
-            statusBarBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            statusBarBackgroundView.bottomAnchor.constraint(equalTo: backgroundView.topAnchor),
-            statusBarBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-
-        backgroundView.addSubview(dismissButton)
-        NSLayoutConstraint.activate([
-            dismissButton.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16
-            ),
-            dismissButton.centerYAnchor.constraint(
-                equalTo: backgroundView.centerYAnchor
-            )
+            backgroundView.heightAnchor.constraint(equalToConstant: 48),
         ])
 
         backgroundView.addSubview(textField)
         NSLayoutConstraint.activate([
-            textField.leadingAnchor.constraint(
-                equalTo: dismissButton.trailingAnchor, constant: 16
-            ),
-            textField.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16
-            ),
-            textField.centerYAnchor.constraint(
-                equalTo: dismissButton.centerYAnchor
-            ),
-            textField.heightAnchor.constraint(
-                equalToConstant: 36
-            )
+            textField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 2),
+            textField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            textField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            textField.heightAnchor.constraint(equalToConstant: 36)
         ])
     }
 
     private func bind() {
-        textField.searchTerm
-            .assign(to: &viewModel.$searchTerm)
-
-        dismissButton.tap
-            .sink { [weak self] in self?.viewModel.dismissTapped() }
-            .store(in: &subscriptions)
+        textField.searchTerm.assign(to: &viewModel.$searchTerm)
     }
 }

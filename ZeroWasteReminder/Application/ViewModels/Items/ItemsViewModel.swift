@@ -83,6 +83,8 @@ public final class ItemsViewModel {
     }
 
     public func fetchItems() {
+        isLoadingSubject.send(true)
+
         itemsReadRepository.fetchAll(from: list)
             .flatMap { [weak self] items -> AnyPublisher<[Item], Never> in
                 guard let self = self else { return Empty().eraseToAnyPublisher() }
@@ -93,8 +95,6 @@ public final class ItemsViewModel {
                 self?.isLoadingSubject.send(false)
             }
             .store(in: &subscriptions)
-
-        isLoadingSubject.send(true)
     }
 
     public func deleteSelectedItems() {

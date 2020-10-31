@@ -5,6 +5,10 @@ public final class SearchViewModel {
     @Published public var items: [SearchItem]
     public let searchBarViewModel: SearchBarViewModel
 
+    public var isLoading: AnyPublisher<Bool, Never> {
+        isLoadingSubject.eraseToAnyPublisher()
+    }
+
     public let requestsSubject: PassthroughSubject<Request, Never>
 
     private let listsRepository: ListsRepository
@@ -13,7 +17,9 @@ public final class SearchViewModel {
 
     private var cachedLists: [List]
 
+    private let isLoadingSubject: CurrentValueSubject<Bool, Never>
     private let searchTriggerSubject: PassthroughSubject<Void, Never>
+
     private var subscriptions: Set<AnyCancellable>
     private var fetchListsSubscription: AnyCancellable?
     private var searchSubscription: AnyCancellable?
@@ -30,7 +36,9 @@ public final class SearchViewModel {
         self.items = []
         self.searchBarViewModel = SearchBarViewModel()
 
+        self.isLoadingSubject = .init(false)
         self.requestsSubject = .init()
+
         self.searchTriggerSubject = .init()
         self.subscriptions = .init()
         self.cachedLists = []
@@ -39,10 +47,17 @@ public final class SearchViewModel {
     }
 
     public func initialize() {
+        isLoadingSubject.send(true)
+
         fetchListsSubscription = listsRepository.fetchAll()
             .sink(
-                receiveCompletion: { [weak self] _ in self?.fetchListsSubscription?.cancel() },
-                receiveValue: { [weak self] in self?.cachedLists = $0 }
+                receiveCompletion: { [weak self] _ in
+                    self?.isLoadingSubject.send(false)
+                    self?.fetchListsSubscription?.cancel()
+                },
+                receiveValue: { [weak self] in
+                    self?.cachedLists = $0
+                }
             )
     }
 
@@ -59,10 +74,6 @@ public final class SearchViewModel {
         searchBarViewModel.$searchTerm
             .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
             .sink { [weak self] in self?.search(by: $0) }
-            .store(in: &subscriptions)
-
-        searchBarViewModel.dismissTap
-            .sink { [weak self] in self?.requestsSubject.send(.dismiss) }
             .store(in: &subscriptions)
 
         eventDispatcher.events
@@ -97,10 +108,17 @@ public final class SearchViewModel {
     }
 
     private func search(by searchTerm: String) {
+        if !searchTerm.isEmpty { isLoadingSubject.send(true) }
+
         searchSubscription = itemsRepository.fetch(by: searchTerm)
             .sink(
-                receiveCompletion: { [weak self] _ in self?.searchSubscription?.cancel() },
-                receiveValue: { [weak self] in self?.setSearchItems(with: $0) }
+                receiveCompletion: { [weak self] _ in
+                    self?.isLoadingSubject.send(false)
+                    self?.searchSubscription?.cancel()
+                },
+                receiveValue: { [weak self] in
+                    self?.setSearchItems(with: $0)
+                }
             )
     }
 
@@ -115,7 +133,6 @@ public final class SearchViewModel {
 
 public extension SearchViewModel {
     enum Request {
-        case dismiss
         case showErrorMessage(_ message: String)
     }
 }

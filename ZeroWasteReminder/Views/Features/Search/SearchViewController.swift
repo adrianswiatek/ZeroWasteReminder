@@ -2,9 +2,14 @@ import Combine
 import UIKit
 
 public final class SearchViewController: UIViewController {
+    private lazy var dismissButton: UIBarButtonItem =
+        .dismissButton(target: self, action: #selector(handleDismissButtonTap))
+
     private let searchBarViewController: SearchBarViewController
     private let searchTableView: SearchTableView
     private let searchDataSource: SearchDataSource
+
+    private let loadingView: LoadingView
 
     private let viewModel: SearchViewModel
     private let coordinator: SearchCoordinator
@@ -16,10 +21,13 @@ public final class SearchViewController: UIViewController {
         self.coordinator = coordinator
 
         self.searchBarViewController = .init(viewModel: viewModel.searchBarViewModel)
-        self.subscriptions = []
 
-        self.searchTableView = SearchTableView()
+        self.searchTableView = SearchTableView(viewModel)
         self.searchDataSource = SearchDataSource(searchTableView, viewModel)
+
+        self.loadingView = .init()
+
+        self.subscriptions = []
 
         super.init(nibName: nil, bundle: nil)
 
@@ -34,21 +42,38 @@ public final class SearchViewController: UIViewController {
     }
 
     deinit {
-        self.viewModel.cleanUp()
+        viewModel.cleanUp()
     }
 
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.isHidden = true
+        self.setupLoadingViewIfNeeded()
+        self.setupNavigationItem()
     }
 
-    public override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.navigationBar.isHidden = false
+    private func setupLoadingViewIfNeeded() {
+        let navigationController: UINavigationController! = self.navigationController
+        assert(navigationController != nil)
+
+        let navigationView: UIView! = navigationController.view
+        guard !navigationView.subviews.contains(loadingView) else { return }
+
+        navigationView.addSubview(loadingView)
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: navigationView.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: navigationView.leadingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: navigationView.bottomAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: navigationView.trailingAnchor)
+        ])
+    }
+
+    private func setupNavigationItem() {
+        navigationItem.title = .localized(.search)
+        navigationItem.leftBarButtonItem = dismissButton
     }
 
     private func setupView() {
-        view.backgroundColor = .black
+        view.backgroundColor = .accent
 
         addSearchBarViewController()
         NSLayoutConstraint.activate([
@@ -80,6 +105,10 @@ public final class SearchViewController: UIViewController {
             .sink { [weak self] in self?.handleRequest($0) }
             .store(in: &subscriptions)
 
+        viewModel.isLoading
+            .sink { [weak self] in $0 ? self?.loadingView.show() : self?.loadingView.hide() }
+            .store(in: &subscriptions)
+
         searchTableView.rowSelected
             .sink { [weak self] in self?.navigateToRow(atIndex: $0) }
             .store(in: &subscriptions)
@@ -87,8 +116,6 @@ public final class SearchViewController: UIViewController {
 
     private func handleRequest(_ request: SearchViewModel.Request) {
         switch request {
-        case .dismiss:
-            dismiss(animated: true)
         case .showErrorMessage(let message):
             UIAlertController.presentError(in: self, withMessage: message)
         }
@@ -96,5 +123,10 @@ public final class SearchViewController: UIViewController {
 
     private func navigateToRow(atIndex index: Int) {
         coordinator.navigateToEdit(for: viewModel.item(atIndex: index), in: self)
+    }
+
+    @objc
+    private func handleDismissButtonTap() {
+        dismiss(animated: true)
     }
 }

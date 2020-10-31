@@ -24,8 +24,15 @@ public final class EditItemCoordinator {
     ) {
         imagePickerFactory.create(for: target, with: delegate).map {
             beforePresenting()
+            $0.modalPresentationStyle = .fullScreen
             viewController.present($0, animated: true, completion: afterPresenting)
         }
+    }
+
+    public func navigateToFullScreenPhoto(with photo: Photo, in viewController: UIViewController) {
+        let fullScreenPhotoViewController = FullScreenPhotoViewController(image: photo.asImage)
+        fullScreenPhotoViewController.modalPresentationStyle = .fullScreen
+        viewController.present(fullScreenPhotoViewController, animated: true)
     }
 
     public func navigateToAlert(withOption option: AlertOption, in viewController: UIViewController) {

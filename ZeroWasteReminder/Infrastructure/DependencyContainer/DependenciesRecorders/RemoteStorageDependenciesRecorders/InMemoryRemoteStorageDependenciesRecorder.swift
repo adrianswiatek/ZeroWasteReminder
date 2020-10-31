@@ -31,16 +31,18 @@ internal struct InMemoryRemoteStorageDependenciesRecorder: RemoteStorageDependen
             )
         }
 
-        container.register(ItemsReadRepository.self) { resolver in
+        container.register(InMemoryItemsRepository.self) { resolver in
             InMemoryItemsRepository(
                 eventDispatcher: parentContainer.resolve(EventDispatcher.self)!
             )
+        }.inObjectScope(.container)
+
+        container.register(ItemsReadRepository.self) { resolver in
+            resolver.resolve(InMemoryItemsRepository.self)!
         }
 
         container.register(ItemsWriteRepository.self) { resolver in
-            InMemoryItemsRepository(
-                eventDispatcher: parentContainer.resolve(EventDispatcher.self)!
-            )
+            resolver.resolve(InMemoryItemsRepository.self)!
         }
 
         container.register(PhotosRepository.self) { resolver in

@@ -132,7 +132,6 @@
 		A776FB4924B92A8400BBF468 /* EditListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A776FB4824B92A8400BBF468 /* EditListComponent.swift */; };
 		A77A99CD245A118200F3578C /* UIBarButtonItemExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77A99CC245A118200F3578C /* UIBarButtonItemExtensions.swift */; };
 		A77A99CF245A14EE00F3578C /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77A99CE245A14EE00F3578C /* UIImageExtensions.swift */; };
-		A77E194B2546453000338387 /* SearchBarDismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77E194A2546453000338387 /* SearchBarDismissButton.swift */; };
 		A780EFD1245F7590002A8AD4 /* EditItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780EFD0245F7590002A8AD4 /* EditItemViewController.swift */; };
 		A780EFD3245F786F002A8AD4 /* SortType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780EFD2245F786F002A8AD4 /* SortType.swift */; };
 		A780F53B24F5B6F900BF2171 /* MoveItemDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A780F53A24F5B6F900BF2171 /* MoveItemDataSource.swift */; };
@@ -250,7 +249,7 @@
 		A7EC2D5E2445004D00993F53 /* ExpirationPeriodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC2D5D2445004D00993F53 /* ExpirationPeriodView.swift */; };
 		A7EC2D622445127200993F53 /* PeriodTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC2D612445127200993F53 /* PeriodTypeExtensions.swift */; };
 		A7F16D24244AFF2000ED2402 /* ExpirationPeriodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F16D23244AFF2000ED2402 /* ExpirationPeriodViewModel.swift */; };
-		A7F3D36624D3838F0059841A /* EmptyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F3D36524D3838F0059841A /* EmptyListView.swift */; };
+		A7F3D36624D3838F0059841A /* EmptyTableBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F3D36524D3838F0059841A /* EmptyTableBackgroundView.swift */; };
 		A7F82BA42458CB6700970CFC /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F82BA32458CB6700970CFC /* Mode.swift */; };
 		A7F82BA62458CB7200970CFC /* ModeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F82BA52458CB7200970CFC /* ModeState.swift */; };
 		A7F82BA82458CB8700970CFC /* ReadModeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F82BA72458CB8700970CFC /* ReadModeState.swift */; };
@@ -412,7 +411,6 @@
 		A776FB4824B92A8400BBF468 /* EditListComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListComponent.swift; sourceTree = "<group>"; };
 		A77A99CC245A118200F3578C /* UIBarButtonItemExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonItemExtensions.swift; sourceTree = "<group>"; };
 		A77A99CE245A14EE00F3578C /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
-		A77E194A2546453000338387 /* SearchBarDismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarDismissButton.swift; sourceTree = "<group>"; };
 		A780EFD0245F7590002A8AD4 /* EditItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemViewController.swift; sourceTree = "<group>"; };
 		A780EFD2245F786F002A8AD4 /* SortType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortType.swift; sourceTree = "<group>"; };
 		A780F53A24F5B6F900BF2171 /* MoveItemDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemDataSource.swift; sourceTree = "<group>"; };
@@ -530,7 +528,7 @@
 		A7EC2D5D2445004D00993F53 /* ExpirationPeriodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationPeriodView.swift; sourceTree = "<group>"; };
 		A7EC2D612445127200993F53 /* PeriodTypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodTypeExtensions.swift; sourceTree = "<group>"; };
 		A7F16D23244AFF2000ED2402 /* ExpirationPeriodViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationPeriodViewModel.swift; sourceTree = "<group>"; };
-		A7F3D36524D3838F0059841A /* EmptyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyListView.swift; sourceTree = "<group>"; };
+		A7F3D36524D3838F0059841A /* EmptyTableBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTableBackgroundView.swift; sourceTree = "<group>"; };
 		A7F82BA32458CB6700970CFC /* Mode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
 		A7F82BA52458CB7200970CFC /* ModeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeState.swift; sourceTree = "<group>"; };
 		A7F82BA72458CB8700970CFC /* ReadModeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadModeState.swift; sourceTree = "<group>"; };
@@ -1000,7 +998,7 @@
 			isa = PBXGroup;
 			children = (
 				A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */,
-				A7F3D36524D3838F0059841A /* EmptyListView.swift */,
+				A7F3D36524D3838F0059841A /* EmptyTableBackgroundView.swift */,
 				A749366B247346A4003DB46E /* LoadingView.swift */,
 				A7DDA2FD249D792A005DAEA6 /* WarningBarView.swift */,
 			);
@@ -1123,7 +1121,6 @@
 		A799C83925463A1B00A3E974 /* SearchBar */ = {
 			isa = PBXGroup;
 			children = (
-				A77E194A2546453000338387 /* SearchBarDismissButton.swift */,
 				A799C82B2546177900A3E974 /* SearchBarTextField.swift */,
 				A799C833254638E700A3E974 /* SearchBarViewController.swift */,
 			);
@@ -1632,7 +1629,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A72BF84E2543720D00637466 /* MovingItemInICloudErrorType.swift in Sources */,
-				A7F3D36624D3838F0059841A /* EmptyListView.swift in Sources */,
+				A7F3D36624D3838F0059841A /* EmptyTableBackgroundView.swift in Sources */,
 				A783EE2424673B8F008BCC17 /* EditContentViewController.swift in Sources */,
 				A7AFA37124A53D5600BD5983 /* PhotoCaptureTarget.swift in Sources */,
 				A744C7092547828E002A4C17 /* SearchViewControllerFactory.swift in Sources */,
@@ -1657,7 +1654,6 @@
 				A71B69212443D3EB00AF7CB3 /* ExpirationSectionView.swift in Sources */,
 				A78172B02494D24400F406EC /* CloudKitRecordMapper.swift in Sources */,
 				A799C82C2546177900A3E974 /* SearchBarTextField.swift in Sources */,
-				A77E194B2546453000338387 /* SearchBarDismissButton.swift in Sources */,
 				A731F89724BE45D0007348A3 /* List.swift in Sources */,
 				A71B691B2443A9CA00AF7CB3 /* AddItemNavigationController.swift in Sources */,
 				A74774CC2475CD7800E41992 /* NotificationNameExtensions.swift in Sources */,

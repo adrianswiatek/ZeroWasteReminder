@@ -66,7 +66,7 @@ public final class ItemsViewController: UIViewController {
 
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.setupNavigationControllerIfNeeded()
+        self.setupLoadingView()
     }
 
     public override func viewDidAppear(_ animated: Bool) {
@@ -79,11 +79,13 @@ public final class ItemsViewController: UIViewController {
         self.viewModel.isViewOnTop = false
     }
 
-    private func setupNavigationControllerIfNeeded() {
+    private func setupLoadingView() {
         let navigationController: UINavigationController! = self.navigationController
         assert(navigationController != nil)
 
         let navigationView: UIView! = navigationController.view
+        guard !navigationView.subviews.contains(loadingView) else { return }
+        
         navigationView.addSubview(loadingView)
         NSLayoutConstraint.activate([
             loadingView.topAnchor.constraint(equalTo: navigationView.topAnchor),

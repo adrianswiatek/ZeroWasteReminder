@@ -64,13 +64,15 @@ public final class EditItemViewController: UIViewController {
         scrollView.addSubview(warningBarView)
         NSLayoutConstraint.activate([
             warningBarView.leadingAnchor.constraint(
-                equalTo: scrollView.layoutMarginsGuide.leadingAnchor, constant: 16
+                equalTo: scrollView.layoutMarginsGuide.leadingAnchor,
+                constant: 16
             ),
-            warningBarView.bottomAnchor.constraint(equalTo:
-                                                    scrollView.layoutMarginsGuide.bottomAnchor
+            warningBarView.bottomAnchor.constraint(
+                equalTo: scrollView.layoutMarginsGuide.bottomAnchor
             ),
-            warningBarView.trailingAnchor.constraint(equalTo:
-                                                        scrollView.layoutMarginsGuide.trailingAnchor, constant: -16
+            warningBarView.trailingAnchor.constraint(
+                equalTo: scrollView.layoutMarginsGuide.trailingAnchor,
+                constant: -16
             )
         ])
 
@@ -148,14 +150,15 @@ public final class EditItemViewController: UIViewController {
     private func handlePhotoRequest(_ request: PhotosViewModel.Request) {
         switch request {
         case .capturePhoto(let target):
-            coordinator.navigateToImagePicker(for: target, with: self, in: self) { [weak self] in self?.viewModel.setLoading(true)
+            coordinator.navigateToImagePicker(for: target, with: self, in: self) { [weak self] in
+                self?.viewModel.setLoading(true)
             } afterPresenting: { [weak self] in
                 self?.viewModel.setLoading(false)
             }
         case .removePhoto(let photo):
             viewModel.photosViewModel.removePhoto(photo)
         case .showPhoto(let photo):
-            present(FullScreenPhotoViewController(image: photo.asImage), animated: true)
+            coordinator.navigateToFullScreenPhoto(with: photo, in: self)
         case .showPhotoAt:
             break
         }

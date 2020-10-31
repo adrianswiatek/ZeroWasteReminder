@@ -33,7 +33,7 @@ public final class SearchBarTextField: UITextField {
         tintColor = .accent
         backgroundColor = .systemBackground
 
-        placeholder = .localized(.search)
+        placeholder = .localized(.itemName)
         returnKeyType = .search
         clearButtonMode = .whileEditing
 

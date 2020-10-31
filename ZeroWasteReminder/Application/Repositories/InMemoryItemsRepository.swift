@@ -26,7 +26,7 @@ extension InMemoryItemsRepository: ItemsReadRepository {
         Future { [weak self] promise in
             guard let self = self, !searchTerm.isEmpty else { return promise(.success([])) }
 
-            let searchResult = self.items.filter { $0.name.starts(with: searchTerm) }
+            let searchResult = self.items.filter { $0.name.lowercased().starts(with: searchTerm.lowercased()) }
             promise(.success(searchResult))
         }
     }

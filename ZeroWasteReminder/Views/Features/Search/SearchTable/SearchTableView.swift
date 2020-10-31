@@ -6,12 +6,21 @@ public final class SearchTableView: UITableView {
         selectedRowSubject.eraseToAnyPublisher()
     }
 
+    private let viewModel: SearchViewModel
     private let selectedRowSubject: PassthroughSubject<Int, Never>
 
-    public override init(frame: CGRect, style: UITableView.Style) {
+    private var subscriptions: Set<AnyCancellable>
+
+    public init(_ viewModel: SearchViewModel) {
+        self.viewModel = viewModel
+
         self.selectedRowSubject = .init()
-        super.init(frame: frame, style: style)
+        self.subscriptions = []
+
+        super.init(frame: .zero, style: .plain)
+
         self.setupView()
+        self.bind()
     }
 
     @available(*, unavailable)
@@ -21,12 +30,28 @@ public final class SearchTableView: UITableView {
 
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = UIColor.accent.withAlphaComponent(0.75)
+        backgroundColor = .systemBackground
         tableFooterView = UIView()
 
         delegate = self
 
         register(SearchItemCell.self, forCellReuseIdentifier: SearchItemCell.identifier)
+    }
+
+    private func bind() {
+        viewModel.$items
+            .map { !$0.isEmpty}
+            .sink { [weak self] in self?.backgroundView = self?.backgroundView(hasItems: $0) }
+            .store(in: &subscriptions)
+    }
+
+    private func backgroundView(hasItems: Bool) -> UIView? {
+        if hasItems { return nil }
+
+        return EmptyTableBackgroundView(
+            text: .localized(.noItemsToShow),
+            symbol: .magnifyingglass
+        )
     }
 }
 
