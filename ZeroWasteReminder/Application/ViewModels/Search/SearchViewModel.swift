@@ -46,7 +46,7 @@ public final class SearchViewModel {
         self.bind()
     }
 
-    public func initialize() {
+    public func fetchLists() {
         isLoadingSubject.send(true)
 
         fetchListsSubscription = listsRepository.fetchAll()
@@ -59,10 +59,6 @@ public final class SearchViewModel {
                     self?.cachedLists = $0
                 }
             )
-    }
-
-    public func cleanUp() {
-        items = []
     }
 
     public func item(atIndex index: Int) -> Item {

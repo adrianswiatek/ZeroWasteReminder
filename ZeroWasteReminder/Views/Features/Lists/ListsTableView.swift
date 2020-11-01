@@ -44,13 +44,17 @@ public final class ListsTableView: UITableView {
         layer.cornerRadius = 8
     }
 
-    private func setupRefreshControl() {
-        refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
-    }
-
     private func registerCells() {
         register(ListCell.self, forCellReuseIdentifier: ListCell.identifier)
+    }
+
+    private func setupRefreshControl() {
+        refreshControl = configure(UIRefreshControl()) {
+            $0.addAction(.init { [weak self] _ in
+                self?.viewModel.requestsSubject.send(.disableLoadingIndicatorOnce)
+                self?.viewModel.fetchLists()
+            }, for: .valueChanged)
+        }
     }
 
     private func bind() {
@@ -62,7 +66,6 @@ public final class ListsTableView: UITableView {
             .map { $0.isEmpty }
             .sink { [weak self] in
                 self?.backgroundView = $0 ? EmptyTableBackgroundView(text: .localized(.noListsAddedYet)) : nil
-                self?.refreshControl = $0 ? nil : self?.getRefreshControl()
             }
             .store(in: &subscriptions)
 
@@ -76,12 +79,6 @@ public final class ListsTableView: UITableView {
         viewModel.lists.forEach { deselectList($0) }
     }
 
-    @objc
-    private func handleRefresh() {
-        viewModel.requestsSubject.send(.disableLoadingIndicatorOnce)
-        viewModel.fetchLists()
-    }
-
     private func indexPath(for list: List) -> IndexPath? {
         viewModel.index(of: list).map { .init(row: $0, section: 0) }
     }
@@ -91,15 +88,6 @@ public final class ListsTableView: UITableView {
         case .changeName(let list): selectList(list)
         case .discardChanges, .showErrorMessage: deselectAllLists()
         default: break
-        }
-    }
-
-    private func getRefreshControl() -> UIRefreshControl {
-        configure(UIRefreshControl()) {
-            $0.addAction(.init { [weak self] _ in
-                self?.viewModel.requestsSubject.send(.disableLoadingIndicatorOnce)
-                self?.viewModel.fetchLists()
-            }, for: .valueChanged)
         }
     }
 }

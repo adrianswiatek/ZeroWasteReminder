@@ -14,7 +14,7 @@ public final class ItemsViewModel {
 
     public let requestsSubject: PassthroughSubject<Request, Never>
 
-    public var list: List!
+    public private(set) var list: List!
     public let itemsFilterViewModel: ItemsFilterViewModel
 
     public var selectedItem: AnyPublisher<Item, Never> {
@@ -72,9 +72,8 @@ public final class ItemsViewModel {
         updateListsDate.stopListening()
     }
 
-    public func set(for list: List) {
+    public func set(_ list: List) {
         self.list = list
-        self.items = []
         self.updateListsDate.listen(in: list)
     }
 

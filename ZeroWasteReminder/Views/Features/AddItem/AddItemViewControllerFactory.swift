@@ -1,20 +1,18 @@
 import UIKit
 
 public final class AddItemViewControllerFactory {
-    private let viewModel: AddItemViewModel
+    private let viewModelFactory: AddItemViewModelFactory
     private let coordinator: AddItemCoordinator
 
-    public init(viewModel: AddItemViewModel, coordinator: AddItemCoordinator) {
-        self.viewModel = viewModel
+    public init(viewModelFactory: AddItemViewModelFactory, coordinator: AddItemCoordinator) {
+        self.viewModelFactory = viewModelFactory
         self.coordinator = coordinator
     }
 
     public func create(for list: List) -> UIViewController {
-        viewModel.set(for: list)
-
-        return AddItemNavigationController(
+        AddItemNavigationController(
             rootViewController: AddItemViewController(
-                viewModel: viewModel,
+                viewModel: viewModelFactory.create(for: list),
                 coordinator: coordinator
             )
         )

@@ -46,10 +46,9 @@ public final class MoveItemViewModel {
         self.bind()
     }
 
-    public func set(for item: Item) {
+    public func set(_ item: Item) {
         self.item = item
         self.itemName = item.name
-        self.lists = []
     }
 
     public func fetchLists() {

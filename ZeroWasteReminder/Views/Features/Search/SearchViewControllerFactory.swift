@@ -1,17 +1,17 @@
 import UIKit
 
 public final class SearchViewControllerFactory {
-    private let viewModel: SearchViewModel
+    private let viewModelFactory: SearchViewModelFactory
     private let coordinator: SearchCoordinator
 
-    public init(viewModel: SearchViewModel, coordinator: SearchCoordinator) {
-        self.viewModel = viewModel
+    public init(viewModelFactory: SearchViewModelFactory, coordinator: SearchCoordinator) {
+        self.viewModelFactory = viewModelFactory
         self.coordinator = coordinator
     }
 
     public func create() -> UIViewController {
         SearchNavigationController(rootViewController: SearchViewController(
-            viewModel: viewModel,
+            viewModel: viewModelFactory.create(),
             coordinator: coordinator
         ))
     }

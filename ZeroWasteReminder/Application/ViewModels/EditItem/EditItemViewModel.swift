@@ -115,20 +115,19 @@ public final class EditItemViewModel {
         self.photosViewModel = .init(photosRepository: photosRepository, fileService: fileService)
 
         self.subscriptions = []
-    }
-
-    public func initialize(for item: Item) {
-        self.item = item
-        self.alertOption = item.alertOption
 
         self.bind()
+    }
+
+    public func set(_ item: Item) {
+        self.item = item
+        self.alertOption = item.alertOption
         self.photosViewModel.fetchThumbnails(for: item)
     }
 
     public func cleanUp() {
         _ = fileService.removeTemporaryItems()
         isLoadingSubject.send(false)
-        self.subscriptions = []
     }
 
     public func toggleExpirationDatePicker() {

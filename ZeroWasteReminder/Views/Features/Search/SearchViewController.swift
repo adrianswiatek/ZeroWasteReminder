@@ -31,7 +31,7 @@ public final class SearchViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        self.viewModel.initialize()
+        self.viewModel.fetchLists()
         self.setupView()
         self.bind()
     }
@@ -41,14 +41,9 @@ public final class SearchViewController: UIViewController {
         fatalError("Not supported.")
     }
 
-    deinit {
-        viewModel.cleanUp()
-    }
-
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.setupLoadingViewIfNeeded()
-        self.setupNavigationItem()
     }
 
     private func setupLoadingViewIfNeeded() {
@@ -67,13 +62,11 @@ public final class SearchViewController: UIViewController {
         ])
     }
 
-    private func setupNavigationItem() {
-        navigationItem.title = .localized(.search)
-        navigationItem.leftBarButtonItem = dismissButton
-    }
-
     private func setupView() {
         view.backgroundColor = .accent
+
+        navigationItem.title = .localized(.search)
+        navigationItem.leftBarButtonItem = dismissButton
 
         addSearchBarViewController()
         NSLayoutConstraint.activate([

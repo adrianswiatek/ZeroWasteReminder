@@ -1,17 +1,17 @@
 import UIKit
 
 public final class MoveItemViewControllerFactory {
-    private let viewModel: MoveItemViewModel
+    private let viewModelFactory: MoveItemViewModelFactory
 
-    public init(viewModel: MoveItemViewModel) {
-        self.viewModel = viewModel
+    public init(viewModelFactory: MoveItemViewModelFactory) {
+        self.viewModelFactory = viewModelFactory
     }
 
     public func create(for item: Item) -> UIViewController {
-        viewModel.set(for: item)
-
-        return MoveItemNavigationController(
-            rootViewController: MoveItemViewController(viewModel: viewModel)
+        MoveItemNavigationController(
+            rootViewController: MoveItemViewController(
+                viewModel: viewModelFactory.create(for: item)
+            )
         )
     }
 }
