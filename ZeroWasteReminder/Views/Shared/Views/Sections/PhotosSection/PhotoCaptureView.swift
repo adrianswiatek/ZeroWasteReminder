@@ -6,23 +6,42 @@ public final class PhotoCaptureView: UIView {
         tapSubject.eraseToAnyPublisher()
     }
 
-    private let cameraButton: UIButton = .withSymbol(.cameraFill)
-    private let galleryButton: UIButton = .withSymbol(.photoOnRectangleFill)
+    private lazy var cameraButton: UIButton = .withSymbol(.cameraFill) { [weak self] _ in
+        self?.tapSubject.send(.camera)
+        self?.cameraLoadingView.show()
+    }
+
+    private lazy var galleryButton: UIButton = .withSymbol(.photoOnRectangleFill) { [weak self] _ in
+        self?.tapSubject.send(.photoLibrary)
+        self?.galleryLoadingView.show()
+    }
+
+    private let cameraLoadingView: LoadingView = configure(.init()) {
+        $0.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.5)
+    }
+
+    private let galleryLoadingView: LoadingView = configure(.init()) {
+        $0.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.5)
+    }
 
     private let tapSubject: PassthroughSubject<PhotoCaptureTarget, Never>
 
     public init() {
         tapSubject = .init()
-
         super.init(frame: .zero)
-
         setupView()
-        setupActions()
     }
 
     @available(*, unavailable)
     public required init?(coder: NSCoder) {
         fatalError("Not supported.")
+    }
+
+    public func hideActivityIndicators() {
+        DispatchQueue.main.async {
+            self.cameraLoadingView.hide()
+            self.galleryLoadingView.hide()
+        }
     }
 
     private func setupView() {
@@ -50,26 +69,14 @@ public final class PhotoCaptureView: UIView {
             galleryButton.bottomAnchor.constraint(equalTo: bottomAnchor),
             galleryButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8)
         ])
-    }
 
-    private func setupActions() {
-        cameraButton.addTarget(self, action: #selector(handleCameraButtonTap), for: .touchUpInside)
-        galleryButton.addTarget(self, action: #selector(handleGalleryButtonTap), for: .touchUpInside)
-    }
-
-    @objc
-    private func handleCameraButtonTap() {
-        tapSubject.send(.camera)
-    }
-
-    @objc
-    private func handleGalleryButtonTap() {
-        tapSubject.send(.photoLibrary)
+        cameraButton.addAndFill(cameraLoadingView)
+        galleryButton.addAndFill(galleryLoadingView)
     }
 }
 
 private extension UIButton {
-    static func withSymbol(_ symbol: UIImage.Symbol) -> UIButton {
+    static func withSymbol(_ symbol: UIImage.Symbol, actionHandler: @escaping UIActionHandler) -> UIButton {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .tertiarySystemFill
@@ -79,6 +86,8 @@ private extension UIButton {
         let symbolConfiguration = UIImage.SymbolConfiguration(scale: .large)
         let image = UIImage.fromSymbol(symbol, withConfiguration: symbolConfiguration)
         button.setImage(image.withColor(.label), for: .normal)
+
+        button.addAction(UIAction(handler: actionHandler), for: .touchUpInside)
 
         return button
     }

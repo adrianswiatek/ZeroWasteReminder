@@ -129,10 +129,6 @@ public final class AddItemViewModel {
         eventDispatcher.events
             .sink { [weak self] in self?.handleEvent($0) }
             .store(in: &subscriptions)
-
-        photosViewModel.requestSubject
-            .sink { [weak self] in self?.handlePhotoRequests($0) }
-            .store(in: &subscriptions)
     }
 
     private func handleEvent(_ event: AppEvent) {
@@ -148,15 +144,6 @@ public final class AddItemViewModel {
             requestSubject.send(.showErrorMessage(event.error.localizedDescription))
         case is NoResultOccured:
             requestSubject.send(.dismiss)
-        default:
-            return
-        }
-    }
-
-    private func handlePhotoRequests(_ request: PhotosViewModel.Request) {
-        switch request {
-        case .capturePhoto:
-            isLoadingSubject.send(true)
         default:
             return
         }

@@ -19,13 +19,13 @@ public final class EditItemCoordinator {
         for target: PhotoCaptureTarget,
         with delegate: UIImagePickerControllerDelegate & UINavigationControllerDelegate,
         in viewController: UIViewController,
-        beforePresenting: @escaping () -> Void,
-        afterPresenting: @escaping () -> Void
+        completion: @escaping () -> Void
     ) {
-        imagePickerFactory.create(for: target, with: delegate).map {
-            beforePresenting()
-            $0.modalPresentationStyle = .fullScreen
-            viewController.present($0, animated: true, completion: afterPresenting)
+        if let imagePickerController = imagePickerFactory.create(for: target, with: delegate) {
+            imagePickerController.modalPresentationStyle = .fullScreen
+            viewController.present(imagePickerController, animated: true, completion: completion)
+        } else {
+            completion()
         }
     }
 

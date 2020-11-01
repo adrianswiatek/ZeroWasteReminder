@@ -24,6 +24,10 @@ public final class PhotoCaptureCell: UICollectionViewCell, ReuseIdentifiable {
         self.subscription = subscription
     }
 
+    public func hideActivityIndicators() {
+        photoCaptureView.hideActivityIndicators()
+    }
+
     private func setupView() {
         contentView.addSubview(photoCaptureView)
         NSLayoutConstraint.activate([

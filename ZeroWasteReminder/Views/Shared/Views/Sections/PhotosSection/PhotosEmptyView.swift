@@ -8,41 +8,34 @@ public final class PhotosEmptyView: UIView {
 
     private let photoCaptureView: PhotoCaptureView
 
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.tintColor = .tertiaryLabel
+    private let imageView: UIImageView = configure(.init()) {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.tintColor = .tertiaryLabel
 
         let symbolConfiguration = UIImage.SymbolConfiguration(scale: .large)
-        imageView.image = .fromSymbol(.photoOnRectangle, withConfiguration: symbolConfiguration)
+        $0.image = .fromSymbol(.photoOnRectangle, withConfiguration: symbolConfiguration)
+    }
 
-        return imageView
-    }()
+    private let label: UILabel = configure(.init()) {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.text = .localized(.noPhotosToShow)
+        $0.textColor = .tertiaryLabel
+        $0.textAlignment = .center
+        $0.font = .systemFont(ofSize: 15)
+    }
 
-    private let label: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = .localized(.noPhotosToShow)
-        label.textColor = .tertiaryLabel
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 15)
-        return label
-    }()
-
-    private let backgroundView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-
-        view.layer.borderColor = UIColor.tertiarySystemFill.cgColor
-        view.layer.borderWidth = 1
-        view.layer.cornerRadius = 8
-
-        return view
-    }()
+    private let backgroundView: UIView = configure(.init()) {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.layer.borderColor = UIColor.tertiarySystemFill.cgColor
+        $0.layer.borderWidth = 1
+        $0.layer.cornerRadius = 8
+    }
 
     public init() {
         self.photoCaptureView = .init()
+
         super.init(frame: .zero)
+
         self.setupView()
     }
 
@@ -62,6 +55,10 @@ public final class PhotosEmptyView: UIView {
         } else {
             isHidden = !isVisible
         }
+    }
+
+    public func hideActivityIndicators() {
+        photoCaptureView.hideActivityIndicators()
     }
 
     private func setupView() {

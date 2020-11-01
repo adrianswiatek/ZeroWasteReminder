@@ -176,6 +176,7 @@ private extension PhotosViewModel {
 public extension PhotosViewModel {
     enum Request: Equatable {
         case capturePhoto(target: PhotoCaptureTarget)
+        case hidePhotosActivityIndicator
         case removePhoto(_ photo: Photo)
         case showPhoto(_ photo: Photo)
         case showPhotoAt(index: Int)

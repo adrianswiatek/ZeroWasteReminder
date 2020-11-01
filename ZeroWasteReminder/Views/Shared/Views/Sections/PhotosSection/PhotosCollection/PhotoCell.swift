@@ -1,18 +1,14 @@
 import UIKit
 
 public final class PhotoCell: UICollectionViewCell, ReuseIdentifiable {
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        return imageView
-    }()
+    private let imageView: UIImageView = configure(.init()) {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.contentMode = .scaleAspectFill
+    }
 
-    private let loadingView: LoadingView = {
-        let view = LoadingView()
-        view.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.5)
-        return view
-    }()
+    private let loadingView: LoadingView = configure(.init()) {
+        $0.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.5)
+    }
 
     public override init(frame: CGRect) {
         super.init(frame: frame)

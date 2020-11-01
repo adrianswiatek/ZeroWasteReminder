@@ -151,9 +151,8 @@ public final class AddItemViewController: UIViewController {
     private func handleRequest(_ request: PhotosViewModel.Request) {
         switch request {
         case .capturePhoto(let target):
-            coordinator.navigateToImagePicker(for: target, with: self, in: self) { [weak self] in self?.viewModel.setLoading(true)
-            } afterPresenting: { [weak self] in
-                self?.viewModel.setLoading(false)
+            coordinator.navigateToImagePicker(for: target, with: self, in: self) { [weak self] in
+                self?.viewModel.photosViewModel.requestSubject.send(.hidePhotosActivityIndicator)
             }
         case .removePhoto(let photo):
             UIAlertController.presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
@@ -161,7 +160,7 @@ public final class AddItemViewController: UIViewController {
                 .store(in: &self.subscriptions)
         case .showPhoto(let photo):
             coordinator.navigateToFullScreenPhoto(for: photo, in: self)
-        case .showPhotoAt:
+        default:
             break
         }
     }

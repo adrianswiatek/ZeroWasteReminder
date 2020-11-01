@@ -151,15 +151,13 @@ public final class EditItemViewController: UIViewController {
         switch request {
         case .capturePhoto(let target):
             coordinator.navigateToImagePicker(for: target, with: self, in: self) { [weak self] in
-                self?.viewModel.setLoading(true)
-            } afterPresenting: { [weak self] in
-                self?.viewModel.setLoading(false)
+                self?.viewModel.photosViewModel.requestSubject.send(.hidePhotosActivityIndicator)
             }
         case .removePhoto(let photo):
             viewModel.photosViewModel.removePhoto(photo)
         case .showPhoto(let photo):
             coordinator.navigateToFullScreenPhoto(with: photo, in: self)
-        case .showPhotoAt:
+        default:
             break
         }
     }

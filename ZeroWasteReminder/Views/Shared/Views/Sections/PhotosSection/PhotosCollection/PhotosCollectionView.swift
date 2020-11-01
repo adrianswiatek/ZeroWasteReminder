@@ -34,6 +34,12 @@ public final class PhotosCollectionView: UICollectionView {
         isHidden = !isVisible
     }
 
+    public func hideActivityIndicators() {
+        visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionHeader)
+            .compactMap { $0 as? PhotoCaptureCell }
+            .forEach { $0.hideActivityIndicators() }
+    }
+
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         showsHorizontalScrollIndicator = false
@@ -57,7 +63,7 @@ public final class PhotosCollectionView: UICollectionView {
     private func bind() {
         viewModel.requestSubject
             .filter {
-                guard case .showPhoto(_) = $0 else { return false }
+                guard case .showPhoto = $0 else { return false }
                 return true
             }
             .sink { [weak self] _ in

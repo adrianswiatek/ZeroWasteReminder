@@ -83,10 +83,24 @@ public final class PhotosView: UIView {
         viewModel.isLoadingOverlayVisible
             .sink { [weak self] in $0 ? self?.loadingView.show() : self?.loadingView.hide() }
             .store(in: &subscriptions)
+
+        viewModel.requestSubject
+            .sink { [weak self] in self?.handleRequest($0) }
+            .store(in: &subscriptions)
     }
 
     private func setVisibility(hasPhotos: Bool) {
         collectionView.setVisibility(hasPhotos)
         emptyView.setVisibility(!hasPhotos)
+    }
+
+    private func handleRequest(_ request: PhotosViewModel.Request) {
+        switch request {
+        case .hidePhotosActivityIndicator:
+            collectionView.hideActivityIndicators()
+            emptyView.hideActivityIndicators()
+        default:
+            break
+        }
     }
 }
