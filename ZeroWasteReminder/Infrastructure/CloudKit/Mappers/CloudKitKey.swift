@@ -11,6 +11,7 @@ internal enum CloudKitKey {
         static let listReference = "listReference"
         static let name = "name"
         static let notes = "notes"
+        static let searchableName = "searchableName"
     }
 
     internal enum Photo {

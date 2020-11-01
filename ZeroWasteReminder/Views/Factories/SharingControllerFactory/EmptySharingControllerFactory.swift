@@ -1,7 +1,7 @@
 import UIKit
 
 public final class EmptySharingControllerFactory: SharingControllerFactory {
-    public func build() -> UIViewController {
+    public func create() -> UIViewController {
         UIViewController()
     }
 }

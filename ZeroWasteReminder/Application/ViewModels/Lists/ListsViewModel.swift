@@ -43,14 +43,14 @@ public final class ListsViewModel {
     }
 
     public func fetchLists() {
+        isLoadingSubject.send(true)
+
         listsRepository.fetchAll()
             .sink { [weak self] in
-                self?.lists = $0.sorted { $0.updateDate > $1.updateDate}
+                self?.lists = $0.sorted { $0.updateDate > $1.updateDate }
                 self?.isLoadingSubject.send(false)
             }
             .store(in: &subscriptions)
-
-        isLoadingSubject.send(true)
     }
 
     public func index(of list: List) -> Int? {

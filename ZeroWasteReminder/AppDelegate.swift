@@ -14,6 +14,10 @@ internal class AppDelegate: UIResponder, UIApplicationDelegate {
             localStorage: .coreData,
             remoteStorage: .cloudKit(containerIdentifier: "iCloud.pl.aswiatek.PushNotifications")
         )
+//        let dependencyContainerConfiguration = DependencyContainerConfiguration(
+//            localStorage: .inMemory,
+//            remoteStorage: .inMemory
+//        )
         dependencyContainer = .init(configuration: dependencyContainerConfiguration)
         remoteNotificationHandler = dependencyContainer.remoteNotificationHandler
         userNotificationCenter = dependencyContainer.userNotificationCenter

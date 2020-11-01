@@ -21,6 +21,15 @@ extension InMemoryItemsRepository: ItemsReadRepository {
     public func fetch(by id: Id<Item>) -> Future<Item?, Never> {
         Future { [weak self] in $0(.success(self?.items.first { $0.id == id })) }
     }
+
+    public func fetch(by searchTerm: String) -> Future<[Item], Never> {
+        Future { [weak self] promise in
+            guard let self = self, !searchTerm.isEmpty else { return promise(.success([])) }
+
+            let searchResult = self.items.filter { $0.name.lowercased().starts(with: searchTerm.lowercased()) }
+            promise(.success(searchResult))
+        }
+    }
 }
 
 extension InMemoryItemsRepository: ItemsWriteRepository {

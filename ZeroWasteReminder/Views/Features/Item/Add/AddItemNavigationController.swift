@@ -1,6 +1,6 @@
 import UIKit
 
-public final class AddNavigationController: UINavigationController {
+public final class AddItemNavigationController: UINavigationController {
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
@@ -13,8 +13,6 @@ public final class AddNavigationController: UINavigationController {
         navigationBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
 
         navigationBar.standardAppearance = navigationBarAppearance
-
-        modalPresentationStyle = .fullScreen
     }
 
     @available(*, unavailable)

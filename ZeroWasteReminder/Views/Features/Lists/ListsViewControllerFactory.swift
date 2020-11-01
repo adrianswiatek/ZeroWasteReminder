@@ -1,26 +1,25 @@
 import UIKit
 
 public final class ListsViewControllerFactory {
-    private let viewModelFactory: ListsViewModelFactory
+    private let viewModel: ListsViewModel
     private let notificationCenter: NotificationCenter
     private let listsCoordinator: ListsCoordinator
 
     public init(
-        viewModelFactory: ListsViewModelFactory,
+        viewModel: ListsViewModel,
         notificationCenter: NotificationCenter,
         listsCoordinator: ListsCoordinator
     ) {
-        self.viewModelFactory = viewModelFactory
+        self.viewModel = viewModel
         self.notificationCenter = notificationCenter
         self.listsCoordinator = listsCoordinator
     }
 
     public func create() -> UIViewController {
-        let viewController = ListsViewController(
-            viewModel: viewModelFactory.create(),
+        ListsNavigationController(rootViewController: ListsViewController(
+            viewModel: viewModel,
             coordinator: listsCoordinator,
             notificationCenter: notificationCenter
-        )
-        return ListsNavigationController(rootViewController: viewController)
+        ))
     }
 }

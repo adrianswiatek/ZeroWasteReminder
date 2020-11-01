@@ -31,4 +31,10 @@ public final class AddItemCoordinator {
         let viewController = AlertViewController(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: true)
     }
+
+    public func navigateToFullScreenPhoto(for photo: Photo, in viewController: UIViewController) {
+        let photoViewController = FullScreenPhotoViewController(image: photo.asImage)
+        photoViewController.modalPresentationStyle = .fullScreen
+        viewController.present(photoViewController, animated: true)
+    }
 }

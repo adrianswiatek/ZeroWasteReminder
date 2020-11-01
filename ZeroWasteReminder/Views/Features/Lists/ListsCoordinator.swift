@@ -1,21 +1,29 @@
 import UIKit
 
 public final class ListsCoordinator {
-    private let itemsViewModelFactory: ItemsViewModelFactory
+    private let searchViewControllerFactory: SearchViewControllerFactory
+    private let itemsViewControllerFactory: ItemsViewControllerFactory
     private let itemsCoordinator: ItemsCoordinator
 
-    public init(itemsViewModelFactory: ItemsViewModelFactory, itemsCoordinator: ItemsCoordinator) {
-        self.itemsViewModelFactory = itemsViewModelFactory
+    public init(
+        searchViewControllerFactory: SearchViewControllerFactory,
+        itemsViewControllerFactory: ItemsViewControllerFactory,
+        itemsCoordinator: ItemsCoordinator
+    ) {
+        self.searchViewControllerFactory = searchViewControllerFactory
+        self.itemsViewControllerFactory = itemsViewControllerFactory
         self.itemsCoordinator = itemsCoordinator
     }
 
     public func navigateToItems(with list: List, in viewController: UIViewController) {
-        viewController.present(createItemsViewController(for: list), animated: true)
+        let itemsViewController = itemsViewControllerFactory.create(for: list)
+        itemsViewController.modalPresentationStyle = .fullScreen
+        viewController.present(itemsViewController, animated: true)
     }
 
-    private func createItemsViewController(for list: List) -> UIViewController {
-        let viewModel = itemsViewModelFactory.create(for: list)
-        let viewController = ItemsViewController(viewModel: viewModel, coordinator: itemsCoordinator)
-        return ItemsNavigationController(rootViewController: viewController)
+    public func navigateToSearch(in viewController: UIViewController) {
+        let searchViewController = searchViewControllerFactory.create()
+        searchViewController.modalPresentationStyle = .fullScreen
+        viewController.present(searchViewController, animated: true)
     }
 }

@@ -46,7 +46,7 @@ public final class MoveItemTableView: UITableView {
         viewModel.$lists
             .map { $0.isEmpty }
             .sink { [weak self] in
-                self?.backgroundView = $0 ? EmptyListView(text: .localized(.noListsAvailable)) : nil
+                self?.backgroundView = $0 ? EmptyTableBackgroundView(text: .localized(.noListsAvailable)) : nil
             }
             .store(in: &subscriptions)
 

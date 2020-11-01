@@ -1,6 +1,6 @@
 import UIKit
 
-public final class ListsNavigationController: UINavigationController {
+public final class SearchNavigationController: UINavigationController {
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
@@ -9,6 +9,7 @@ public final class ListsNavigationController: UINavigationController {
         super.init(rootViewController: rootViewController)
 
         navigationBar.isTranslucent = false
+        navigationBar.tintColor = .white
         navigationBar.standardAppearance = configure(UINavigationBarAppearance()) {
             $0.backgroundColor = .accent
             $0.shadowColor = .clear
@@ -20,7 +21,7 @@ public final class ListsNavigationController: UINavigationController {
     }
 
     @available(*, unavailable)
-    public required init?(coder aDecoder: NSCoder) {
-        fatalError("Not supported.")
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("Not supported")
     }
 }

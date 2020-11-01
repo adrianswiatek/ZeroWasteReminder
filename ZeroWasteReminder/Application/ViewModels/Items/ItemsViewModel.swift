@@ -14,7 +14,7 @@ public final class ItemsViewModel {
 
     public let requestsSubject: PassthroughSubject<Request, Never>
 
-    public let list: List
+    public var list: List!
     public let itemsFilterViewModel: ItemsFilterViewModel
 
     public var selectedItem: AnyPublisher<Item, Never> {
@@ -38,15 +38,12 @@ public final class ItemsViewModel {
     private var subscriptions: Set<AnyCancellable>
 
     public init(
-        list: List,
         itemsReadRepository: ItemsReadRepository,
         itemsWriteRepository: ItemsWriteRepository,
         statusNotifier: StatusNotifier,
         updateListsDate: UpdateListsDate,
         eventDispatcher: EventDispatcher
     ) {
-        self.list = list
-
         self.itemsReadRepository = itemsReadRepository
         self.itemsWriteRepository = itemsWriteRepository
         self.statusNotifier = statusNotifier
@@ -68,7 +65,6 @@ public final class ItemsViewModel {
 
         self.subscriptions = []
 
-        self.updateListsDate.listen(in: list)
         self.bind()
     }
 
@@ -76,11 +72,19 @@ public final class ItemsViewModel {
         updateListsDate.stopListening()
     }
 
+    public func set(for list: List) {
+        self.list = list
+        self.items = []
+        self.updateListsDate.listen(in: list)
+    }
+
     public func cellViewModel(for item: Item) -> ItemsCellViewModel {
         .init(item, dateFormatter: .fullDate)
     }
 
     public func fetchItems() {
+        isLoadingSubject.send(true)
+
         itemsReadRepository.fetchAll(from: list)
             .flatMap { [weak self] items -> AnyPublisher<[Item], Never> in
                 guard let self = self else { return Empty().eraseToAnyPublisher() }
@@ -91,8 +95,6 @@ public final class ItemsViewModel {
                 self?.isLoadingSubject.send(false)
             }
             .store(in: &subscriptions)
-
-        isLoadingSubject.send(true)
     }
 
     public func deleteSelectedItems() {

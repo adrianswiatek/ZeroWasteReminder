@@ -1,5 +1,5 @@
 import UIKit
 
 public protocol SharingControllerFactory {
-    func build() -> UIViewController
+    func create() -> UIViewController
 }

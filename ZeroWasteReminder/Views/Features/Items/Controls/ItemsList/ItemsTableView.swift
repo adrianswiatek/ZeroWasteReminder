@@ -13,7 +13,6 @@ public final class ItemsTableView: UITableView {
 
         self.setupView()
         self.registerCells()
-        self.setupRefreshControl()
         self.bind()
     }
 
@@ -38,22 +37,28 @@ public final class ItemsTableView: UITableView {
         register(ItemCell.self, forCellReuseIdentifier: ItemCell.identifier)
     }
 
-    private func setupRefreshControl() {
-        refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
-    }
-
-    @objc
-    private func refresh() {
-        viewModel.requestsSubject.send(.disableLoadingIndicatorOnce)
-        viewModel.fetchItems()
-    }
-
     private func bind() {
+        viewModel.$items
+            .map { $0.isEmpty }
+            .sink { [weak self] in
+                self?.backgroundView = $0 ? EmptyTableBackgroundView(text: .localized(.noItemsAddedYet)) : nil
+                self?.refreshControl = $0 ? nil : self?.getRefreshControl()
+            }
+            .store(in: &subscriptions)
+
         viewModel.isLoading
             .filter { $0 == false }
             .sink { [weak self] _ in self?.refreshControl?.endRefreshing() }
             .store(in: &subscriptions)
+    }
+
+    private func getRefreshControl() -> UIRefreshControl {
+        configure(UIRefreshControl()) {
+            $0.addAction(.init { [weak self] _ in
+                self?.viewModel.requestsSubject.send(.disableLoadingIndicatorOnce)
+                self?.viewModel.fetchItems()
+            }, for: .valueChanged)
+        }
     }
 }
 

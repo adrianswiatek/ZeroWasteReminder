@@ -57,7 +57,7 @@ public final class AddItemViewModel {
     private let isLoadingSubject: PassthroughSubject<Bool, Never>
     private let expirationTypeSubject: CurrentValueSubject<ExpirationType, Never>
 
-    private let list: List
+    private var list: List!
 
     private let itemsWriteRepository: ItemsWriteRepository
     private let photosRepository: PhotosRepository
@@ -68,7 +68,6 @@ public final class AddItemViewModel {
     private var subscriptions: Set<AnyCancellable>
 
     public init(
-        list: List,
         itemsWriteRepository: ItemsWriteRepository,
         photosRepository: PhotosRepository,
         fileService: FileService,
@@ -76,7 +75,6 @@ public final class AddItemViewModel {
         eventDispatcher: EventDispatcher
     ) {
         self.itemsWriteRepository = itemsWriteRepository
-        self.list = list
         self.photosRepository = photosRepository
         self.fileService = fileService
         self.statusNotifier = statusNotifier
@@ -99,6 +97,10 @@ public final class AddItemViewModel {
         self.subscriptions = []
 
         self.bind()
+    }
+
+    public func set(for list: List) {
+        self.list = list
     }
 
     public func saveItem() {

@@ -61,7 +61,8 @@ public final class ListsTableView: UITableView {
         viewModel.$lists
             .map { $0.isEmpty }
             .sink { [weak self] in
-                self?.backgroundView = $0 ? EmptyListView(text: .localized(.noListsAddedYet)) : nil
+                self?.backgroundView = $0 ? EmptyTableBackgroundView(text: .localized(.noListsAddedYet)) : nil
+                self?.refreshControl = $0 ? nil : self?.getRefreshControl()
             }
             .store(in: &subscriptions)
 
@@ -90,6 +91,15 @@ public final class ListsTableView: UITableView {
         case .changeName(let list): selectList(list)
         case .discardChanges, .showErrorMessage: deselectAllLists()
         default: break
+        }
+    }
+
+    private func getRefreshControl() -> UIRefreshControl {
+        configure(UIRefreshControl()) {
+            $0.addAction(.init { [weak self] _ in
+                self?.viewModel.requestsSubject.send(.disableLoadingIndicatorOnce)
+                self?.viewModel.fetchLists()
+            }, for: .valueChanged)
         }
     }
 }

@@ -93,6 +93,38 @@ extension CloudKitItemsRepository: ItemsReadRepository {
             self.database.add(operation)
         }
     }
+
+    public func fetch(by searchTerm: String) -> Future<[Item], Never> {
+        Future { [weak self] promise in
+            guard let self = self, !searchTerm.isEmpty else { return promise(.success([])) }
+
+            let predicate = NSPredicate(format: "%K BEGINSWITH %@", "searchableName", searchTerm.lowercased())
+            let query = CKQuery(recordType: "Item", predicate: predicate)
+            let operation = CKQueryOperation(query: query)
+            operation.configuration.timeoutIntervalForResource = Configuration.timeout
+
+            var records = [CKRecord]()
+
+            operation.recordFetchedBlock = {
+                records.append($0)
+            }
+
+            operation.completionBlock = { [weak self] in
+                DispatchQueue.main.async {
+                    promise(.success(records.compactMap { self?.mapper.map($0).toItem() }))
+                }
+            }
+
+            operation.queryCompletionBlock = { [weak self] in
+                guard $1 != nil else { return }
+
+                let error: AppError = .ofType(FetchingItemsFromICloudErrorType())
+                self?.eventDispatcher.dispatch(ErrorOccured(error))
+            }
+
+            self.database.add(operation)
+        }
+    }
 }
 
 extension CloudKitItemsRepository: ItemsWriteRepository {

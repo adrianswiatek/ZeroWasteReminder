@@ -86,7 +86,6 @@ public final class EditItemViewModel {
     private var subscriptions: Set<AnyCancellable>
 
     public init(
-        item: Item,
         itemsReadRepository: ItemsReadRepository,
         itemsWriteRepository: ItemsWriteRepository,
         photosRepository: PhotosRepository,
@@ -96,7 +95,6 @@ public final class EditItemViewModel {
     ) {
         self.itemsReadRepository = itemsReadRepository
         self.itemsWriteRepository = itemsWriteRepository
-        self.item = item
         self.originalPhotoIds = []
         self.photosRepository = photosRepository
         self.fileService = fileService
@@ -106,8 +104,9 @@ public final class EditItemViewModel {
 
         self.name = ""
         self.notes = ""
+        self.item = .empty
         self.expirationDateSubject = .init(nil)
-        self.alertOption = item.alertOption
+        self.alertOption = .none
 
         self.requestSubject = .init()
         self.isLoadingSubject = .init()
@@ -116,9 +115,20 @@ public final class EditItemViewModel {
         self.photosViewModel = .init(photosRepository: photosRepository, fileService: fileService)
 
         self.subscriptions = []
+    }
+
+    public func initialize(for item: Item) {
+        self.item = item
+        self.alertOption = item.alertOption
 
         self.bind()
         self.photosViewModel.fetchThumbnails(for: item)
+    }
+
+    public func cleanUp() {
+        _ = fileService.removeTemporaryItems()
+        isLoadingSubject.send(false)
+        self.subscriptions = []
     }
 
     public func toggleExpirationDatePicker() {
@@ -147,17 +157,13 @@ public final class EditItemViewModel {
         isLoadingSubject.send(isLoading)
     }
 
-    public func cleanUp() {
-        _ = fileService.removeTemporaryItems()
-        isLoadingSubject.send(false)
-    }
-
     private func bind() {
         $item
             .sink { [weak self] in self?.updateItem(with: $0) }
             .store(in: &subscriptions)
 
         thumbnails
+            .dropFirst()
             .prefix(1)
             .sink { [weak self] in self?.originalPhotoIds = $0.map(\.id) }
             .store(in: &subscriptions)
@@ -194,7 +200,6 @@ public final class EditItemViewModel {
             return
         }
     }
-    
 
     private func refreshItem() {
         isLoadingSubject.send(true)
