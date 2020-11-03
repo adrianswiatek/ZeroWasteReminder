@@ -26,6 +26,7 @@ public extension UIImage {
         case checkmark = "checkmark"
         case chevronRight = "chevron.right"
         case ellipsisCircle = "ellipsis.circle"
+        case exclamationmarkCircleFill = "exclamationmark.circle.fill"
         case lineHorizontal3DecreaseCircle = "line.horizontal.3.decrease.circle"
         case lineHorizontal3DecreaseCircleFill = "line.horizontal.3.decrease.circle.fill"
         case listDash = "list.dash"

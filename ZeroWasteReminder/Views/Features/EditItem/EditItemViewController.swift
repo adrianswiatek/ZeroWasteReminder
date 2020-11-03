@@ -6,7 +6,7 @@ public final class EditItemViewController: UIViewController {
         .doneButton(target: self, action: #selector(handleDoneButtonTap))
 
     private let scrollView: AdaptiveScrollView
-    private let contentViewController: EditContentViewController
+    private let contentViewController: EditItemContentViewController
     private let loadingView: LoadingView
     private let warningBarView: WarningBarView
 
@@ -144,6 +144,8 @@ public final class EditItemViewController: UIViewController {
             coordinator.navigateToAlert(withOption: viewModel.alertOption, in: self)
         case .showErrorMessage(let message):
             UIAlertController.presentError(in: self, withMessage: message)
+        case .showInfoMessage(let title, let message):
+            UIAlertController.presentMessage(in: self, withTitle: title, andMessage: message)
         }
     }
 

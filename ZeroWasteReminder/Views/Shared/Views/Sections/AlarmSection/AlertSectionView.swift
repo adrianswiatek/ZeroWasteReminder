@@ -2,16 +2,22 @@ import Combine
 import UIKit
 
 public final class AlertSectionView: UIView {
-    public var tap: AnyPublisher<Void, Never> {
+    public var alertButtonTap: AnyPublisher<Void, Never> {
         button.tap
+    }
+
+    public var infoButtonTap: AnyPublisher<Void, Never> {
+        noConsentView.infoButtonTap
     }
 
     private let label: UILabel
     private let button: AlertButton
+    private let noConsentView: NoConsentForAlertsView
 
     public init() {
         self.label = .defaultWithText(.localized(.alert))
         self.button = .init(type: .system)
+        self.noConsentView = .init()
 
         super.init(frame: .zero)
 
@@ -43,6 +49,11 @@ public final class AlertSectionView: UIView {
         }
     }
 
+    public func setEditability(_ isEditable: Bool) {
+        button.isHidden = !isEditable
+        noConsentView.isHidden = isEditable
+    }
+
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
 
@@ -54,12 +65,18 @@ public final class AlertSectionView: UIView {
 
         addSubview(button)
         NSLayoutConstraint.activate([
-            button.topAnchor.constraint(
-                equalTo: label.bottomAnchor, constant: Metrics.spacing
-            ),
+            button.topAnchor.constraint(equalTo: label.bottomAnchor, constant: Metrics.spacing),
             button.leadingAnchor.constraint(equalTo: leadingAnchor),
             button.bottomAnchor.constraint(equalTo: bottomAnchor),
             button.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+
+        addSubview(noConsentView)
+        NSLayoutConstraint.activate([
+            noConsentView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: Metrics.spacing),
+            noConsentView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            noConsentView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            noConsentView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
 }

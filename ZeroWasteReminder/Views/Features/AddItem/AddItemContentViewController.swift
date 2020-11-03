@@ -2,7 +2,7 @@ import AVFoundation
 import Combine
 import UIKit
 
-public final class AddContentViewController: UIViewController {
+public final class AddItemContentViewController: UIViewController {
     private let itemNameSectionView: ItemNameSectionView
     private let expirationSectionView: ExpirationSectionView
     private let notesSectionView: NotesSectionView
@@ -73,7 +73,7 @@ public final class AddContentViewController: UIViewController {
             .assign(to: \.notes, on: viewModel)
             .store(in: &subscriptions)
 
-        alertSectionView.tap
+        alertSectionView.alertButtonTap
             .sink { [weak self] in self?.viewModel.requestSubject.send(.setAlert) }
             .store(in: &subscriptions)
 
@@ -85,10 +85,14 @@ public final class AddContentViewController: UIViewController {
         viewModel.$alertOption
             .sink { [weak self] in self?.alertSectionView.setTitle($0.formatted(.fullDate)) }
             .store(in: &subscriptions)
+
+        viewModel.hasUserAgreedForNotifications
+            .sink { [weak self] in self?.alertSectionView.setEditability($0) }
+            .store(in: &subscriptions)
     }
 }
 
-private extension AddContentViewController {
+private extension AddItemContentViewController {
     enum Metrics {
         static let spacing: CGFloat = 24
     }

@@ -9,7 +9,7 @@ public final class AddItemViewController: UIViewController {
         .doneButton(target: self, action: #selector(handleDone))
 
     private let scrollView: AdaptiveScrollView
-    private let contentViewController: AddContentViewController
+    private let contentViewController: AddItemContentViewController
     private let loadingView: LoadingView
     private let warningBarView: WarningBarView
 

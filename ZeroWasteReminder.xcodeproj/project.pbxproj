@@ -56,7 +56,8 @@
 		A72315AE244B0943008614B2 /* ValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72315AD244B0943008614B2 /* ValidationRules.swift */; };
 		A725068D2457992F006C3A2F /* RemainingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A725068C2457992F006C3A2F /* RemainingState.swift */; };
 		A726F35B24C3C24800BE0EC5 /* StatusNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A726F35A24C3C24800BE0EC5 /* StatusNotifier.swift */; };
-		A726F35D24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A726F35C24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift */; };
+		A726F35D24C3C2A600BE0EC5 /* AllAcceptedStatusNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A726F35C24C3C2A600BE0EC5 /* AllAcceptedStatusNotifier.swift */; };
+		A727FAE52552180D00875886 /* NoConsentForAlertsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A727FAE42552180D00875886 /* NoConsentForAlertsView.swift */; };
 		A72A46D424426A4000B0007B /* ItemsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D324426A4000B0007B /* ItemsTableView.swift */; };
 		A72A46D724426C4C00B0007B /* ListAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72A46D624426C4C00B0007B /* ListAddButton.swift */; };
 		A72BF83D2543524C00637466 /* AddingItemFromICloudErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72BF83C2543524C00637466 /* AddingItemFromICloudErrorType.swift */; };
@@ -86,7 +87,7 @@
 		A749366A2473153B003DB46E /* CloudKitMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74936692473153B003DB46E /* CloudKitMapper.swift */; };
 		A749366C247346A4003DB46E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A749366B247346A4003DB46E /* LoadingView.swift */; };
 		A74C418B24D4BCC500399918 /* Id.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74C418A24D4BCC500399918 /* Id.swift */; };
-		A74D1640249C2ED500FEB5CD /* RemoteStatusNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74D163F249C2ED500FEB5CD /* RemoteStatusNotifier.swift */; };
+		A74D1640249C2ED500FEB5CD /* DefaultStatusNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74D163F249C2ED500FEB5CD /* DefaultStatusNotifier.swift */; };
 		A750434124707386009A1451 /* CloudKitItemsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434024707386009A1451 /* CloudKitItemsRepository.swift */; };
 		A750434524707517009A1451 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A750434424707517009A1451 /* CloudKit.framework */; };
 		A75043502506EA7600DFB4EB /* ItemAdded.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750434F2506EA7600DFB4EB /* ItemAdded.swift */; };
@@ -143,9 +144,9 @@
 		A782FAD62475E83300C69737 /* CloudKitSubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A782FAD52475E83300C69737 /* CloudKitSubscriptionService.swift */; };
 		A78302072534E4C70050F987 /* CalendarItemNotificationRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78302062534E4C70050F987 /* CalendarItemNotificationRequestFactory.swift */; };
 		A783020D2534EC530050F987 /* ItemNotificationRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783020C2534EC530050F987 /* ItemNotificationRequestFactory.swift */; };
-		A783EE2424673B8F008BCC17 /* EditContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE2324673B8F008BCC17 /* EditContentViewController.swift */; };
+		A783EE2424673B8F008BCC17 /* EditItemContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE2324673B8F008BCC17 /* EditItemContentViewController.swift */; };
 		A783EE2624674ECD008BCC17 /* AdaptiveScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */; };
-		A783EE28246755E9008BCC17 /* AddContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE27246755E9008BCC17 /* AddContentViewController.swift */; };
+		A783EE28246755E9008BCC17 /* AddItemContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A783EE27246755E9008BCC17 /* AddItemContentViewController.swift */; };
 		A784410F24881C7C00FBBF3C /* FullScreenPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */; };
 		A786619D244B4E8100A2C49C /* ExpirationDateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */; };
 		A78AC17C24F8362700B2A59D /* MoveItemHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78AC17B24F8362700B2A59D /* MoveItemHeaderView.swift */; };
@@ -338,7 +339,8 @@
 		A72315AD244B0943008614B2 /* ValidationRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationRules.swift; sourceTree = "<group>"; };
 		A725068C2457992F006C3A2F /* RemainingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingState.swift; sourceTree = "<group>"; };
 		A726F35A24C3C24800BE0EC5 /* StatusNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusNotifier.swift; sourceTree = "<group>"; };
-		A726F35C24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStatusNotifier.swift; sourceTree = "<group>"; };
+		A726F35C24C3C2A600BE0EC5 /* AllAcceptedStatusNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllAcceptedStatusNotifier.swift; sourceTree = "<group>"; };
+		A727FAE42552180D00875886 /* NoConsentForAlertsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoConsentForAlertsView.swift; sourceTree = "<group>"; };
 		A72A46D324426A4000B0007B /* ItemsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsTableView.swift; sourceTree = "<group>"; };
 		A72A46D624426C4C00B0007B /* ListAddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAddButton.swift; sourceTree = "<group>"; };
 		A72BF83C2543524C00637466 /* AddingItemFromICloudErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingItemFromICloudErrorType.swift; sourceTree = "<group>"; };
@@ -370,7 +372,7 @@
 		A74936692473153B003DB46E /* CloudKitMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitMapper.swift; sourceTree = "<group>"; };
 		A749366B247346A4003DB46E /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		A74C418A24D4BCC500399918 /* Id.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Id.swift; sourceTree = "<group>"; };
-		A74D163F249C2ED500FEB5CD /* RemoteStatusNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteStatusNotifier.swift; sourceTree = "<group>"; };
+		A74D163F249C2ED500FEB5CD /* DefaultStatusNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultStatusNotifier.swift; sourceTree = "<group>"; };
 		A750434024707386009A1451 /* CloudKitItemsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitItemsRepository.swift; sourceTree = "<group>"; };
 		A750434224707513009A1451 /* ZeroWasteReminder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZeroWasteReminder.entitlements; sourceTree = "<group>"; };
 		A750434424707517009A1451 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -428,9 +430,9 @@
 		A782FAD52475E83300C69737 /* CloudKitSubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitSubscriptionService.swift; sourceTree = "<group>"; };
 		A78302062534E4C70050F987 /* CalendarItemNotificationRequestFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarItemNotificationRequestFactory.swift; sourceTree = "<group>"; };
 		A783020C2534EC530050F987 /* ItemNotificationRequestFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemNotificationRequestFactory.swift; sourceTree = "<group>"; };
-		A783EE2324673B8F008BCC17 /* EditContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditContentViewController.swift; sourceTree = "<group>"; };
+		A783EE2324673B8F008BCC17 /* EditItemContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemContentViewController.swift; sourceTree = "<group>"; };
 		A783EE2524674ECD008BCC17 /* AdaptiveScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveScrollView.swift; sourceTree = "<group>"; };
-		A783EE27246755E9008BCC17 /* AddContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentViewController.swift; sourceTree = "<group>"; };
+		A783EE27246755E9008BCC17 /* AddItemContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemContentViewController.swift; sourceTree = "<group>"; };
 		A784410E24881C7C00FBBF3C /* FullScreenPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenPhotoViewController.swift; sourceTree = "<group>"; };
 		A786619C244B4E8100A2C49C /* ExpirationDateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDateViewModel.swift; sourceTree = "<group>"; };
 		A78AC17B24F8362700B2A59D /* MoveItemHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemHeaderView.swift; sourceTree = "<group>"; };
@@ -1048,7 +1050,7 @@
 		A780EFCF245F7570002A8AD4 /* EditItem */ = {
 			isa = PBXGroup;
 			children = (
-				A783EE2324673B8F008BCC17 /* EditContentViewController.swift */,
+				A783EE2324673B8F008BCC17 /* EditItemContentViewController.swift */,
 				A7159B652500444E00BC3532 /* EditItemCoordinator.swift */,
 				A780EFD0245F7590002A8AD4 /* EditItemViewController.swift */,
 				A7D13C422548B7530043AF56 /* EditItemViewControllerFactory.swift */,
@@ -1216,6 +1218,7 @@
 			children = (
 				A717BA8F251FDD8100FE1E1D /* AlertButton.swift */,
 				A7C75C93252129660005FDEA /* AlertSectionView.swift */,
+				A727FAE42552180D00875886 /* NoConsentForAlertsView.swift */,
 			);
 			path = AlarmSection;
 			sourceTree = "<group>";
@@ -1251,7 +1254,7 @@
 		A7DB8A32244284020035CF36 /* AddItem */ = {
 			isa = PBXGroup;
 			children = (
-				A783EE27246755E9008BCC17 /* AddContentViewController.swift */,
+				A783EE27246755E9008BCC17 /* AddItemContentViewController.swift */,
 				A7159B632500442E00BC3532 /* AddItemCoordinator.swift */,
 				A71B691A2443A9CA00AF7CB3 /* AddItemNavigationController.swift */,
 				A7DB8A34244285010035CF36 /* AddItemViewController.swift */,
@@ -1395,7 +1398,7 @@
 			children = (
 				A7547EDA24C3AF5000D82DE9 /* AlwaysEligibleAccountService.swift */,
 				A7A7495824F321C4009D6F25 /* DefaultMoveItemService.swift */,
-				A726F35C24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift */,
+				A726F35C24C3C2A600BE0EC5 /* AllAcceptedStatusNotifier.swift */,
 				A7547EE624C3B4BA00D82DE9 /* EmptySubscriptionService.swift */,
 				A7DE4B632512981B004E3B95 /* RemoteEventBuilder.swift */,
 				A782FAD12475E0A000C69737 /* RemoteNotificationHandler.swift */,
@@ -1420,8 +1423,8 @@
 				A7E530AE249C02E40020DB14 /* CloudKitAccountService.swift */,
 				A782FAD52475E83300C69737 /* CloudKitSubscriptionService.swift */,
 				A7FCD91825082F8A00F001C7 /* ConsoleEventDispatcherInterceptor.swift */,
+				A74D163F249C2ED500FEB5CD /* DefaultStatusNotifier.swift */,
 				A7636A662490499F00166631 /* FileService.swift */,
-				A74D163F249C2ED500FEB5CD /* RemoteStatusNotifier.swift */,
 				A737F069252FA93400FF9D60 /* NotificationScheduler */,
 			);
 			path = Services;
@@ -1648,7 +1651,7 @@
 			files = (
 				A72BF84E2543720D00637466 /* MovingItemInICloudErrorType.swift in Sources */,
 				A7F3D36624D3838F0059841A /* EmptyTableBackgroundView.swift in Sources */,
-				A783EE2424673B8F008BCC17 /* EditContentViewController.swift in Sources */,
+				A783EE2424673B8F008BCC17 /* EditItemContentViewController.swift in Sources */,
 				A7FD3F9A254F411300598151 /* MoveItemViewModelFactory.swift in Sources */,
 				A7AFA37124A53D5600BD5983 /* PhotoCaptureTarget.swift in Sources */,
 				A744C7092547828E002A4C17 /* SearchViewControllerFactory.swift in Sources */,
@@ -1668,7 +1671,7 @@
 				A7EC2D622445127200993F53 /* PeriodTypeExtensions.swift in Sources */,
 				A7DBEFFE252674CD00430986 /* configure.swift in Sources */,
 				A7FCD91725082F5E00F001C7 /* EventDispatcherInterceptor.swift in Sources */,
-				A726F35D24C3C2A600BE0EC5 /* EmptyStatusNotifier.swift in Sources */,
+				A726F35D24C3C2A600BE0EC5 /* AllAcceptedStatusNotifier.swift in Sources */,
 				A7BDE68B24B51C61003215C0 /* EditListMixedButton.swift in Sources */,
 				A71B69212443D3EB00AF7CB3 /* ExpirationSectionView.swift in Sources */,
 				A78172B02494D24400F406EC /* CloudKitRecordMapper.swift in Sources */,
@@ -1771,7 +1774,7 @@
 				A7CFBBB8250982560026D338 /* ListUpdatedReceived.swift in Sources */,
 				A7DB8A35244285010035CF36 /* AddItemViewController.swift in Sources */,
 				A70BCCDB2447960200CC49D0 /* Item.swift in Sources */,
-				A783EE28246755E9008BCC17 /* AddContentViewController.swift in Sources */,
+				A783EE28246755E9008BCC17 /* AddItemContentViewController.swift in Sources */,
 				A739F678254A305C00330A1B /* SearchCoordinator.swift in Sources */,
 				A737F06B252FACC200FF9D60 /* ItemUserNotificationScheduler.swift in Sources */,
 				A75043542506EB0700DFB4EB /* ItemsRemoved.swift in Sources */,
@@ -1800,7 +1803,7 @@
 				A7A7495124F309CC009D6F25 /* MoveItemViewController.swift in Sources */,
 				A7159B642500442E00BC3532 /* AddItemCoordinator.swift in Sources */,
 				A72BF83D2543524C00637466 /* AddingItemFromICloudErrorType.swift in Sources */,
-				A74D1640249C2ED500FEB5CD /* RemoteStatusNotifier.swift in Sources */,
+				A74D1640249C2ED500FEB5CD /* DefaultStatusNotifier.swift in Sources */,
 				A763AFFD2482E86000E93546 /* PhotosCollectionView.swift in Sources */,
 				A716B8FD244E43BB00D2FC89 /* ItemsCellViewModel.swift in Sources */,
 				A744C6FD254769BE002A4C17 /* SearchBarViewModel.swift in Sources */,
@@ -1893,6 +1896,7 @@
 				A7FD3F60254F39A500598151 /* ListsViewModelFactory.swift in Sources */,
 				A70BCCD9244795D700CC49D0 /* AddItemViewModel.swift in Sources */,
 				A71B69192443A8D600AF7CB3 /* UIColorExtensions.swift in Sources */,
+				A727FAE52552180D00875886 /* NoConsentForAlertsView.swift in Sources */,
 				A751AA4E2523DA940063EEE6 /* AlertOption.swift in Sources */,
 				A73CB9AA250D83B10069E4F0 /* ListRemovedReceived.swift in Sources */,
 				A75E703B248DA01300F06E98 /* Photo.swift in Sources */,

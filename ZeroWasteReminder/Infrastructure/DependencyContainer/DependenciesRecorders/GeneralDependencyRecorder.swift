@@ -68,7 +68,10 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
         }
 
         container.register(StatusNotifier.self) { resolver in
-            RemoteStatusNotifier(accountService: resolver.resolve(AccountService.self)!)
+            DefaultStatusNotifier(
+                accountService: resolver.resolve(AccountService.self)!,
+                userNotificationCenter: resolver.resolve(UNUserNotificationCenter.self)!
+            )
         }.inObjectScope(.container)
     }
 

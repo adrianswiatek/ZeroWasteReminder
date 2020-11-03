@@ -84,4 +84,14 @@ public extension UIAlertController {
         alertController.addAction(.ok)
         viewController.present(alertController, animated: true)
     }
+
+    static func presentMessage(
+        in viewController: UIViewController,
+        withTitle title: String,
+        andMessage message: String
+    ) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(.ok)
+        viewController.present(alertController, animated: true)
+    }
 }

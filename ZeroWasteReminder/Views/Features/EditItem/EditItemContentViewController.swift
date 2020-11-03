@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public final class EditContentViewController: UIViewController {
+public final class EditItemContentViewController: UIViewController {
     private let itemNameSectionView: ItemNameSectionView
     private let notesSectionView: NotesSectionView
     private let expirationSectionView: EditExpirationSectionView
@@ -85,8 +85,12 @@ public final class EditContentViewController: UIViewController {
             .assign(to: \.name, on: viewModel)
             .store(in: &subscriptions)
 
-        alertSectionView.tap
+        alertSectionView.alertButtonTap
             .sink { [weak self] in self?.viewModel.requestSubject.send(.setAlert) }
+            .store(in: &subscriptions)
+
+        alertSectionView.infoButtonTap
+            .sink { [weak self] in self?.viewModel.sendDisabledNotificationsMessage() }
             .store(in: &subscriptions)
 
         notesSectionView.notes
@@ -108,10 +112,14 @@ public final class EditContentViewController: UIViewController {
         viewModel.$alertOption
             .sink { [weak self] in self?.alertSectionView.setTitle($0.formatted(.fullDate)) }
             .store(in: &subscriptions)
+
+        viewModel.hasUserAgreedForNotifications
+            .sink { [weak self] in self?.alertSectionView.setEditability($0) }
+            .store(in: &subscriptions)
     }
 }
 
-extension EditContentViewController {
+extension EditItemContentViewController {
     private enum Metrics {
         static let spacing: CGFloat = 24
     }

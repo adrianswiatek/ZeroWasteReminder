@@ -1,5 +1,6 @@
 import Combine
 import UIKit
+import UserNotifications
 
 public final class EditItemViewModel {
     @Published public var name: String
@@ -29,6 +30,10 @@ public final class EditItemViewModel {
 
     public var isRemoveDateButtonEnabled: AnyPublisher<Bool, Never> {
         expirationDateSubject.map { $0 != nil }.eraseToAnyPublisher()
+    }
+
+    public var hasUserAgreedForNotifications: AnyPublisher<Bool, Never> {
+        statusNotifier.notificationStatus.map { $0 == .authorized }.eraseToAnyPublisher()
     }
 
     public var state: AnyPublisher<RemainingState, Never> {
@@ -73,6 +78,7 @@ public final class EditItemViewModel {
     private let isLoadingSubject: PassthroughSubject<Bool, Never>
     private let expirationDateSubject: CurrentValueSubject<Date?, Never>
     private let isExpirationDateVisibleSubject: CurrentValueSubject<Bool, Never>
+    private let hasUserAgreedForNotificationsSubject: CurrentValueSubject<Bool, Never>
 
     private var originalPhotoIds: [Id<Photo>]
     private let itemsReadRepository: ItemsReadRepository
@@ -111,6 +117,7 @@ public final class EditItemViewModel {
         self.requestSubject = .init()
         self.isLoadingSubject = .init()
         self.isExpirationDateVisibleSubject = .init(false)
+        self.hasUserAgreedForNotificationsSubject = .init(true)
 
         self.photosViewModel = .init(photosRepository: photosRepository, fileService: fileService)
 
@@ -154,6 +161,10 @@ public final class EditItemViewModel {
 
     public func setLoading(_ isLoading: Bool) {
         isLoadingSubject.send(isLoading)
+    }
+
+    public func sendDisabledNotificationsMessage() {
+        requestSubject.send(.showInfoMessage(.localized(.info), .localized(.disabledNotificationsMessage)))
     }
 
     private func bind() {
@@ -250,5 +261,6 @@ public extension EditItemViewModel {
         case removeCurrentItem
         case setAlert
         case showErrorMessage(_ message: String)
+        case showInfoMessage(_ title: String, _ message: String)
     }
 }

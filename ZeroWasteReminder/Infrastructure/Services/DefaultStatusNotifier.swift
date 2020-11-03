@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 import Network
+import NotificationCenter
 
 public final class DefaultStatusNotifier: StatusNotifier {
     public var remoteStatus: AnyPublisher<RemoteStatus, Never> {
@@ -8,7 +9,7 @@ public final class DefaultStatusNotifier: StatusNotifier {
     }
 
     public var notificationStatus: AnyPublisher<NotificationConsentStatus, Never> {
-        notificationStatusSubject.eraseToAnyPublisher()
+        notificationStatusSubject.receive(on: DispatchQueue.main).eraseToAnyPublisher()
     }
 
     private let remoteStatusSubject: CurrentValueSubject<RemoteStatus, Never>
@@ -17,10 +18,13 @@ public final class DefaultStatusNotifier: StatusNotifier {
 
     private let networkMonitor: NWPathMonitor
     private let accountService: AccountService
+    private let userNotificationCenter: UNUserNotificationCenter
+
     private var subscriptions: Set<AnyCancellable>
 
-    public init(accountService: AccountService) {
+    public init(accountService: AccountService, userNotificationCenter: UNUserNotificationCenter) {
         self.accountService = accountService
+        self.userNotificationCenter = userNotificationCenter
         self.networkMonitor = .init()
 
         self.remoteStatusSubject = .init(.notDetermined)
@@ -30,6 +34,7 @@ public final class DefaultStatusNotifier: StatusNotifier {
         self.subscriptions = []
 
         self.setupNetworkMonitor()
+        self.sendNotificationStatus()
         self.bind()
     }
 
@@ -37,6 +42,12 @@ public final class DefaultStatusNotifier: StatusNotifier {
         networkMonitor.start(queue: .global(qos: .background))
         networkMonitor.pathUpdateHandler = { [weak self] in
             self?.networkReachabilitySubject.send($0.status)
+        }
+    }
+
+    private func sendNotificationStatus() {
+        userNotificationCenter.getNotificationSettings { [weak self] in
+            self?.notificationStatusSubject.send(.from($0.authorizationStatus))
         }
     }
 

@@ -46,6 +46,10 @@ public final class AddItemViewModel {
             .eraseToAnyPublisher()
     }
 
+    public var hasUserAgreedForNotifications: AnyPublisher<Bool, Never> {
+        statusNotifier.notificationStatus.map { $0 == .authorized }.eraseToAnyPublisher()
+    }
+
     public var canRemotelyConnect: AnyPublisher<Bool, Never> {
         statusNotifier.remoteStatus.map { $0 == .connected }.eraseToAnyPublisher()
     }
