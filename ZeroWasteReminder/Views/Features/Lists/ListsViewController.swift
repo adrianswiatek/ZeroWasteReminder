@@ -176,7 +176,7 @@ public final class ListsViewController: UIViewController {
     private func setButtonsBottomPadding(to padding: CGFloat) {
         buttonsBottomConstraint.constant = -padding
 
-        UIView.animate(withDuration: 0) {
+        UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
         }
     }

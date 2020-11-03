@@ -74,25 +74,17 @@ internal final class EditListTextField: UITextField {
 
         isVisibleSubject
             .map { $0 ? Metric.visibleHeight : .zero }
-            .assign(to: \.constant, on: heightConstraint)
+            .flatMap { [weak self] height -> AnyPublisher<CGFloat, Never> in
+                self?.heightConstraint.constant = height
+                return Just(height).eraseToAnyPublisher()
+            }
+            .sink { [weak self] _ in
+                UIView.animate(withDuration: 0.3) { self?.superview?.layoutIfNeeded() }
+            }
             .store(in: &subscriptions)
 
         isVisibleSubject
-            .dropFirst(2)
-            .sink { [weak self] _ in UIView.animate(withDuration: 0.3) {
-                self?.superview?.layoutIfNeeded()
-            }}
-            .store(in: &subscriptions)
-
-        isVisibleSubject
-            .filter { $0 }
-            .delay(for: .milliseconds(300), scheduler: DispatchQueue.main)
-            .sink { [weak self] _ in self?.beginEditing() }
-            .store(in: &subscriptions)
-
-        isVisibleSubject
-            .filter { !$0 }
-            .sink { [weak self] _ in self?.finishEditing() }
+            .sink { [weak self] in $0 ? self?.beginEditing() : self?.finishEditing() }
             .store(in: &subscriptions)
     }
 
