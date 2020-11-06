@@ -6,7 +6,7 @@ public final class ListsViewController: UIViewController {
     private let dataSource: ListsDataSource
 
     private lazy var searchBarButtonItem: UIBarButtonItem =
-        .searchButton(target: self, action: #selector(handleSearchButtonTap))
+        .searchButton { [weak self] in self.map { $0.coordinator.navigateToSearch(in: $0) } }
 
     private let loadingView: LoadingView
     private let warningBarView: WarningBarView
@@ -34,12 +34,12 @@ public final class ListsViewController: UIViewController {
         self.coordinator = coordinator
         self.notificationCenter = notificationCenter
 
-        self.tableView = .init(viewModel: viewModel)
+        self.tableView = .init(viewModel)
         self.dataSource = .init(tableView, viewModel)
 
         self.loadingView = .init()
         self.warningBarView = .init()
-        self.editListComponent = .init(viewModel: viewModel)
+        self.editListComponent = .init(viewModel)
 
         self.subscriptions = []
 
@@ -59,6 +59,7 @@ public final class ListsViewController: UIViewController {
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.viewModel.isViewOnTop = true
+        self.dataSource.initialize()
     }
 
     public override func viewDidDisappear(_ animated: Bool) {
@@ -81,18 +82,21 @@ public final class ListsViewController: UIViewController {
 
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: .bigPadding),
-            tableView.bottomAnchor.constraint(equalTo: warningBarView.topAnchor, constant: -.smallPadding),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -.bigPadding)
+            tableView.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                constant: .bigPadding
+            ),
+            tableView.bottomAnchor.constraint(
+                equalTo: warningBarView.topAnchor,
+                constant: -.smallPadding
+            ),
+            tableView.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -.bigPadding
+            )
         ])
 
-        view.addSubview(editListComponent.overlay)
-        NSLayoutConstraint.activate([
-            editListComponent.overlay.topAnchor.constraint(equalTo: view.topAnchor),
-            editListComponent.overlay.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            editListComponent.overlay.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            editListComponent.overlay.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
+        view.addAndFill(editListComponent.overlay)
 
         view.addSubview(editListComponent.textField)
         NSLayoutConstraint.activate([
@@ -114,17 +118,12 @@ public final class ListsViewController: UIViewController {
         NSLayoutConstraint.activate([
             buttonsBottomConstraint,
             editListComponent.buttons.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -.buttonHorizontalPadding
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                constant: -.buttonHorizontalPadding
             )
         ])
 
-        view.addSubview(loadingView)
-        NSLayoutConstraint.activate([
-            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
-            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
+        view.addAndFill(loadingView)
     }
 
     private func bind() {
@@ -179,11 +178,6 @@ public final class ListsViewController: UIViewController {
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
         }
-    }
-
-    @objc
-    private func handleSearchButtonTap() {
-        coordinator.navigateToSearch(in: self)
     }
 }
 

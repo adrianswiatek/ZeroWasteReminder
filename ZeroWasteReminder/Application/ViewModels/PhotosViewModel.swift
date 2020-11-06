@@ -4,7 +4,7 @@ import UIKit
 public final class PhotosViewModel {
     private let thumbnailsSubject: CurrentValueSubject<[Photo], Never>
     public var thumbnails: AnyPublisher<[Photo], Never> {
-        thumbnailsSubject.eraseToAnyPublisher()
+        thumbnailsSubject.share().eraseToAnyPublisher()
     }
 
     private let isLoadingOverlayVisibleSubject: CurrentValueSubject<Bool, Never>
@@ -40,7 +40,6 @@ public final class PhotosViewModel {
 
     public func fetchThumbnails(for item: Item) {
         isLoadingOverlayVisibleSubject.value = true
-        thumbnailsSubject.send([])
 
         fetchPhotosSubscription = photosRepository.fetchThumbnails(for: item)
             .sink(

@@ -60,7 +60,7 @@ public final class MoveItemHeaderView: UIView {
         addSubview(itemNameLabel)
         NSLayoutConstraint.activate([
             itemNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: Metric.bigPadding),
-            itemNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.bigPadding),
+            itemNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metric.bigPadding)
         ])
 
         addSubview(itemNameValueLabel)

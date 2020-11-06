@@ -24,7 +24,7 @@ public final class EditListComponent {
 
     private let viewModel: ListsViewModel
 
-    public init(viewModel: ListsViewModel) {
+    public init(_ viewModel: ListsViewModel) {
         self.viewModel = viewModel
 
         self.textFieldView = .init()

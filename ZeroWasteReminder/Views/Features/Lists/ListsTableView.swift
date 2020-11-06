@@ -5,7 +5,7 @@ public final class ListsTableView: UITableView {
     private let viewModel: ListsViewModel
     private var subscriptions: Set<AnyCancellable>
 
-    public init(viewModel: ListsViewModel) {
+    public init(_ viewModel: ListsViewModel) {
         self.viewModel = viewModel
         self.subscriptions = []
 

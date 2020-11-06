@@ -3,10 +3,10 @@ import UIKit
 
 public final class MoveItemViewController: UIViewController {
     private lazy var dismissButton: UIBarButtonItem =
-        .dismissButton(target: self, action: #selector(handleDismiss))
+        .dismissButton { [weak self] in self?.dismiss(animated: true) }
 
     private lazy var doneButton: UIBarButtonItem =
-        .doneButton(target: self, action: #selector(handleDone))
+        .doneButton { [weak self] in self?.viewModel.moveItem() }
 
     private let loadingView: LoadingView
     private let warningBarView: WarningBarView
@@ -117,15 +117,6 @@ public final class MoveItemViewController: UIViewController {
         case .showErrorMessage(let message):
             UIAlertController.presentError(in: self, withMessage: message)
         }
-    }
-
-    @objc
-    private func handleDismiss() {
-        dismiss(animated: true)
-    }
-
-    @objc func handleDone() {
-        viewModel.moveItem()
     }
 }
 

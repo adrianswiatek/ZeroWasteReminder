@@ -39,7 +39,10 @@ public final class MoveItemTableView: UITableView {
 
     private func setupRefreshControl() {
         refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        refreshControl?.addAction(UIAction { [weak self] _ in
+            self?.viewModel.requestsSubject.send(.disableLoadingIndicatorOnce)
+            self?.viewModel.fetchLists()
+        }, for: .touchUpInside)
     }
 
     private func bind() {
@@ -54,12 +57,6 @@ public final class MoveItemTableView: UITableView {
             .filter { $0 == false }
             .sink { [weak self] _ in self?.refreshControl?.endRefreshing() }
             .store(in: &subscriptions)
-    }
-
-    @objc
-    private func handleRefresh() {
-        viewModel.requestsSubject.send(.disableLoadingIndicatorOnce)
-        viewModel.fetchLists()
     }
 }
 

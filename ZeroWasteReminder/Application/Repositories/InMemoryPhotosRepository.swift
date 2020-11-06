@@ -43,7 +43,8 @@ public final class InMemoryPhotosRepository: PhotosRepository {
             return eventDispatcher.dispatch(NoResultOccured())
         }
 
-        itemIdsToPhotos.updateValue(photosChangeset.photosToSave, forKey: item.id)
+        let existingPhotos = itemIdsToPhotos[item.id] ?? []
+        itemIdsToPhotos.updateValue(existingPhotos + photosChangeset.photosToSave, forKey: item.id)
         itemIdsToPhotos[item.id]?.removeAll { photosChangeset.idsToDelete.contains($0.id) }
 
         eventDispatcher.dispatch(PhotosUpdated(item.id))

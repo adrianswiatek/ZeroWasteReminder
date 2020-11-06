@@ -132,7 +132,8 @@ public final class EditItemViewController: UIViewController {
     private func handlePhotoRequest(_ request: PhotosViewModel.Request) {
         switch request {
         case .capturePhoto(let target):
-            coordinator.navigateToImagePicker(for: target, with: self, in: self) { [weak self] in self?.viewModel.setLoading(true)
+            coordinator.navigateToImagePicker(for: target, with: self, in: self) { [weak self] in
+                self?.viewModel.setLoading(true)
             } afterPresenting: { [weak self] in
                 self?.viewModel.setLoading(false)
             }

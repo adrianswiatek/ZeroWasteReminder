@@ -15,7 +15,6 @@ public final class ActionButton: UIButton {
     public override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
         self.setupView()
-        self.setupTargets()
     }
 
     public override var intrinsicContentSize: CGSize {
@@ -37,15 +36,8 @@ public final class ActionButton: UIButton {
         titleEdgeInsets = .init(top: 0, left: 4, bottom: 0, right: 0)
 
         layer.cornerRadius = 8
-    }
 
-    private func setupTargets() {
-        addTarget(self, action: #selector(handleTap), for: .touchUpInside)
-    }
-
-    @objc
-    private func handleTap() {
-        tapSubject.send()
+        addAction(UIAction { [weak self] _ in self?.tapSubject.send() }, for: .touchUpInside)
     }
 }
 

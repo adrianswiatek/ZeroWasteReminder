@@ -32,7 +32,7 @@ internal struct StorageDependencyRecorder: DependenciesRecorder {
     }
 
     private func registerRepositories() {
-        mainContainer.register(ListsRepository.self) { resolver in
+        mainContainer.register(ListsRepository.self) { _ in
             remoteContainer.resolve(ListsRepository.self)!
         }
 
@@ -43,15 +43,15 @@ internal struct StorageDependencyRecorder: DependenciesRecorder {
             )
         }
 
-        mainContainer.register(ItemsWriteRepository.self) { resolver in
+        mainContainer.register(ItemsWriteRepository.self) { _ in
             remoteContainer.resolve(ItemsWriteRepository.self)!
         }
 
-        mainContainer.register(PhotosRepository.self) { resolver in
+        mainContainer.register(PhotosRepository.self) { _ in
             remoteContainer.resolve(PhotosRepository.self)!
         }
 
-        mainContainer.register(ItemNotificationsRepository.self) { resolver in
+        mainContainer.register(ItemNotificationsRepository.self) { _ in
             localContainer.resolve(ItemNotificationsRepository.self)!
         }
     }

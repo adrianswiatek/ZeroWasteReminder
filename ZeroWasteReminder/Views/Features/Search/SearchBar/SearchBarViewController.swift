@@ -14,7 +14,7 @@ public final class SearchBarViewController: UIViewController {
     private let viewModel: SearchBarViewModel
     private var subscriptions: Set<AnyCancellable>
 
-    public init(viewModel: SearchBarViewModel) {
+    public init(_ viewModel: SearchBarViewModel) {
         self.viewModel = viewModel
         self.subscriptions = []
 
@@ -43,7 +43,7 @@ public final class SearchBarViewController: UIViewController {
             backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            backgroundView.heightAnchor.constraint(equalToConstant: 48),
+            backgroundView.heightAnchor.constraint(equalToConstant: 48)
         ])
 
         backgroundView.addSubview(textField)

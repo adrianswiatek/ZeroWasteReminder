@@ -138,7 +138,7 @@ public final class CloudKitListsRepository: ListsRepository {
             operation.configuration.timeoutIntervalForResource = Configuration.timeout
 
             var records: [CKRecord] = []
-            var error: Error? = nil
+            var error: Error?
 
             operation.recordFetchedBlock = { records.append($0) }
             operation.queryCompletionBlock = { error = $1 }
@@ -167,7 +167,7 @@ public final class CloudKitListsRepository: ListsRepository {
             operation.savePolicy = .changedKeys
 
             var records: [CKRecord] = []
-            var error: Error? = nil
+            var error: Error?
 
             operation.perRecordCompletionBlock = {
                 records.append($0)

@@ -3,7 +3,7 @@ import UIKit
 
 public final class AlertViewController: UIViewController {
     private lazy var dismissButton: UIBarButtonItem =
-        .dismissButton(target: self, action: #selector(handleDismiss))
+        .dismissButton { [weak self] in self?.navigationController?.popViewController(animated: true) }
 
     private let tableView: AlertTableView
 
@@ -50,13 +50,10 @@ public final class AlertViewController: UIViewController {
 
     private func handleRequest(_ request: AlertViewModel.Request) {
         switch request {
-        case .dismiss: handleDismiss()
-        default: return
+        case .dismiss:
+            navigationController?.popViewController(animated: true)
+        default:
+            return
         }
-    }
-
-    @objc
-    private func handleDismiss() {
-        navigationController?.popViewController(animated: true)
     }
 }

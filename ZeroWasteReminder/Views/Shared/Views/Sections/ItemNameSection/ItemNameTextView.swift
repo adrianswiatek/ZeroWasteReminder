@@ -9,18 +9,18 @@ public final class ItemNameTextView: UITextView {
     private let clearButton = ClearButton(type: .system)
 
     private let valueSubject: PassthroughSubject<String, Never>
-    private let sharedDelegate: SharedTextViewDelegate
+    private let sharedDelegateHandler: SharedTextViewDelegateHandler
 
     private var subscriptions: Set<AnyCancellable>
 
     public init() {
         self.valueSubject = .init()
-        self.sharedDelegate = NameTextViewDelegate()
+        self.sharedDelegateHandler = NameTextViewDelegateHandler()
         self.subscriptions = []
 
         super.init(frame: .zero, textContainer: .none)
 
-        self.delegate = sharedDelegate
+        self.delegate = sharedDelegateHandler
 
         self.setupView()
         self.layoutClearButton()
@@ -58,7 +58,7 @@ public final class ItemNameTextView: UITextView {
     }
 
     private func bind() {
-        sharedDelegate.value
+        sharedDelegateHandler.value
             .sink { [weak self] in self?.valueSubject.send($0) }
             .store(in: &subscriptions)
 
@@ -66,14 +66,14 @@ public final class ItemNameTextView: UITextView {
             .sink { [weak self] in self?.text = "" }
             .store(in: &subscriptions)
 
-        Publishers.CombineLatest(sharedDelegate.value, sharedDelegate.isActive)
+        Publishers.CombineLatest(sharedDelegateHandler.value, sharedDelegateHandler.isActive)
             .sink { [weak self] in self?.clearButton.isHidden = !($0.0.count > 0 && $0.1) }
             .store(in: &subscriptions)
     }
 }
 
 private extension ItemNameTextView {
-    class NameTextViewDelegate: SharedTextViewDelegate {
+    final class NameTextViewDelegateHandler: SharedTextViewDelegateHandler {
         private let maximumNumberOfCharacters: Int = 100
 
         func textView(

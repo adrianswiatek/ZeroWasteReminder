@@ -3,21 +3,23 @@ import UIKit
 public final class ExpirationSectionView: UIView {
     private let expirationLabel: UILabel = .defaultWithText(.localized(.expiration))
 
-    private lazy var expirationSegmentedControl: UISegmentedControl = {
-        let segmentedControl = UISegmentedControl(items: ExpirationType.allCases.map { $0.nameTitleCased })
-        segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.selectedSegmentTintColor = .accent
-        segmentedControl.setTitleTextAttributes([
-            .foregroundColor: UIColor.white,
-            .font: UIFont.systemFont(ofSize: 13, weight: .bold)
-        ], for: .selected)
-        segmentedControl.setTitleTextAttributes([
-            .font: UIFont.systemFont(ofSize: 13, weight: .light)
-        ], for: .normal)
-        segmentedControl.addTarget(self, action: #selector(handleSegmentedControlChange), for: .valueChanged)
-        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        return segmentedControl
-    }()
+    private lazy var expirationSegmentedControl: UISegmentedControl =
+        configure(UISegmentedControl(items: ExpirationType.allCases.map { $0.nameTitleCased })) {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.selectedSegmentIndex = 0
+            $0.selectedSegmentTintColor = .accent
+            $0.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 13, weight: .light)], for: .normal)
+            $0.setTitleTextAttributes([
+                .foregroundColor: UIColor.white,
+                .font: UIFont.systemFont(ofSize: 13, weight: .bold)
+            ], for: .selected)
+            $0.addAction(UIAction { [weak self] in
+                guard let segmentedControl = $0.sender as? UISegmentedControl else { return }
+                self?.setExpirationTypeIndex(segmentedControl.selectedSegmentIndex)
+                self?.setBottomConstraint(segmentedControl.selectedSegmentIndex)
+                self?.setControlsVisibility()
+            }, for: .valueChanged)
+        }
 
     private let expirationDateView: ExpirationDateView
     private let expirationPeriodView: ExpirationPeriodView
@@ -81,13 +83,6 @@ public final class ExpirationSectionView: UIView {
         ]
 
         bottomConstraints[0]?.isActive = true
-    }
-
-    @objc
-    private func handleSegmentedControlChange(_ sender: UISegmentedControl) {
-        setExpirationTypeIndex(sender.selectedSegmentIndex)
-        setBottomConstraint(sender.selectedSegmentIndex)
-        setControlsVisibility()
     }
 
     private func setExpirationTypeIndex(_ selectedIndex: Int) {

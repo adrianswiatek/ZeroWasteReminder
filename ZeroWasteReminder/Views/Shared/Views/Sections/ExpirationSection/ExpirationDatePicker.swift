@@ -49,6 +49,11 @@ public final class ExpirationDatePicker: UIDatePicker {
     }
 
     private func setupTarget() {
+        addAction(UIAction { [weak self] in
+            guard let datePicker = $0.sender as? UIDatePicker else { return }
+            self?.valueSubject.send(datePicker.date)
+        }, for: .touchUpInside)
+
         addTarget(self, action: #selector(handleDatePickerValueChanged), for: .valueChanged)
     }
 

@@ -3,7 +3,7 @@ import UIKit
 
 public final class EditItemViewController: UIViewController {
     private lazy var doneButton: UIBarButtonItem =
-        .doneButton(target: self, action: #selector(handleDoneButtonTap))
+        .doneButton { [weak self] in self?.viewModel.saveItem() }
 
     private let scrollView: AdaptiveScrollView
     private let contentViewController: EditItemContentViewController
@@ -167,11 +167,6 @@ public final class EditItemViewController: UIViewController {
     @objc
     private func handleTap() {
         view.endEditing(true)
-    }
-
-    @objc
-    private func handleDoneButtonTap() {
-        viewModel.saveItem()
     }
 
     private func handleRemoveButtonTap() {

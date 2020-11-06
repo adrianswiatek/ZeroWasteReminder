@@ -9,18 +9,18 @@ public final class NotesTextView: UITextView {
     private let clearButton = ClearButton(type: .system)
 
     private let valueSubject: PassthroughSubject<String, Never>
-    private let sharedDelegate: SharedTextViewDelegate
+    private let sharedDelegateHandler: SharedTextViewDelegateHandler
 
     private var subscriptions: Set<AnyCancellable>
 
     public init() {
         self.valueSubject = .init()
-        self.sharedDelegate = .init()
+        self.sharedDelegateHandler = .init()
         self.subscriptions = []
 
         super.init(frame: .zero, textContainer: .none)
 
-        self.delegate = sharedDelegate
+        self.delegate = sharedDelegateHandler
 
         self.setupView()
         self.layoutClearButton()
@@ -70,7 +70,7 @@ public final class NotesTextView: UITextView {
     }
 
     private func bind() {
-        sharedDelegate.value
+        sharedDelegateHandler.value
             .sink { [weak self] in self?.valueSubject.send($0) }
             .store(in: &subscriptions)
 
@@ -78,7 +78,7 @@ public final class NotesTextView: UITextView {
             .sink { [weak self] in self?.text = "" }
             .store(in: &subscriptions)
 
-        Publishers.CombineLatest(sharedDelegate.value, sharedDelegate.isActive)
+        Publishers.CombineLatest(sharedDelegateHandler.value, sharedDelegateHandler.isActive)
             .sink { [weak self] in self?.clearButton.isHidden = !($0.0.count > 0 && $0.1) }
             .store(in: &subscriptions)
     }

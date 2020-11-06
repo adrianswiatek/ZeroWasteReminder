@@ -1,7 +1,8 @@
 import Combine
 import UIKit
 
-public final class ItemsFilterDataSource: UICollectionViewDiffableDataSource<ItemsFilterDataSource.Section, ItemsFilterCellViewModel> {
+public final class ItemsFilterDataSource: UICollectionViewDiffableDataSource<ItemsFilterDataSource.Section,
+                                                                             ItemsFilterCellViewModel> {
     private let viewModel: ItemsFilterViewModel
     private let collectionView: UICollectionView
     private var subscriptions: Set<AnyCancellable>

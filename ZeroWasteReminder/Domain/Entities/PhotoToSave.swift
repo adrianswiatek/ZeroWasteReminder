@@ -1,6 +1,6 @@
 import UIKit
 
-public struct PhotoToSave: Hashable{
+public struct PhotoToSave: Hashable {
     public let id: Id<Photo>
     public let fullSize: Photo
     public let thumbnail: Photo

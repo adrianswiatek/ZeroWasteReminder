@@ -5,7 +5,6 @@ public final class ExpirationPeriodTextField: UITextField {
         super.init(frame: .zero)
         self.placeholder = placeholder
         self.setupView()
-        self.setupTargets()
     }
 
     @available(*, unavailable)
@@ -37,20 +36,8 @@ public final class ExpirationPeriodTextField: UITextField {
 
         layer.cornerRadius = 8
         layer.borderColor = UIColor.accent.cgColor
-    }
 
-    private func setupTargets() {
-        addTarget(self, action: #selector(handleBeganEditing), for: .editingDidBegin)
-        addTarget(self, action: #selector(handleEndedEditing), for: .editingDidEnd)
-    }
-
-    @objc
-    private func handleBeganEditing(_ sender: UITextField) {
-        layer.borderWidth = 0.5
-    }
-
-    @objc
-    private func handleEndedEditing(_ sender: UITextField) {
-        layer.borderWidth = 0
+        addAction(UIAction { [weak self] _ in self?.layer.borderWidth = 0.5}, for: .editingDidBegin)
+        addAction(UIAction { [weak self] _ in self?.layer.borderWidth = 0}, for: .editingDidEnd)
     }
 }

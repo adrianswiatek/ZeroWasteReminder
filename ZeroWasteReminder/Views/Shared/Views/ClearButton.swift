@@ -14,11 +14,8 @@ public final class ClearButton: UIButton {
 
     public override init(frame: CGRect) {
         self.tapSubject = .init()
-
         super.init(frame: frame)
-
         self.setupView()
-        self.setupTarget()
     }
 
     @available(*, unavailable)
@@ -30,6 +27,7 @@ public final class ClearButton: UIButton {
         translatesAutoresizingMaskIntoConstraints = false
         isHidden = true
         setImage(image(), for: .normal)
+        addAction(UIAction { [weak self] _ in self?.tapSubject.send() }, for: .touchUpInside)
     }
 
     private func image() -> UIImage {
@@ -38,14 +36,5 @@ public final class ClearButton: UIButton {
         return UIImage.fromSymbol(.multiplyCircleFill, withConfiguration: imageConfiguration)
             .withRenderingMode(.alwaysOriginal)
             .withTintColor(.tertiaryLabel)
-    }
-
-    private func setupTarget() {
-        addTarget(self, action: #selector(tapped), for: .touchUpInside)
-    }
-
-    @objc
-    private func tapped() {
-        tapSubject.send()
     }
 }

@@ -53,7 +53,7 @@ public final class SearchViewModel {
             .sink(
                 receiveCompletion: { [weak self] _ in
                     self?.isLoadingSubject.send(false)
-                    self?.fetchListsSubscription?.cancel()
+                    self?.fetchListsSubscription = nil
                 },
                 receiveValue: { [weak self] in
                     self?.cachedLists = $0
@@ -110,7 +110,7 @@ public final class SearchViewModel {
             .sink(
                 receiveCompletion: { [weak self] _ in
                     self?.isLoadingSubject.send(false)
-                    self?.searchSubscription?.cancel()
+                    self?.searchSubscription = nil
                 },
                 receiveValue: { [weak self] in
                     self?.setSearchItems(with: $0)

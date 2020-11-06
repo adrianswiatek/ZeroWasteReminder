@@ -10,7 +10,7 @@ extension ModeState {
     public var isAddButtonVisible: Bool { mode == .read }
     public var isMoreButtonVisible: Bool { mode == .read }
     public var isDoneButtonVisible: Bool { mode != .read }
-    public var isDeleteButtonVisible: Bool { mode == .selection }
+    public var isRemoveButtonVisible: Bool { mode == .selection }
     public var isFilterButtonVisible: Bool { mode == .read }
     public var isClearButtonVisible: Bool { mode == .filtering }
     public var areItemsEditing: Bool { mode == .selection }

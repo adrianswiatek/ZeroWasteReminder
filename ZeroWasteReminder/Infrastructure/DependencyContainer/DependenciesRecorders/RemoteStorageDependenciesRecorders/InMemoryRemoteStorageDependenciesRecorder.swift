@@ -15,23 +15,23 @@ internal struct InMemoryRemoteStorageDependenciesRecorder: RemoteStorageDependen
     }
 
     private func registerServices() {
-        container.register(AccountService.self) { resolver in
+        container.register(AccountService.self) { _ in
             AlwaysEligibleAccountService()
         }.inObjectScope(.container)
 
-        container.register(SubscriptionService.self) { resolver in
+        container.register(SubscriptionService.self) { _ in
             EmptySubscriptionService()
         }.inObjectScope(.container)
     }
 
     private func registerRepositories() {
-        container.register(ListsRepository.self) { resolver in
+        container.register(ListsRepository.self) { _ in
             InMemoryListsRepository(
                 eventDispatcher: parentContainer.resolve(EventDispatcher.self)!
             )
         }
 
-        container.register(InMemoryItemsRepository.self) { resolver in
+        container.register(InMemoryItemsRepository.self) { _ in
             InMemoryItemsRepository(
                 eventDispatcher: parentContainer.resolve(EventDispatcher.self)!
             )
@@ -45,7 +45,7 @@ internal struct InMemoryRemoteStorageDependenciesRecorder: RemoteStorageDependen
             resolver.resolve(InMemoryItemsRepository.self)!
         }
 
-        container.register(PhotosRepository.self) { resolver in
+        container.register(PhotosRepository.self) { _ in
             InMemoryPhotosRepository(
                 eventDispatcher: parentContainer.resolve(EventDispatcher.self)!
             )

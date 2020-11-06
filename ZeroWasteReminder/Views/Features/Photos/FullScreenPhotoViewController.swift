@@ -5,22 +5,18 @@ public final class FullScreenPhotoViewController: UIViewController {
         true
     }
 
-    private lazy var closeButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage.fromSymbol(.xmark).withColor(.label), for: .normal)
-        button.addTarget(self, action: #selector(handleCloseButtonTap), for: .touchUpInside)
-        return button
-    }()
+    private lazy var closeButton: UIButton = configure(.init(type: .system)) {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setImage(UIImage.fromSymbol(.xmark).withColor(.label), for: .normal)
+        $0.addAction(UIAction { [weak self] _ in self?.dismiss(animated: true) }, for: .touchUpInside)
+    }
 
-    private let buttonBackgroundView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 8
-        view.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
-        return view
-    }()
+    private let buttonBackgroundView: UIView = configure(.init()) {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 8
+        $0.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
+    }
 
     private let blurVisualEffect: UIView = {
         let effect = UIBlurEffect(style: .systemThinMaterial)
@@ -29,21 +25,17 @@ public final class FullScreenPhotoViewController: UIViewController {
         return view
     }()
 
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
+    private let imageView: UIImageView = configure(.init()) {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.contentMode = .scaleAspectFit
+    }
 
-    private lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.minimumZoomScale = 1
-        scrollView.maximumZoomScale = 3
-        scrollView.delegate = self
-        return scrollView
-    }()
+    private lazy var scrollView: UIScrollView = configure(.init()) {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.minimumZoomScale = 1
+        $0.maximumZoomScale = 3
+        $0.delegate = self
+    }
 
     public init(image: UIImage) {
         super.init(nibName: nil, bundle: nil)
@@ -81,13 +73,7 @@ public final class FullScreenPhotoViewController: UIViewController {
             imageView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor)
         ])
 
-        view.addSubview(scrollView)
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
+        view.addAndFill(scrollView)
 
         scrollView.addSubview(buttonBackgroundView)
         NSLayoutConstraint.activate([
@@ -97,21 +83,10 @@ public final class FullScreenPhotoViewController: UIViewController {
             buttonBackgroundView.centerYAnchor.constraint(equalTo: closeButton.centerYAnchor)
         ])
 
-        buttonBackgroundView.addSubview(blurVisualEffect)
-        NSLayoutConstraint.activate([
-            blurVisualEffect.topAnchor.constraint(equalTo: buttonBackgroundView.topAnchor),
-            blurVisualEffect.leadingAnchor.constraint(equalTo: buttonBackgroundView.leadingAnchor),
-            blurVisualEffect.bottomAnchor.constraint(equalTo: buttonBackgroundView.bottomAnchor),
-            blurVisualEffect.trailingAnchor.constraint(equalTo: buttonBackgroundView.trailingAnchor)
-        ])
+        buttonBackgroundView.addAndFill(blurVisualEffect)
 
         scrollView.bringSubviewToFront(buttonBackgroundView)
         scrollView.bringSubviewToFront(closeButton)
-    }
-
-    @objc
-    private func handleCloseButtonTap() {
-        dismiss(animated: true)
     }
 }
 

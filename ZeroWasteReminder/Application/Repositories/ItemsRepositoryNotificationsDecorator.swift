@@ -19,7 +19,7 @@ public final class ItemsRepositoryNotificationsDecorator: ItemsReadRepository {
                     self?.itemsWithAlertOption($0, in: list).eraseToAnyPublisher() ?? Empty().eraseToAnyPublisher()
                 }
                 .sink(
-                    receiveCompletion: { [weak self] _ in self?.fetchAllCancellable?.cancel() },
+                    receiveCompletion: { [weak self] _ in self?.fetchAllCancellable = nil },
                     receiveValue: { promise(.success($0)) }
                 )
         }
@@ -32,7 +32,7 @@ public final class ItemsRepositoryNotificationsDecorator: ItemsReadRepository {
                     self?.itemWithAlertOption($0).eraseToAnyPublisher() ?? Empty().eraseToAnyPublisher()
                 }
                 .sink(
-                    receiveCompletion: { [weak self] _ in self?.fetchAllCancellable?.cancel() },
+                    receiveCompletion: { [weak self] _ in self?.fetchAllCancellable = nil },
                     receiveValue: { promise(.success($0)) }
                 )
         }

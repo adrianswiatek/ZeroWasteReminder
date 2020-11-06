@@ -28,7 +28,7 @@ internal final class EditListConfirmButton: UIButton {
         setImage(image, for: .normal)
         setImage(image.withColor(UIColor.white.withAlphaComponent(0.35)), for: .highlighted)
 
-        addTarget(self, action: #selector(handleTap), for: .touchUpInside)
+        addAction(UIAction { [weak self] _ in self?.tapSubject.send() }, for: .touchUpInside)
     }
 
     private func show() {
@@ -39,11 +39,6 @@ internal final class EditListConfirmButton: UIButton {
     private func hide() {
         alpha = 0
         transform = .init(scaleX: 0.1, y: 0.1)
-    }
-
-    @objc
-    private func handleTap() {
-        tapSubject.send()
     }
 }
 

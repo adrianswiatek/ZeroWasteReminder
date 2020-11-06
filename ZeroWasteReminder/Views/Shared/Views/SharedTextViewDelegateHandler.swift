@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public class SharedTextViewDelegate: NSObject, UITextViewDelegate {
+public class SharedTextViewDelegateHandler: NSObject, UITextViewDelegate {
     public var value: AnyPublisher<String, Never> {
         valueSubject.eraseToAnyPublisher()
     }

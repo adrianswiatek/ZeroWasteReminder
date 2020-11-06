@@ -8,7 +8,7 @@ public enum LocalizedText: String {
     case changeName = "Change name"
     case clear = "Clear"
     case date = "Date"
-    case disabledNotificationsMessage = "If you want to receive alerts, please update your notifications settings."
+    case disabledNotificationsMessage = "If you want to receive alerts, please allow for notifications in the settings."
     case editItem = "Edit item"
     case expiration = "Expiration"
     case expirationDate = "Expiration date"

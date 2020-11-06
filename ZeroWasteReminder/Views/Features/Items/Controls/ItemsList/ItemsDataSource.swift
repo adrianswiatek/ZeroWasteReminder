@@ -17,11 +17,9 @@ public final class ItemsDataSource: UITableViewDiffableDataSource<ItemsDataSourc
             cell?.viewModel = viewModel.cellViewModel(for: item)
             return cell
         }
-
-        self.bind()
     }
 
-    private func bind() {
+    public func initialize() {
         viewModel.$items
             .sink { [weak self] in self?.apply(items: $0) }
             .store(in: &subscriptions)

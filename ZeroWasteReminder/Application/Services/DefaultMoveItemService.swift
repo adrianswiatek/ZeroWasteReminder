@@ -26,7 +26,7 @@ public final class DefaultMoveItemService: MoveItemService {
             }
             .eraseToAnyPublisher()
     }
-    
+
     public func moveItem(_ item: Item, to list: List) {
         itemsWriteRepository.move(item, to: list)
     }

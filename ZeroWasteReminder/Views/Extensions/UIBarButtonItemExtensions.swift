@@ -1,53 +1,53 @@
 import UIKit
 
 public extension UIBarButtonItem {
-    static func clearButton(target: UIViewController, action: Selector) -> UIBarButtonItem {
-        let barButtonItem = UIBarButtonItem(title: .localized(.clear), style: .plain, target: target, action: action)
-        barButtonItem.tintColor = .white
-        return barButtonItem
+    static func clearButton(action: @escaping () -> Void) -> UIBarButtonItem {
+        let button = UIBarButtonItem(title: .localized(.clear), primaryAction: UIAction { _ in action() })
+        button.tintColor = .white
+        return button
     }
 
-    static func deleteButton(target: UIViewController, action: Selector) -> UIBarButtonItem {
-        let barButtonItem = UIBarButtonItem(title: .localized(.remove), style: .plain, target: target, action: action)
-        barButtonItem.tintColor = .white
-        return barButtonItem
+    static func deleteButton(action: @escaping () -> Void) -> UIBarButtonItem {
+        let button = UIBarButtonItem(title: .localized(.remove), primaryAction: UIAction { _ in action() })
+        button.tintColor = .white
+        return button
     }
 
-    static func doneButton(target: UIViewController, action: Selector) -> UIBarButtonItem {
-        let barButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: target, action: action)
-        barButtonItem.tintColor = .white
-        return barButtonItem
+    static func doneButton(action: @escaping () -> Void) -> UIBarButtonItem {
+        let button = UIBarButtonItem(systemItem: .done, primaryAction: UIAction { _ in action() })
+        button.tintColor = .white
+        return button
     }
 
-    static func filterButton(target: UIViewController, action: Selector) -> UIBarButtonItem {
+    static func filterButton(action: @escaping () -> Void) -> UIBarButtonItem {
         let image = UIImage.fromSymbol(.lineHorizontal3DecreaseCircle)
-        let barButtonItem = UIBarButtonItem(image: image, style: .plain, target: target, action: action)
-        barButtonItem.tintColor = .white
-        return barButtonItem
+        let button = UIBarButtonItem(image: image, primaryAction: UIAction { _ in action() })
+        button.tintColor = .white
+        return button
     }
 
-    static func searchButton(target: UIViewController, action: Selector) -> UIBarButtonItem {
-        let barButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: target, action: action)
-        barButtonItem.tintColor = .white
-        return barButtonItem
+    static func searchButton(action: @escaping () -> Void) -> UIBarButtonItem {
+        let button = UIBarButtonItem(systemItem: .search, primaryAction: UIAction { _ in action() })
+        button.tintColor = .white
+        return button
     }
 
-    static func sortButton(target: UIViewController, action: Selector) -> UIBarButtonItem {
+    static func sortButton(action: @escaping () -> Void) -> UIBarButtonItem {
         let image = UIImage.fromSymbol(.arrowUpCircle)
-        let barButtonItem = UIBarButtonItem(image: image, style: .plain, target: target, action: action)
-        barButtonItem.tintColor = .white
-        return barButtonItem
+        let button = UIBarButtonItem(image: image, primaryAction: UIAction { _ in action() })
+        button.tintColor = .white
+        return button
     }
 
-    static func moreButton(target: UIViewController, action: Selector) -> UIBarButtonItem {
+    static func moreButton(action: @escaping () -> Void) -> UIBarButtonItem {
         let image = UIImage.fromSymbol(.ellipsisCircle)
-        let barButtonItem = UIBarButtonItem(image: image, style: .plain, target: target, action: action)
-        barButtonItem.tintColor = .white
-        return barButtonItem
+        let button = UIBarButtonItem(image: image, primaryAction: UIAction { _ in action() })
+        button.tintColor = .white
+        return button
     }
 
-    static func dismissButton(target: UIViewController, action: Selector) -> UIBarButtonItem {
-        let button = UIBarButtonItem(image: .fromSymbol(.xmark), style: .plain, target: target, action: action)
+    static func dismissButton(action: @escaping () -> Void) -> UIBarButtonItem {
+        let button = UIBarButtonItem(image: .fromSymbol(.xmark), primaryAction: UIAction { _ in action() })
         button.tintColor = .white
         return button
     }

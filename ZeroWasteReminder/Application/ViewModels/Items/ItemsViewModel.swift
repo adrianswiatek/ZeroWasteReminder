@@ -139,13 +139,15 @@ public final class ItemsViewModel {
     private func bind() {
         eventDispatcher.events
             .compactMap { [weak self] in self?.updatedWithEvent($0) }
+            .filter { [weak self] in self?.items != $0 }
+            .receive(on: DispatchQueue.main)
             .flatMap { [weak self] items -> AnyPublisher<[Item], Never> in
                 guard let self = self else { return Empty().eraseToAnyPublisher() }
                 return self.prepareToDisplay(Just(items).eraseToAnyPublisher())
             }
             .sink { [weak self] in
                 self?.items = $0
-                self?.isLoadingSubject.send(false);
+                self?.isLoadingSubject.send(false)
             }
             .store(in: &subscriptions)
 
@@ -191,9 +193,12 @@ public final class ItemsViewModel {
 
     private func handleRemoteEvent(_ event: AppEvent) {
         switch event {
-        case let event as ItemAddedReceived where event.listId == list.id: fetchOrSchedule(delayInSeconds: 3)
-        case let event as ItemRemovedReceived where event.listId == list.id: fetchOrSchedule()
-        case let event as ItemUpdatedReceived where event.listId == list.id: fetchOrSchedule()
+        case let event as ItemAddedReceived where event.listId == list.id:
+            fetchOrSchedule(delayInSeconds: 3)
+        case let event as ItemRemovedReceived where event.listId == list.id:
+            fetchOrSchedule()
+        case let event as ItemUpdatedReceived where event.listId == list.id:
+            fetchOrSchedule()
         default: return
         }
     }

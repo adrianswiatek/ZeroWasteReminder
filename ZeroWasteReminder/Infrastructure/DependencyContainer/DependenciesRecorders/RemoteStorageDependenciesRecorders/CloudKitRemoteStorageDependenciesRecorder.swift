@@ -24,7 +24,7 @@ internal struct CloudKitRemoteStorageDependenciesRecorder: RemoteStorageDependen
             CloudKitCache()
         }.inObjectScope(.transient)
 
-        container.register(CloudKitMapper.self) { resolver in
+        container.register(CloudKitMapper.self) { _ in
             CloudKitMapper(fileService: parentContainer.resolve(FileService.self)!)
         }
 

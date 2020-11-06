@@ -42,7 +42,7 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
             .current()
         }.inObjectScope(.container)
 
-        container.register(EventDispatcher.self) { resolver in
+        container.register(EventDispatcher.self) { _ in
             EventDispatcher()
         }.inObjectScope(.container)
 
@@ -54,7 +54,7 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
             RemoteNotificationHandler(eventDispatcher: resolver.resolve(EventDispatcher.self)!)
         }
 
-        container.register(ItemNotificationRequestFactory.self) { resolver in
+        container.register(ItemNotificationRequestFactory.self) { _ in
             CalendarItemNotificationRequestFactory()
         }
 

@@ -12,32 +12,32 @@ public final class ExpirationPeriodView: UIView {
         }
     }
 
-    private lazy var periodTextField: UITextField = {
-        let textField = ExpirationPeriodTextField(placeholder: .localized(.period))
-        textField.keyboardType = .numberPad
-        textField.addTarget(self, action: #selector(handlePeriodTextFieldChange), for: .editingChanged)
-        textField.delegate = self
-        textField.setContentHuggingPriority(.defaultLow - 1, for: .horizontal)
-        return textField
-    }()
+    private lazy var periodTextField = configure(ExpirationPeriodTextField(placeholder: .localized(.period))) {
+        $0.keyboardType = .numberPad
+        $0.delegate = self
+        $0.setContentHuggingPriority(.defaultLow - 1, for: .horizontal)
+        $0.addAction(UIAction { [weak self] in
+            guard let textField = $0.sender as? UITextField else { return }
+            self?.viewModel.period = textField.text ?? ""
+        }, for: .editingChanged)
+    }
 
-    private lazy var periodTypeLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .secondaryLabel
-        label.font = .systemFont(ofSize: 16)
-        return label
-    }()
+    private lazy var periodTypeLabel: UILabel = configure(.init()) {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.textColor = .secondaryLabel
+        $0.font = .systemFont(ofSize: 16)
+    }
 
-    private lazy var periodStepper: UIStepper = {
-        let stepper = UIStepper()
-        stepper.translatesAutoresizingMaskIntoConstraints = false
-        stepper.minimumValue = 0
-        stepper.maximumValue = Double(PeriodType.allCases.count - 1)
-        stepper.value = Double(viewModel.periodTypeIndex)
-        stepper.addTarget(self, action: #selector(handlePeriodStepperChange), for: .valueChanged)
-        return stepper
-    }()
+    private lazy var periodStepper: UIStepper = configure(.init()) {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.minimumValue = 0
+        $0.maximumValue = Double(PeriodType.allCases.count - 1)
+        $0.value = Double(viewModel.periodTypeIndex)
+        $0.addAction(UIAction { [weak self] in
+            guard let stepper = $0.sender as? UIStepper else { return }
+            self?.viewModel.periodTypeIndex = Int(stepper.value)
+        }, for: .valueChanged)
+    }
 
     private let viewModel: ExpirationPeriodViewModel
     private var subscriptions: Set<AnyCancellable>
@@ -92,16 +92,6 @@ public final class ExpirationPeriodView: UIView {
         viewModel.$period
             .sink { [weak self] in self?.periodTextField.text = $0 }
             .store(in: &subscriptions)
-    }
-
-    @objc
-    private func handlePeriodTextFieldChange(_ sender: UITextField) {
-        viewModel.period = sender.text ?? ""
-    }
-
-    @objc
-    private func handlePeriodStepperChange(_ sender: UIStepper) {
-        viewModel.periodTypeIndex = Int(sender.value)
     }
 
     private func resetUserInterface() {

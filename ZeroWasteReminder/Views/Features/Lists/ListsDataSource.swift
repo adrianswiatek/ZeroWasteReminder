@@ -18,11 +18,9 @@ public final class ListsDataSource: UITableViewDiffableDataSource<ListsDataSourc
             cell?.setList(list)
             return cell
         }
-
-        self.bind()
     }
 
-    private func bind() {
+    public func initialize() {
         viewModel.$lists
             .sink { [weak self] in self?.apply($0) }
             .store(in: &subscriptions)

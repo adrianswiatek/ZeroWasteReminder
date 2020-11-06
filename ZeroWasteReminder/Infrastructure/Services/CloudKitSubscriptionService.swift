@@ -8,10 +8,12 @@ public final class CloudKitSubscriptionService: SubscriptionService {
 
     private let configuration: CloudKitConfiguration
     private let statusNotifier: StatusNotifier
+    private var subscriptions: Set<AnyCancellable>
 
     public init(configuration: CloudKitConfiguration, statusNotifier: StatusNotifier) {
         self.configuration = configuration
         self.statusNotifier = statusNotifier
+        self.subscriptions = []
     }
 
     public func registerSubscriptionsIfNeeded() {
@@ -30,7 +32,7 @@ public final class CloudKitSubscriptionService: SubscriptionService {
             }
             .subscribe(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in }, receiveValue: { })
-            .cancel()
+            .store(in: &subscriptions)
     }
 
     private func fetchAllSubscriptions() -> Future<[CKSubscription], Error> {

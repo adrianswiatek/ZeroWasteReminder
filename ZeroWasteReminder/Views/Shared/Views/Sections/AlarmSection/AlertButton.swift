@@ -66,9 +66,8 @@ public final class AlertButton: UIButton {
     }
 
     private func setupTapGestureRecognizer() {
-        addGestureRecognizer(
-            UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        )
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        addGestureRecognizer(gestureRecognizer)
     }
 
     @objc

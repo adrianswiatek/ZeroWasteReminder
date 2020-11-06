@@ -10,7 +10,6 @@ public final class ExpirationDateButton: UIButton {
 
     public override func willMove(toSuperview newSuperview: UIView?) {
         setupView()
-        setupTargets()
     }
 
     private func setupView() {
@@ -28,14 +27,7 @@ public final class ExpirationDateButton: UIButton {
 
         let image = UIImage.fromSymbol(.calendar).withRenderingMode(.alwaysOriginal).withTintColor(.label)
         setImage(image, for: .normal)
-    }
 
-    private func setupTargets() {
-        addTarget(self, action: #selector(handleDateButtonTap), for: .touchUpInside)
-    }
-
-    @objc
-    private func handleDateButtonTap() {
-        tapSubject.send()
+        addAction(UIAction { [weak self] _ in self?.tapSubject.send() }, for: .touchUpInside)
     }
 }

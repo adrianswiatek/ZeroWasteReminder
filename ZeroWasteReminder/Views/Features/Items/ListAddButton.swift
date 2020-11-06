@@ -10,11 +10,8 @@ public final class ListAddButton: UIButton {
 
     public override init(frame: CGRect) {
         self.tapSubject = .init()
-
         super.init(frame: frame)
-
         self.setupView()
-        self.setupActions()
     }
 
     @available(*, unavailable)
@@ -45,14 +42,7 @@ public final class ListAddButton: UIButton {
             heightAnchor.constraint(equalToConstant: 52),
             widthAnchor.constraint(equalToConstant: 52)
         ])
-    }
 
-    private func setupActions() {
-        addTarget(self, action: #selector(handleTouchUpInside), for: .touchUpInside)
-    }
-
-    @objc
-    private func handleTouchUpInside() {
-        tapSubject.send()
+        addAction(UIAction { [weak self] _ in self?.tapSubject.send() }, for: .touchUpInside)
     }
 }

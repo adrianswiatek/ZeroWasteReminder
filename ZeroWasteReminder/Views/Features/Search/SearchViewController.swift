@@ -3,11 +3,11 @@ import UIKit
 
 public final class SearchViewController: UIViewController {
     private lazy var dismissButton: UIBarButtonItem =
-        .dismissButton(target: self, action: #selector(handleDismissButtonTap))
+        .dismissButton { [weak self] in self?.dismiss(animated: true) }
 
-    private let searchBarViewController: SearchBarViewController
-    private let searchTableView: SearchTableView
-    private let searchDataSource: SearchDataSource
+    private let barViewController: SearchBarViewController
+    private let tableView: SearchTableView
+    private let dataSource: SearchDataSource
 
     private let loadingView: LoadingView
 
@@ -20,10 +20,10 @@ public final class SearchViewController: UIViewController {
         self.viewModel = viewModel
         self.coordinator = coordinator
 
-        self.searchBarViewController = .init(viewModel: viewModel.searchBarViewModel)
+        self.barViewController = .init(viewModel.searchBarViewModel)
 
-        self.searchTableView = SearchTableView(viewModel)
-        self.searchDataSource = SearchDataSource(searchTableView, viewModel)
+        self.tableView = SearchTableView(viewModel)
+        self.dataSource = SearchDataSource(tableView, viewModel)
 
         self.loadingView = .init()
 
@@ -46,6 +46,11 @@ public final class SearchViewController: UIViewController {
         self.setupLoadingViewIfNeeded()
     }
 
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.dataSource.initialize()
+    }
+
     private func setupLoadingViewIfNeeded() {
         let navigationController: UINavigationController! = self.navigationController
         assert(navigationController != nil)
@@ -53,13 +58,7 @@ public final class SearchViewController: UIViewController {
         let navigationView: UIView! = navigationController.view
         guard !navigationView.subviews.contains(loadingView) else { return }
 
-        navigationView.addSubview(loadingView)
-        NSLayoutConstraint.activate([
-            loadingView.topAnchor.constraint(equalTo: navigationView.topAnchor),
-            loadingView.leadingAnchor.constraint(equalTo: navigationView.leadingAnchor),
-            loadingView.bottomAnchor.constraint(equalTo: navigationView.bottomAnchor),
-            loadingView.trailingAnchor.constraint(equalTo: navigationView.trailingAnchor)
-        ])
+        navigationView.addAndFill(loadingView)
     }
 
     private func setupView() {
@@ -70,27 +69,27 @@ public final class SearchViewController: UIViewController {
 
         addSearchBarViewController()
         NSLayoutConstraint.activate([
-            searchBarViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
-            searchBarViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            searchBarViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            barViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            barViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            barViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
-        view.addSubview(searchTableView)
+        view.addSubview(tableView)
         NSLayoutConstraint.activate([
-            searchTableView.topAnchor.constraint(equalTo: searchBarViewController.view.bottomAnchor),
-            searchTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            searchTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            searchTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            tableView.topAnchor.constraint(equalTo: barViewController.view.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
-        view.sendSubviewToBack(searchTableView)
-        searchBarViewController.becomeFirstResponder()
+        view.sendSubviewToBack(tableView)
+        barViewController.becomeFirstResponder()
     }
 
     private func addSearchBarViewController() {
-        addChild(searchBarViewController)
-        view.addSubview(searchBarViewController.view)
-        searchBarViewController.didMove(toParent: self)
+        addChild(barViewController)
+        view.addSubview(barViewController.view)
+        barViewController.didMove(toParent: self)
     }
 
     private func bind() {
@@ -102,7 +101,7 @@ public final class SearchViewController: UIViewController {
             .sink { [weak self] in $0 ? self?.loadingView.show() : self?.loadingView.hide() }
             .store(in: &subscriptions)
 
-        searchTableView.rowSelected
+        tableView.rowSelected
             .sink { [weak self] in self?.navigateToRow(atIndex: $0) }
             .store(in: &subscriptions)
     }
@@ -116,10 +115,5 @@ public final class SearchViewController: UIViewController {
 
     private func navigateToRow(atIndex index: Int) {
         coordinator.navigateToEdit(for: viewModel.item(atIndex: index), in: self)
-    }
-
-    @objc
-    private func handleDismissButtonTap() {
-        dismiss(animated: true)
     }
 }

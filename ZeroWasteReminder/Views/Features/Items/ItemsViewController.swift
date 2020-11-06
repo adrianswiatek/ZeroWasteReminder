@@ -5,30 +5,41 @@ public final class ItemsViewController: UIViewController {
     private let addButton = ListAddButton(type: .system)
     private let loadingView = LoadingView()
 
-    private let itemsTableView: ItemsTableView
-    private let itemsDataSource: ItemsDataSource
+    private let tableView: ItemsTableView
+    private let dataSource: ItemsDataSource
     private let warningBarView: WarningBarView
 
     private lazy var moreButton: UIBarButtonItem =
-        .moreButton(target: self, action: #selector(handleMoreButtonTap))
+        .moreButton { [weak self] in
+            guard let self = self else { return }
+            self.actionsSubscription = UIAlertController.presentActionsSheet(in: self)
+                .compactMap { $0.title }
+                .compactMap(UIAlertAction.Action.init)
+                .sink(
+                    receiveCompletion: { [weak self] _ in self?.actionsSubscription = nil },
+                    receiveValue: { [weak self] in self?.handleSelectedAction($0) }
+                )
+        }
 
     private lazy var doneButton: UIBarButtonItem =
-        .doneButton(target: self, action: #selector(handleDoneButtonTap))
+        .doneButton { [weak self] in self?.viewModel.done() }
 
-    private lazy var deleteButton: UIBarButtonItem =
-        .deleteButton(target: self, action: #selector(handleDeleteButtonTap))
+    private lazy var removeButton: UIBarButtonItem =
+        .deleteButton { [weak self] in
+            self?.askForDeleteConfirmation(whenConfirmed: { self?.viewModel.deleteSelectedItems() })
+        }
 
     private lazy var clearButton: UIBarButtonItem =
-        .clearButton(target: self, action: #selector(handleClearButtonTap))
+        .clearButton { [weak self] in self?.viewModel.clear() }
 
     private lazy var filterButton: UIBarButtonItem =
-        .filterButton(target: self, action: #selector(handleFilterButtonTap))
+        .filterButton { [weak self] in self?.viewModel.filter() }
 
     private lazy var sortButton: UIBarButtonItem =
-        .sortButton(target: self, action: #selector(handleSortButtonTap))
+        .sortButton { [weak self] in self?.viewModel.sort() }
 
     private lazy var dismissButton: UIBarButtonItem =
-        .dismissButton(target: self, action: #selector(handleDismissButtonTap))
+        .dismissButton { [weak self] in self?.dismiss(animated: true) }
 
     private let itemsFilterViewController: ItemsFilterViewController
 
@@ -45,8 +56,8 @@ public final class ItemsViewController: UIViewController {
 
         self.itemsFilterViewController = .init(viewModel.itemsFilterViewModel)
 
-        self.itemsTableView = .init(viewModel)
-        self.itemsDataSource = .init(itemsTableView, viewModel)
+        self.tableView = .init(viewModel)
+        self.dataSource = .init(tableView, viewModel)
         self.warningBarView = .init()
 
         self.subscriptions = []
@@ -72,6 +83,7 @@ public final class ItemsViewController: UIViewController {
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.viewModel.isViewOnTop = true
+        self.dataSource.initialize()
     }
 
     public override func viewDidDisappear(_ animated: Bool) {
@@ -85,14 +97,8 @@ public final class ItemsViewController: UIViewController {
 
         let navigationView: UIView! = navigationController.view
         guard !navigationView.subviews.contains(loadingView) else { return }
-        
-        navigationView.addSubview(loadingView)
-        NSLayoutConstraint.activate([
-            loadingView.topAnchor.constraint(equalTo: navigationView.topAnchor),
-            loadingView.leadingAnchor.constraint(equalTo: navigationView.leadingAnchor),
-            loadingView.bottomAnchor.constraint(equalTo: navigationView.bottomAnchor),
-            loadingView.trailingAnchor.constraint(equalTo: navigationView.trailingAnchor)
-        ])
+
+        navigationView.addAndFill(loadingView)
     }
 
     private func setupView() {
@@ -109,12 +115,12 @@ public final class ItemsViewController: UIViewController {
             itemsFilterViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
-        view.addSubview(itemsTableView)
+        view.addSubview(tableView)
         NSLayoutConstraint.activate([
-            itemsTableView.topAnchor.constraint(equalTo: itemsFilterViewController.view.bottomAnchor),
-            itemsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            itemsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            itemsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            tableView.topAnchor.constraint(equalTo: itemsFilterViewController.view.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
         view.addSubview(warningBarView)
@@ -157,7 +163,7 @@ public final class ItemsViewController: UIViewController {
 
         viewModel.$selectedItemIndices
             .map { !$0.isEmpty }
-            .assign(to: \.isEnabled, on: deleteButton)
+            .assign(to: \.isEnabled, on: removeButton)
             .store(in: &subscriptions)
 
         viewModel.$items
@@ -170,12 +176,7 @@ public final class ItemsViewController: UIViewController {
 
         viewModel.itemsFilterViewModel.numberOfSelectedCells
             .map { $0 > 0 }
-            .sink { [weak self] isFilterActive in
-                self?.clearButton.isEnabled = isFilterActive
-                self?.filterButton.image = isFilterActive
-                    ? .fromSymbol(.lineHorizontal3DecreaseCircleFill)
-                    : .fromSymbol(.lineHorizontal3DecreaseCircle)
-            }
+            .sink { [weak self] in self?.handleFilterActivityChange($0) }
             .store(in: &subscriptions)
 
         viewModel.canRemotelyConnect
@@ -206,47 +207,11 @@ public final class ItemsViewController: UIViewController {
         }
     }
 
-    @objc
-    private func handleMoreButtonTap(_ sender: UIBarButtonItem) {
-        actionsSubscription = UIAlertController.presentActionsSheet(in: self)
-            .compactMap { $0.title }
-            .compactMap(UIAlertAction.Action.init)
-            .sink(
-                receiveCompletion: { [weak self] _ in self?.actionsSubscription = nil },
-                receiveValue: { [weak self] in self?.handleSelectedAction($0) }
-            )
-    }
-
-    @objc
-    private func handleDoneButtonTap(_ sender: UIBarButtonItem) {
-        viewModel.done()
-    }
-
-    @objc
-    private func handleDeleteButtonTap(_ sender: UIBarButtonItem) {
-        askForDeleteConfirmation(whenConfirmed: { [weak self] in
-            self?.viewModel.deleteSelectedItems()
-        })
-    }
-
-    @objc
-    private func handleFilterButtonTap(_ sender: UIBarButtonItem) {
-        viewModel.filter()
-    }
-
-    @objc
-    private func handleSortButtonTap(_ sender: UIBarButtonItem) {
-        viewModel.sort()
-    }
-
-    @objc
-    private func handleClearButtonTap(_ sender: UIBarButtonItem) {
-        viewModel.clear()
-    }
-
-    @objc
-    private func handleDismissButtonTap(_ sender: UIBarButtonItem) {
-        dismiss(animated: true)
+    private func handleFilterActivityChange(_ isActive: Bool) {
+        clearButton.isEnabled = isActive
+        filterButton.image = isActive
+            ? .fromSymbol(.lineHorizontal3DecreaseCircleFill)
+            : .fromSymbol(.lineHorizontal3DecreaseCircle)
     }
 
     private func dismissViewControllers() {
@@ -265,7 +230,7 @@ public final class ItemsViewController: UIViewController {
 
     private func updateModeState(_ modeState: ModeState) {
         addButton.setVisibility(modeState.isAddButtonVisible)
-        itemsTableView.setEditing(modeState.areItemsEditing, animated: true)
+        tableView.setEditing(modeState.areItemsEditing, animated: true)
 
         navigationItem.rightBarButtonItem = rightBarButtonItem(for: modeState)
         navigationItem.leftBarButtonItems = leftBarButtonItems(for: modeState)
@@ -276,25 +241,18 @@ public final class ItemsViewController: UIViewController {
 
     private func rightBarButtonItem(for modeState: ModeState) -> UIBarButtonItem? {
         switch modeState {
-        case _ where modeState.isMoreButtonVisible:
-            return moreButton
-        case _ where modeState.isDoneButtonVisible:
-            return doneButton
-        default:
-            return nil
+        case _ where modeState.isMoreButtonVisible: return moreButton
+        case _ where modeState.isDoneButtonVisible: return doneButton
+        default: return nil
         }
     }
 
     private func leftBarButtonItems(for modeState: ModeState) -> [UIBarButtonItem]? {
         switch modeState {
-        case _ where modeState.isFilterButtonVisible:
-            return [dismissButton, filterButton, sortButton]
-        case _ where modeState.isDeleteButtonVisible:
-            return [deleteButton]
-        case _ where modeState.isClearButtonVisible:
-            return [clearButton]
-        default:
-            return nil
+        case _ where modeState.isFilterButtonVisible: return [dismissButton, filterButton, sortButton]
+        case _ where modeState.isRemoveButtonVisible: return [removeButton]
+        case _ where modeState.isClearButtonVisible: return [clearButton]
+        default: return nil
         }
     }
 

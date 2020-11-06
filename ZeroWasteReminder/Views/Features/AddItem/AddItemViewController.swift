@@ -3,10 +3,10 @@ import UIKit
 
 public final class AddItemViewController: UIViewController {
     private lazy var dismissButton: UIBarButtonItem =
-        .dismissButton(target: self, action: #selector(handleDismiss))
+        .dismissButton { [weak self] in self?.dismiss(animated: true) }
 
     private lazy var doneButton: UIBarButtonItem =
-        .doneButton(target: self, action: #selector(handleDone))
+        .doneButton { [weak self] in self?.viewModel.saveItem() }
 
     private let scrollView: AdaptiveScrollView
     private let contentViewController: AddItemContentViewController
@@ -168,16 +168,6 @@ public final class AddItemViewController: UIViewController {
     @objc
     private func handleViewTap() {
         view.endEditing(true)
-    }
-
-    @objc
-    private func handleDismiss() {
-        dismiss(animated: true)
-    }
-
-    @objc
-    private func handleDone() {
-        viewModel.saveItem()
     }
 }
 

@@ -72,7 +72,7 @@ public final class EditItemViewModel {
     }
 
     private var thumbnails: AnyPublisher<[Photo], Never> {
-        photosViewModel.thumbnails.dropFirst().eraseToAnyPublisher()
+        photosViewModel.thumbnails.eraseToAnyPublisher()
     }
 
     private let isLoadingSubject: PassthroughSubject<Bool, Never>
@@ -164,7 +164,10 @@ public final class EditItemViewModel {
     }
 
     public func sendDisabledNotificationsMessage() {
-        requestSubject.send(.showInfoMessage(.localized(.info), .localized(.disabledNotificationsMessage)))
+        requestSubject.send(.showInfoMessage(
+            .localized(.info),
+            .localized(.disabledNotificationsMessage))
+        )
     }
 
     private func bind() {
@@ -179,11 +182,15 @@ public final class EditItemViewModel {
             .store(in: &subscriptions)
 
         eventDispatcher.events
-            .sink { [weak self] in self?.handleEvent($0) }
+            .sink { [weak self] in
+                self?.handleItemsEvent($0)
+                self?.handlePhotosEvent($0)
+                self?.handleOtherEvent($0)
+            }
             .store(in: &subscriptions)
     }
 
-    private func handleEvent(_ event: AppEvent) {
+    private func handleItemsEvent(_ event: AppEvent) {
         switch event {
         case let event as ItemUpdated:
             photosRepository.update(photosViewModel.photosChangeset, for: event.item)
@@ -193,12 +200,26 @@ public final class EditItemViewModel {
             requestSubject.send(.dismiss)
         case let event as ItemUpdatedReceived where event.itemId == item.id:
             refreshItem()
+        default:
+            break
+        }
+    }
+
+    private func handlePhotosEvent(_ event: AppEvent) {
+        switch event {
         case let event as PhotosUpdated where event.itemId == item.id:
             requestSubject.send(.dismiss)
         case let event as PhotoAddedReceived where event.itemId == item.id:
             photosViewModel.fetchThumbnailIfNeeded(with: event.photoId)
         case let event as PhotoRemovedReceived where event.itemId == item.id:
             photosViewModel.removeThumbnailLocally(with: event.photoId)
+        default:
+            break
+        }
+    }
+
+    private func handleOtherEvent(_ event: AppEvent) {
+        switch event {
         case let event as AlertSet:
             alertOption = event.option
         case let event as ErrorOccured:
@@ -207,7 +228,7 @@ public final class EditItemViewModel {
         case is NoResultOccured:
             requestSubject.send(.dismiss)
         default:
-            return
+            break
         }
     }
 
@@ -245,7 +266,7 @@ public final class EditItemViewModel {
         _ alertOption: AlertOption
     ) -> Item? {
         guard !name.isEmpty else { return nil }
-        
+
         return item
             .withName(name)
             .withNotes(notes)

@@ -67,7 +67,7 @@ public final class CloudKitPhotosRepository: PhotosRepository {
             operation.desiredKeys = [CloudKitKey.Photo.thumbnail]
 
             var records: [CKRecord] = []
-            var error: Error? = nil
+            var error: Error?
 
             operation.recordFetchedBlock = { records.append($0) }
             operation.queryCompletionBlock = { error = $1 }

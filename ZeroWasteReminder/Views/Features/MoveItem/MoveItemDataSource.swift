@@ -24,6 +24,7 @@ public final class MoveItemDataSource: UITableViewDiffableDataSource<MoveItemDat
 
     private func bind() {
         viewModel.$lists
+            .dropFirst()
             .sink { [weak self] in self?.apply($0) }
             .store(in: &subscriptions)
     }
