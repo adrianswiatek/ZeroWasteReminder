@@ -52,14 +52,14 @@ public final class MoveItemViewModel {
     }
 
     public func fetchLists() {
+        isLoadingSubject.send(true)
+
         moveItemService.fetchLists(for: item)
             .sink { [weak self] in
                 self?.lists = $0.sorted { $0.name < $1.name }
                 self?.isLoadingSubject.send(false)
             }
             .store(in: &subscriptions)
-
-        isLoadingSubject.send(true)
     }
 
     public func selectList(_ list: List) {

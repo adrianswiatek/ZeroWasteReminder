@@ -49,12 +49,11 @@ public final class ListsTableView: UITableView {
     }
 
     private func setupRefreshControl() {
-        refreshControl = configure(UIRefreshControl()) {
-            $0.addAction(.init { [weak self] _ in
-                self?.viewModel.requestsSubject.send(.disableLoadingIndicatorOnce)
-                self?.viewModel.fetchLists()
-            }, for: .valueChanged)
-        }
+        refreshControl = UIRefreshControl()
+        refreshControl?.addAction(UIAction { [weak self] _ in
+            self?.viewModel.requestsSubject.send(.disableLoadingIndicatorOnce)
+            self?.viewModel.fetchLists()
+        }, for: .valueChanged)
     }
 
     private func bind() {

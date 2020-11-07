@@ -3,7 +3,7 @@ import Swinject
 
 internal final class DependencyContainer {
     private let container: Container
-    private var recorder: DependenciesRecorder!
+    private var recorder: DependencyRecorder!
     private var listeners: [Any]
 
     internal var rootViewController: UIViewController {
@@ -37,11 +37,11 @@ internal final class DependencyContainer {
     private func dependenciesRecorder(
         from container: Container,
         and configuration: DependencyContainerConfiguration
-    ) -> DependenciesRecorder {
+    ) -> DependencyRecorder {
         let localStorageRecorder = localStorageDependenciesRecorder(from: configuration)
         let remoteStorageRecorder = remoteStorageDependenciesRecorder(from: container, and: configuration)
 
-        return DependenciesRecorderComposite([
+        return DependencyRecorderComposite([
             GeneralDependenciesRecorder(container),
             localStorageRecorder,
             remoteStorageRecorder,

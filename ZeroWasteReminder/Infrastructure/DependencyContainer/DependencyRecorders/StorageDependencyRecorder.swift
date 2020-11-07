@@ -1,7 +1,7 @@
 import Foundation
 import Swinject
 
-internal struct StorageDependencyRecorder: DependenciesRecorder {
+internal struct StorageDependencyRecorder: DependencyRecorder {
     private let mainContainer: Container
     private let localContainer: Container
     private let remoteContainer: Container

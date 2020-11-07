@@ -1,7 +1,7 @@
 import Swinject
 import UserNotifications
 
-internal struct GeneralDependenciesRecorder: DependenciesRecorder {
+internal struct GeneralDependenciesRecorder: DependencyRecorder {
     private let container: Container
 
     internal init(_ container: Container) {
@@ -77,7 +77,7 @@ internal struct GeneralDependenciesRecorder: DependenciesRecorder {
 
     private func registerServices() {
         container.register(FileService.self) { _ in
-            FileService(fileManager: .default)
+            DefaultFileService(fileManager: .default)
         }
 
         container.register(MoveItemService.self) { resolver in

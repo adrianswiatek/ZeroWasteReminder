@@ -42,7 +42,7 @@ public final class MoveItemTableView: UITableView {
         refreshControl?.addAction(UIAction { [weak self] _ in
             self?.viewModel.requestsSubject.send(.disableLoadingIndicatorOnce)
             self?.viewModel.fetchLists()
-        }, for: .touchUpInside)
+        }, for: .valueChanged)
     }
 
     private func bind() {

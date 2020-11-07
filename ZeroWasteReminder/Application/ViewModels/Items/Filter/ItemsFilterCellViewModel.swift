@@ -4,10 +4,10 @@ public struct ItemsFilterCellViewModel: Hashable {
 
     public var title: String {
         switch remainingState {
-        case .notDefined: return "Not defined"
-        case .expired: return "Expired"
-        case .almostExpired: return "Almost expired"
-        case .valid: return "Valid"
+        case .notDefined: return .localized(.notDefined)
+        case .expired: return .localized(.expired)
+        case .almostExpired: return .localized(.almostExpired)
+        case .valid: return .localized(.valid)
         }
     }
 
@@ -20,11 +20,11 @@ public struct ItemsFilterCellViewModel: Hashable {
         self.isSelected = isSelected
     }
 
-    public func toggled() -> Self {
+    public func toggled() -> ItemsFilterCellViewModel {
         .init(remainingState, isSelected: !isSelected)
     }
 
-    public func deselected() -> Self {
+    public func deselected() -> ItemsFilterCellViewModel {
         isSelected ? .init(remainingState, isSelected: false) : self
     }
 

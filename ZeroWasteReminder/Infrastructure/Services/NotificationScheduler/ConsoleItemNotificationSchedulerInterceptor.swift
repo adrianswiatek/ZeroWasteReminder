@@ -19,13 +19,13 @@ public final class ConsoleItemNotificationSchedulerInterceptor: ItemNotification
         logPendingNotifications()
     }
 
-    public func removeScheduledNotifications(for items: [Item]) {
-        notificationScheduler.removeScheduledNotifications(for: items)
+    public func removeScheduledNotification(for items: [Item]) {
+        notificationScheduler.removeScheduledNotification(for: items)
         logPendingNotifications()
     }
 
-    public func removeScheduledNotificationsForItems(in list: List) {
-        notificationScheduler.removeScheduledNotificationsForItems(in: list)
+    public func removeScheduledNotificationForItems(in list: List) {
+        notificationScheduler.removeScheduledNotificationForItems(in: list)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
             self.logPendingNotifications()

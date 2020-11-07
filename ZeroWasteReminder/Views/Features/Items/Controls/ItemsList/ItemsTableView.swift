@@ -39,12 +39,11 @@ public final class ItemsTableView: UITableView {
     }
 
     private func setupRefreshControl() {
-        refreshControl = configure(UIRefreshControl()) {
-            $0.addAction(.init { [weak self] _ in
-                self?.viewModel.requestsSubject.send(.disableLoadingIndicatorOnce)
-                self?.viewModel.fetchItems()
-            }, for: .valueChanged)
-        }
+        refreshControl = UIRefreshControl()
+        refreshControl?.addAction(UIAction { [weak self] _ in
+            self?.viewModel.requestsSubject.send(.disableLoadingIndicatorOnce)
+            self?.viewModel.fetchItems()
+        }, for: .valueChanged)
     }
 
     private func bind() {

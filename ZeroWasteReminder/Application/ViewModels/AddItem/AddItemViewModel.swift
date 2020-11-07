@@ -154,17 +154,15 @@ public final class AddItemViewModel {
     }
 
     private func tryCreateItem() -> Item? {
-        guard !name.isEmpty, let expiration = expiration() else {
-            return nil
-        }
+        guard !name.isEmpty else { return nil }
 
         return Item(id: itemsWriteRepository.nextId(), name: name, listId: list.id)
             .withNotes(notes)
-            .withExpiration(expiration)
+            .withExpiration(expiration())
             .withAlertOption(alertOption)
     }
 
-    private func expiration() -> Expiration? {
+    private func expiration() -> Expiration {
         switch expirationTypeSubject.value {
         case .none: return Expiration.none
         case .date: return expirationDateViewModel.expiration

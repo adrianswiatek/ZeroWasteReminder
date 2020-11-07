@@ -27,14 +27,14 @@ public final class ItemUserNotificationScheduler: ItemNotificationsScheduler {
         }
     }
 
-    public func removeScheduledNotifications(for items: [Item]) {
+    public func removeScheduledNotification(for items: [Item]) {
         let ids = items.map { $0.id }
 
         notificationRepository.remove(by: ids)
         userNotificationCenter.removePendingNotificationRequests(withIdentifiers: ids.map { $0.asString })
     }
 
-    public func removeScheduledNotificationsForItems(in list: List) {
+    public func removeScheduledNotificationForItems(in list: List) {
         let identifiers = notificationRepository.fetchAll(from: list).map { $0.itemId.asString }
         userNotificationCenter.removePendingNotificationRequests(withIdentifiers: identifiers)
         notificationRepository.remove(by: list.id)
@@ -42,7 +42,7 @@ public final class ItemUserNotificationScheduler: ItemNotificationsScheduler {
 
     private func requestForItem(_ item: Item) -> UNNotificationRequest? {
         guard requestFactory.canCreate(for: .fromItem(item)) else {
-            removeScheduledNotifications(for: .just(item))
+            removeScheduledNotification(for: .just(item))
             return nil
         }
 

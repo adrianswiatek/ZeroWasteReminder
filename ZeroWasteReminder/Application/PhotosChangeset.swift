@@ -32,3 +32,9 @@ public struct PhotosChangeset {
         return .init(photosToSave: photosToSave, idsToDelete: idsToDelete + [id])
     }
 }
+
+extension PhotosChangeset: Equatable {
+    public static func == (lhs: PhotosChangeset, rhs: PhotosChangeset) -> Bool {
+        lhs.photosToSave == rhs.photosToSave && lhs.idsToDelete == rhs.idsToDelete
+    }
+}

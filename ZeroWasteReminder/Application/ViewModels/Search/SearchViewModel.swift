@@ -128,7 +128,7 @@ public final class SearchViewModel {
 }
 
 public extension SearchViewModel {
-    enum Request {
+    enum Request: Equatable {
         case showErrorMessage(_ message: String)
     }
 }

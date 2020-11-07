@@ -4,9 +4,9 @@ public final class RemainingViewModel {
         case .notDefined:
             return ""
         case .expired:
-            return "expired"
+            return String.localized(.expired).lowercased()
         case .almostExpired:
-            return "almost expired"
+            return String.localized(.almostExpired).lowercased()
         case let .valid(value, component):
             return component.format(forValue: value)
         }

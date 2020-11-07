@@ -45,10 +45,10 @@ public final class ScheduleItemNotification {
     }
 
     private func removeScheduledNotification(for items: [Item]) {
-        notificationScheduler.removeScheduledNotifications(for: items)
+        notificationScheduler.removeScheduledNotification(for: items)
     }
 
     private func removeScheduledNotificationForItems(in list: List) {
-        notificationScheduler.removeScheduledNotificationsForItems(in: list)
+        notificationScheduler.removeScheduledNotificationForItems(in: list)
     }
 }

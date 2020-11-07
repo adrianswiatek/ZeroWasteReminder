@@ -18,6 +18,10 @@ public final class DefaultMoveItemService: MoveItemService {
         self.eventDispatcher = eventDispatcher
     }
 
+    deinit {
+        print("Deinit")
+    }
+
     public func fetchLists(for item: Item) -> AnyPublisher<[List], Never> {
         listsRepository.fetchAll()
             .flatMap { lists -> AnyPublisher<[List], Never> in

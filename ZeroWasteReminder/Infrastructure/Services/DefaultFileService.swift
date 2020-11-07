@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-public final class FileService {
+public final class DefaultFileService: FileService {
     private let fileManager: FileManager
 
     public init(fileManager: FileManager) {
@@ -19,7 +19,7 @@ public final class FileService {
         }
     }
 
-    public func saveTemporaryImage(_ image: UIImage) -> Future<URL, ServiceError> {
+    public func saveTemporaryImage(_ image: UIImage) -> Future<URL, FileServiceError> {
         Future { [weak self] promise in
             guard let url = self?.newTemporaryFileUrl() else { return }
 
@@ -32,7 +32,7 @@ public final class FileService {
         }
     }
 
-    public func removeTemporaryItems() -> Future<Void, ServiceError> {
+    public func removeTemporaryItems() -> Future<Void, FileServiceError> {
         Future { [weak self] promise in
             guard let self = self else { return }
 
@@ -49,7 +49,7 @@ public final class FileService {
         }
     }
 
-    public func removeItem(at url: URL) -> Future<Void, ServiceError> {
+    public func removeItem(at url: URL) -> Future<Void, FileServiceError> {
         Future { [weak self] promise in
             do {
                 try self?.fileManager.removeItem(at: url)
@@ -62,12 +62,5 @@ public final class FileService {
 
     private func newTemporaryFileUrl() -> URL {
         fileManager.temporaryDirectory.appendingPathComponent(UUID().uuidString)
-    }
-}
-
-extension FileService {
-    public enum ServiceError: Error {
-        case cannotWriteTo(url: URL)
-        case cannotRemoveItemAt(url: URL)
     }
 }
