@@ -10,7 +10,7 @@ public struct Item: Identifiable, Hashable {
     public let listId: Id<List>
 
     public static var empty: Item {
-        .init(.empty, "", "", .none, .none, .empty)
+        .init(id: .empty, name: "", listId: .empty)
     }
 
     public init(id: Id<Item>, name: String, listId: Id<List>) {
