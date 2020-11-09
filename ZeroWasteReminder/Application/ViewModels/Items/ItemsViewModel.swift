@@ -199,7 +199,8 @@ public final class ItemsViewModel {
             fetchOrSchedule()
         case let event as ItemUpdatedReceived where event.listId == list.id:
             fetchOrSchedule()
-        default: return
+        default:
+            return
         }
     }
 

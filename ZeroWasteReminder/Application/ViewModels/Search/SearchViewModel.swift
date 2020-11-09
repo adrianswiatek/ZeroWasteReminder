@@ -13,6 +13,7 @@ public final class SearchViewModel {
 
     private let listsRepository: ListsRepository
     private let itemsRepository: ItemsReadRepository
+    private let updateListsDate: UpdateListsDate
     private let eventDispatcher: EventDispatcher
 
     private var cachedLists: [List]
@@ -27,10 +28,12 @@ public final class SearchViewModel {
     public init(
         listsRepository: ListsRepository,
         itemsRepository: ItemsReadRepository,
+        updateListsDate: UpdateListsDate,
         eventDispatcher: EventDispatcher
     ) {
         self.listsRepository = listsRepository
         self.itemsRepository = itemsRepository
+        self.updateListsDate = updateListsDate
         self.eventDispatcher = eventDispatcher
 
         self.items = []
@@ -44,6 +47,10 @@ public final class SearchViewModel {
         self.cachedLists = []
 
         self.bind()
+    }
+
+    deinit {
+        updateListsDate.stopListening()
     }
 
     public func fetchLists() {
@@ -61,9 +68,19 @@ public final class SearchViewModel {
             )
     }
 
-    public func item(atIndex index: Int) -> Item {
+    public func openItem(at index: Int) {
         precondition(0 ..< items.count ~= index, "Invalid index.")
-        return items[index].item
+
+        let item = items[index].item
+        startListeningForList(by: item.listId)
+        requestsSubject.send(.navigateToItem(item))
+    }
+
+    private func startListeningForList(by id: Id<List>) {
+        guard let list = cachedLists.first(where: { $0.id == id }) else {
+            return
+        }
+        updateListsDate.listen(in: list)
     }
 
     private func bind() {
@@ -129,6 +146,7 @@ public final class SearchViewModel {
 
 public extension SearchViewModel {
     enum Request: Equatable {
+        case navigateToItem(_ item: Item)
         case showErrorMessage(_ message: String)
     }
 }

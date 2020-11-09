@@ -6,6 +6,7 @@ class SearchViewModelTests: XCTestCase {
     private var sut: SearchViewModel!
     private var listsRepository: ListsRepositoryMock!
     private var itemsRepository: ItemsReadRepositoryMock!
+    private var updateListsDate: UpdateListsDate!
     private var eventDispatcher: EventDispatcher!
     private var subscriptions: Set<AnyCancellable>!
 
@@ -14,9 +15,11 @@ class SearchViewModelTests: XCTestCase {
         self.listsRepository = ListsRepositoryMock()
         self.itemsRepository = ItemsReadRepositoryMock()
         self.eventDispatcher = EventDispatcher()
+        self.updateListsDate = UpdateListsDate(listsRepository, eventDispatcher)
         self.sut = SearchViewModel(
             listsRepository: listsRepository,
             itemsRepository: itemsRepository,
+            updateListsDate: updateListsDate,
             eventDispatcher: eventDispatcher
         )
         self.subscriptions = []
@@ -25,6 +28,7 @@ class SearchViewModelTests: XCTestCase {
     override func tearDown() {
         self.subscriptions = nil
         self.sut = nil
+        self.updateListsDate = nil
         self.eventDispatcher = nil
         self.itemsRepository = nil
         self.listsRepository = nil
@@ -172,6 +176,24 @@ class SearchViewModelTests: XCTestCase {
 
         wait(for: [expectation], timeout: 0.55)
         XCTAssertEqual(sut.items.count, 0)
+    }
+
+    func test_openItem_sendsNavigateToItemRequest() {
+        let expectation = self.expectation(description: "")
+
+        let item = Item(id: .fromUuid(UUID()), name: "The item", listId: .empty)
+        sut.items += .just(SearchItem(item: item))
+
+        sut.requestsSubject
+            .sink {
+                guard case .navigateToItem = $0 else { return }
+                expectation.fulfill()
+            }
+            .store(in: &subscriptions)
+
+        sut.openItem(at: 0)
+
+        wait(for: [expectation], timeout: 0.1)
     }
 }
 

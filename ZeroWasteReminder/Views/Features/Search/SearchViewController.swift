@@ -102,18 +102,20 @@ public final class SearchViewController: UIViewController {
             .store(in: &subscriptions)
 
         tableView.rowSelected
-            .sink { [weak self] in self?.navigateToRow(atIndex: $0) }
+            .sink { [weak self] in self?.viewModel.openItem(at: $0) }
             .store(in: &subscriptions)
     }
 
     private func handleRequest(_ request: SearchViewModel.Request) {
         switch request {
+        case .navigateToItem(let item):
+            navigateToItem(item)
         case .showErrorMessage(let message):
             UIAlertController.presentError(in: self, withMessage: message)
         }
     }
 
-    private func navigateToRow(atIndex index: Int) {
-        coordinator.navigateToEdit(for: viewModel.item(atIndex: index), in: self)
+    private func navigateToItem(_ item: Item) {
+        coordinator.navigateToEdit(for: item, in: self)
     }
 }
