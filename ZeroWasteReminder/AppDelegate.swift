@@ -12,7 +12,7 @@ internal class AppDelegate: UIResponder, UIApplicationDelegate {
     internal override init() {
 //        let dependencyContainerConfiguration = DependencyContainerConfiguration(
 //            localStorage: .coreData,
-//            remoteStorage: .cloudKit(containerIdentifier: "iCloud.pl.aswiatek.PushNotifications")
+//            remoteStorage: .cloudKit(containerIdentifier: "")
 //        )
         let dependencyContainerConfiguration = DependencyContainerConfiguration(
             localStorage: .inMemory,

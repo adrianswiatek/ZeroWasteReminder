@@ -284,8 +284,6 @@ public final class ItemsViewController: UIViewController {
                 )
         case .selectItems:
             viewModel.modeState.select(on: viewModel)
-        case .shareList:
-            coordinator.navigateToSharing(in: self)
         default:
             break
         }
