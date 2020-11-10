@@ -11,8 +11,13 @@ public final class SearchViewModel {
 
     public let requestsSubject: PassthroughSubject<Request, Never>
 
+    public var canRemotelyConnect: AnyPublisher<Bool, Never> {
+        statusNotifier.remoteStatus.map { $0 == .connected }.eraseToAnyPublisher()
+    }
+
     private let listsRepository: ListsRepository
     private let itemsRepository: ItemsReadRepository
+    private let statusNotifier: StatusNotifier
     private let updateListsDate: UpdateListsDate
     private let eventDispatcher: EventDispatcher
 
@@ -28,11 +33,13 @@ public final class SearchViewModel {
     public init(
         listsRepository: ListsRepository,
         itemsRepository: ItemsReadRepository,
+        statusNotifier: StatusNotifier,
         updateListsDate: UpdateListsDate,
         eventDispatcher: EventDispatcher
     ) {
         self.listsRepository = listsRepository
         self.itemsRepository = itemsRepository
+        self.statusNotifier = statusNotifier
         self.updateListsDate = updateListsDate
         self.eventDispatcher = eventDispatcher
 

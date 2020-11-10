@@ -10,6 +10,7 @@ public final class SearchViewController: UIViewController {
     private let dataSource: SearchDataSource
 
     private let loadingView: LoadingView
+    private let warningBarView: WarningBarView
 
     private let viewModel: SearchViewModel
     private let coordinator: SearchCoordinator
@@ -26,6 +27,7 @@ public final class SearchViewController: UIViewController {
         self.dataSource = SearchDataSource(tableView, viewModel)
 
         self.loadingView = .init()
+        self.warningBarView = .init()
 
         self.subscriptions = []
 
@@ -83,6 +85,14 @@ public final class SearchViewController: UIViewController {
         ])
 
         view.sendSubviewToBack(tableView)
+
+        view.addSubview(warningBarView)
+        NSLayoutConstraint.activate([
+            warningBarView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            warningBarView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -8),
+            warningBarView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
+        ])
+
         barViewController.becomeFirstResponder()
     }
 
@@ -99,6 +109,10 @@ public final class SearchViewController: UIViewController {
 
         viewModel.isLoading
             .sink { [weak self] in $0 ? self?.loadingView.show() : self?.loadingView.hide() }
+            .store(in: &subscriptions)
+
+        viewModel.canRemotelyConnect
+            .sink { [weak self] in self?.warningBarView.setVisibility(!$0) }
             .store(in: &subscriptions)
 
         tableView.rowSelected

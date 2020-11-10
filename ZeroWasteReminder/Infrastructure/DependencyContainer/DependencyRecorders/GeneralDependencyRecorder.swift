@@ -189,6 +189,7 @@ internal struct GeneralDependenciesRecorder: DependencyRecorder {
             SearchViewModelFactory(
                 listsRepository: resolver.resolve(ListsRepository.self)!,
                 itemsReadRepository: resolver.resolve(ItemsReadRepository.self)!,
+                statusNotifier: resolver.resolve(StatusNotifier.self)!,
                 updateListsDate: resolver.resolve(UpdateListsDate.self)!,
                 eventDispatcher: resolver.resolve(EventDispatcher.self)!
             )
