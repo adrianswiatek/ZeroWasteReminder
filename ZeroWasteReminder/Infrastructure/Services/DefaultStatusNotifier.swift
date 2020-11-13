@@ -1,3 +1,4 @@
+import AVFoundation
 import Combine
 import Foundation
 import Network
@@ -9,12 +10,17 @@ public final class DefaultStatusNotifier: StatusNotifier {
     }
 
     public var notificationStatus: AnyPublisher<NotificationConsentStatus, Never> {
-        notificationStatusSubject.removeDuplicates().receive(on: DispatchQueue.main).eraseToAnyPublisher()
+        notificationStatusSubject.removeDuplicates().eraseToAnyPublisher()
+    }
+
+    public var cameraStatus: AnyPublisher<CameraConsentStatus, Never> {
+        cameraStatusSubject.removeDuplicates().eraseToAnyPublisher()
     }
 
     private let remoteStatusSubject: CurrentValueSubject<RemoteStatus, Never>
     private let networkReachabilitySubject: CurrentValueSubject<NWPath.Status, Never>
     private let notificationStatusSubject: CurrentValueSubject<NotificationConsentStatus, Never>
+    private let cameraStatusSubject: CurrentValueSubject<CameraConsentStatus, Never>
 
     private let networkMonitor: NWPathMonitor
     private let accountService: AccountService
@@ -29,7 +35,8 @@ public final class DefaultStatusNotifier: StatusNotifier {
 
         self.remoteStatusSubject = .init(.notDetermined)
         self.networkReachabilitySubject = .init(.requiresConnection)
-        self.notificationStatusSubject = .init(.unauthorized)
+        self.notificationStatusSubject = .init(.denied)
+        self.cameraStatusSubject = .init(.notDetermined)
 
         self.subscriptions = []
 
@@ -42,6 +49,8 @@ public final class DefaultStatusNotifier: StatusNotifier {
         userNotificationCenter.getNotificationSettings { [weak self] in
             self?.notificationStatusSubject.send(.from($0.authorizationStatus))
         }
+
+        cameraStatusSubject.send(.from(AVCaptureDevice.authorizationStatus(for: .video)))
     }
 
     private func setupNetworkMonitor() {

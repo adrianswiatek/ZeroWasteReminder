@@ -7,7 +7,7 @@ public final class PhotosSectionView: UIView {
 
     public init(viewModel: PhotosViewModel) {
         self.label = .defaultWithText(.localized(.photos))
-        self.view = PhotosView(viewModel: viewModel)
+        self.view = PhotosView(viewModel)
 
         super.init(frame: .zero)
 
@@ -29,9 +29,7 @@ public final class PhotosSectionView: UIView {
 
         addSubview(view)
         NSLayoutConstraint.activate([
-            view.topAnchor.constraint(
-                equalTo: label.bottomAnchor, constant: Metrics.spacing
-            ),
+            view.topAnchor.constraint(equalTo: label.bottomAnchor, constant: Metrics.spacing),
             view.leadingAnchor.constraint(equalTo: leadingAnchor),
             view.bottomAnchor.constraint(equalTo: bottomAnchor),
             view.trailingAnchor.constraint(equalTo: trailingAnchor)

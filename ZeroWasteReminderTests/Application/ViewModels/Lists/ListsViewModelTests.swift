@@ -27,6 +27,7 @@ class ListViewModelTests: XCTestCase {
         self.sut = nil
         self.eventDispatcher = nil
         self.statusNotifier = nil
+        self.listsRepository = nil
         super.tearDown()
     }
 
@@ -157,7 +158,7 @@ class ListViewModelTests: XCTestCase {
 
         eventDispatcher.dispatch(ErrorOccured(.general(errorMessage)))
 
-        wait(for: [expectation], timeout: 0.1)
+        wait(for: [expectation], timeout: 1)
         XCTAssertEqual(sentRequest, .showErrorMessage(errorMessage))
     }
 

@@ -90,7 +90,11 @@ public final class AddItemViewModel {
 
         self.expirationTypeIndex = ExpirationType.none.index
 
-        self.photosViewModel = .init(photosRepository: photosRepository, fileService: fileService)
+        self.photosViewModel = .init(
+            photosRepository: photosRepository,
+            fileService: fileService,
+            statusNotifier: statusNotifier
+        )
         self.expirationDateViewModel = .init(initialDate: .init())
         self.expirationPeriodViewModel = .init(initialPeriodType: .day)
 

@@ -9,5 +9,9 @@ public final class AllAcceptedStatusNotifier: StatusNotifier {
         Just(.authorized).eraseToAnyPublisher()
     }
 
+    public var cameraStatus: AnyPublisher<CameraConsentStatus, Never> {
+        Just(.authorized).eraseToAnyPublisher()
+    }
+
     public func refresh() {}
 }

@@ -47,4 +47,19 @@ class AllAcceptedStatusNotifierTest: XCTestCase {
         wait(for: [expectation], timeout: 0.1)
         XCTAssertEqual(notificationStatus, .authorized)
     }
+
+    func test_cameraStatus_returnsAuthorized() {
+        let expectation = self.expectation(description: "")
+        var cameraStatus: CameraConsentStatus?
+
+        sut.cameraStatus
+            .sink {
+                cameraStatus = $0
+                expectation.fulfill()
+            }
+            .store(in: &subscriptions)
+
+        wait(for: [expectation], timeout: 0.1)
+        XCTAssertEqual(cameraStatus, .authorized)
+    }
 }

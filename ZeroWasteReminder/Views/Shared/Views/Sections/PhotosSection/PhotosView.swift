@@ -12,7 +12,7 @@ public final class PhotosView: UIView {
 
     private var subscriptions: Set<AnyCancellable>
 
-    public init(viewModel: PhotosViewModel) {
+    public init(_ viewModel: PhotosViewModel) {
         self.viewModel = viewModel
 
         self.loadingView = .init()

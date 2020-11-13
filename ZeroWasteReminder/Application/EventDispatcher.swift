@@ -3,7 +3,8 @@ import Foundation
 
 public final class EventDispatcher {
     public var events: AnyPublisher<AppEvent, Never> {
-        eventsSubject.share()
+        eventsSubject
+            .share()
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }

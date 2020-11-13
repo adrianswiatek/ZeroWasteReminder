@@ -158,7 +158,7 @@ class SearchViewModelTests: XCTestCase {
 
         eventDispatcher.dispatch(ItemUpdated(item.withName("The item 2")))
 
-        wait(for: [expectation], timeout: 0.55)
+        wait(for: [expectation], timeout: 1)
         XCTAssertEqual(sut.items.count, 1)
         XCTAssertEqual(sut.items[0].item.name, "The item 2")
     }

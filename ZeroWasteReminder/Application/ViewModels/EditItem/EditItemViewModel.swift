@@ -32,7 +32,7 @@ public final class EditItemViewModel {
         expirationDateSubject.map { $0 != nil }.eraseToAnyPublisher()
     }
 
-    public var hasUserAgreedForNotifications: AnyPublisher<Bool, Never> {
+    public var canUseNotifications: AnyPublisher<Bool, Never> {
         statusNotifier.notificationStatus.map { $0 == .authorized }.eraseToAnyPublisher()
     }
 
@@ -119,7 +119,11 @@ public final class EditItemViewModel {
         self.isExpirationDateVisibleSubject = .init(false)
         self.hasUserAgreedForNotificationsSubject = .init(true)
 
-        self.photosViewModel = .init(photosRepository: photosRepository, fileService: fileService)
+        self.photosViewModel = .init(
+            photosRepository: photosRepository,
+            fileService: fileService,
+            statusNotifier: statusNotifier
+        )
 
         self.subscriptions = []
 

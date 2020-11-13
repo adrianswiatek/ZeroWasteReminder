@@ -34,7 +34,7 @@ class ScheduleItemNotificationTests: XCTestCase {
 
         eventDispatcher.dispatch(ItemAdded(item))
 
-        wait(for: [expectation], timeout: 0.1)
+        wait(for: [expectation], timeout: 1)
         XCTAssertEqual(sentItems.count, 1)
         XCTAssertEqual(sentItems[0], item)
     }
@@ -55,7 +55,7 @@ class ScheduleItemNotificationTests: XCTestCase {
 
         eventDispatcher.dispatch(ItemUpdated(item))
 
-        wait(for: [expectation], timeout: 0.1)
+        wait(for: [expectation], timeout: 1)
         XCTAssertEqual(sentItems.count, 1)
         XCTAssertEqual(sentItems[0], item)
     }
@@ -73,7 +73,7 @@ class ScheduleItemNotificationTests: XCTestCase {
 
         eventDispatcher.dispatch(ItemUpdated(item))
 
-        wait(for: [expectation], timeout: 0.1)
+        wait(for: [expectation], timeout: 1)
         XCTAssertEqual(sentItems.count, 1)
         XCTAssertEqual(sentItems[0], item)
     }
@@ -92,7 +92,7 @@ class ScheduleItemNotificationTests: XCTestCase {
 
         eventDispatcher.dispatch(ItemsRemoved([item1, item2]))
 
-        wait(for: [expectation], timeout: 0.1)
+        wait(for: [expectation], timeout: 1)
         XCTAssertEqual(sentItems.count, 2)
         XCTAssertTrue(sentItems.contains(item1))
         XCTAssertTrue(sentItems.contains(item2))
@@ -111,7 +111,7 @@ class ScheduleItemNotificationTests: XCTestCase {
 
         eventDispatcher.dispatch(ListRemoved(list))
 
-        wait(for: [expectation], timeout: 0.1)
+        wait(for: [expectation], timeout: 1)
         XCTAssertEqual(list, sentList)
     }
 }

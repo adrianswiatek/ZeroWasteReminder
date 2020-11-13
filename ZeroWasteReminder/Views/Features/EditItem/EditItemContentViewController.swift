@@ -113,7 +113,7 @@ public final class EditItemContentViewController: UIViewController {
             .sink { [weak self] in self?.alertSectionView.setTitle($0.formatted(.fullDate)) }
             .store(in: &subscriptions)
 
-        viewModel.hasUserAgreedForNotifications
+        viewModel.canUseNotifications
             .sink { [weak self] in self?.alertSectionView.setEditability($0) }
             .store(in: &subscriptions)
     }

@@ -2,10 +2,13 @@
 import Combine
 
 internal final class StatusNotifierDummy: StatusNotifier {
-    internal var remoteStatus: AnyPublisher<RemoteStatus, Never> =
+    internal let remoteStatus: AnyPublisher<RemoteStatus, Never> =
         Just(.connected).eraseToAnyPublisher()
 
-    internal var notificationStatus: AnyPublisher<NotificationConsentStatus, Never> =
+    internal let notificationStatus: AnyPublisher<NotificationConsentStatus, Never> =
+        Just(.authorized).eraseToAnyPublisher()
+
+    internal let cameraStatus: AnyPublisher<CameraConsentStatus, Never> =
         Just(.authorized).eraseToAnyPublisher()
 
     internal func refresh() {}
