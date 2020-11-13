@@ -6,6 +6,8 @@ import NotificationCenter
 public protocol StatusNotifier {
     var remoteStatus: AnyPublisher<RemoteStatus, Never> { get }
     var notificationStatus: AnyPublisher<NotificationConsentStatus, Never> { get }
+
+    func refresh()
 }
 
 public enum NotificationConsentStatus {

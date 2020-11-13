@@ -189,12 +189,4 @@ private extension MoveItemViewModelTests {
             moveItemCalled?(item, list)
         }
     }
-
-    class StatusNotifierDummy: StatusNotifier {
-        var remoteStatus: AnyPublisher<RemoteStatus, Never> =
-            Just(.connected).eraseToAnyPublisher()
-
-        var notificationStatus: AnyPublisher<NotificationConsentStatus, Never> =
-            Just(.authorized).eraseToAnyPublisher()
-    }
 }

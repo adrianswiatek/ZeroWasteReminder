@@ -14,7 +14,7 @@ public final class NoConsentForAlertsView: UIView {
     private let label: UILabel = configure(.init()) {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = .secondaryLabel
-        $0.text = "This option is disabled."
+        $0.text = .localized(.thisOptionIsDisabled)
         $0.font = .systemFont(ofSize: 14, weight: .light)
         $0.numberOfLines = 0
     }
@@ -22,9 +22,9 @@ public final class NoConsentForAlertsView: UIView {
     private lazy var infoButton: UIButton = configure(.init(type: .system)) {
         $0.translatesAutoresizingMaskIntoConstraints = false
 
-        let symbolConfiguration = UIImage.SymbolConfiguration(scale: .small)
+        let symbolConfiguration = UIImage.SymbolConfiguration(scale: .medium)
         let image = UIImage.fromSymbol(.exclamationmarkCircleFill, withConfiguration: symbolConfiguration)
-        $0.setImage(image.withColor(.tertiaryLabel), for: .normal)
+        $0.setImage(image.withColor(.secondaryLabel), for: .normal)
 
         let action = UIAction { [weak self] _ in self?.infoButtonTapSubject.send() }
         $0.addAction(action, for: .touchUpInside)

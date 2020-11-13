@@ -18,6 +18,10 @@ internal final class DependencyContainer {
         container.resolve(UNUserNotificationCenter.self)!
     }
 
+    internal var statusNotifier: StatusNotifier {
+        container.resolve(StatusNotifier.self)!
+    }
+
     internal init(configuration: DependencyContainerConfiguration) {
         container = Container()
         listeners = []

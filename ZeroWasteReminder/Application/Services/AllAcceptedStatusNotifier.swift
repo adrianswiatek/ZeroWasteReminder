@@ -8,4 +8,6 @@ public final class AllAcceptedStatusNotifier: StatusNotifier {
     public var notificationStatus: AnyPublisher<NotificationConsentStatus, Never> {
         Just(.authorized).eraseToAnyPublisher()
     }
+
+    public func refresh() {}
 }

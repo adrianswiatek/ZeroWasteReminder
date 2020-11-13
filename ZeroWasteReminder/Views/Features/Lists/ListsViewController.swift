@@ -76,7 +76,10 @@ public final class ListsViewController: UIViewController {
         view.addSubview(warningBarView)
         NSLayoutConstraint.activate([
             warningBarView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            warningBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -.smallPadding),
+            warningBarView.bottomAnchor.constraint(
+                equalTo: view.layoutMarginsGuide.bottomAnchor,
+                constant: -.smallPadding
+            ),
             warningBarView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
         ])
 

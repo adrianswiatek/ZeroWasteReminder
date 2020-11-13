@@ -9,7 +9,7 @@ public final class DefaultStatusNotifier: StatusNotifier {
     }
 
     public var notificationStatus: AnyPublisher<NotificationConsentStatus, Never> {
-        notificationStatusSubject.receive(on: DispatchQueue.main).eraseToAnyPublisher()
+        notificationStatusSubject.removeDuplicates().receive(on: DispatchQueue.main).eraseToAnyPublisher()
     }
 
     private let remoteStatusSubject: CurrentValueSubject<RemoteStatus, Never>
@@ -34,20 +34,20 @@ public final class DefaultStatusNotifier: StatusNotifier {
         self.subscriptions = []
 
         self.setupNetworkMonitor()
-        self.sendNotificationStatus()
         self.bind()
+        self.refresh()
+    }
+
+    public func refresh() {
+        userNotificationCenter.getNotificationSettings { [weak self] in
+            self?.notificationStatusSubject.send(.from($0.authorizationStatus))
+        }
     }
 
     private func setupNetworkMonitor() {
         networkMonitor.start(queue: .global(qos: .background))
         networkMonitor.pathUpdateHandler = { [weak self] in
             self?.networkReachabilitySubject.send($0.status)
-        }
-    }
-
-    private func sendNotificationStatus() {
-        userNotificationCenter.getNotificationSettings { [weak self] in
-            self?.notificationStatusSubject.send(.from($0.authorizationStatus))
         }
     }
 

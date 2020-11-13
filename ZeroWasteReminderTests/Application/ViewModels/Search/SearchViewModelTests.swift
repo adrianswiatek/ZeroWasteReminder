@@ -6,6 +6,7 @@ class SearchViewModelTests: XCTestCase {
     private var sut: SearchViewModel!
     private var listsRepository: ListsRepositoryMock!
     private var itemsRepository: ItemsReadRepositoryMock!
+    private var statusNotifier: StatusNotifier!
     private var updateListsDate: UpdateListsDate!
     private var eventDispatcher: EventDispatcher!
     private var subscriptions: Set<AnyCancellable>!
@@ -14,11 +15,13 @@ class SearchViewModelTests: XCTestCase {
         super.setUp()
         self.listsRepository = ListsRepositoryMock()
         self.itemsRepository = ItemsReadRepositoryMock()
+        self.statusNotifier = StatusNotifierDummy()
         self.eventDispatcher = EventDispatcher()
         self.updateListsDate = UpdateListsDate(listsRepository, eventDispatcher)
         self.sut = SearchViewModel(
             listsRepository: listsRepository,
             itemsRepository: itemsRepository,
+            statusNotifier: statusNotifier,
             updateListsDate: updateListsDate,
             eventDispatcher: eventDispatcher
         )

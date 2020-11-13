@@ -3,6 +3,7 @@ import UIKit
 
 internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     internal var window: UIWindow?
+    private var dependencyContainer: DependencyContainer!
 
     internal func scene(
         _ scene: UIScene,
@@ -10,10 +11,17 @@ internal class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         options connectionOptions: UIScene.ConnectionOptions
     ) {
         guard let scene = scene as? UIWindowScene else { return }
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+
+        dependencyContainer = UIApplication.shared.delegate
+            .flatMap { $0 as? AppDelegate }
+            .map { $0.dependencyContainer }
 
         window = UIWindow(windowScene: scene)
-        window?.rootViewController = appDelegate.dependencyContainer.rootViewController
+        window?.rootViewController = dependencyContainer.rootViewController
         window?.makeKeyAndVisible()
+    }
+
+    internal func sceneDidBecomeActive(_ scene: UIScene) {
+        dependencyContainer.statusNotifier.refresh()
     }
 }

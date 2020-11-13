@@ -52,7 +52,7 @@ internal class AppDelegate: UIResponder, UIApplicationDelegate {
         completionHandler(.noData)
     }
 
-    func application(
+    internal func application(
         _ application: UIApplication,
         userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata
     ) {
