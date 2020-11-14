@@ -38,4 +38,10 @@ public final class AddItemCoordinator {
         photoViewController.modalPresentationStyle = .fullScreen
         viewController.present(photoViewController, animated: true)
     }
+
+    public func navigateToCameraDenied(in viewController: UIViewController) {
+        let cameraDeniedViewController = CameraDeniedViewController()
+        cameraDeniedViewController.modalPresentationStyle = .fullScreen
+        viewController.present(cameraDeniedViewController, animated: true)
+    }
 }

@@ -15,6 +15,8 @@ public final class PhotosViewModel {
     public let requestSubject: PassthroughSubject<Request, Never>
     public private(set) var photosChangeset: PhotosChangeset
 
+    private var canCaptureByCamera: Bool
+
     private let photosRepository: PhotosRepository
     private let fileService: FileService
     private let statusNotifier: StatusNotifier
@@ -34,6 +36,8 @@ public final class PhotosViewModel {
 
         self.requestSubject = .init()
         self.photosChangeset = .init()
+
+        self.canCaptureByCamera = true
 
         self.thumbnailsSubject = .init([])
         self.isLoadingOverlayVisibleSubject = .init(false)
@@ -108,6 +112,15 @@ public final class PhotosViewModel {
         thumbnailsSubject.value.removeAll { $0.id == id }
     }
 
+    public func tryCapturePhoto(target: PhotoCaptureTarget) {
+        if target == .camera, !canCaptureByCamera {
+            requestSubject.send(.showCameraDenied)
+            requestSubject.send(.hidePhotosActivityIndicator)
+        } else {
+            requestSubject.send(.capturePhoto(target: target))
+        }
+    }
+
     private func bind() {
         requestSubject
             .compactMap { [weak self] in
@@ -116,6 +129,11 @@ public final class PhotosViewModel {
                 return index
             }
             .sink { [weak self] in self?.sendShowPhotoRequest(at: $0) }
+            .store(in: &subscriptions)
+
+        statusNotifier.cameraStatus
+            .map { $0 != .denied }
+            .sink { [weak self] in self?.canCaptureByCamera = $0 }
             .store(in: &subscriptions)
     }
 
@@ -183,6 +201,7 @@ public extension PhotosViewModel {
         case capturePhoto(target: PhotoCaptureTarget)
         case hidePhotosActivityIndicator
         case removePhoto(_ photo: Photo)
+        case showCameraDenied
         case showPhoto(_ photo: Photo)
         case showPhotoAt(index: Int)
     }

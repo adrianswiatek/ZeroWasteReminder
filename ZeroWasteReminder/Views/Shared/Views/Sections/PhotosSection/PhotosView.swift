@@ -72,7 +72,7 @@ public final class PhotosView: UIView {
 
     private func bind() {
         emptyView.tap
-            .sink { [weak self] in self?.viewModel.requestSubject.send(.capturePhoto(target: $0)) }
+            .sink { [weak self] in self?.viewModel.tryCapturePhoto(target: $0) }
             .store(in: &subscriptions)
 
         viewModel.thumbnails

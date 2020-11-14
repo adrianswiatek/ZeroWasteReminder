@@ -157,6 +157,8 @@ public final class EditItemViewController: UIViewController {
             }
         case .removePhoto(let photo):
             viewModel.photosViewModel.removePhoto(photo)
+        case .showCameraDenied:
+            coordinator.navigateToCameraDenied(in: self)
         case .showPhoto(let photo):
             coordinator.navigateToFullScreenPhoto(with: photo, in: self)
         default:

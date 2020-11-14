@@ -158,6 +158,8 @@ public final class AddItemViewController: UIViewController {
             UIAlertController.presentConfirmationSheet(in: self, withConfirmationStyle: .destructive)
                 .sink { [weak self] _ in self?.viewModel.photosViewModel.removePhoto(photo) }
                 .store(in: &self.subscriptions)
+        case .showCameraDenied:
+            coordinator.navigateToCameraDenied(in: contentViewController)
         case .showPhoto(let photo):
             coordinator.navigateToFullScreenPhoto(for: photo, in: self)
         default:

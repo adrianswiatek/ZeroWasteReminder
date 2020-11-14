@@ -15,6 +15,7 @@ public enum LocalizedText: String {
     case expirationDate = "Expiration date"
     case expired = "Expired"
     case fullScreen = "Full Screen"
+    case grantAccessToTheCamera = "To use camera in the application, grant access to it in your iPhone's settings."
     case info = "Info"
     case item = "Item"
     case itemName = "Item name"
@@ -44,4 +45,5 @@ public enum LocalizedText: String {
     case thisOptionIsDisabled = "This option is disabled"
     case toggleDatePicker = "Toggle date picker"
     case valid = "Valid"
+    case youHaveDeniedAccessToTheCamera = "You have denied access to the camera"
 }

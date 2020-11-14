@@ -50,4 +50,10 @@ public final class EditItemCoordinator {
         moveItemViewController.modalPresentationStyle = .fullScreen
         viewController.present(moveItemViewController, animated: true)
     }
+
+    public func navigateToCameraDenied(in viewController: UIViewController) {
+        let cameraDeniedViewController = CameraDeniedViewController()
+        cameraDeniedViewController.modalPresentationStyle = .fullScreen
+        viewController.present(cameraDeniedViewController, animated: true)
+    }
 }

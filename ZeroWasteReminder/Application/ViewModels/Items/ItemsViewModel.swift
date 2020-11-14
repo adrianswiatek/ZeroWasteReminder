@@ -78,7 +78,7 @@ public final class ItemsViewModel {
     }
 
     public func cellViewModel(for item: Item) -> ItemsCellViewModel {
-        .init(item, dateFormatter: .fullDate)
+        .init(item, dateFormatter: .longDate)
     }
 
     public func fetchItems() {

@@ -43,7 +43,7 @@ public final class PhotosDataSource: UICollectionViewDiffableDataSource<PhotosDa
             }
 
             let subscription = header.tap.sink {
-                self?.viewModel.requestSubject.send(.capturePhoto(target: $0))
+                self?.viewModel.tryCapturePhoto(target: $0)
             }
 
             header.set(subscription)

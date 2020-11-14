@@ -213,6 +213,7 @@
 		A7B2E50B24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B2E50A24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift */; };
 		A7B3BFD624F46C1C00B7F15B /* ItemToSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B3BFD524F46C1C00B7F15B /* ItemToSave.swift */; };
 		A7B52E6B251939EC0047FFDC /* PhotoAddedReceived.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B52E6A251939EC0047FFDC /* PhotoAddedReceived.swift */; };
+		A7B721D7256085C2004D7A67 /* CameraDeniedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B721D6256085C2004D7A67 /* CameraDeniedViewController.swift */; };
 		A7BDE68324B5082B003215C0 /* ListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDE68224B5082B003215C0 /* ListsViewController.swift */; };
 		A7BDE68524B5095A003215C0 /* ListsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDE68424B5095A003215C0 /* ListsDataSource.swift */; };
 		A7BDE68724B50B73003215C0 /* ListsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDE68624B50B73003215C0 /* ListsTableView.swift */; };
@@ -521,6 +522,7 @@
 		A7B2E50A24A6B13E00FEC67B /* UIImagePickerController.SourceTypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImagePickerController.SourceTypeExtensions.swift; sourceTree = "<group>"; };
 		A7B3BFD524F46C1C00B7F15B /* ItemToSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemToSave.swift; sourceTree = "<group>"; };
 		A7B52E6A251939EC0047FFDC /* PhotoAddedReceived.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAddedReceived.swift; sourceTree = "<group>"; };
+		A7B721D6256085C2004D7A67 /* CameraDeniedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraDeniedViewController.swift; sourceTree = "<group>"; };
 		A7BDE68224B5082B003215C0 /* ListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsViewController.swift; sourceTree = "<group>"; };
 		A7BDE68424B5095A003215C0 /* ListsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsDataSource.swift; sourceTree = "<group>"; };
 		A7BDE68624B50B73003215C0 /* ListsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsTableView.swift; sourceTree = "<group>"; };
@@ -1115,6 +1117,7 @@
 				A7C9636D247DA58800DE824F /* ClearButton.swift */,
 				A7F3D36524D3838F0059841A /* EmptyTableBackgroundView.swift */,
 				A749366B247346A4003DB46E /* LoadingView.swift */,
+				A7B721D6256085C2004D7A67 /* CameraDeniedViewController.swift */,
 				A7A8EF76247C7DF900FF1AC2 /* SharedTextViewDelegateHandler.swift */,
 				A7DDA2FD249D792A005DAEA6 /* WarningBarView.swift */,
 				A7FD3F96254F40C600598151 /* Sections */,
@@ -1840,6 +1843,7 @@
 				A744C7092547828E002A4C17 /* SearchViewControllerFactory.swift in Sources */,
 				A7627B972523C5DF00637740 /* AlertViewModel.swift in Sources */,
 				A7F82BA82458CB8700970CFC /* ReadModeState.swift in Sources */,
+				A7B721D7256085C2004D7A67 /* CameraDeniedViewController.swift in Sources */,
 				A7A2DDA5249FD4FF0025B1B8 /* UUIDExtensions.swift in Sources */,
 				A7ACC4C7247B12E20098EDE0 /* CloudKitSharingControllerFactory.swift in Sources */,
 				A7166EFF2538F89E00067802 /* InMemoryNotificationsRepository.swift in Sources */,
